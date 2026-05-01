@@ -14,5 +14,5 @@ export const skills = [
   {
     category: { en: "Monitoring & Tools", vi: "Giám Sát & Công Cụ" },
     items: ["Wireshark", "PRTG", "SolarWinds", "Zabbix", "SNMP", "Linux"],
-  }
+  },
 ];

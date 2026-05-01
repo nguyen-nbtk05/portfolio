@@ -6,3 +6,51 @@
     animation: none;
     mix-blend-mode: normal;
 }
+
+.network-grid {
+    background-image:
+        linear-gradient(to right, rgb(148 163 184 / 0.14) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(148 163 184 / 0.14) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(circle at 35% 35%, black 0%, transparent 68%);
+}
+
+.network-packet {
+    animation: packet-travel 8s ease-in-out infinite;
+}
+
+.network-packet:nth-child(2) {
+    animation-delay: -2.6s;
+    animation-duration: 9.5s;
+}
+
+.network-packet:nth-child(3) {
+    animation-delay: -5.1s;
+    animation-duration: 10.5s;
+}
+
+@keyframes packet-travel {
+    0%, 100% {
+        opacity: 0;
+        transform: translate3d(-12px, 12px, 0) scale(0.8);
+    }
+
+    18%, 70% {
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translate3d(42vw, -26vh, 0) scale(1);
+    }
+
+    82% {
+        opacity: 0;
+        transform: translate3d(68vw, -10vh, 0) scale(0.75);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .network-packet {
+        animation: none;
+    }
+}

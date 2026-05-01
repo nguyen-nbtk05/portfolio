@@ -1,47 +1,57 @@
 "use client";
 
-import { siteConfig } from "@/data/config";
+import { motion, useReducedMotion } from "motion/react";
 import { Mail } from "lucide-react";
+import { siteConfig } from "@/data/config";
 import { Github, Linkedin } from "@/components/ui/icons";
 import { useLanguage } from "@/providers/language-provider";
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 export function Footer() {
   const { lang } = useLanguage();
+  const reduceMotion = useReducedMotion();
 
   return (
-    <footer className="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-8">
-      <div className="container mx-auto px-4 md:px-6 flex flex-col items-center justify-between gap-4 md:flex-row">
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          © {new Date().getFullYear()} {siteConfig.name}. {lang({ en: "All rights reserved.", vi: "Đã đăng ký bản quyền." })}
-        </p>
-        <div className="flex items-center gap-4">
+    <footer className="border-t border-slate-200 bg-slate-50 py-8 dark:border-slate-800 dark:bg-slate-950">
+      <motion.div
+        className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6"
+        initial={reduceMotion ? false : "hidden"}
+        whileInView="visible"
+        viewport={viewportOnce}
+        variants={staggerContainer(0.08)}
+      >
+        <motion.p variants={fadeUp} className="text-sm text-slate-500 dark:text-slate-400">
+          © {new Date().getFullYear()} {siteConfig.name}.{" "}
+          {lang({ en: "All rights reserved.", vi: "Đã đăng ký bản quyền." })}
+        </motion.p>
+        <motion.div variants={fadeUp} className="flex items-center gap-4">
           <a
             href={`mailto:${siteConfig.email}`}
-            className="text-slate-500 hover:text-yellow-500 transition-colors"
+            className="inline-flex text-slate-500 transition hover:-translate-y-0.5 hover:text-yellow-500"
             aria-label="Email"
           >
-            <Mail className="w-5 h-5" />
+            <Mail className="h-5 w-5" />
           </a>
           <a
             href={siteConfig.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-500 hover:text-yellow-500 transition-colors"
+            className="inline-flex text-slate-500 transition hover:-translate-y-0.5 hover:text-yellow-500"
             aria-label="GitHub"
           >
-            <Github className="w-5 h-5" />
+            <Github className="h-5 w-5" />
           </a>
           <a
             href={siteConfig.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-500 hover:text-yellow-500 transition-colors"
+            className="inline-flex text-slate-500 transition hover:-translate-y-0.5 hover:text-yellow-500"
             aria-label="LinkedIn"
           >
-            <Linkedin className="w-5 h-5" />
+            <Linkedin className="h-5 w-5" />
           </a>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </footer>
   );
 }

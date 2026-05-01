@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import { fadeUp, viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface SectionProps {
@@ -12,15 +13,18 @@ interface SectionProps {
 }
 
 export function Section({ id, title, subtitle, children, className }: SectionProps) {
+  const reduceMotion = useReducedMotion();
+  const initial = reduceMotion ? false : "hidden";
+
   return (
     <section id={id} className={cn("py-20 md:py-28", className)}>
       <div className="container mx-auto px-4 md:px-6">
         {(title || subtitle) && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
+            initial={initial}
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={fadeUp}
             className="mb-12 md:mb-16"
           >
             {title && (
@@ -37,10 +41,10 @@ export function Section({ id, title, subtitle, children, className }: SectionPro
           </motion.div>
         )}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          initial={initial}
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={fadeUp}
         >
           {children}
         </motion.div>
