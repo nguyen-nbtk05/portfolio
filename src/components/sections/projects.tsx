@@ -31,7 +31,7 @@ export function ProjectsSection() {
                 </svg>
               </div>
               {project.link !== "#" && (
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-emerald-500 transition-colors">
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-yellow-500 transition-colors">
                   {project.link.includes('github.com') ? <Github className="w-5 h-5" /> : <ExternalLink className="w-5 h-5" />}
                 </a>
               )}

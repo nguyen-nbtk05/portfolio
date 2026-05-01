@@ -13,7 +13,7 @@ export function SkillsSection() {
         {skills.map((skillGroup, index) => (
           <div key={index} className="p-6 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl">
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span className="w-2 h-2 rounded-full bg-yellow-500" />
               {lang(skillGroup.category)}
             </h3>
             <div className="flex flex-wrap gap-2">

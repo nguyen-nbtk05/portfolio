@@ -11,8 +11,8 @@ export function ContactSection() {
   return (
     <Section id="contact" className="py-24 md:py-32">
       <div className="max-w-2xl mx-auto text-center">
-        <div className="inline-flex items-center justify-center p-3 sm:p-4 bg-emerald-100 dark:bg-emerald-900/30 rounded-full mb-6">
-          <Mail className="w-8 h-8 md:w-10 md:h-10 text-emerald-600 dark:text-emerald-400" />
+        <div className="inline-flex items-center justify-center p-3 sm:p-4 bg-yellow-100 dark:bg-yellow-900/30 rounded-full mb-6">
+          <Mail className="w-8 h-8 md:w-10 md:h-10 text-yellow-600 dark:text-yellow-400" />
         </div>
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
           {lang({ en: "Ready to connect?", vi: "Sẵn sàng kết nối?" })}
@@ -25,7 +25,7 @@ export function ContactSection() {
         </p>
         <a
           href={`mailto:${siteConfig.email}`}
-          className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-medium text-lg rounded-xl transition-colors shadow-lg shadow-emerald-500/25"
+          className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-yellow-500 hover:bg-yellow-600 text-white font-medium text-lg rounded-xl transition-colors shadow-lg shadow-yellow-500/25"
         >
           {lang({ en: "Say Hello", vi: "Gửi Lời Chào" })}
           <ArrowRight className="w-5 h-5" />

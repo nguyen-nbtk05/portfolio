@@ -17,7 +17,7 @@ export function Footer() {
         <div className="flex items-center gap-4">
           <a
             href={`mailto:${siteConfig.email}`}
-            className="text-slate-500 hover:text-emerald-500 transition-colors"
+            className="text-slate-500 hover:text-yellow-500 transition-colors"
             aria-label="Email"
           >
             <Mail className="w-5 h-5" />
@@ -26,7 +26,7 @@ export function Footer() {
             href={siteConfig.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-500 hover:text-emerald-500 transition-colors"
+            className="text-slate-500 hover:text-yellow-500 transition-colors"
             aria-label="GitHub"
           >
             <Github className="w-5 h-5" />
@@ -35,7 +35,7 @@ export function Footer() {
             href={siteConfig.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-500 hover:text-emerald-500 transition-colors"
+            className="text-slate-500 hover:text-yellow-500 transition-colors"
             aria-label="LinkedIn"
           >
             <Linkedin className="w-5 h-5" />

@@ -1,10 +1,10 @@
 export const siteConfig = {
   name: "Nora", 
-  email: "hello@example.com",
+  email: "thieunguyendl2@gmail.com",
   github: "https://github.com",
   linkedin: "https://linkedin.com",
   role: {
-    en: "Computer Networks Engineer",
+    en: "Computer Networks",
     vi: "Kỹ Sư Mạng Máy Tính"
   },
   description: {

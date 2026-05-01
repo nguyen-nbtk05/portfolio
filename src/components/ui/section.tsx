@@ -26,7 +26,7 @@ export function Section({ id, title, subtitle, children, className }: SectionPro
             {title && (
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
                 {title}
-                <span className="text-emerald-500">.</span>
+                <span className="text-yellow-500">.</span>
               </h2>
             )}
             {subtitle && (

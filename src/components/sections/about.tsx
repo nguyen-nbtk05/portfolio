@@ -4,7 +4,7 @@ import { Section } from "../ui/section";
 import { Server, Shield, Cloud } from "lucide-react";
 import { useLanguage } from "@/providers/language-provider";
 
-const getFeatures = (lang: any) => [
+const getFeatures = (lang: (dict: { en: string; vi: string }) => string) => [
   {
     icon: Server,
     title: lang({ en: "Network Infrastructure", vi: "Hạ Tầng Mạng" }),
@@ -50,7 +50,7 @@ export function AboutSection() {
             key={index}
             className="p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow"
           >
-            <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center mb-6">
+            <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-lg flex items-center justify-center mb-6">
               <feature.icon className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>

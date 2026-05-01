@@ -8,7 +8,8 @@ export function LanguageToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const timeoutId = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   if (!mounted) {
@@ -18,7 +19,7 @@ export function LanguageToggle() {
   return (
     <button
       onClick={() => setLanguage(language === "en" ? "vi" : "en")}
-      className="px-2 py-1.5 text-sm font-medium rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+      className="cursor-pointer px-2 py-1.5 text-sm font-medium rounded-md hover:bg-slate-200 hover:text-yellow-500 dark:hover:bg-slate-800 transition-colors"
       aria-label="Toggle language"
     >
       {language === "en" ? "VI" : "EN"}

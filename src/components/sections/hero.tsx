@@ -21,7 +21,7 @@ export function HeroSection() {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-2 px-3 py-1 bg-slate-200/50 dark:bg-slate-800/50 rounded-full text-sm font-mono"
           >
-            <Terminal className="w-4 h-4 text-emerald-500" />
+            <Terminal className="w-4 h-4 text-yellow-500" />
             <span className="text-slate-700 dark:text-slate-300">ping 127.0.0.1 -c 1</span>
           </motion.div>
           
@@ -33,7 +33,7 @@ export function HeroSection() {
           >
             {lang({ en: "Hi, I'm", vi: "Xin chào, tôi là" })} {siteConfig.name}
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 text-4xl md:text-6xl mt-2 block w-full whitespace-nowrap">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-orange-400 to-amber-400 text-4xl md:text-6xl mt-2 block w-full whitespace-nowrap">
               {lang(siteConfig.role)}
             </span>
           </motion.h1>
@@ -55,7 +55,7 @@ export function HeroSection() {
           >
             <Link
               href="#projects"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-lg transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg transition-colors"
             >
               {lang({ en: "View Projects", vi: "Xem Dự Án" })}
               <ArrowRight className="w-4 h-4" />
