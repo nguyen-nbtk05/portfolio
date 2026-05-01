@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Mail } from "lucide-react";
 import { siteConfig } from "@/data/config";
 import { Github, Linkedin } from "@/components/ui/icons";
-import { useLanguage } from "@/providers/language-provider";
+import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 
 export function Footer() {

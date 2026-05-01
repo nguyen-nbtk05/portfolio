@@ -5,7 +5,7 @@ import { ExternalLink, ServerCog } from "lucide-react";
 import { Section } from "../ui/section";
 import { projects } from "@/data/projects";
 import { Github } from "@/components/ui/icons";
-import { useLanguage } from "@/providers/language-provider";
+import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 export function ProjectsSection() {

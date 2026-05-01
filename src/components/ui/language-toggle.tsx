@@ -1,6 +1,6 @@
 "use client";
 
-import { useLanguage } from "@/providers/language-provider";
+import { useLanguage } from "@/hooks/use-language";
 import { useEffect, useState } from "react";
 
 export function LanguageToggle() {

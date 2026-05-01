@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Cloud, Server, Shield } from "lucide-react";
 import { Section } from "../ui/section";
-import { useLanguage } from "@/providers/language-provider";
+import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const getFeatures = (lang: (dict: { en: string; vi: string }) => string) => [

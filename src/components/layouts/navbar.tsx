@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import { LanguageToggle } from "../ui/language-toggle";
-import { useLanguage } from "@/providers/language-provider";
+import { useLanguage } from "@/hooks/use-language";
 import { siteConfig } from "@/data/config";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 

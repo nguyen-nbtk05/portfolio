@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Mail } from "lucide-react";
 import { Section } from "../ui/section";
 import { siteConfig } from "@/data/config";
-import { useLanguage } from "@/providers/language-provider";
+import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/motion";
 
 export function ContactSection() {

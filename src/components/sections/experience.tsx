@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Section } from "../ui/section";
 import { experiences } from "@/data/experience";
-import { useLanguage } from "@/providers/language-provider";
+import { useLanguage } from "@/hooks/use-language";
 import { scaleIn, slideInLeft, staggerContainer, timelineDraw, viewportOnce } from "@/lib/motion";
 
 export function ExperienceSection() {

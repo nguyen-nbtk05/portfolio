@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Terminal } from "lucide-react";
 import { siteConfig } from "@/data/config";
-import { useLanguage } from "@/providers/language-provider";
+import { useLanguage } from "@/hooks/use-language";
 import { TypewriterText } from "@/components/ui/typewriter-text";
 import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
 

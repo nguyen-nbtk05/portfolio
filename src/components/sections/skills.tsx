@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Section } from "../ui/section";
 import { skills } from "@/data/skills";
-import { useLanguage } from "@/providers/language-provider";
+import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 export function SkillsSection() {
