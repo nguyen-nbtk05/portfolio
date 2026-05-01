@@ -4,9 +4,8 @@ import "@/app/globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import SmoothScroll from "@/components/layouts/smooth-scroll";
 
-import { Navbar } from "@/components/layouts/navbar";
-import { Footer } from "@/components/layouts/footer";
 import { LanguageProvider } from "@/providers/language-provider";
+import { AppShell } from "@/components/layouts/app-shell";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -29,11 +28,9 @@ export default function RootLayout({
         >
           <SmoothScroll>
             <LanguageProvider>
-              <Navbar />
-              <main className="min-h-screen pt-16">
+              <AppShell>
                 {children}
-              </main>
-              <Footer />
+              </AppShell>
             </LanguageProvider>
           </SmoothScroll>
         </ThemeProvider>
