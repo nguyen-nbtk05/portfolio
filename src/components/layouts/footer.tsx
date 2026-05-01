@@ -5,7 +5,7 @@ import { Mail } from "lucide-react";
 import { siteConfig } from "@/data/config";
 import { Github, Linkedin } from "@/components/ui/icons";
 import { useLanguage } from "@/providers/language-provider";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
+import { fadeUp, staggerContainer } from "@/lib/motion";
 
 export function Footer() {
   const { lang } = useLanguage();
@@ -14,10 +14,9 @@ export function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-slate-50 py-8 dark:border-slate-800 dark:bg-slate-950">
       <motion.div
-        className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6"
+        className="container mx-auto flex flex-col items-center justify-between gap-4 px-[1cm] md:flex-row"
         initial={reduceMotion ? false : "hidden"}
-        whileInView="visible"
-        viewport={viewportOnce}
+        animate="visible"
         variants={staggerContainer(0.08)}
       >
         <motion.p variants={fadeUp} className="text-sm text-slate-500 dark:text-slate-400">

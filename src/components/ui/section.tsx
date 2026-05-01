@@ -18,7 +18,7 @@ export function Section({ id, title, subtitle, children, className }: SectionPro
 
   return (
     <section id={id} className={cn("py-20 md:py-28", className)}>
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-[1cm]">
         {(title || subtitle) && (
           <motion.div
             initial={initial}

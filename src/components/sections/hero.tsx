@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Terminal } from "lucide-react";
 import { siteConfig } from "@/data/config";
 import { useLanguage } from "@/providers/language-provider";
+import { TypewriterText } from "@/components/ui/typewriter-text";
 import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
 
 export function HeroSection() {
@@ -28,7 +29,7 @@ export function HeroSection() {
         <span className="network-packet absolute left-[8%] top-[42%] h-1.5 w-1.5 rounded-full bg-rose-400 shadow-[0_0_18px_rgba(251,113,133,0.55)]" />
       </div>
 
-      <div className="container relative z-10 mx-auto px-4 md:px-6">
+      <div className="container relative z-10 mx-auto px-[1cm]">
         <motion.div
           className="flex max-w-3xl flex-col items-start gap-8"
           initial={initial}
@@ -58,9 +59,16 @@ export function HeroSection() {
             <br />
             <motion.span
               variants={fadeIn}
-              className="mt-2 block w-full bg-gradient-to-r from-rose-400 via-orange-400 to-amber-400 bg-clip-text text-4xl text-transparent md:text-6xl"
+              className="mt-2 block w-full text-4xl md:text-6xl"
             >
-              {lang(siteConfig.role)}
+              <TypewriterText
+                key={lang(siteConfig.role)}
+                text={lang(siteConfig.role)}
+                className="bg-gradient-to-r from-rose-400 via-orange-400 to-amber-400 bg-clip-text text-transparent"
+                typingSpeed={85}
+                deletingSpeed={45}
+                pauseDuration={1200}
+              />
             </motion.span>
           </motion.h1>
 

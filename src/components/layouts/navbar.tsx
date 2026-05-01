@@ -27,7 +27,7 @@ export function Navbar() {
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       className="fixed top-0 right-0 left-0 z-50 border-b border-slate-200 bg-slate-50/80 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80"
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="container mx-auto flex h-16 items-center justify-between px-[1cm]">
         <Link href="/" className="text-xl font-bold tracking-tighter">
           {siteConfig.name}<span className="text-yellow-500">.</span>
         </Link>
