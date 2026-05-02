@@ -95,3 +95,21 @@ html.dark::-webkit-scrollbar-thumb:hover {
         animation: none;
     }
 }
+
+@media (pointer: fine) {
+  body, 
+  a, 
+  button, 
+  [role="button"], 
+  input, 
+  textarea {
+    cursor: none !important;
+  }
+  * {
+    cursor: none !important;
+  }
+}
+
+::selection {
+  cursor: url('/cursors/xterm.png') 12 12, text;
+}

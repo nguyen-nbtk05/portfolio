@@ -7,12 +7,13 @@ import { siteConfig } from "@/data/config";
 import { useLanguage } from "@/hooks/use-language";
 import { TypewriterText } from "@/components/ui/typewriter-text";
 import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
+import ScrollIndicator from "@/components/ui/scroll-indicator";
 
 export function HeroSection() {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
   const initial = reduceMotion ? false : "hidden";
-
+  
   return (
     <section className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden py-20">
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
@@ -96,6 +97,9 @@ export function HeroSection() {
           </motion.div>
         </motion.div>
       </div>
+      <motion.div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+        <ScrollIndicator />
+      </motion.div>
     </section>
   );
 }

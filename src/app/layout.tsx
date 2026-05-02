@@ -3,6 +3,7 @@ import { inter, pixelFont } from "@/lib/fonts";
 import "@/app/globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import SmoothScroll from "@/components/layouts/smooth-scroll";
+import CustomCursor from "@/components/ui/custom-cursor";
 
 import { LanguageProvider } from "@/providers/language-provider";
 import { AppShell } from "@/components/layouts/app-shell";
@@ -27,6 +28,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SmoothScroll>
+            <CustomCursor />
             <LanguageProvider>
               <AppShell>
                 {children}
