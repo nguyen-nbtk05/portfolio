@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
 import {
   motion,
   useReducedMotion,
@@ -81,15 +80,31 @@ export function Navbar() {
   const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
-  const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setMounted(true);
     }, 0);
-    return () => clearTimeout(timer);
+
+    const updateTheme = () => {
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
+    };
+
+    updateTheme();
+
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
   }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -149,12 +164,12 @@ export function Navbar() {
             label={lang({
               en: !mounted
                 ? "Theme"
-                : resolvedTheme === "dark"
+                : isDarkMode
                   ? "Switch to Light Mode"
                   : "Switch to Dark Mode",
               vi: !mounted
                 ? "Giao diện"
-                : resolvedTheme === "dark"
+                : isDarkMode
                   ? "Chuyển sang nền sáng"
                   : "Chuyển sang nền tối",
             })}
