@@ -61,15 +61,37 @@ html.dark::-webkit-scrollbar-thumb:hover {
 }
 
 .network-grid {
+    /* Nền sáng: Tăng nét lưới đậm lên 30% và dùng màu slate-500 (100 116 139) */
     background-image:
-        linear-gradient(to right, rgb(148 163 184 / 0.14) 1px, transparent 1px),
-        linear-gradient(to bottom, rgb(148 163 184 / 0.14) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(circle at 35% 35%, black 0%, transparent 68%);
+        linear-gradient(to right, rgb(100 116 139 / 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(100 116 139 / 0.3) 1px, transparent 1px);
+    background-size: 56px 56px;
+    
+    /* Vùng sáng: Tâm sáng rực 15%, bán kính tỏa rộng ra 600px */
+    mask-image: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+        black 15%, 
+        rgba(0, 0, 0, 0.4) 50%,
+        transparent 100%
+    );
+    animation: grid-flow 3s linear infinite;
+}
+
+html.dark .network-grid {
+    background-image:
+        linear-gradient(to right, rgb(148 163 184 / 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(148 163 184 / 0.15) 1px, transparent 1px);
+}
+
+/* Hoạt ảnh giúp lưới trôi liền mạch không bị đứt quãng */
+@keyframes grid-flow {
+    0% { background-position: 0px 0px; }
+    100% { background-position: 56px 56px; }
 }
 
 .network-packet {
-    animation: packet-travel 8s ease-in-out infinite;
+    animation: packet-travel var(--duration, 8s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
 }
 
 .network-packet:nth-child(2) {
