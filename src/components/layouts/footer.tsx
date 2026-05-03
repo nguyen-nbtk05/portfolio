@@ -1,11 +1,58 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import { Mail } from "lucide-react";
+import { useState } from "react";
+import { motion, useReducedMotion, AnimatePresence } from "motion/react";
+import { Mail, Phone } from "lucide-react"; 
 import { siteConfig } from "@/data/config";
-import { Github, Linkedin } from "@/components/ui/icons";
+import { Github, XIcon, FacebookIcon, TelegramIcon, DiscordIcon } from "@/components/ui/icons";
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, staggerContainer } from "@/lib/motion";
+
+function SmartIconButton({ 
+  href, 
+  icon: Icon, 
+  label, 
+  isExternal = true 
+}: { 
+  href: string; 
+  icon: React.ElementType; 
+  label: string; 
+  isExternal?: boolean 
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.a
+      layout
+      href={href}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="flex items-center rounded-full bg-transparent p-2.5 text-slate-500 transition-colors hover:bg-slate-200 hover:text-amber-500 dark:hover:bg-slate-800"
+      aria-label={label}
+    >
+      <motion.div layout className="shrink-0">
+        <Icon className="h-5 w-5" />
+      </motion.div>
+      
+      <AnimatePresence>
+        {isHovered && (
+          <motion.span
+            layout
+            initial={{ opacity: 0, width: 0, paddingLeft: 0 }}
+            animate={{ opacity: 1, width: "auto", paddingLeft: 8 }}
+            exit={{ opacity: 0, width: 0, paddingLeft: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="overflow-hidden whitespace-nowrap text-sm font-semibold tracking-wide"
+          >
+            {label}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </motion.a>
+  );
+}
 
 export function Footer() {
   const { lang } = useLanguage();
@@ -23,32 +70,17 @@ export function Footer() {
           © {new Date().getFullYear()} {siteConfig.name}.{" "}
           {lang({ en: "All rights reserved.", vi: "Đã đăng ký bản quyền." })}
         </motion.p>
-        <motion.div variants={fadeUp} className="flex items-center gap-4">
-          <a
-            href={`mailto:${siteConfig.email}`}
-            className="inline-flex text-slate-500 transition hover:-translate-y-0.5 hover:text-yellow-500"
-            aria-label="Email"
-          >
-            <Mail className="h-5 w-5" />
-          </a>
-          <a
-            href={siteConfig.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex text-slate-500 transition hover:-translate-y-0.5 hover:text-yellow-500"
-            aria-label="GitHub"
-          >
-            <Github className="h-5 w-5" />
-          </a>
-          <a
-            href={siteConfig.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex text-slate-500 transition hover:-translate-y-0.5 hover:text-yellow-500"
-            aria-label="LinkedIn"
-          >
-            <Linkedin className="h-5 w-5" />
-          </a>
+        
+        <motion.div variants={fadeUp} layout className="flex flex-wrap items-center justify-center gap-2">
+          
+          <SmartIconButton href={`mailto:${siteConfig.email}`} icon={Mail} label="Email" isExternal={false} />
+          <SmartIconButton href={`tel:${siteConfig.phone}`} icon={Phone} label="Phone" isExternal={false} />
+          <SmartIconButton href={siteConfig.github} icon={Github} label="GitHub" />
+          <SmartIconButton href={siteConfig.x} icon={XIcon} label="X" />
+          <SmartIconButton href={siteConfig.facebook} icon={FacebookIcon} label="Facebook" />
+          <SmartIconButton href={siteConfig.telegram} icon={TelegramIcon} label="Telegram" />
+          <SmartIconButton href={siteConfig.discord} icon={DiscordIcon} label="Discord" />
+          
         </motion.div>
       </motion.div>
     </footer>

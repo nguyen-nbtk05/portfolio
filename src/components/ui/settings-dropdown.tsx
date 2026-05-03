@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Settings, ChevronRight, Languages, Type } from "lucide-react";
+import { Bolt, ChevronRight, Languages, Type } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 
 const ActiveBadge = () => (
@@ -11,13 +11,19 @@ const ActiveBadge = () => (
   </span>
 );
 
-export function SettingsDropdown() {
+export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boolean) => void }) {
   const { language, setLanguage } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
   const [currentFont, setCurrentFont] = useState("sans");
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (onOpenChange) {
+      onOpenChange(isOpen);
+    }
+  }, [isOpen, onOpenChange]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => setMounted(true), 0);
@@ -64,7 +70,7 @@ export function SettingsDropdown() {
         }`}
         aria-label="Settings"
       >
-        <Settings size={18} className={isOpen ? "animate-spin-slow" : ""} />
+        <Bolt size={24} className={isOpen ? "animate-spin-slow" : ""} />
       </button>
 
       <AnimatePresence>

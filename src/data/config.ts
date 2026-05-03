@@ -2,7 +2,11 @@ export const siteConfig = {
   name: "Nora",
   email: "thieunguyendl2@gmail.com",
   github: "https://github.com",
-  linkedin: "https://linkedin.com",
+  phone: "+84 123 456 789",
+  x: "https://x.com/yourusername",
+  facebook: "https://facebook.com/yourusername",
+  telegram: "https://t.me/yourusername",
+  discord: "https://discordapp.com/users/your_id",
   role: {
     en: "Computer Networks",
     vi: "Kỹ Sư Mạng Máy Tính",
