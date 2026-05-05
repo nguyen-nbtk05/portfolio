@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   motion,
   useReducedMotion,
@@ -12,6 +11,7 @@ import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { SettingsDropdown } from "../ui/settings-dropdown";
+import { useLenis } from "@/hooks/use-lenis";
 
 const navItems = [
   {
@@ -82,6 +82,43 @@ export function Navbar() {
   const [hidden, setHidden] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const lenis = useLenis();
+
+  const handleAnchorClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
+
+      if (href === "/") {
+        // Scroll to top for Home
+        if (lenis) {
+          lenis.scrollTo(0, { duration: 1.2, offset: 0 });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        window.history.pushState(null, "", "/");
+        return;
+      }
+
+      // For hash links like #about, #experience, etc.
+      const targetId = href.replace("#", "");
+      const targetEl = document.getElementById(targetId);
+      if (!targetEl) return;
+
+      // THÊM OFFSET VÀO ĐÂY: Dùng số âm để Lenis dừng lại sớm 100px
+      const offsetValue = 100; 
+
+      if (lenis) {
+        lenis.scrollTo(targetEl, { duration: 1.2, offset: offsetValue });
+      } else {
+        // Fallback if Lenis isn't available yet
+        const top = targetEl.getBoundingClientRect().top + window.scrollY + offsetValue;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+
+      window.history.pushState(null, "", href);
+    },
+    [lenis]
+  );
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -136,12 +173,13 @@ export function Navbar() {
           {navItems.map((item) => (
             <motion.div key={item.href} variants={fadeUp}>
               <DockTooltip label={lang(item.tooltip)}>
-                <Link
+                <a
                   href={item.href}
+                  onClick={(e) => handleAnchorClick(e, item.href)}
                   className="flex items-center justify-center rounded-full px-2.5 py-1.5 transition-all duration-200 hover:bg-slate-100 hover:text-amber-500 dark:hover:bg-slate-800"
                 >
                   {lang(item.label)}
-                </Link>
+                </a>
               </DockTooltip>
             </motion.div>
           ))}

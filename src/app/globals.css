@@ -17,6 +17,8 @@
 html {
     color-scheme: light;
     scrollbar-color: rgb(148 163 184) rgb(241 245 249);
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
 }
 
 html.dark {

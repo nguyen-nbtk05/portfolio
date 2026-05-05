@@ -1,39 +1,47 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLenis } from "@/hooks/use-lenis";
 
 export default function ScrollIndicator() {
-  
+  const lenis = useLenis();
+
   const handleScroll = () => {
-    const targetPosition = window.innerHeight; // Cuộn đúng 100vh (hết Hero section)
-    const startPosition = window.scrollY;
-    const distance = targetPosition - startPosition;
-    
-    // THAY ĐỔI DURATION
-    const duration = 1200; 
-    let start: number | null = null;
+    // Scroll exactly one viewport height (past the Hero section)
+    const targetPosition = window.innerHeight;
 
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = timestamp - start;
-      
-      // Hàm toán học Easing (EaseInOutCubic) giúp quán tính cuộn cực mượt
-      const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      
-      const percentage = Math.min(progress / duration, 1);
-      window.scrollTo(0, startPosition + distance * ease(percentage));
+    if (lenis) {
+      lenis.scrollTo(targetPosition, { duration: 1.2 });
+    } else {
+      // Fallback: manual smooth scroll
+      const startPosition = window.scrollY;
+      const distance = targetPosition - startPosition;
+      const duration = 1200;
+      let start: number | null = null;
 
-      if (progress < duration) {
-        window.requestAnimationFrame(step);
-      }
-    };
+      const step = (timestamp: number) => {
+        if (!start) start = timestamp;
+        const progress = timestamp - start;
 
-    window.requestAnimationFrame(step);
+        // EaseInOutCubic for buttery smooth scrolling
+        const ease = (t: number) =>
+          t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+        const percentage = Math.min(progress / duration, 1);
+        window.scrollTo(0, startPosition + distance * ease(percentage));
+
+        if (progress < duration) {
+          window.requestAnimationFrame(step);
+        }
+      };
+
+      window.requestAnimationFrame(step);
+    }
   };
 
   return (
     <motion.div
-      role="button" 
+      role="button"
       className="flex flex-col items-center justify-center gap-2 outline-none"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -54,7 +62,7 @@ export default function ScrollIndicator() {
           className="w-1.5 h-1.5 rounded-full bg-amber-500"
         />
       </div>
-      
+
       <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400 dark:text-slate-500">
         Scroll Down
       </span>

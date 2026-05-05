@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { useCallback } from "react";
+import { useLenis } from "@/hooks/use-lenis";
 import {
   motion,
   useReducedMotion,
@@ -8,7 +9,19 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import { ArrowRight, Terminal, Server, Globe, Database, Laptop, Shield, Smartphone, Router, Mail, Network } from "lucide-react";
+import {
+  ArrowRight,
+  Terminal,
+  Server,
+  Globe,
+  Database,
+  Laptop,
+  Shield,
+  Smartphone,
+  Router,
+  Mail,
+  Network,
+} from "lucide-react";
 import { siteConfig } from "@/data/config";
 import { useLanguage } from "@/hooks/use-language";
 import { TypewriterText } from "@/components/ui/typewriter-text";
@@ -142,6 +155,25 @@ export function HeroSection() {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
   const initial = reduceMotion ? false : "hidden";
+  const lenis = useLenis();
+
+  const handleAnchorClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
+      const targetId = href.replace("#", "");
+      const targetEl = document.getElementById(targetId);
+      if (!targetEl) return;
+
+      if (lenis) {
+        lenis.scrollTo(targetEl, { duration: 1.2, offset: 0 });
+      } else {
+        const top = targetEl.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+      window.history.pushState(null, "", href);
+    },
+    [lenis]
+  );
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -276,23 +308,25 @@ export function HeroSection() {
             variants={fadeUp}
             className="mt-4 flex flex-wrap items-center gap-4"
           >
-            <Link
+            <a
               href="#projects"
+              onClick={(e) => handleAnchorClick(e, "#projects")}
               className="group inline-flex items-center justify-center gap-2 rounded-lg bg-yellow-500 px-6 py-3 font-medium text-white shadow-lg shadow-yellow-500/20 transition-colors hover:bg-yellow-600"
             >
               {lang({ en: "View Projects", vi: "Xem Dự Án" })}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
+            </a>
+            <a
               href="#contact"
+              onClick={(e) => handleAnchorClick(e, "#contact")}
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-200 px-6 py-3 font-medium text-slate-900 transition-colors hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700"
             >
               {lang({ en: "Contact Me", vi: "Liên Hệ" })}
-            </Link>
+            </a>
           </motion.div>
         </motion.div>
 
-        {/* --- CỘT PHẢI: 3D COMPLEX ENTERPRISE TOPOLOGY (INFINITE SMOOTH FLOW) --- */}
+        {/* --- CỘT PHẢI: 3D COMPLEX ENTERPRISE TOPOLOGY (BRAND SYNCHRONIZED COLOR) --- */}
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -308,24 +342,25 @@ export function HeroSection() {
             className="relative w-full max-w-[640px] h-[420px] rounded-[2.5rem] border border-slate-200/50 bg-white/40 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-slate-900/40"
           >
             {/* --- CÁC KHU VỰC BẢO MẬT (ZONES) --- */}
+            {/* DMZ (Màu Rose - Khớp với chữ "Computer") */}
             <div style={{ transform: "translateZ(10px)" }} className="absolute left-[16%] right-[52%] top-[10%] bottom-[10%] rounded-2xl border border-rose-200/60 bg-rose-50/30 dark:border-rose-900/30 dark:bg-rose-900/10">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-rose-200 bg-rose-100 px-3 py-0.5 text-[10px] font-bold tracking-widest text-rose-600 shadow-sm dark:border-rose-800 dark:bg-rose-900/80 dark:text-rose-300">
                 DMZ
               </div>
             </div>
             
-            <div style={{ transform: "translateZ(15px)" }} className="absolute left-[52%] right-[6%] top-[10%] bottom-[10%] rounded-2xl border border-emerald-200/60 bg-emerald-50/30 dark:border-emerald-900/30 dark:bg-emerald-900/10">
-               <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-emerald-200 bg-emerald-100 px-3 py-0.5 text-[10px] font-bold tracking-widest text-emerald-600 shadow-sm dark:border-emerald-800 dark:bg-emerald-900/80 dark:text-emerald-300">
+            {/* Internal Network (Màu Slate trung tính để làm nổi bật các Node Vàng/Cam) */}
+            <div style={{ transform: "translateZ(15px)" }} className="absolute left-[52%] right-[6%] top-[10%] bottom-[10%] rounded-2xl border border-slate-200/60 bg-slate-50/30 dark:border-slate-700/30 dark:bg-slate-800/20">
+               <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-slate-200 bg-slate-100 px-3 py-0.5 text-[10px] font-bold tracking-widest text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
                 INTERNAL NETWORK
               </div>
             </div>
 
-            {/* --- ĐƯỜNG TRUYỀN DỮ LIỆU (ĐÃ FIX TOÁN HỌC ĐỂ LOOP VÔ HẠN MƯỢT MÀ) --- */}
+            {/* --- ĐƯỜNG TRUYỀN DỮ LIỆU --- */}
             <div style={{ transform: "translateZ(20px)" }} className="absolute inset-0 pointer-events-none">
               <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                 <style>
                   {`
-                    /* Bội số 24 khớp với tất cả dasharray bên dưới để loop không bị khựng */
                     @keyframes packet-flow { to { stroke-dashoffset: -24; } }
                     .packet { animation: packet-flow 1.2s linear infinite; stroke-linecap: round; }
                     .packet-fast { animation: packet-flow 0.6s linear infinite; stroke-linecap: round; }
@@ -333,7 +368,6 @@ export function HeroSection() {
                   `}
                 </style>
                 
-                {/* 1. LỚP ĐƯỜNG RAY NỀN */}
                 <g stroke="currentColor" strokeWidth="0.4" className="text-slate-300 dark:text-slate-700/80">
                   <line x1="12" y1="50" x2="23" y2="50" />
                   <line x1="28" y1="44" x2="28" y2="27" />
@@ -345,15 +379,15 @@ export function HeroSection() {
                   <path d="M 76 55 L 76 65 L 83 65" fill="none" />
                 </g>
 
-                {/* 2. LỚP GÓI TIN ĐANG CHẠY (Tổng độ dài dash + gap luôn = 24) */}
+                {/* Gói tin đã được đổi màu đồng bộ với Text bên trái */}
                 <line x1="12" y1="50" x2="23" y2="50" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 20" className="text-slate-400 packet" />
                 <line x1="28" y1="44" x2="28" y2="27" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 20" className="text-rose-400 packet" />
                 <line x1="28" y1="56" x2="28" y2="73" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 20" className="text-rose-400 packet-slow" />
-                <line x1="33" y1="50" x2="48" y2="50" stroke="currentColor" strokeWidth="2" strokeDasharray="6 18" className="text-blue-500 packet-fast" />
-                <path d="M 54 44 L 54 20 L 71 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 20" className="text-emerald-500 packet" />
-                <line x1="60" y1="50" x2="71" y2="50" stroke="currentColor" strokeWidth="1.5" strokeDasharray="6 18" className="text-emerald-500 packet-fast" />
-                <path d="M 54 56 L 54 80 L 71 80" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 20" className="text-emerald-500 packet" />
-                <path d="M 76 55 L 76 65 L 83 65" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 20" className="text-indigo-400 packet-slow" />
+                <line x1="33" y1="50" x2="48" y2="50" stroke="currentColor" strokeWidth="2" strokeDasharray="6 18" className="text-orange-400 packet-fast" />
+                <path d="M 54 44 L 54 20 L 71 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 20" className="text-slate-400 packet" />
+                <line x1="60" y1="50" x2="71" y2="50" stroke="currentColor" strokeWidth="1.5" strokeDasharray="6 18" className="text-amber-500 packet-fast" />
+                <path d="M 54 56 L 54 80 L 71 80" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 20" className="text-slate-400 packet" />
+                <path d="M 76 55 L 76 65 L 83 65" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 20" className="text-orange-400 packet-slow" />
               </svg>
             </div>
 
@@ -369,7 +403,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 2. FIREWALL GATEWAY */}
+            {/* 2. FIREWALL GATEWAY (Rose) */}
             <div style={{ transform: "translateZ(60px)" }} className="absolute left-[28%] top-[50%] -translate-x-1/2 -translate-y-1/2">
               <motion.div whileHover={{ scale: 1.15 }} className="flex h-14 w-14 items-center justify-center rounded-2xl border border-rose-300 bg-rose-50 shadow-lg text-rose-500 dark:border-rose-700/80 dark:bg-rose-900/60 cursor-help">
                 <Shield size={24} className="animate-pulse" />
@@ -379,7 +413,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 3. WEB SERVER */}
+            {/* 3. WEB SERVER (Rose) */}
             <div style={{ transform: "translateZ(45px)" }} className="absolute left-[28%] top-[22%] -translate-x-1/2 -translate-y-1/2">
               <motion.div whileHover={{ scale: 1.1 }} className="flex h-11 w-11 items-center justify-center rounded-xl border border-rose-200 bg-white shadow-md text-rose-500 dark:border-rose-800 dark:bg-slate-800 cursor-default">
                 <Server size={18} />
@@ -389,7 +423,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 4. MAIL SERVER */}
+            {/* 4. MAIL SERVER (Orange) */}
             <div style={{ transform: "translateZ(45px)" }} className="absolute left-[28%] top-[78%] -translate-x-1/2 -translate-y-1/2">
               <motion.div whileHover={{ scale: 1.1 }} className="flex h-11 w-11 items-center justify-center rounded-xl border border-orange-200 bg-white shadow-md text-orange-500 dark:border-orange-800 dark:bg-slate-800 cursor-default">
                 <Mail size={18} />
@@ -399,23 +433,23 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 5. CORE ROUTER */}
+            {/* 5. CORE ROUTER (Amber - Đồng bộ nút bấm View Projects) */}
             <div style={{ transform: "translateZ(90px)" }} className="absolute left-[54%] top-[50%] -translate-x-1/2 -translate-y-1/2 z-10">
               <motion.button
-                whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(59,130,246,0.5)" }}
+                whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(245,158,11,0.5)" }}
                 whileTap={{ scale: 0.95 }}
-                className="flex h-16 w-16 items-center justify-center rounded-2xl border border-blue-500 bg-blue-500 shadow-xl text-white transition-colors hover:bg-blue-600"
+                className="flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-500 bg-gradient-to-br from-yellow-400 to-amber-500 shadow-xl text-white transition-colors hover:from-amber-500 hover:to-orange-500"
               >
                 <Router size={28} />
               </motion.button>
-              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-blue-50/90 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-blue-500 shadow-sm backdrop-blur-md dark:bg-blue-900/60 dark:text-blue-300">
+              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-amber-50/90 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-amber-600 shadow-sm backdrop-blur-md dark:bg-amber-900/60 dark:text-amber-300">
                 Core Router
               </div>
             </div>
 
-            {/* 6. DATABASE */}
+            {/* 6. DATABASE (Slate) */}
             <div style={{ transform: "translateZ(50px)" }} className="absolute left-[76%] top-[20%] -translate-x-1/2 -translate-y-1/2">
-              <motion.div whileHover={{ scale: 1.1 }} className="flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 shadow-md text-emerald-600 dark:border-emerald-800 dark:bg-emerald-900/40 cursor-default">
+              <motion.div whileHover={{ scale: 1.1 }} className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 shadow-md text-slate-500 dark:border-slate-700 dark:bg-slate-800/50 cursor-default">
                 <Database size={18} />
               </motion.div>
               <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-white/70 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-slate-400 shadow-sm backdrop-blur-md dark:bg-slate-800/70">
@@ -423,9 +457,9 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 7. ACCESS SWITCH */}
+            {/* 7. ACCESS SWITCH (Amber) */}
             <div style={{ transform: "translateZ(65px)" }} className="absolute left-[76%] top-[50%] -translate-x-1/2 -translate-y-1/2">
-              <motion.div whileHover={{ scale: 1.1 }} className="flex h-12 w-12 items-center justify-center rounded-xl border border-teal-300 bg-teal-50 shadow-md text-teal-600 dark:border-teal-700/80 dark:bg-teal-900/60 cursor-default">
+              <motion.div whileHover={{ scale: 1.1 }} className="flex h-12 w-12 items-center justify-center rounded-xl border border-amber-200 bg-amber-50 shadow-md text-amber-600 dark:border-amber-700/80 dark:bg-amber-900/60 cursor-default">
                 <Network size={20} />
               </motion.div>
               <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-white/70 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-slate-400 shadow-sm backdrop-blur-md dark:bg-slate-800/70">
@@ -433,9 +467,9 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 8. WORKSTATION */}
+            {/* 8. WORKSTATION (Slate) */}
             <div style={{ transform: "translateZ(55px)" }} className="absolute left-[76%] top-[80%] -translate-x-1/2 -translate-y-1/2">
-              <motion.div whileHover={{ scale: 1.1, y: -2 }} className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-200 bg-indigo-50 shadow-md text-indigo-600 dark:border-indigo-800 dark:bg-indigo-900/40 cursor-default">
+              <motion.div whileHover={{ scale: 1.1, y: -2 }} className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 shadow-md text-slate-600 dark:border-slate-700 dark:bg-slate-800/50 cursor-default">
                 <Laptop size={20} />
               </motion.div>
               <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-white/70 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-slate-400 shadow-sm backdrop-blur-md dark:bg-slate-800/70">
@@ -443,9 +477,9 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 9. SMARTPHONE */}
+            {/* 9. SMARTPHONE (Orange) */}
             <div style={{ transform: "translateZ(75px)" }} className="absolute left-[88%] top-[65%] -translate-x-1/2 -translate-y-1/2">
-              <motion.div whileHover={{ scale: 1.1, rotate: 10 }} className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-200 bg-violet-50 shadow-md text-violet-600 dark:border-violet-800 dark:bg-violet-900/40 cursor-default">
+              <motion.div whileHover={{ scale: 1.1, rotate: 10 }} className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-200 bg-orange-50 shadow-md text-orange-500 dark:border-orange-800 dark:bg-orange-900/40 cursor-default">
                 <Smartphone size={18} />
               </motion.div>
               <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-white/70 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-slate-400 shadow-sm backdrop-blur-md dark:bg-slate-800/70">
@@ -465,14 +499,14 @@ export function HeroSection() {
               </motion.div>
             </div>
             
-            <div style={{ transform: "translateZ(100px)" }} className="absolute right-[40%] bottom-[8%]">
+            <div style={{ transform: "translateZ(100px)" }} className="absolute right-[30%] bottom-[8%]">
               <motion.div 
-                drag dragConstraints={{ left: -100, right: 10, top: -50, bottom: 20 }}
+                drag dragConstraints={{ left: -10, right: 200, top: -50, bottom: 20 }}
                 whileHover={{ scale: 1.05 }} whileDrag={{ scale: 1.1, cursor: "grabbing" }}
-                className="cursor-grab rounded-lg border border-teal-200/80 bg-white/90 px-2.5 py-1.5 shadow-lg backdrop-blur-md dark:border-teal-800/50 dark:bg-slate-800/90 flex items-center gap-1.5"
+                className="cursor-grab rounded-lg border border-slate-200/80 bg-white/90 px-2.5 py-1.5 shadow-lg backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-800/90 flex items-center gap-1.5"
               >
-                 <Network size={12} className="text-teal-500" />
-                <span className="text-[10px] font-mono font-bold text-teal-600 dark:text-teal-400">VLAN 20: WiFi</span>
+                 <Network size={12} className="text-amber-500" />
+                <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-300">VLAN 20: WiFi</span>
               </motion.div>
             </div>
 
