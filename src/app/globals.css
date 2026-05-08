@@ -3,15 +3,15 @@
 @custom-variant dark (&:is(.dark *));
 
 .theme-font-sans {
-  font-family: ui-sans-serif, system-ui, sans-serif !important;
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
 }
 
 .theme-font-serif {
-  font-family: "Playfair Display", ui-serif, serif !important;
+    font-family: "Playfair Display", ui-serif, serif !important;
 }
 
 .theme-font-mono {
-  font-family: "Cascadia Code", "Fira Code", ui-monospace, monospace !important;
+    font-family: "Cascadia Code", "Fira Code", ui-monospace, monospace !important;
 }
 
 html {
@@ -57,7 +57,8 @@ html.dark::-webkit-scrollbar-thumb:hover {
     background: rgb(100 116 139);
 }
 
-::view-transition-old(root), ::view-transition-new(root) {
+::view-transition-old(root),
+::view-transition-new(root) {
     animation: none;
     mix-blend-mode: normal;
 }
@@ -68,14 +69,12 @@ html.dark::-webkit-scrollbar-thumb:hover {
         linear-gradient(to right, rgb(100 116 139 / 0.3) 1px, transparent 1px),
         linear-gradient(to bottom, rgb(100 116 139 / 0.3) 1px, transparent 1px);
     background-size: 56px 56px;
-    
+
     /* Vùng sáng: Tâm sáng rực 15%, bán kính tỏa rộng ra 600px */
-    mask-image: radial-gradient(
-        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-        black 15%, 
-        rgba(0, 0, 0, 0.4) 50%,
-        transparent 100%
-    );
+    mask-image: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            black 15%,
+            rgba(0, 0, 0, 0.4) 50%,
+            transparent 100%);
     animation: grid-flow 3s linear infinite;
 }
 
@@ -87,8 +86,13 @@ html.dark .network-grid {
 
 /* Hoạt ảnh giúp lưới trôi liền mạch không bị đứt quãng */
 @keyframes grid-flow {
-    0% { background-position: 0px 0px; }
-    100% { background-position: 56px 56px; }
+    0% {
+        background-position: 0px 0px;
+    }
+
+    100% {
+        background-position: 56px 56px;
+    }
 }
 
 .network-packet {
@@ -107,12 +111,15 @@ html.dark .network-grid {
 }
 
 @keyframes packet-travel {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 0;
         transform: translate3d(-12px, 12px, 0) scale(0.8);
     }
 
-    18%, 70% {
+    18%,
+    70% {
         opacity: 0.8;
     }
 
@@ -133,19 +140,21 @@ html.dark .network-grid {
 }
 
 @media (pointer: fine) {
-  body, 
-  a, 
-  button, 
-  [role="button"], 
-  input, 
-  textarea {
-    cursor: none !important;
-  }
-  * {
-    cursor: none !important;
-  }
+
+    body,
+    a,
+    button,
+    [role="button"],
+    input,
+    textarea {
+        cursor: none !important;
+    }
+
+    * {
+        cursor: none !important;
+    }
 }
 
 ::selection {
-  cursor: url('/cursors/xterm.png') 12 12, text;
+    cursor: url('/cursors/xterm.png') 12 12, text;
 }
