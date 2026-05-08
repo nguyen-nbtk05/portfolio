@@ -135,7 +135,7 @@ export function AboutSection() {
         variants={staggerContainer(0.1)}
         className="container mx-auto grid w-full items-center gap-6 px-[1cm] lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:gap-10 xl:gap-12"
       >
-        <motion.div variants={fadeUp} className="max-w-3xl">
+        <motion.div variants={fadeUp} className="max-w-3xl lg:ml-8 xl:ml-12">
           <motion.div
             variants={scaleIn}
             className="mb-4 inline-flex items-center gap-2 rounded-full border border-yellow-400/40 bg-yellow-100/70 px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-yellow-700 shadow-sm backdrop-blur dark:border-yellow-400/30 dark:bg-yellow-500/10 dark:text-yellow-300"
@@ -153,7 +153,7 @@ export function AboutSection() {
             <span className="text-yellow-500">.</span>
           </h2>
 
-          <p className="mt-4 max-w-2xl rounded-xl border border-slate-200/80 bg-white/65 p-4 text-sm leading-6 text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 sm:text-base sm:leading-7">
+          <p className="mt-4 max-w-2xl text-justify rounded-xl border border-slate-200/80 bg-white/65 p-4 text-sm leading-6 text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 sm:text-base sm:leading-7">
             {lang(aboutIntro)}
           </p>
 
