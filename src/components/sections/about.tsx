@@ -117,7 +117,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative isolate flex min-h-[calc(100svh-4rem)] items-center overflow-hidden bg-slate-50 py-6 dark:bg-slate-950 sm:py-8 lg:py-10"
+      className="relative isolate flex min-h-[100vh] items-center overflow-hidden bg-slate-50 py-6 dark:bg-slate-950 sm:py-8 lg:py-10"
     >
       <div
         aria-hidden="true"

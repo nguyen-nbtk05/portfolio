@@ -2,7 +2,6 @@ export const siteConfig = {
   name: "Nora",
   email: "thieunguyendl2@gmail.com",
   github: "https://github.com",
-  phone: "+84 123 456 789",
   x: "https://x.com/yourusername",
   facebook: "https://facebook.com/yourusername",
   telegram: "https://t.me/yourusername",

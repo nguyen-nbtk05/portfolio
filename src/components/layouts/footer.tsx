@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "motion/react";
-import { Mail, Phone } from "lucide-react"; 
+import { Mail } from "lucide-react"; 
 import { siteConfig } from "@/data/config";
 import { Github, XIcon, FacebookIcon, TelegramIcon, DiscordIcon } from "@/components/ui/icons";
 import { useLanguage } from "@/hooks/use-language";
@@ -74,7 +74,6 @@ export function Footer() {
         <motion.div variants={fadeUp} layout className="flex flex-wrap items-center justify-center gap-2">
           
           <SmartIconButton href={`mailto:${siteConfig.email}`} icon={Mail} label="Email" isExternal={false} />
-          <SmartIconButton href={`tel:${siteConfig.phone}`} icon={Phone} label="Phone" isExternal={false} />
           <SmartIconButton href={siteConfig.github} icon={Github} label="GitHub" />
           <SmartIconButton href={siteConfig.x} icon={XIcon} label="X" />
           <SmartIconButton href={siteConfig.facebook} icon={FacebookIcon} label="Facebook" />
