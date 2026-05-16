@@ -64,34 +64,47 @@ html.dark::-webkit-scrollbar-thumb:hover {
 }
 
 .network-grid {
-    /* Nền sáng: Tăng nét lưới đậm lên 30% và dùng màu slate-500 (100 116 139) */
+    --grid-size: 56px;
+    --grid-line-light: rgb(100 116 139 / 0.3);
+    --grid-line-dark: rgb(148 163 184 / 0.15);
     background-image:
-        linear-gradient(to right, rgb(100 116 139 / 0.3) 1px, transparent 1px),
-        linear-gradient(to bottom, rgb(100 116 139 / 0.3) 1px, transparent 1px);
-    background-size: 56px 56px;
-
-    /* Vùng sáng: Tâm sáng rực 15%, bán kính tỏa rộng ra 600px */
-    mask-image: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-            black 15%,
-            rgba(0, 0, 0, 0.4) 50%,
+        linear-gradient(to right, var(--grid-line-light) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line-light) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+    mask-image: radial-gradient(640px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            black 16%,
+            rgba(0, 0, 0, 0.5) 54%,
             transparent 100%);
-    animation: grid-flow 3s linear infinite;
+    animation: grid-flow 5.4s linear infinite;
 }
 
 html.dark .network-grid {
     background-image:
-        linear-gradient(to right, rgb(148 163 184 / 0.15) 1px, transparent 1px),
-        linear-gradient(to bottom, rgb(148 163 184 / 0.15) 1px, transparent 1px);
+        linear-gradient(to right, var(--grid-line-dark) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line-dark) 1px, transparent 1px);
 }
 
-/* Hoạt ảnh giúp lưới trôi liền mạch không bị đứt quãng */
+.network-grid-strong {
+    --grid-size: 48px;
+    --grid-line-light: rgb(100 116 139 / 0.38);
+    --grid-line-dark: rgb(148 163 184 / 0.24);
+    mask-image: radial-gradient(760px circle at 50% 50%,
+            black 24%,
+            rgba(0, 0, 0, 0.52) 58%,
+            transparent 100%);
+}
+
+.network-grid-splash {
+    animation-duration: 12s;
+}
+
 @keyframes grid-flow {
     0% {
-        background-position: 0px 0px;
+        background-position: 0 0;
     }
 
     100% {
-        background-position: 56px 56px;
+        background-position: var(--grid-size) var(--grid-size);
     }
 }
 
@@ -133,9 +146,398 @@ html.dark .network-grid {
     }
 }
 
+.splash-beam-layer {
+    background-image:
+        linear-gradient(114deg,
+            transparent 0%,
+            rgba(245, 158, 11, 0.12) 22%,
+            rgba(71, 85, 105, 0.13) 40%,
+            transparent 62%,
+            rgba(245, 158, 11, 0.08) 78%,
+            transparent 100%),
+        repeating-linear-gradient(114deg,
+            rgba(245, 158, 11, 0.05) 0px,
+            rgba(245, 158, 11, 0.05) 1px,
+            rgba(245, 158, 11, 0) 1px,
+            rgba(245, 158, 11, 0) 34px);
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    animation: splash-beam-shift 26s linear infinite;
+}
+
+.splash-beam-layer-alt {
+    animation-duration: 34s;
+    animation-direction: reverse;
+    filter: blur(8px);
+}
+
+.splash-accent-prisms {
+    background-image:
+        radial-gradient(60% 42% at 14% 22%, rgba(34, 211, 238, 0.1), transparent 72%),
+        radial-gradient(48% 36% at 82% 18%, rgba(251, 113, 133, 0.08), transparent 74%),
+        radial-gradient(54% 38% at 58% 86%, rgba(52, 211, 153, 0.07), transparent 74%);
+    mix-blend-mode: screen;
+}
+
+.splash-volumetric-band {
+    background-image:
+        linear-gradient(112deg,
+            transparent 0%,
+            rgba(245, 158, 11, 0.1) 22%,
+            rgba(71, 85, 105, 0.14) 38%,
+            transparent 58%,
+            rgba(245, 158, 11, 0.08) 74%,
+            transparent 100%);
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    animation: splash-band-drift 28s linear infinite;
+}
+
+html.dark .splash-volumetric-band {
+    background-image:
+        linear-gradient(112deg,
+            transparent 0%,
+            rgba(251, 191, 36, 0.1) 22%,
+            rgba(30, 64, 175, 0.14) 40%,
+            transparent 58%,
+            rgba(251, 191, 36, 0.08) 76%,
+            transparent 100%);
+}
+
+html.dark .splash-beam-layer {
+    background-image:
+        linear-gradient(114deg,
+            transparent 0%,
+            rgba(251, 191, 36, 0.12) 22%,
+            rgba(30, 64, 175, 0.12) 40%,
+            transparent 62%,
+            rgba(251, 191, 36, 0.08) 78%,
+            transparent 100%),
+        repeating-linear-gradient(114deg,
+            rgba(251, 191, 36, 0.06) 0px,
+            rgba(251, 191, 36, 0.06) 1px,
+            rgba(251, 191, 36, 0) 1px,
+            rgba(251, 191, 36, 0) 34px);
+}
+
+html.dark .splash-accent-prisms {
+    background-image:
+        radial-gradient(60% 42% at 14% 22%, rgba(34, 211, 238, 0.12), transparent 72%),
+        radial-gradient(48% 36% at 82% 18%, rgba(251, 113, 133, 0.1), transparent 74%),
+        radial-gradient(54% 38% at 58% 86%, rgba(52, 211, 153, 0.1), transparent 74%);
+}
+
+.splash-soft-grain {
+    background-image: radial-gradient(rgba(15, 23, 42, 0.06) 0.8px, transparent 0.8px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+}
+
+html.dark .splash-soft-grain {
+    background-image: radial-gradient(rgba(148, 163, 184, 0.08) 0.8px, transparent 0.8px);
+    mix-blend-mode: screen;
+}
+
+.splash-orb-float {
+    opacity: 0.12;
+    transform: translate3d(0, 0, 0) scale(0.96);
+    will-change: transform, opacity;
+    animation: splash-orb-float 20s ease-in-out infinite;
+}
+
+.splash-signal-fog {
+    background-image: linear-gradient(110deg,
+            rgba(245, 158, 11, 0.08) 0%,
+            transparent 56%,
+            rgba(148, 163, 184, 0.07) 100%);
+}
+
+html.dark .splash-signal-fog {
+    background-image: linear-gradient(110deg,
+            rgba(251, 191, 36, 0.1) 0%,
+            transparent 56%,
+            rgba(59, 130, 246, 0.08) 100%);
+}
+
+.splash-signal-pulse {
+    animation: splash-signal-pulse 1.7s ease-in-out infinite;
+}
+
+.splash-signal-bar {
+    transform-origin: center bottom;
+    animation: splash-signal-wave 1.6s ease-in-out infinite;
+}
+
+.splash-signal-sweep {
+    background: linear-gradient(100deg,
+            rgba(34, 211, 238, 0) 0%,
+            rgba(34, 211, 238, 0.26) 24%,
+            rgba(245, 158, 11, 0.44) 52%,
+            rgba(251, 113, 133, 0.26) 78%,
+            rgba(251, 113, 133, 0) 100%);
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
+    animation: splash-signal-sweep 2.25s linear infinite;
+}
+
+.splash-radar-ring {
+    animation: splash-radar-ring 2.7s ease-out infinite;
+}
+
+.splash-radar-sweep-amber,
+.splash-radar-sweep-cyan,
+.splash-radar-sweep-rose,
+.splash-radar-sweep-emerald {
+    filter: blur(0.6px);
+    animation: splash-radar-sweep 3.1s linear infinite;
+}
+
+.splash-radar-sweep-amber {
+    background: conic-gradient(from 0deg,
+            rgba(245, 158, 11, 0) 0deg,
+            rgba(245, 158, 11, 0.45) 68deg,
+            rgba(245, 158, 11, 0) 130deg,
+            rgba(245, 158, 11, 0) 360deg);
+}
+
+html.dark .splash-radar-sweep-amber {
+    background: conic-gradient(from 0deg,
+            rgba(251, 191, 36, 0) 0deg,
+            rgba(251, 191, 36, 0.52) 68deg,
+            rgba(251, 191, 36, 0) 130deg,
+            rgba(251, 191, 36, 0) 360deg);
+}
+
+.splash-radar-sweep-cyan {
+    background: conic-gradient(from 0deg,
+            rgba(34, 211, 238, 0) 0deg,
+            rgba(34, 211, 238, 0.48) 68deg,
+            rgba(34, 211, 238, 0) 130deg,
+            rgba(34, 211, 238, 0) 360deg);
+}
+
+html.dark .splash-radar-sweep-cyan {
+    background: conic-gradient(from 0deg,
+            rgba(103, 232, 249, 0) 0deg,
+            rgba(103, 232, 249, 0.52) 68deg,
+            rgba(103, 232, 249, 0) 130deg,
+            rgba(103, 232, 249, 0) 360deg);
+}
+
+.splash-radar-sweep-rose {
+    background: conic-gradient(from 0deg,
+            rgba(251, 113, 133, 0) 0deg,
+            rgba(251, 113, 133, 0.48) 68deg,
+            rgba(251, 113, 133, 0) 130deg,
+            rgba(251, 113, 133, 0) 360deg);
+}
+
+html.dark .splash-radar-sweep-rose {
+    background: conic-gradient(from 0deg,
+            rgba(253, 164, 175, 0) 0deg,
+            rgba(253, 164, 175, 0.5) 68deg,
+            rgba(253, 164, 175, 0) 130deg,
+            rgba(253, 164, 175, 0) 360deg);
+}
+
+.splash-radar-sweep-emerald {
+    background: conic-gradient(from 0deg,
+            rgba(52, 211, 153, 0) 0deg,
+            rgba(52, 211, 153, 0.46) 68deg,
+            rgba(52, 211, 153, 0) 130deg,
+            rgba(52, 211, 153, 0) 360deg);
+}
+
+html.dark .splash-radar-sweep-emerald {
+    background: conic-gradient(from 0deg,
+            rgba(110, 231, 183, 0) 0deg,
+            rgba(110, 231, 183, 0.52) 68deg,
+            rgba(110, 231, 183, 0) 130deg,
+            rgba(110, 231, 183, 0) 360deg);
+}
+
+.splash-ticker-track {
+    display: inline-flex;
+    min-width: max-content;
+    width: max-content;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    animation: splash-ticker-drift 10s linear infinite;
+}
+
+.splash-progress-shine {
+    background: linear-gradient(108deg,
+            transparent 0%,
+            rgba(251, 191, 36, 0) 36%,
+            rgba(251, 191, 36, 0.45) 50%,
+            rgba(251, 191, 36, 0) 64%,
+            transparent 100%);
+    transform: translateX(-55%);
+    animation: splash-progress-glint 1.8s linear infinite;
+}
+
+html.dark .splash-progress-shine {
+    background: linear-gradient(108deg,
+            transparent 0%,
+            rgba(251, 191, 36, 0) 36%,
+            rgba(251, 191, 36, 0.38) 50%,
+            rgba(251, 191, 36, 0) 64%,
+            transparent 100%);
+}
+
+@keyframes splash-beam-shift {
+    0% {
+        transform: translate3d(-4%, 1%, 0) scale(1.03);
+    }
+
+    50% {
+        transform: translate3d(4%, -1%, 0) scale(1.03);
+    }
+
+    100% {
+        transform: translate3d(-4%, 1%, 0) scale(1.03);
+    }
+}
+
+@keyframes splash-band-drift {
+    0% {
+        transform: translate3d(-1.2%, 0, 0) scale(1.02);
+    }
+
+    50% {
+        transform: translate3d(1.2%, -0.4%, 0) scale(1.02);
+    }
+
+    100% {
+        transform: translate3d(-1.2%, 0, 0) scale(1.02);
+    }
+}
+
+@keyframes splash-orb-float {
+    0% {
+        opacity: 0.08;
+        transform: translate3d(-0.6%, 0.2%, 0) scale(0.95);
+    }
+
+    50% {
+        opacity: 0.16;
+        transform: translate3d(0.8%, -0.4%, 0) scale(1);
+    }
+
+    100% {
+        opacity: 0.08;
+        transform: translate3d(-0.6%, 0.2%, 0) scale(0.95);
+    }
+}
+
+@keyframes splash-signal-pulse {
+
+    0%,
+    100% {
+        opacity: 0.36;
+        transform: scale(0.86);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.14);
+    }
+}
+
+@keyframes splash-radar-ring {
+    0% {
+        opacity: 0.56;
+        transform: scale(0.72);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.32);
+    }
+}
+
+@keyframes splash-radar-sweep {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes splash-signal-wave {
+
+    0%,
+    100% {
+        opacity: 0.35;
+        transform: scaleY(0.34);
+    }
+
+    36% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+
+    72% {
+        opacity: 0.64;
+        transform: scaleY(0.58);
+    }
+}
+
+@keyframes splash-signal-sweep {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0);
+    }
+
+    18% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(360%, 0, 0);
+    }
+}
+
+@keyframes splash-ticker-drift {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes splash-progress-glint {
+    0% {
+        transform: translateX(-55%);
+    }
+
+    100% {
+        transform: translateX(55%);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .network-packet {
-        animation: none;
+
+    .network-packet,
+    .network-grid,
+    .splash-volumetric-band,
+    .splash-beam-layer,
+    .splash-orb-float,
+    .splash-radar-ring,
+    .splash-radar-sweep,
+    .splash-signal-sweep,
+    .splash-signal-pulse,
+    .splash-signal-bar,
+    .splash-ticker-track,
+    .splash-progress-shine {
+        animation: none !important;
     }
 }
 
