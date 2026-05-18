@@ -1,6 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Fira+Code:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Fira+Code:wght@300..700&family=Space+Grotesk:wght@400..700&display=swap');
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
+
+.splash-panel-type {
+    font-family: "Space Grotesk", var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0;
+}
+
+.splash-display-type {
+    font-family: "Space Grotesk", var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0;
+}
+
+.splash-panel-type .font-mono {
+    font-family: "Fira Code", "Cascadia Code", ui-monospace, monospace;
+}
 
 .theme-font-sans {
     font-family: ui-sans-serif, system-ui, sans-serif !important;
@@ -169,7 +183,7 @@ html.dark .network-grid {
 .splash-beam-layer-alt {
     animation-duration: 34s;
     animation-direction: reverse;
-    filter: blur(8px);
+    filter: blur(5px);
 }
 
 .splash-accent-prisms {
@@ -229,6 +243,85 @@ html.dark .splash-accent-prisms {
         radial-gradient(54% 38% at 58% 86%, rgba(52, 211, 153, 0.1), transparent 74%);
 }
 
+.splash-aurora-field {
+    background-image:
+        linear-gradient(112deg,
+            transparent 0%,
+            rgba(245, 158, 11, 0.18) 18%,
+            transparent 38%),
+        linear-gradient(74deg,
+            transparent 4%,
+            rgba(34, 211, 238, 0.2) 42%,
+            transparent 64%),
+        linear-gradient(154deg,
+            transparent 24%,
+            rgba(251, 113, 133, 0.12) 72%,
+            transparent 96%);
+    background-size: 170% 170%, 150% 150%, 180% 180%;
+    background-position: 18% 16%, 82% 22%, 36% 78%;
+    filter: blur(14px);
+    mix-blend-mode: screen;
+    transform: translate3d(0, 0, 0) scale(1.02);
+    will-change: transform;
+    animation: splash-aurora-drift 24s ease-in-out infinite alternate;
+}
+
+html.dark .splash-aurora-field {
+    background-image:
+        linear-gradient(112deg,
+            transparent 0%,
+            rgba(251, 191, 36, 0.16) 18%,
+            transparent 38%),
+        linear-gradient(74deg,
+            transparent 4%,
+            rgba(34, 211, 238, 0.18) 42%,
+            transparent 64%),
+        linear-gradient(154deg,
+            transparent 24%,
+            rgba(251, 113, 133, 0.14) 72%,
+            transparent 96%);
+}
+
+.splash-routing-field {
+    background-image:
+        linear-gradient(90deg,
+            transparent 0%,
+            rgba(34, 211, 238, 0.16) 46%,
+            transparent 58%),
+        linear-gradient(0deg,
+            transparent 0%,
+            rgba(52, 211, 153, 0.11) 42%,
+            transparent 54%),
+        repeating-linear-gradient(118deg,
+            transparent 0px,
+            transparent 56px,
+            rgba(245, 158, 11, 0.08) 57px,
+            transparent 59px);
+    background-size: 340px 100%, 100% 280px, 96px 96px;
+    background-position: 0 0, 0 0, 0 0;
+    mask-image: linear-gradient(90deg, transparent 0%, black 16%, black 84%, transparent 100%);
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    animation: splash-routing-drift 18s ease-in-out infinite alternate;
+}
+
+html.dark .splash-routing-field {
+    background-image:
+        linear-gradient(90deg,
+            transparent 0%,
+            rgba(103, 232, 249, 0.14) 46%,
+            transparent 58%),
+        linear-gradient(0deg,
+            transparent 0%,
+            rgba(110, 231, 183, 0.1) 42%,
+            transparent 54%),
+        repeating-linear-gradient(118deg,
+            transparent 0px,
+            transparent 56px,
+            rgba(251, 191, 36, 0.08) 57px,
+            transparent 59px);
+}
+
 .splash-soft-grain {
     background-image: radial-gradient(rgba(15, 23, 42, 0.06) 0.8px, transparent 0.8px);
     background-size: 3px 3px;
@@ -240,151 +333,87 @@ html.dark .splash-soft-grain {
     mix-blend-mode: screen;
 }
 
-.splash-orb-float {
-    opacity: 0.12;
-    transform: translate3d(0, 0, 0) scale(0.96);
-    will-change: transform, opacity;
-    animation: splash-orb-float 20s ease-in-out infinite;
-}
-
-.splash-signal-fog {
-    background-image: linear-gradient(110deg,
-            rgba(245, 158, 11, 0.08) 0%,
-            transparent 56%,
-            rgba(148, 163, 184, 0.07) 100%);
-}
-
-html.dark .splash-signal-fog {
-    background-image: linear-gradient(110deg,
-            rgba(251, 191, 36, 0.1) 0%,
-            transparent 56%,
-            rgba(59, 130, 246, 0.08) 100%);
-}
-
 .splash-signal-pulse {
     animation: splash-signal-pulse 1.7s ease-in-out infinite;
 }
 
-.splash-signal-bar {
-    transform-origin: center bottom;
-    animation: splash-signal-wave 1.6s ease-in-out infinite;
-}
-
-.splash-signal-sweep {
-    background: linear-gradient(100deg,
-            rgba(34, 211, 238, 0) 0%,
-            rgba(34, 211, 238, 0.26) 24%,
-            rgba(245, 158, 11, 0.44) 52%,
-            rgba(251, 113, 133, 0.26) 78%,
-            rgba(251, 113, 133, 0) 100%);
-    mix-blend-mode: screen;
-    will-change: transform, opacity;
-    animation: splash-signal-sweep 2.25s linear infinite;
-}
-
-.splash-radar-ring {
-    animation: splash-radar-ring 2.7s ease-out infinite;
-}
-
-.splash-radar-sweep-amber,
-.splash-radar-sweep-cyan,
-.splash-radar-sweep-rose,
-.splash-radar-sweep-emerald {
-    filter: blur(0.6px);
-    animation: splash-radar-sweep 3.1s linear infinite;
-}
-
-.splash-radar-sweep-amber {
-    background: conic-gradient(from 0deg,
-            rgba(245, 158, 11, 0) 0deg,
-            rgba(245, 158, 11, 0.45) 68deg,
-            rgba(245, 158, 11, 0) 130deg,
-            rgba(245, 158, 11, 0) 360deg);
-}
-
-html.dark .splash-radar-sweep-amber {
-    background: conic-gradient(from 0deg,
-            rgba(251, 191, 36, 0) 0deg,
-            rgba(251, 191, 36, 0.52) 68deg,
-            rgba(251, 191, 36, 0) 130deg,
-            rgba(251, 191, 36, 0) 360deg);
-}
-
-.splash-radar-sweep-cyan {
-    background: conic-gradient(from 0deg,
-            rgba(34, 211, 238, 0) 0deg,
-            rgba(34, 211, 238, 0.48) 68deg,
-            rgba(34, 211, 238, 0) 130deg,
-            rgba(34, 211, 238, 0) 360deg);
-}
-
-html.dark .splash-radar-sweep-cyan {
-    background: conic-gradient(from 0deg,
-            rgba(103, 232, 249, 0) 0deg,
-            rgba(103, 232, 249, 0.52) 68deg,
-            rgba(103, 232, 249, 0) 130deg,
-            rgba(103, 232, 249, 0) 360deg);
-}
-
-.splash-radar-sweep-rose {
-    background: conic-gradient(from 0deg,
-            rgba(251, 113, 133, 0) 0deg,
-            rgba(251, 113, 133, 0.48) 68deg,
-            rgba(251, 113, 133, 0) 130deg,
-            rgba(251, 113, 133, 0) 360deg);
-}
-
-html.dark .splash-radar-sweep-rose {
-    background: conic-gradient(from 0deg,
-            rgba(253, 164, 175, 0) 0deg,
-            rgba(253, 164, 175, 0.5) 68deg,
-            rgba(253, 164, 175, 0) 130deg,
-            rgba(253, 164, 175, 0) 360deg);
-}
-
-.splash-radar-sweep-emerald {
-    background: conic-gradient(from 0deg,
-            rgba(52, 211, 153, 0) 0deg,
-            rgba(52, 211, 153, 0.46) 68deg,
-            rgba(52, 211, 153, 0) 130deg,
-            rgba(52, 211, 153, 0) 360deg);
-}
-
-html.dark .splash-radar-sweep-emerald {
-    background: conic-gradient(from 0deg,
-            rgba(110, 231, 183, 0) 0deg,
-            rgba(110, 231, 183, 0.52) 68deg,
-            rgba(110, 231, 183, 0) 130deg,
-            rgba(110, 231, 183, 0) 360deg);
-}
-
-.splash-ticker-track {
-    display: inline-flex;
-    min-width: max-content;
-    width: max-content;
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    animation: splash-ticker-drift 10s linear infinite;
-}
-
-.splash-progress-shine {
-    background: linear-gradient(108deg,
+.splash-rail-glint {
+    background:
+        linear-gradient(90deg,
             transparent 0%,
-            rgba(251, 191, 36, 0) 36%,
-            rgba(251, 191, 36, 0.45) 50%,
-            rgba(251, 191, 36, 0) 64%,
-            transparent 100%);
-    transform: translateX(-55%);
-    animation: splash-progress-glint 1.8s linear infinite;
+            rgba(34, 211, 238, 0.12) 35%,
+            rgba(52, 211, 153, 0.1) 48%,
+            transparent 66%);
+    transform: translateX(-58%);
+    animation: splash-rail-glint 3.4s ease-in-out infinite;
 }
 
-html.dark .splash-progress-shine {
-    background: linear-gradient(108deg,
-            transparent 0%,
-            rgba(251, 191, 36, 0) 36%,
-            rgba(251, 191, 36, 0.38) 50%,
-            rgba(251, 191, 36, 0) 64%,
-            transparent 100%);
+.splash-panel-glow {
+    background:
+        linear-gradient(90deg,
+            rgba(245, 158, 11, 0.1) 0%,
+            transparent 32%,
+            rgba(251, 191, 36, 0.1) 100%);
+    opacity: 0.58;
+}
+
+html.dark .splash-panel-glow {
+    opacity: 0.4;
+}
+
+.splash-progress-rail-pattern {
+    background-image:
+        linear-gradient(90deg, rgba(255, 251, 235, 0.68), rgba(255, 251, 235, 0)),
+        repeating-linear-gradient(90deg,
+            rgba(180, 83, 9, 0.16) 0px,
+            rgba(180, 83, 9, 0.16) 1px,
+            transparent 1px,
+            transparent 22px);
+}
+
+html.dark .splash-progress-rail-pattern {
+    background-image:
+        linear-gradient(90deg, rgba(251, 191, 36, 0.12), rgba(251, 191, 36, 0)),
+        repeating-linear-gradient(90deg,
+            rgba(251, 191, 36, 0.14) 0px,
+            rgba(251, 191, 36, 0.14) 1px,
+            transparent 1px,
+            transparent 22px);
+}
+
+.splash-progress-fill-texture {
+    background-image:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 54%),
+        repeating-linear-gradient(115deg,
+            rgba(255, 255, 255, 0.22) 0px,
+            rgba(255, 255, 255, 0.22) 2px,
+            transparent 2px,
+            transparent 10px);
+    mix-blend-mode: soft-light;
+}
+
+@keyframes splash-aurora-drift {
+    0% {
+        transform: translate3d(-1.1%, 0.5%, 0) scale(1.02);
+    }
+
+    50% {
+        transform: translate3d(0.9%, -0.6%, 0) scale(1.025);
+    }
+
+    100% {
+        transform: translate3d(-0.3%, 0.8%, 0) scale(1.02);
+    }
+}
+
+@keyframes splash-routing-drift {
+    0% {
+        transform: translate3d(-0.7%, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(0.7%, 0, 0);
+    }
 }
 
 @keyframes splash-beam-shift {
@@ -415,23 +444,6 @@ html.dark .splash-progress-shine {
     }
 }
 
-@keyframes splash-orb-float {
-    0% {
-        opacity: 0.08;
-        transform: translate3d(-0.6%, 0.2%, 0) scale(0.95);
-    }
-
-    50% {
-        opacity: 0.16;
-        transform: translate3d(0.8%, -0.4%, 0) scale(1);
-    }
-
-    100% {
-        opacity: 0.08;
-        transform: translate3d(-0.6%, 0.2%, 0) scale(0.95);
-    }
-}
-
 @keyframes splash-signal-pulse {
 
     0%,
@@ -446,80 +458,20 @@ html.dark .splash-progress-shine {
     }
 }
 
-@keyframes splash-radar-ring {
-    0% {
-        opacity: 0.56;
-        transform: scale(0.72);
-    }
+@keyframes splash-rail-glint {
 
-    100% {
+    0% {
         opacity: 0;
-        transform: scale(1.32);
-    }
-}
-
-@keyframes splash-radar-sweep {
-    0% {
-        transform: rotate(0deg);
+        transform: translateX(-58%);
     }
 
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes splash-signal-wave {
-
-    0%,
-    100% {
-        opacity: 0.35;
-        transform: scaleY(0.34);
-    }
-
-    36% {
+    45% {
         opacity: 1;
-        transform: scaleY(1);
-    }
-
-    72% {
-        opacity: 0.64;
-        transform: scaleY(0.58);
-    }
-}
-
-@keyframes splash-signal-sweep {
-    0% {
-        opacity: 0;
-        transform: translate3d(0, 0, 0);
-    }
-
-    18% {
-        opacity: 0.9;
     }
 
     100% {
         opacity: 0;
-        transform: translate3d(360%, 0, 0);
-    }
-}
-
-@keyframes splash-ticker-drift {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
-}
-
-@keyframes splash-progress-glint {
-    0% {
-        transform: translateX(-55%);
-    }
-
-    100% {
-        transform: translateX(55%);
+        transform: translateX(58%);
     }
 }
 
@@ -527,16 +479,12 @@ html.dark .splash-progress-shine {
 
     .network-packet,
     .network-grid,
+    .splash-aurora-field,
+    .splash-routing-field,
     .splash-volumetric-band,
     .splash-beam-layer,
-    .splash-orb-float,
-    .splash-radar-ring,
-    .splash-radar-sweep,
-    .splash-signal-sweep,
-    .splash-signal-pulse,
-    .splash-signal-bar,
-    .splash-ticker-track,
-    .splash-progress-shine {
+    .splash-rail-glint,
+    .splash-signal-pulse {
         animation: none !important;
     }
 }
