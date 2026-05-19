@@ -1,50 +1,120 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+
+type CursorType = "default" | "pointer" | "text";
+
+const TEXT_TAGS = new Set([
+  "p",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "span",
+  "li",
+  "input",
+  "textarea",
+  "label",
+]);
+
+const CURSOR_IMAGE: Record<CursorType, string> = {
+  default: "/cursors/default.png",
+  pointer: "/cursors/pointer.png",
+  text: "/cursors/xterm.png",
+};
 
 export default function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const [cursorType, setCursorType] = useState<"default" | "pointer" | "text">("default");
+  const cursorRef = useRef<HTMLDivElement | null>(null);
+  const pointerRef = useRef({ x: 0, y: 0 });
+  const frameRef = useRef<number | null>(null);
+  const visibleRef = useRef(false);
+  const [mounted, setMounted] = useState(false);
+  const [supportsFinePointer, setSupportsFinePointer] = useState(false);
+  const [cursorType, setCursorType] = useState<CursorType>("default");
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
-    };
+    setMounted(true);
+  }, []);
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const computedStyle = window.getComputedStyle(target);
+  useEffect(() => {
+    if (!mounted) return;
 
-      if (
-        target.closest("a") ||
-        target.closest("button") ||
-        target.closest('[role="button"]')
-      ) {
-        setCursorType("pointer");
-      } 
-      else if (
-        computedStyle.cursor === "text" ||
-        ["p", "h1", "h2", "h3", "h4", "h5", "h6", "span", "li", "input", "textarea"].includes(target.tagName.toLowerCase())
-      ) {
-        setCursorType("text");
-      } 
-      else {
-        setCursorType("default");
+    const mediaQuery = window.matchMedia("(pointer: fine)");
+    const syncPointerSupport = () => setSupportsFinePointer(mediaQuery.matches);
+    syncPointerSupport();
+
+    mediaQuery.addEventListener("change", syncPointerSupport);
+    return () => mediaQuery.removeEventListener("change", syncPointerSupport);
+  }, [mounted]);
+
+  useEffect(() => {
+    if (!supportsFinePointer) return;
+
+    const updateMousePosition = (event: MouseEvent) => {
+      pointerRef.current.x = event.clientX - 2;
+      pointerRef.current.y = event.clientY - 2;
+
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setIsVisible(true);
+      }
+
+      const renderCursor = () => {
+        const element = cursorRef.current;
+        if (!element) return;
+        element.style.transform = `translate3d(${pointerRef.current.x}px, ${pointerRef.current.y}px, 0)`;
+        frameRef.current = null;
+      };
+
+      if (frameRef.current === null) {
+        frameRef.current = window.requestAnimationFrame(renderCursor);
       }
     };
 
-    // Khi chuột văng ra khỏi cửa sổ trình duyệt -> Ẩn
-    const handleMouseLeave = () => setIsVisible(false);
-    // Khi chuột quay lại -> Hiện
-    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseOver = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
 
-    window.addEventListener("mousemove", updateMousePosition);
-    window.addEventListener("mouseover", handleMouseOver);
+      let nextType: CursorType = "default";
+      const computedCursor = window.getComputedStyle(target).cursor;
+      const tagName = target.tagName.toLowerCase();
+
+      if (
+        target.closest("a, button, [role='button'], [data-cursor='pointer']") ||
+        computedCursor === "pointer"
+      ) {
+        nextType = "pointer";
+      } else if (
+        target.closest("input, textarea, [contenteditable='true']") ||
+        computedCursor === "text" ||
+        computedCursor === "vertical-text" ||
+        TEXT_TAGS.has(tagName)
+      ) {
+        nextType = "text";
+      }
+
+      setCursorType((current) => (current === nextType ? current : nextType));
+    };
+
+    const handleMouseLeave = () => {
+      visibleRef.current = false;
+      setIsVisible(false);
+    };
+
+    const handleMouseEnter = () => {
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener("mousemove", updateMousePosition, {
+      passive: true,
+    });
+    window.addEventListener("mouseover", handleMouseOver, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave);
     document.addEventListener("mouseenter", handleMouseEnter);
 
@@ -53,49 +123,31 @@ export default function CustomCursor() {
       window.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
+      if (frameRef.current !== null) {
+        window.cancelAnimationFrame(frameRef.current);
+      }
     };
-  }, [isVisible]);
+  }, [supportsFinePointer]);
 
-  if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+  if (!mounted || !supportsFinePointer) {
     return null;
   }
 
-  // Hàm chọn file ảnh dựa trên trạng thái
-  const getCursorImage = () => {
-    if (cursorType === "pointer") return "/cursors/pointer.png";
-    // if (cursorType === "text") return "/cursors/xterm.png";
-    return "/cursors/default.png";
-  };
-
   return (
-    <motion.div
-      className="fixed top-0 left-0 pointer-events-none z-[9999] flex items-center justify-center"
-      animate={{
-        x: mousePosition.x - 2, 
-        y: mousePosition.y - 2,
-        opacity: isVisible ? 1 : 0,
-      }}
-      transition={{ 
-        type: "tween", 
-        ease: "backOut", 
-        duration: 0.05
-      }}
+    <div
+      ref={cursorRef}
+      className={`pointer-events-none fixed left-0 top-0 z-[9999] h-6 w-6 will-change-transform ${isVisible ? "opacity-100" : "opacity-0"} transition-opacity duration-150`}
+      style={{ transform: "translateZ(0)" }}
+      aria-hidden
     >
-      <motion.div
-        animate={{ scale: cursorType === "pointer" ? 1.05 : 1 }}
-        transition={{ duration: 0.2 }}
-        className="relative w-6 h-6" 
-      >
-        <Image
-          src={getCursorImage()}
-          alt={`Cursor ${cursorType}`}
-          width={24}
-          height={24}
-          priority
-          className="object-contain"
-          draggable={false} 
-        />
-      </motion.div>
-    </motion.div>
+      <img
+        src={CURSOR_IMAGE[cursorType]}
+        alt=""
+        draggable={false}
+        className={`h-6 w-6 select-none object-contain transition-transform duration-150 ${
+          cursorType === "pointer" ? "scale-105" : "scale-100"
+        }`}
+      />
+    </div>
   );
 }

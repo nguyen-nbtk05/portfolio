@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useLenis } from "@/hooks/use-lenis";
 import {
   motion,
@@ -177,6 +177,12 @@ export function HeroSection() {
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const pointerFrameRef = useRef<number | null>(null);
+  const pointerEventRef = useRef<{
+    target: HTMLElement | null;
+    clientX: number;
+    clientY: number;
+  }>({ target: null, clientX: 0, clientY: 0 });
 
   const springConfig = { damping: 25, stiffness: 120 };
   const smoothX = useSpring(mouseX, springConfig);
@@ -191,28 +197,59 @@ export function HeroSection() {
   const cardRotateX = useTransform(smoothY, [-1, 1], [15, -15]);
   const cardRotateY = useTransform(smoothX, [-1, 1], [-15, 15]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const { currentTarget, clientX, clientY } = e;
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
+  const applyPointerMotion = useCallback(() => {
+    pointerFrameRef.current = null;
+    const { target, clientX, clientY } = pointerEventRef.current;
+    if (!target) return;
 
-    currentTarget.style.setProperty("--mouse-x", `${clientX - left}px`);
-    currentTarget.style.setProperty("--mouse-y", `${clientY - top}px`);
-
+    const { left, top, width, height } = target.getBoundingClientRect();
     const xPct = (clientX - left - width / 2) / (width / 2);
     const yPct = (clientY - top - height / 2) / (height / 2);
 
-    mouseX.set(xPct);
-    mouseY.set(yPct);
-  };
+    mouseX.set(Math.max(-1, Math.min(1, xPct)));
+    mouseY.set(Math.max(-1, Math.min(1, yPct)));
+  }, [mouseX, mouseY]);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      if (reduceMotion) return;
+
+      pointerEventRef.current = {
+        target: e.currentTarget,
+        clientX: e.clientX,
+        clientY: e.clientY,
+      };
+
+      if (pointerFrameRef.current === null) {
+        pointerFrameRef.current = window.requestAnimationFrame(applyPointerMotion);
+      }
+    },
+    [applyPointerMotion, reduceMotion],
+  );
 
   const handleMouseLeave = () => {
+    if (pointerFrameRef.current !== null) {
+      window.cancelAnimationFrame(pointerFrameRef.current);
+      pointerFrameRef.current = null;
+    }
+    pointerEventRef.current.target = null;
     mouseX.set(0);
     mouseY.set(0);
   };
+
+  useEffect(
+    () => () => {
+      if (pointerFrameRef.current !== null) {
+        window.cancelAnimationFrame(pointerFrameRef.current);
+      }
+    },
+    [],
+  );
+
   return (
     <section
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={reduceMotion ? undefined : handleMouseMove}
+      onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
       className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden py-20"
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
