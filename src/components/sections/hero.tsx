@@ -512,7 +512,7 @@ export function HeroSection() {
             {/* 2. FIREWALL GATEWAY (Rose) */}
             <div
               style={{ transform: "translateZ(60px)" }}
-              className="absolute left-[28%] top-[50%] -translate-x-1/2 -translate-y-1/2"
+              className="absolute left-[28.7%] top-[50%] -translate-x-1/2 -translate-y-1/2"
             >
               <motion.div
                 whileHover={{ scale: 1.15 }}
