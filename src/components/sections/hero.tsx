@@ -188,14 +188,8 @@ export function HeroSection() {
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const gridX = useTransform(smoothX, [-1, 1], [-20, 20]);
-  const gridY = useTransform(smoothY, [-1, 1], [-20, 20]);
-
   const packetX = useTransform(smoothX, [-1, 1], [-40, 40]);
   const packetY = useTransform(smoothY, [-1, 1], [-40, 40]);
-
-  const cardRotateX = useTransform(smoothY, [-1, 1], [15, -15]);
-  const cardRotateY = useTransform(smoothX, [-1, 1], [-15, 15]);
 
   const applyPointerMotion = useCallback(() => {
     pointerFrameRef.current = null;
@@ -255,16 +249,6 @@ export function HeroSection() {
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
 
       <motion.div
-        style={reduceMotion ? {} : { x: gridX, y: gridY }}
-        className="absolute inset-[-50px] z-0"
-        initial={reduceMotion ? false : { opacity: 0 }}
-        animate={{ opacity: reduceMotion ? 0.8 : 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="network-grid absolute inset-0" />
-      </motion.div>
-
-      <motion.div
         style={reduceMotion ? {} : { x: packetX, y: packetY }}
         aria-hidden="true"
         className="absolute inset-0 z-0"
@@ -294,7 +278,7 @@ export function HeroSection() {
         >
           <motion.div
             variants={fadeUp}
-            className="flex items-center gap-2 rounded-full border border-slate-300/70 bg-slate-200/55 px-3 py-1 font-mono text-sm shadow-sm backdrop-blur dark:border-slate-700/70 dark:bg-slate-800/55"
+            className="flex select-none items-center gap-2 rounded-full border border-slate-300/70 bg-slate-200/55 px-3 py-1 font-mono text-sm shadow-sm backdrop-blur dark:border-slate-700/70 dark:bg-slate-800/55"
           >
             <motion.span
               aria-hidden="true"
@@ -371,16 +355,8 @@ export function HeroSection() {
           className="hidden lg:flex w-full items-center justify-center perspective-[1200px]"
         >
           <motion.div
-            style={
-              reduceMotion
-                ? {}
-                : {
-                    rotateX: cardRotateX,
-                    rotateY: cardRotateY,
-                    transformStyle: "preserve-3d",
-                  }
-            }
-            className="relative w-full max-w-[640px] h-[420px] rounded-[2.5rem] border border-slate-200/50 bg-white/40 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-slate-900/40"
+            style={{ transformStyle: "preserve-3d" }}
+            className="relative h-[420px] w-full max-w-[640px]"
           >
             {/* --- CÁC KHU VỰC BẢO MẬT (ZONES) --- */}
             {/* DMZ (Màu Rose - Khớp với chữ "Computer") */}
@@ -671,6 +647,7 @@ export function HeroSection() {
               className="absolute left-[4%] top-[15%]"
             >
               <motion.div
+                data-cursor="pointer"
                 drag
                 dragConstraints={{
                   left: -10,
@@ -680,7 +657,7 @@ export function HeroSection() {
                 }}
                 whileHover={{ scale: 1.05 }}
                 whileDrag={{ scale: 1.1, cursor: "grabbing" }}
-                className="cursor-grab rounded-lg border border-rose-200/80 bg-white/90 px-2.5 py-1.5 shadow-lg backdrop-blur-md dark:border-rose-800/50 dark:bg-slate-800/90 flex items-center gap-2"
+                className="flex cursor-grab select-none items-center gap-2 rounded-lg border border-rose-200/80 bg-white/90 px-2.5 py-1.5 shadow-lg backdrop-blur-md dark:border-rose-800/50 dark:bg-slate-800/90"
               >
                 <div className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-ping" />
                 <span className="text-[10px] font-semibold text-slate-700 dark:text-slate-300">
@@ -694,6 +671,7 @@ export function HeroSection() {
               className="absolute right-[30%] bottom-[8%]"
             >
               <motion.div
+                data-cursor="pointer"
                 drag
                 dragConstraints={{
                   left: -10,
@@ -703,7 +681,7 @@ export function HeroSection() {
                 }}
                 whileHover={{ scale: 1.05 }}
                 whileDrag={{ scale: 1.1, cursor: "grabbing" }}
-                className="cursor-grab rounded-lg border border-slate-200/80 bg-white/90 px-2.5 py-1.5 shadow-lg backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-800/90 flex items-center gap-1.5"
+                className="flex cursor-grab select-none items-center gap-1.5 rounded-lg border border-slate-200/80 bg-white/90 px-2.5 py-1.5 shadow-lg backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-800/90"
               >
                 <Network size={12} className="text-amber-500" />
                 <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-300">
