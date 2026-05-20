@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, type PointerEvent } from "react";
 import Image from "next/image";
@@ -20,27 +20,28 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/motion";
+import { SectionBackground } from "@/components/ui/section-background";
 
 const aboutIntro = {
   en: "I am shaping this space into a concise personal introduction about how I think, build, and solve problems across modern network systems. This placeholder is intentionally sized for a 70-100 word bio, so the full About section stays visible in one focused screen.",
-  vi: "Tôi sẽ bổ sung phần giới thiệu bản thân tại đây, tập trung vào cách tôi tư duy, xây dựng và giải quyết vấn đề trong các hệ thống mạng hiện đại. Đoạn placeholder này được giữ ở kích thước phù hợp cho phần bio khoảng 70-100 từ, để toàn bộ section About vẫn nằm gọn trong một khung hình.",
+  vi: "TÃ´i sáº½ bá»• sung pháº§n giá»›i thiá»‡u báº£n thÃ¢n táº¡i Ä‘Ã¢y, táº­p trung vÃ o cÃ¡ch tÃ´i tÆ° duy, xÃ¢y dá»±ng vÃ  giáº£i quyáº¿t váº¥n Ä‘á» trong cÃ¡c há»‡ thá»‘ng máº¡ng hiá»‡n Ä‘áº¡i. Äoáº¡n placeholder nÃ y Ä‘Æ°á»£c giá»¯ á»Ÿ kÃ­ch thÆ°á»›c phÃ¹ há»£p cho pháº§n bio khoáº£ng 70-100 tá»«, Ä‘á»ƒ toÃ n bá»™ section About váº«n náº±m gá»n trong má»™t khung hÃ¬nh.",
 };
 
 const getHudTiles = (lang: (dict: { en: string; vi: string }) => string) => [
   {
     icon: Cpu,
-    label: lang({ en: "Role", vi: "Vai trò" }),
-    value: lang({ en: "Network Engineer", vi: "Kỹ sư mạng" }),
+    label: lang({ en: "Role", vi: "Vai trÃ²" }),
+    value: lang({ en: "Network Engineer", vi: "Ká»¹ sÆ° máº¡ng" }),
   },
   {
     icon: ShieldCheck,
-    label: lang({ en: "Focus", vi: "Trọng tâm" }),
-    value: lang({ en: "Secure infrastructure", vi: "Hạ tầng an toàn" }),
+    label: lang({ en: "Focus", vi: "Trá»ng tÃ¢m" }),
+    value: lang({ en: "Secure infrastructure", vi: "Háº¡ táº§ng an toÃ n" }),
   },
   {
     icon: Activity,
-    label: lang({ en: "Mode", vi: "Trạng thái" }),
-    value: lang({ en: "Building quietly", vi: "Đang hoàn thiện" }),
+    label: lang({ en: "Mode", vi: "Tráº¡ng thÃ¡i" }),
+    value: lang({ en: "Building quietly", vi: "Äang hoÃ n thiá»‡n" }),
   },
 ];
 
@@ -50,28 +51,28 @@ const getNetworkSignals = (lang: (dict: { en: string; vi: string }) => string) =
     icon: Router,
     label: lang({ en: "Edge", vi: "Edge" }),
     value: "12ms",
-    detail: lang({ en: "Routing layer tuned for stable access.", vi: "Lớp định tuyến ưu tiên truy cập ổn định." }),
+    detail: lang({ en: "Routing layer tuned for stable access.", vi: "Lá»›p Ä‘á»‹nh tuyáº¿n Æ°u tiÃªn truy cáº­p á»•n Ä‘á»‹nh." }),
   },
   {
     id: "secure",
     icon: LockKeyhole,
     label: lang({ en: "Secure", vi: "Secure" }),
     value: "Zero Trust",
-    detail: lang({ en: "Security posture stays close to the core.", vi: "Tư duy bảo mật luôn nằm sát lõi hệ thống." }),
+    detail: lang({ en: "Security posture stays close to the core.", vi: "TÆ° duy báº£o máº­t luÃ´n náº±m sÃ¡t lÃµi há»‡ thá»‘ng." }),
   },
   {
     id: "data",
     icon: Database,
     label: lang({ en: "Data", vi: "Data" }),
     value: "Synced",
-    detail: lang({ en: "Telemetry and documentation stay connected.", vi: "Telemetry và tài liệu được giữ liền mạch." }),
+    detail: lang({ en: "Telemetry and documentation stay connected.", vi: "Telemetry vÃ  tÃ i liá»‡u Ä‘Æ°á»£c giá»¯ liá»n máº¡ch." }),
   },
   {
     id: "wireless",
     icon: Wifi,
     label: lang({ en: "Signal", vi: "Signal" }),
     value: "Stable",
-    detail: lang({ en: "Wireless and endpoint experience stay smooth.", vi: "Trải nghiệm wireless và endpoint được giữ mượt." }),
+    detail: lang({ en: "Wireless and endpoint experience stay smooth.", vi: "Tráº£i nghiá»‡m wireless vÃ  endpoint Ä‘Æ°á»£c giá»¯ mÆ°á»£t." }),
   },
 ];
 
@@ -117,16 +118,9 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative isolate flex min-h-[100vh] items-center overflow-hidden bg-slate-50 py-6 dark:bg-slate-950 sm:py-8 lg:py-10"
+      className="relative isolate flex min-h-[100vh] items-center overflow-hidden py-6 sm:py-8 lg:py-10"
     >
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_18%_22%,rgba(234,179,8,0.2),transparent_30%),radial-gradient(circle_at_82%_58%,rgba(100,116,139,0.2),transparent_34%),linear-gradient(135deg,rgba(100,116,139,0.16)_0_1px,transparent_1px_36px)] dark:bg-[radial-gradient(circle_at_18%_22%,rgba(234,179,8,0.14),transparent_30%),radial-gradient(circle_at_82%_58%,rgba(148,163,184,0.11),transparent_34%),linear-gradient(135deg,rgba(148,163,184,0.1)_0_1px,transparent_1px_36px)]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-yellow-500/45 to-transparent"
-      />
+      <SectionBackground variant="about" />
 
       <motion.div
         initial={initial}
@@ -149,7 +143,7 @@ export function AboutSection() {
           </motion.div>
 
           <h2 className="max-w-2xl text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
-            {lang({ en: "About Me", vi: "Giới Thiệu" })}
+            {lang({ en: "About Me", vi: "Giá»›i Thiá»‡u" })}
             <span className="text-yellow-500">.</span>
           </h2>
 
@@ -244,13 +238,12 @@ export function AboutSection() {
                 <div className="relative h-full overflow-hidden rounded-[1.35rem] border border-slate-200 bg-slate-100 shadow-xl dark:border-slate-800 dark:bg-slate-950">
                   <Image
                     src="/cover.jpg"
-                    alt={lang({ en: "Nora profile avatar", vi: "Avatar hồ sơ của Nora" })}
+                    alt={lang({ en: "Nora profile avatar", vi: "Avatar há»“ sÆ¡ cá»§a Nora" })}
                     fill
                     sizes="(min-width: 1024px) 250px, 64vw"
                     priority={false}
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,23,42,0.07)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.07)_1px,transparent_1px)] bg-[size:22px_22px] mix-blend-multiply dark:mix-blend-screen" />
                 </div>
               </motion.div>
 
@@ -299,3 +292,4 @@ export function AboutSection() {
     </section>
   );
 }
+

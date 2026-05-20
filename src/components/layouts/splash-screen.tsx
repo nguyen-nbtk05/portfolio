@@ -162,7 +162,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                 >
                   <p className="splash-v2-code-font text-[10px] font-bold uppercase tracking-[0.34em] text-amber-700/85 dark:text-amber-200/80">
                     {lang({
-                      en: "Portfolio Experience",
+                      en: "Portfolio Skills",
                       vi: "Trải Nghiệm Portfolio",
                     })}
                   </p>

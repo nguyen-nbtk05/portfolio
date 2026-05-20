@@ -25,11 +25,6 @@ const navItems = [
     tooltip: { en: "About me", vi: "Về tôi" },
   },
   {
-    href: "#experience",
-    label: { en: "Experience", vi: "Kinh nghiệm" },
-    tooltip: { en: "Work Experience", vi: "Kinh nghiệm làm việc" },
-  },
-  {
     href: "#skills",
     label: { en: "Skills", vi: "Kỹ năng" },
     tooltip: { en: "My Tech Stack", vi: "Kỹ năng chuyên môn" },
@@ -38,6 +33,11 @@ const navItems = [
     href: "#projects",
     label: { en: "Projects", vi: "Dự án" },
     tooltip: { en: "Recent Works", vi: "Dự án tiêu biểu" },
+  },
+  {
+    href: "#blog",
+    label: { en: "Blog", vi: "Blog" },
+    tooltip: { en: "Articles & Notes", vi: "Bài viết & ghi chú" },
   },
   {
     href: "#contact",
@@ -99,7 +99,7 @@ export function Navbar() {
         return;
       }
 
-      // For hash links like #about, #experience, etc.
+      // For hash links like #about, #skills, etc.
       const targetId = href.replace("#", "");
       const targetEl = document.getElementById(targetId);
       if (!targetEl) return;

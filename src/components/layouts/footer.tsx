@@ -8,7 +8,7 @@ import { Github, XIcon, FacebookIcon, TelegramIcon, DiscordIcon } from "@/compon
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 
-function SmartIconButton({ 
+export function SmartIconButton({ 
   href, 
   icon: Icon, 
   label, 

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type CursorType = "default" | "pointer" | "text";
@@ -30,25 +31,18 @@ export default function CustomCursor() {
   const pointerRef = useRef({ x: 0, y: 0 });
   const frameRef = useRef<number | null>(null);
   const visibleRef = useRef(false);
-  const [mounted, setMounted] = useState(false);
   const [supportsFinePointer, setSupportsFinePointer] = useState(false);
   const [cursorType, setCursorType] = useState<CursorType>("default");
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-
     const mediaQuery = window.matchMedia("(pointer: fine)");
     const syncPointerSupport = () => setSupportsFinePointer(mediaQuery.matches);
     syncPointerSupport();
 
     mediaQuery.addEventListener("change", syncPointerSupport);
     return () => mediaQuery.removeEventListener("change", syncPointerSupport);
-  }, [mounted]);
+  }, []);
 
   useEffect(() => {
     if (!supportsFinePointer) return;
@@ -129,7 +123,7 @@ export default function CustomCursor() {
     };
   }, [supportsFinePointer]);
 
-  if (!mounted || !supportsFinePointer) {
+  if (!supportsFinePointer) {
     return null;
   }
 
@@ -140,10 +134,13 @@ export default function CustomCursor() {
       style={{ transform: "translateZ(0)" }}
       aria-hidden
     >
-      <img
+      <Image
         src={CURSOR_IMAGE[cursorType]}
         alt=""
+        width={24}
+        height={24}
         draggable={false}
+        unoptimized
         className={`h-6 w-6 select-none object-contain transition-transform duration-150 ${
           cursorType === "pointer" ? "scale-105" : "scale-100"
         }`}

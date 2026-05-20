@@ -63,27 +63,6 @@ html.dark::-webkit-scrollbar-thumb:hover {
     mix-blend-mode: normal;
 }
 
-.network-grid {
-    --grid-size: 56px;
-    --grid-line-light: rgb(100 116 139 / 0.3);
-    --grid-line-dark: rgb(148 163 184 / 0.15);
-    background-image:
-        linear-gradient(to right, var(--grid-line-light) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--grid-line-light) 1px, transparent 1px);
-    background-size: var(--grid-size) var(--grid-size);
-    mask-image: radial-gradient(640px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-            black 16%,
-            rgba(0, 0, 0, 0.5) 54%,
-            transparent 100%);
-    animation: grid-flow 5.4s linear infinite;
-}
-
-html.dark .network-grid {
-    background-image:
-        linear-gradient(to right, var(--grid-line-dark) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--grid-line-dark) 1px, transparent 1px);
-}
-
 .network-grid-strong {
     --grid-size: 48px;
     --grid-line-light: rgb(100 116 139 / 0.38);
@@ -96,16 +75,6 @@ html.dark .network-grid {
 
 .network-grid-splash {
     animation-duration: 12s;
-}
-
-@keyframes grid-flow {
-    0% {
-        background-position: 0 0;
-    }
-
-    100% {
-        background-position: var(--grid-size) var(--grid-size);
-    }
 }
 
 .network-packet {
@@ -449,7 +418,6 @@ html.dark .splash-v2-subtitle-pill {
 @media (prefers-reduced-motion: reduce) {
 
     .network-packet,
-    .network-grid,
     .splash-v2-starfield,
     .splash-v2-node-pulse,
     .splash-v2-beam,

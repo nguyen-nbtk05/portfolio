@@ -3,6 +3,15 @@
 import { motion, useReducedMotion } from "motion/react";
 import { fadeUp, viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { SectionBackground, type SectionBackgroundVariant } from "@/components/ui/section-background";
+
+const SECTION_BACKGROUND_VARIANTS = new Set<string>([
+  "hero",
+  "about",
+  "skills",
+  "projects",
+  "contact",
+]);
 
 interface SectionProps {
   id: string;
@@ -10,15 +19,34 @@ interface SectionProps {
   subtitle?: string;
   children: React.ReactNode;
   className?: string;
+  backgroundVariant?: SectionBackgroundVariant;
 }
 
-export function Section({ id, title, subtitle, children, className }: SectionProps) {
+export function Section({
+  id,
+  title,
+  subtitle,
+  children,
+  className,
+  backgroundVariant,
+}: SectionProps) {
   const reduceMotion = useReducedMotion();
   const initial = reduceMotion ? false : "hidden";
+  const resolvedBackgroundVariant =
+    backgroundVariant ??
+    (SECTION_BACKGROUND_VARIANTS.has(id) ? (id as SectionBackgroundVariant) : undefined);
 
   return (
-    <section id={id} className={cn("py-20 md:py-28", className)}>
-      <div className="container mx-auto px-[1cm]">
+    <section
+      id={id}
+      className={cn(
+        "flex min-h-[100vh] items-center py-6 sm:py-8 lg:py-10",
+        resolvedBackgroundVariant ? "relative isolate overflow-hidden" : null,
+        className,
+      )}
+    >
+      {resolvedBackgroundVariant ? <SectionBackground variant={resolvedBackgroundVariant} /> : null}
+      <div className="container relative z-10 mx-auto px-[1cm] w-full">
         {(title || subtitle) && (
           <motion.div
             initial={initial}

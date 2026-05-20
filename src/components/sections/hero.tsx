@@ -221,7 +221,7 @@ export function HeroSection() {
       };
 
       if (pointerFrameRef.current === null) {
-        pointerFrameRef.current = window.requestAnimationFrame(applyPointerMotion);
+          pointerFrameRef.current = window.requestAnimationFrame(applyPointerMotion);
       }
     },
     [applyPointerMotion, reduceMotion],
@@ -250,7 +250,7 @@ export function HeroSection() {
     <section
       onMouseMove={reduceMotion ? undefined : handleMouseMove}
       onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
-      className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden py-20"
+      className="relative flex min-h-[100vh] items-center justify-center overflow-hidden py-6 sm:py-8 lg:py-10"
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
 
