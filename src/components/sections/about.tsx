@@ -11,16 +11,17 @@ import {
 } from "motion/react";
 import {
   Activity,
+  CalendarCheck,
   Cpu,
-  Database,
-  LockKeyhole,
-  Router,
+  Mail,
   ShieldCheck,
-  Wifi,
+  UserRound,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/motion";
 import { SectionBackground } from "@/components/ui/section-background";
+import { Github } from "@/components/ui/icons";
+import { siteConfig } from "@/data/config";
 
 const aboutIntro = {
   en: "I am shaping this space into a concise personal introduction about how I think, build, and solve problems across modern network systems. This placeholder is intentionally sized for a 70-100 word bio, so the full About section stays visible in one focused screen.",
@@ -47,32 +48,44 @@ const getHudTiles = (lang: (dict: { en: string; vi: string }) => string) => [
 
 const getNetworkSignals = (lang: (dict: { en: string; vi: string }) => string) => [
   {
-    id: "edge",
-    icon: Router,
-    label: lang({ en: "Edge", vi: "Edge" }),
-    value: "12ms",
-    detail: lang({ en: "Routing layer tuned for stable access.", vi: "Lá»›p Ä‘á»‹nh tuyáº¿n Æ°u tiÃªn truy cáº­p á»•n Ä‘á»‹nh." }),
+    id: "name",
+    icon: UserRound,
+    label: lang({ en: "Name", vi: "Tên" }),
+    value: siteConfig.name,
+    detail: lang({
+      en: `${siteConfig.name} is the identity behind this portfolio.`,
+      vi: `${siteConfig.name} là tên hiển thị chính trên portfolio này.`,
+    }),
   },
   {
-    id: "secure",
-    icon: LockKeyhole,
-    label: lang({ en: "Secure", vi: "Secure" }),
-    value: "Zero Trust",
-    detail: lang({ en: "Security posture stays close to the core.", vi: "TÆ° duy báº£o máº­t luÃ´n náº±m sÃ¡t lÃµi há»‡ thá»‘ng." }),
+    id: "github",
+    icon: Github,
+    label: "GitHub",
+    value: siteConfig.github.replace(/^https?:\/\//, ""),
+    detail: lang({
+      en: "A place for my code, project notes, and technical experiments.",
+      vi: "Nơi lưu mã nguồn, ghi chú dự án và các thử nghiệm kỹ thuật của tôi.",
+    }),
   },
   {
-    id: "data",
-    icon: Database,
-    label: lang({ en: "Data", vi: "Data" }),
-    value: "Synced",
-    detail: lang({ en: "Telemetry and documentation stay connected.", vi: "Telemetry vÃ  tÃ i liá»‡u Ä‘Æ°á»£c giá»¯ liá»n máº¡ch." }),
+    id: "email",
+    icon: Mail,
+    label: lang({ en: "Email", vi: "Email" }),
+    value: siteConfig.email,
+    detail: lang({
+      en: "The main channel for collaboration and contact.",
+      vi: "Kênh chính để trao đổi công việc và liên hệ.",
+    }),
   },
   {
-    id: "wireless",
-    icon: Wifi,
-    label: lang({ en: "Signal", vi: "Signal" }),
-    value: "Stable",
-    detail: lang({ en: "Wireless and endpoint experience stay smooth.", vi: "Tráº£i nghiá»‡m wireless vÃ  endpoint Ä‘Æ°á»£c giá»¯ mÆ°á»£t." }),
+    id: "availability",
+    icon: CalendarCheck,
+    label: lang({ en: "Status", vi: "Trạng thái" }),
+    value: lang({ en: "Ready", vi: "Sẵn sàng" }),
+    detail: lang({
+      en: "Ready for network projects and collaboration.",
+      vi: "Sẵn sàng cho dự án mạng và cộng tác.",
+    }),
   },
 ];
 
@@ -185,10 +198,10 @@ export function AboutSection() {
             <div className="relative z-10 flex items-center justify-between gap-3 border-b border-slate-200/80 pb-3 dark:border-slate-800">
               <div>
                 <div className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                  {lang({ en: "Interactive network", vi: "Interactive network" })}
+                  {lang({ en: "Personal profile", vi: "Hồ sơ cá nhân" })}
                 </div>
                 <div className="mt-1 text-sm font-bold text-slate-950 dark:text-slate-50">
-                  {activeSignal.label} / {activeSignal.value}
+                  {activeSignal.label.toUpperCase()}
                 </div>
               </div>
               <motion.div
@@ -200,41 +213,64 @@ export function AboutSection() {
               </motion.div>
             </div>
 
-            <div className="relative z-10 mt-4 rounded-2xl border border-slate-200/80 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-950/45">
-              <svg
+            <div className="relative z-10 mt-4 overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-950/45">
+              <motion.div
                 aria-hidden="true"
-                className="absolute inset-0 h-full w-full text-slate-300 dark:text-slate-800"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
+                className="pointer-events-none absolute inset-0 rounded-2xl"
+                animate={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        boxShadow: [
+                          "inset 0 0 0 1px rgba(234,179,8,0.08)",
+                          "inset 0 0 0 1px rgba(234,179,8,0.24)",
+                          "inset 0 0 0 1px rgba(234,179,8,0.08)",
+                        ],
+                      }
+                }
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-3 z-20 rounded-[1rem]"
               >
-                <path
-                  d="M18 76 C28 48 36 42 50 50 C64 58 74 38 84 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="0.7"
+                <motion.span
+                  className="absolute left-0 top-0 h-8 w-8 rounded-tl-xl border-l-[3px] border-t-[3px] border-yellow-400/60"
+                  animate={reduceMotion ? undefined : { opacity: [0.45, 1, 0.45] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                 />
-                <motion.path
-                  d="M18 76 C28 48 36 42 50 50 C64 58 74 38 84 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeDasharray="4 16"
-                  className="text-yellow-500/80"
-                  animate={reduceMotion ? undefined : { strokeDashoffset: [0, -40] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                <motion.span
+                  className="absolute right-0 top-0 h-8 w-8 rounded-tr-xl border-r-[3px] border-t-[3px] border-yellow-400/60"
+                  animate={reduceMotion ? undefined : { opacity: [1, 0.45, 1] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                 />
-              </svg>
+                <span className="absolute left-1/2 top-0 h-[2px] w-20 -translate-x-1/2 bg-gradient-to-r from-transparent via-yellow-400/70 to-transparent" />
+              </div>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-2xl"
+              >
+                <motion.span
+                  className="absolute left-0 top-0 h-[2px] w-28 bg-gradient-to-r from-transparent via-yellow-400 to-transparent shadow-[0_0_16px_rgba(234,179,8,0.75)]"
+                  animate={reduceMotion ? undefined : { x: ["-8rem", "34rem"] }}
+                  transition={{ duration: 3.6, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.span
+                  className="absolute bottom-0 right-0 h-[2px] w-24 bg-gradient-to-r from-transparent via-yellow-300 to-transparent shadow-[0_0_16px_rgba(234,179,8,0.6)]"
+                  animate={reduceMotion ? undefined : { x: ["8rem", "-34rem"] }}
+                  transition={{
+                    duration: 4.2,
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: 0.9,
+                  }}
+                />
+              </div>
 
               <motion.div
                 style={reduceMotion ? undefined : { x: avatarX, y: avatarY }}
                 className="relative mx-auto aspect-square w-[64%] max-w-[250px]"
               >
-                <motion.div
-                  aria-hidden="true"
-                  className="absolute inset-[-8%] rounded-full border border-dashed border-yellow-500/35"
-                  animate={reduceMotion ? undefined : { rotate: 360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                />
                 <div className="relative h-full overflow-hidden rounded-[1.35rem] border border-slate-200 bg-slate-100 shadow-xl dark:border-slate-800 dark:bg-slate-950">
                   <Image
                     src="/cover.jpg"
@@ -259,14 +295,14 @@ export function AboutSection() {
                       onFocus={() => setActiveSignalId(signal.id)}
                       whileHover={reduceMotion ? undefined : { y: -4 }}
                       whileTap={reduceMotion ? undefined : { scale: 0.96 }}
-                      className={`group flex min-h-20 flex-col items-start justify-between rounded-xl border p-3 text-left transition-colors ${
+                      className={`group flex min-h-20 flex-col items-center justify-center gap-2 rounded-xl border p-3 text-center transition-colors ${
                         isActive
                           ? "border-yellow-400/70 bg-yellow-100/80 text-slate-950 shadow-md shadow-yellow-500/15 dark:bg-yellow-500/15 dark:text-slate-50"
                           : "border-slate-200/80 bg-white/80 text-slate-700 hover:border-yellow-300 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300 dark:hover:border-yellow-700"
                       }`}
                     >
-                      <signal.icon className="h-4 w-4 text-yellow-500 transition-transform group-hover:scale-110" />
-                      <span className="mt-3 text-xs font-bold uppercase tracking-wide">
+                      <signal.icon className="h-5 w-5 text-yellow-500 transition-transform group-hover:scale-110" />
+                      <span className="text-xs font-bold uppercase tracking-wide">
                         {signal.label}
                       </span>
                     </motion.button>
@@ -282,9 +318,12 @@ export function AboutSection() {
               transition={{ duration: 0.24 }}
               className="relative z-10 mt-4 rounded-xl border border-slate-200/80 bg-slate-950 px-4 py-3 text-sm text-slate-100 shadow-lg dark:border-slate-800"
             >
-              <span className="font-mono text-yellow-300">{activeSignal.value}</span>
-              <span className="mx-2 text-slate-500">/</span>
-              <span className="text-slate-300">{activeSignal.detail}</span>
+              <div className="theme-font-mono text-sm font-semibold text-yellow-300">
+                {activeSignal.value}
+              </div>
+              <div className="mt-1.5 leading-relaxed text-slate-300">
+                {activeSignal.detail}
+              </div>
             </motion.div>
           </motion.div>
         </motion.div>

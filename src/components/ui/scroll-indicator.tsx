@@ -64,7 +64,7 @@ export default function ScrollIndicator() {
       </div>
 
       <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400 dark:text-slate-500">
-        Scroll Down
+        Scroll Down | Click here
       </span>
     </motion.div>
   );
