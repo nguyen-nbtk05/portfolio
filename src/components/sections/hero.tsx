@@ -152,6 +152,86 @@ const NETWORK_NODES = [
     duration: "11.5s",
     delay: "-5.5s",
   },
+  {
+    id: 13,
+    color: "bg-cyan-300",
+    shadow: "shadow-[0_0_16px_rgba(103,232,249,0.55)]",
+    size: "h-1 w-1",
+    top: "22%",
+    left: "62%",
+    duration: "12.8s",
+    delay: "-3.2s",
+  },
+  {
+    id: 14,
+    color: "bg-amber-300",
+    shadow: "shadow-[0_0_16px_rgba(252,211,77,0.55)]",
+    size: "h-1.5 w-1.5",
+    top: "70%",
+    left: "72%",
+    duration: "10.2s",
+    delay: "-7.4s",
+  },
+  {
+    id: 15,
+    color: "bg-emerald-300",
+    shadow: "shadow-[0_0_16px_rgba(110,231,183,0.5)]",
+    size: "h-1 w-1",
+    top: "32%",
+    left: "48%",
+    duration: "13.6s",
+    delay: "-9.2s",
+  },
+  {
+    id: 16,
+    color: "bg-rose-300",
+    shadow: "shadow-[0_0_16px_rgba(253,164,175,0.52)]",
+    size: "h-1.5 w-1.5",
+    top: "18%",
+    left: "52%",
+    duration: "9.8s",
+    delay: "-4.6s",
+  },
+  {
+    id: 17,
+    color: "bg-sky-300",
+    shadow: "shadow-[0_0_16px_rgba(125,211,252,0.55)]",
+    size: "h-1 w-1",
+    top: "82%",
+    left: "38%",
+    duration: "14.2s",
+    delay: "-6.8s",
+  },
+  {
+    id: 18,
+    color: "bg-violet-300",
+    shadow: "shadow-[0_0_16px_rgba(196,181,253,0.55)]",
+    size: "h-2 w-2",
+    top: "28%",
+    left: "88%",
+    duration: "11.8s",
+    delay: "-1.9s",
+  },
+  {
+    id: 19,
+    color: "bg-orange-300",
+    shadow: "shadow-[0_0_16px_rgba(253,186,116,0.55)]",
+    size: "h-1 w-1",
+    top: "60%",
+    left: "18%",
+    duration: "12.4s",
+    delay: "-8.5s",
+  },
+  {
+    id: 20,
+    color: "bg-teal-300",
+    shadow: "shadow-[0_0_16px_rgba(94,234,212,0.52)]",
+    size: "h-1.5 w-1.5",
+    top: "88%",
+    left: "82%",
+    duration: "10.9s",
+    delay: "-5.7s",
+  },
 ];
 
 export function HeroSection() {
@@ -553,7 +633,7 @@ export function HeroSection() {
                 whileHover={{ scale: 1.15 }}
                 className="flex h-14 w-14 items-center justify-center rounded-2xl border border-rose-300 bg-rose-100 text-rose-600 shadow-xl shadow-rose-500/25 dark:border-rose-400/60 dark:bg-rose-500/15 dark:text-rose-200 cursor-help"
               >
-                <Shield size={24} className="animate-pulse" />
+                <Shield size={24} fill="currentColor" className="animate-pulse" />
               </motion.div>
               <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-rose-50/95 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-rose-600 shadow-md shadow-rose-500/15 backdrop-blur-md dark:bg-rose-500/10 dark:text-rose-200">
                 Firewall
