@@ -325,9 +325,10 @@ export function HeroSection() {
 
   return (
     <section
+      data-cursor="default"
       onMouseMove={reduceMotion ? undefined : handleMouseMove}
       onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
-      className="relative flex min-h-[100vh] items-center justify-center overflow-hidden py-6 sm:py-8 lg:py-10"
+      className="relative flex min-h-[100vh] select-none items-center justify-center overflow-hidden py-6 sm:py-8 lg:py-10"
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
 
@@ -382,18 +383,19 @@ export function HeroSection() {
 
           <motion.h1
             variants={fadeUp}
-            className="text-5xl font-bold tracking-tighter md:text-7xl"
+            className="text-5xl font-bold leading-none tracking-tighter md:text-7xl"
           >
-            {lang({ en: "Hi, I'm", vi: "Xin chào, tôi là" })} {siteConfig.name}
-            <br />
+            <span className="block">
+              {lang({ en: "Hi, I'm", vi: "Xin chào, tôi là" })} {siteConfig.name}
+            </span>
             <motion.span
               variants={fadeIn}
-              className="mt-2 block w-full text-4xl md:text-6xl"
+              className="mt-3 block min-h-[1.18em] w-full text-4xl leading-[1.12] md:text-6xl"
             >
               <TypewriterText
-                key={lang(siteConfig.role)}
-                text={lang(siteConfig.role)}
-                className="bg-gradient-to-r from-rose-400 via-orange-400 to-amber-400 bg-clip-text text-transparent"
+                key={`${lang(siteConfig.role)}|Data Communications`}
+                words={[lang(siteConfig.role), "Data Communications"]}
+                className="align-top bg-gradient-to-r from-rose-400 via-orange-400 to-amber-400 bg-clip-text leading-[1.12] text-transparent"
                 typingSpeed={85}
                 deletingSpeed={45}
                 pauseDuration={1200}
@@ -618,7 +620,7 @@ export function HeroSection() {
             <div className="absolute left-[5%] top-[50%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-cyan-200 bg-cyan-50 text-cyan-600 shadow-lg shadow-cyan-500/20 dark:border-cyan-500/45 dark:bg-cyan-500/10 dark:text-cyan-300 cursor-default"
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-cyan-200 bg-cyan-50 text-cyan-600 shadow-lg shadow-cyan-500/20 dark:border-cyan-500/45 dark:bg-cyan-500/10 dark:text-cyan-300"
               >
                 <Globe size={20} />
               </motion.div>
@@ -631,7 +633,7 @@ export function HeroSection() {
             <div className="absolute left-[29.5%] top-[50%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.15 }}
-                className="flex h-14 w-14 items-center justify-center rounded-2xl border border-rose-300 bg-rose-100 text-rose-600 shadow-xl shadow-rose-500/25 dark:border-rose-400/60 dark:bg-rose-500/15 dark:text-rose-200 cursor-help"
+                className="flex h-14 w-14 items-center justify-center rounded-2xl border border-rose-300 bg-rose-100 text-rose-600 shadow-xl shadow-rose-500/25 dark:border-rose-400/60 dark:bg-rose-500/15 dark:text-rose-200"
               >
                 <Shield size={24} fill="currentColor" className="animate-pulse" />
               </motion.div>
@@ -644,7 +646,7 @@ export function HeroSection() {
             <div className="absolute left-[29.5%] top-[22%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-rose-300 bg-rose-50 text-rose-600 shadow-lg shadow-rose-500/20 dark:border-rose-500/50 dark:bg-rose-500/10 dark:text-rose-300 cursor-default"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-rose-300 bg-rose-50 text-rose-600 shadow-lg shadow-rose-500/20 dark:border-rose-500/50 dark:bg-rose-500/10 dark:text-rose-300"
               >
                 <Server size={18} />
               </motion.div>
@@ -657,7 +659,7 @@ export function HeroSection() {
             <div className="absolute left-[29.5%] top-[78%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-orange-300 bg-orange-50 text-orange-600 shadow-lg shadow-orange-500/20 dark:border-orange-500/50 dark:bg-orange-500/10 dark:text-orange-300 cursor-default"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-orange-300 bg-orange-50 text-orange-600 shadow-lg shadow-orange-500/20 dark:border-orange-500/50 dark:bg-orange-500/10 dark:text-orange-300"
               >
                 <Mail size={18} />
               </motion.div>
@@ -670,7 +672,7 @@ export function HeroSection() {
             <div className="absolute left-[39%] top-[36%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-fuchsia-300 bg-fuchsia-50 text-fuchsia-600 shadow-lg shadow-fuchsia-500/20 dark:border-fuchsia-500/50 dark:bg-fuchsia-500/10 dark:text-fuchsia-300 cursor-default"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-fuchsia-300 bg-fuchsia-50 text-fuchsia-600 shadow-lg shadow-fuchsia-500/20 dark:border-fuchsia-500/50 dark:bg-fuchsia-500/10 dark:text-fuchsia-300"
               >
                 <Lock size={17} />
               </motion.div>
@@ -680,7 +682,7 @@ export function HeroSection() {
             </div>
 
             <div className="absolute left-[58%] top-[50%] -translate-x-1/2 -translate-y-1/2 z-10">
-              <motion.button
+              <motion.div
                 whileHover={{
                   scale: 1.1,
                   boxShadow: "0 0 25px rgba(245,158,11,0.5)",
@@ -689,7 +691,7 @@ export function HeroSection() {
                 className="flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-300 bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500 text-white shadow-xl shadow-amber-500/35 transition-colors hover:from-amber-400 hover:via-orange-500 hover:to-rose-500"
               >
                 <Router size={28} />
-              </motion.button>
+              </motion.div>
               <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-amber-50/95 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-amber-700 shadow-md shadow-amber-500/20 backdrop-blur-md dark:bg-amber-500/15 dark:text-amber-200">
                 Core Router
               </div>
@@ -699,7 +701,7 @@ export function HeroSection() {
             <div className="absolute left-[80%] top-[20%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-200 bg-violet-50 text-violet-600 shadow-lg shadow-violet-500/20 dark:border-violet-500/45 dark:bg-violet-500/10 dark:text-violet-300 cursor-default"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-200 bg-violet-50 text-violet-600 shadow-lg shadow-violet-500/20 dark:border-violet-500/45 dark:bg-violet-500/10 dark:text-violet-300"
               >
                 <Database size={18} />
               </motion.div>
@@ -712,7 +714,7 @@ export function HeroSection() {
             <div className="absolute left-[71.4%] top-[36%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-sky-200 bg-sky-50 text-sky-600 shadow-lg shadow-sky-500/20 dark:border-sky-500/45 dark:bg-sky-500/10 dark:text-sky-300 cursor-default"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-sky-200 bg-sky-50 text-sky-600 shadow-lg shadow-sky-500/20 dark:border-sky-500/45 dark:bg-sky-500/10 dark:text-sky-300"
               >
                 <Cloud size={18} />
               </motion.div>
@@ -724,7 +726,7 @@ export function HeroSection() {
             <div className="absolute left-[83%] top-[50%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-12 w-12 items-center justify-center rounded-xl border border-amber-300 bg-amber-100 text-amber-700 shadow-lg shadow-amber-500/25 dark:border-amber-400/55 dark:bg-amber-500/15 dark:text-amber-200 cursor-default"
+                className="flex h-12 w-12 items-center justify-center rounded-xl border border-amber-300 bg-amber-100 text-amber-700 shadow-lg shadow-amber-500/25 dark:border-amber-400/55 dark:bg-amber-500/15 dark:text-amber-200"
               >
                 <Network size={20} />
               </motion.div>
@@ -737,7 +739,7 @@ export function HeroSection() {
             <div className="absolute left-[80%] top-[80%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1, y: -2 }}
-                className="flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-600 shadow-lg shadow-emerald-500/20 dark:border-emerald-500/45 dark:bg-emerald-500/10 dark:text-emerald-300 cursor-default"
+                className="flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-600 shadow-lg shadow-emerald-500/20 dark:border-emerald-500/45 dark:bg-emerald-500/10 dark:text-emerald-300"
               >
                 <Laptop size={20} />
               </motion.div>
@@ -750,7 +752,7 @@ export function HeroSection() {
             <div className="absolute left-[96%] top-[28%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 shadow-lg shadow-blue-500/20 dark:border-blue-500/45 dark:bg-blue-500/10 dark:text-blue-300 cursor-default"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 shadow-lg shadow-blue-500/20 dark:border-blue-500/45 dark:bg-blue-500/10 dark:text-blue-300"
               >
                 <Database size={17} />
               </motion.div>
@@ -762,7 +764,7 @@ export function HeroSection() {
             <div className="absolute left-[96%] top-[50%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 10 }}
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-300 bg-orange-100 text-orange-600 shadow-lg shadow-orange-500/25 dark:border-orange-500/50 dark:bg-orange-500/15 dark:text-orange-300 cursor-default"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-300 bg-orange-100 text-orange-600 shadow-lg shadow-orange-500/25 dark:border-orange-500/50 dark:bg-orange-500/15 dark:text-orange-300"
               >
                 <Wifi size={18} />
               </motion.div>
@@ -775,7 +777,7 @@ export function HeroSection() {
             <div className="absolute left-[96%] top-[72%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-lime-300 bg-lime-50 text-lime-700 shadow-lg shadow-lime-500/20 dark:border-lime-400/50 dark:bg-lime-500/10 dark:text-lime-300 cursor-default"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-lime-300 bg-lime-50 text-lime-700 shadow-lg shadow-lime-500/20 dark:border-lime-400/50 dark:bg-lime-500/10 dark:text-lime-300"
               >
                 <RadioTower size={17} />
               </motion.div>
@@ -786,7 +788,6 @@ export function HeroSection() {
 
             <div className="absolute left-[4%] top-[15%]">
               <motion.div
-                data-cursor="pointer"
                 drag
                 dragConstraints={{
                   left: -10,
@@ -795,8 +796,8 @@ export function HeroSection() {
                   bottom: 50,
                 }}
                 whileHover={{ scale: 1.05 }}
-                whileDrag={{ scale: 1.1, cursor: "grabbing" }}
-                className="flex cursor-grab select-none items-center gap-2 rounded-lg border border-indigo-400/80 bg-indigo-50/95 px-2.5 py-1.5 shadow-xl shadow-indigo-500/25 backdrop-blur-md dark:border-indigo-400/50 dark:bg-indigo-500/10"
+                whileDrag={{ scale: 1.1 }}
+                className="flex select-none items-center gap-2 rounded-lg border border-indigo-400/80 bg-indigo-50/95 px-2.5 py-1.5 shadow-xl shadow-indigo-500/25 backdrop-blur-md dark:border-indigo-400/50 dark:bg-indigo-500/10"
               >
                 <div className="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-ping" />
                 <span className="text-[10px] font-semibold text-indigo-700 dark:text-indigo-200">
@@ -807,7 +808,6 @@ export function HeroSection() {
 
             <div className="absolute right-[32%] bottom-[9%]">
               <motion.div
-                data-cursor="pointer"
                 drag
                 dragConstraints={{
                   left: -10,
@@ -816,8 +816,8 @@ export function HeroSection() {
                   bottom: 20,
                 }}
                 whileHover={{ scale: 1.05 }}
-                whileDrag={{ scale: 1.1, cursor: "grabbing" }}
-                className="flex cursor-grab select-none items-center gap-1.5 rounded-lg border border-cyan-300/80 bg-cyan-50/95 px-2.5 py-1.5 shadow-xl shadow-cyan-500/20 backdrop-blur-md dark:border-cyan-400/45 dark:bg-cyan-500/10"
+                whileDrag={{ scale: 1.1 }}
+                className="flex select-none items-center gap-1.5 rounded-lg border border-cyan-300/80 bg-cyan-50/95 px-2.5 py-1.5 shadow-xl shadow-cyan-500/20 backdrop-blur-md dark:border-cyan-400/45 dark:bg-cyan-500/10"
               >
                 <Network size={12} className="text-cyan-700 dark:text-cyan-300" />
                 <span className="text-[10px] font-mono font-bold text-cyan-800 dark:text-cyan-200">

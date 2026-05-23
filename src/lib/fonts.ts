@@ -8,7 +8,7 @@ export const inter = Inter({
   variable: "--font-inter",
 });
 
-// 2. Font Local cho phong cách Pixel (giả sử bạn đã bỏ file vào public/fonts)
+// 2. Font Local cho phong cách Pixel
 export const pixelFont = localFont({
   src: "../../public/fonts/PressStart2P-Regular.ttf", // Đường dẫn tới file font vật lý
   display: "swap",

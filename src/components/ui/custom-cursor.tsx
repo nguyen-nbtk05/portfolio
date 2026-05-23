@@ -81,6 +81,8 @@ export default function CustomCursor() {
         computedCursor === "pointer"
       ) {
         nextType = "pointer";
+      } else if (target.closest("[data-cursor='default']")) {
+        nextType = "default";
       } else if (
         target.closest("input, textarea, [contenteditable='true']") ||
         computedCursor === "text" ||

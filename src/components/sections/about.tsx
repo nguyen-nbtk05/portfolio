@@ -20,6 +20,7 @@ import {
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/motion";
 import { SectionBackground } from "@/components/ui/section-background";
+import { TypewriterText } from "@/components/ui/typewriter-text";
 import { Github } from "@/components/ui/icons";
 import { siteConfig } from "@/data/config";
 
@@ -33,6 +34,10 @@ const getHudTiles = (lang: (dict: { en: string; vi: string }) => string) => [
     icon: Cpu,
     label: lang({ en: "Role", vi: "Vai trÃ²" }),
     value: lang({ en: "Network Engineer", vi: "Ká»¹ sÆ° máº¡ng" }),
+    typewriterValues: [
+      lang({ en: "Network Engineer", vi: "Ká»¹ sÆ° máº¡ng" }),
+      "Data Communications",
+    ],
   },
   {
     icon: ShieldCheck,
@@ -180,8 +185,20 @@ export function AboutSection() {
                   <tile.icon className="h-4 w-4 text-yellow-500 transition-transform group-hover:scale-110" />
                   {tile.label}
                 </div>
-                <div className="mt-2 text-sm font-bold text-slate-950 dark:text-slate-50">
-                  {tile.value}
+                <div className="mt-2 min-h-5 text-xs font-bold text-slate-950 dark:text-slate-50">
+                  {tile.typewriterValues ? (
+                    <TypewriterText
+                      key={tile.typewriterValues.join("|")}
+                      words={tile.typewriterValues}
+                      typingSpeed={72}
+                      deletingSpeed={38}
+                      pauseDuration={1300}
+                      className="text-current"
+                      cursorClassName="bg-yellow-500 dark:bg-yellow-300"
+                    />
+                  ) : (
+                    tile.value
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -201,7 +218,7 @@ export function AboutSection() {
                   {lang({ en: "Personal profile", vi: "Hồ sơ cá nhân" })}
                 </div>
                 <div className="mt-1 text-sm font-bold text-slate-950 dark:text-slate-50">
-                  {activeSignal.label.toUpperCase()}
+                  {activeSignal.label}
                 </div>
               </div>
               <motion.div
@@ -331,4 +348,3 @@ export function AboutSection() {
     </section>
   );
 }
-
