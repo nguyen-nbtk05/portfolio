@@ -63,6 +63,12 @@ html.dark::-webkit-scrollbar-thumb:hover {
     mix-blend-mode: normal;
 }
 
+@media (min-width: 1536px) {
+    .container {
+        max-width: min(100%, 1760px);
+    }
+}
+
 .network-grid-strong {
     --grid-size: 48px;
     --grid-line-light: rgb(100 116 139 / 0.38);
