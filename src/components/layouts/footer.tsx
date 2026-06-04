@@ -29,7 +29,7 @@ export function SmartIconButton({
       rel={isExternal ? "noopener noreferrer" : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="flex items-center rounded-full bg-transparent p-2.5 text-slate-500 transition-colors hover:bg-slate-200 hover:text-amber-500 dark:hover:bg-slate-800"
+      className="flex items-center rounded-full bg-transparent p-2.5 text-slate-500 transition-colors hover:bg-slate-200 hover:text-teal-500 dark:hover:bg-slate-800"
       aria-label={label}
     >
       <motion.div layout className="shrink-0">

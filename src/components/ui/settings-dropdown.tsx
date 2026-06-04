@@ -65,8 +65,8 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
         }}
         className={`p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${
           isOpen
-            ? "bg-slate-200 text-amber-500 dark:bg-slate-800"
-            : "hover:bg-slate-200 hover:text-amber-500 dark:hover:bg-slate-800"
+            ? "bg-slate-200 text-teal-500 dark:bg-slate-800"
+            : "hover:bg-slate-200 hover:text-teal-500 dark:hover:bg-slate-800"
         }`}
         aria-label="Settings"
       >

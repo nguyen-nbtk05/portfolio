@@ -176,7 +176,7 @@ export function Navbar() {
                 <a
                   href={item.href}
                   onClick={(e) => handleAnchorClick(e, item.href)}
-                  className="flex items-center justify-center rounded-full px-2.5 py-1.5 transition-all duration-200 hover:bg-slate-100 hover:text-amber-500 dark:hover:bg-slate-800"
+                  className="flex items-center justify-center rounded-full px-2.5 py-1.5 transition-all duration-200 hover:bg-slate-100 hover:text-teal-500 dark:hover:bg-slate-800"
                 >
                   {lang(item.label)}
                 </a>

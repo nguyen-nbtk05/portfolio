@@ -58,7 +58,7 @@ export function Section({
             {title && (
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
                 {title}
-                <span className="text-yellow-500">.</span>
+                <span className="text-teal-500">.</span>
               </h2>
             )}
             {subtitle && (

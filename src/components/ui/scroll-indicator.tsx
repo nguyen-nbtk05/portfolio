@@ -59,7 +59,7 @@ export default function ScrollIndicator() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="w-1.5 h-1.5 rounded-full bg-amber-500"
+          className="w-1.5 h-1.5 rounded-full bg-teal-500"
         />
       </div>
 

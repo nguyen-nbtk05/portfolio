@@ -30,7 +30,7 @@ export function SkillsSection() {
             <h3 className="mb-4 flex items-center gap-2 text-lg font-bold">
               <motion.span
                 aria-hidden="true"
-                className="h-2 w-2 rounded-full bg-yellow-500"
+                className="h-2 w-2 rounded-full bg-teal-500"
                 animate={reduceMotion ? undefined : { scale: [1, 1.35, 1] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
               />
@@ -42,7 +42,7 @@ export function SkillsSection() {
                   key={item}
                   variants={fadeUp}
                   whileHover={reduceMotion ? undefined : { y: -2 }}
-                  className="rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-sm text-slate-700 transition-colors hover:border-yellow-300 hover:text-slate-950 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-yellow-700 dark:hover:text-slate-50"
+                  className="rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-sm text-slate-700 transition-colors hover:border-teal-300 hover:text-slate-950 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-teal-700 dark:hover:text-slate-50"
                 >
                   {item}
                 </motion.span>

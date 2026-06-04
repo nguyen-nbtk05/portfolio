@@ -19,7 +19,7 @@ export function LanguageToggle() {
   return (
     <button
       onClick={() => setLanguage(language === "en" ? "vi" : "en")}
-      className="cursor-pointer px-2 py-1.5 text-sm font-medium rounded-md hover:bg-slate-200 hover:text-yellow-500 dark:hover:bg-slate-800 transition-colors"
+      className="cursor-pointer px-2 py-1.5 text-sm font-medium rounded-md hover:bg-slate-200 hover:text-teal-500 dark:hover:bg-slate-800 transition-colors"
       aria-label="Toggle language"
     >
       {language === "en" ? "VI" : "EN"}

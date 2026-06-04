@@ -239,7 +239,7 @@ export const AnimatedThemeToggler = ({
       type="button"
       ref={buttonRef}
       onClick={toggleTheme}
-      className={cn("cursor-pointer px-2 py-1.5 text-sm font-medium rounded-md hover:bg-slate-200 hover:text-yellow-500 dark:hover:bg-slate-800 transition-colors", className)}
+      className={cn("cursor-pointer px-2 py-1.5 text-sm font-medium rounded-md hover:bg-slate-200 hover:text-teal-500 dark:hover:bg-slate-800 transition-colors", className)}
       {...props}
     >
       {isDark ? <Sun /> : <Moon />}

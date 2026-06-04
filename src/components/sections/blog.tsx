@@ -18,7 +18,7 @@ export function BlogSection() {
       title={lang({ en: "Blog", vi: "Blog" })}
       subtitle={lang({
         en: "Short notes about networking, automation, and security in real-world systems.",
-        vi: "Nhung ghi chu ngan ve networking, automation va security trong he thong thuc te.",
+        vi: "Những ghi chú ngắn về networking, automation và security trong hệ thống thực tế.",
       })}
     >
       <motion.div
@@ -37,11 +37,11 @@ export function BlogSection() {
           >
             <div className="mb-4 flex items-center justify-between gap-3 text-sm text-slate-500 dark:text-slate-400">
               <span className="inline-flex items-center gap-1.5">
-                <CalendarDays className="h-4 w-4 text-yellow-500" />
+                <CalendarDays className="h-4 w-4 text-teal-500" />
                 {post.publishedAt}
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <Clock3 className="h-4 w-4 text-yellow-500" />
+                <Clock3 className="h-4 w-4 text-teal-500" />
                 {lang(post.readTime)}
               </span>
             </div>
@@ -67,9 +67,9 @@ export function BlogSection() {
 
             <a
               href={post.link}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-yellow-600 transition-colors hover:text-yellow-500 dark:text-yellow-400 dark:hover:text-yellow-300"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-600 transition-colors hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
             >
-              {lang({ en: "Read post", vi: "Doc bai viet" })}
+              {lang({ en: "Read post", vi: "Đọc bài viết" })}
               <ArrowUpRight className="h-4 w-4" />
             </a>
           </motion.article>

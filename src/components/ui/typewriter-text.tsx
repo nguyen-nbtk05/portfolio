@@ -46,7 +46,7 @@ export function TypewriterText({
         <span
           aria-hidden="true"
           className={cn(
-            "ml-1 inline-block h-[0.88em] w-[0.08em] animate-pulse rounded-sm bg-amber-400 align-[-0.05em] dark:bg-amber-300",
+            "ml-1 inline-block h-[0.88em] w-[0.08em] animate-pulse rounded-sm bg-teal-400 align-[-0.05em] dark:bg-teal-300",
             cursorClassName
           )}
         />

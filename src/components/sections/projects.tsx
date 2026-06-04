@@ -37,7 +37,7 @@ export function ProjectsSection() {
             className="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 transition-shadow hover:shadow-lg hover:shadow-slate-200/70 dark:border-slate-800 dark:bg-slate-950 dark:hover:shadow-black/20"
           >
             <div className="mb-4 flex items-start justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors group-hover:bg-yellow-100 group-hover:text-yellow-600 dark:bg-slate-900 dark:text-slate-300 dark:group-hover:bg-yellow-900/30 dark:group-hover:text-yellow-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors group-hover:bg-teal-100 group-hover:text-teal-600 dark:bg-slate-900 dark:text-slate-300 dark:group-hover:bg-teal-900/30 dark:group-hover:text-teal-400">
                 <ServerCog className="h-5 w-5 transition-transform group-hover:scale-110" />
               </div>
               {project.link !== "#" && (
@@ -45,7 +45,7 @@ export function ProjectsSection() {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 transition-colors hover:text-yellow-500"
+                  className="text-slate-400 transition-colors hover:text-teal-500"
                 >
                   {project.link.includes("github.com") ? (
                     <Github className="h-5 w-5" />

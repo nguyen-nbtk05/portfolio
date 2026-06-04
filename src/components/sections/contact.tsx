@@ -30,9 +30,9 @@ export function ContactSection() {
         >
           <motion.div
             variants={scaleIn}
-            className="mb-6 inline-flex items-center justify-center rounded-full bg-yellow-100 p-3 sm:p-4 dark:bg-yellow-900/30"
+            className="mb-6 inline-flex items-center justify-center rounded-full bg-teal-100 p-3 sm:p-4 dark:bg-teal-900/30"
           >
-            <Mail className="h-8 w-8 text-yellow-600 md:h-10 md:w-10 dark:text-yellow-400" />
+            <Mail className="h-8 w-8 text-teal-600 md:h-10 md:w-10 dark:text-teal-400" />
           </motion.div>
           <motion.h2 variants={fadeUp} className="mb-6 text-4xl font-bold tracking-tight md:text-5xl">
             {lang({ en: "Ready to connect?", vi: "Sẵn sàng kết nối?" })}
@@ -50,7 +50,7 @@ export function ContactSection() {
             variants={fadeUp}
             whileHover={reduceMotion ? undefined : { y: -3 }}
             href={`mailto:${siteConfig.email}`}
-            className="group inline-flex items-center justify-center gap-2 rounded-xl bg-yellow-500 px-8 py-4 text-lg font-medium text-white shadow-lg shadow-yellow-500/25 transition-colors hover:bg-yellow-600"
+            className="group inline-flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-8 py-4 text-lg font-medium text-white shadow-lg shadow-teal-500/25 transition-colors hover:bg-teal-700"
           >
             {lang({ en: "Say Hello", vi: "Gửi Lời Chào" })}
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />

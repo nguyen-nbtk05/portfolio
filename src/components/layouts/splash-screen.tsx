@@ -1,28 +1,188 @@
-﻿"use client";
+"use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState, type CSSProperties } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "motion/react";
+import { useEffect, useState, useRef } from "react";
+import { FolderOpen, FileText, Beaker } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 
 interface SplashScreenProps {
-  onComplete?: () => void;
+  onComplete?: (targetSection?: string) => void;
 }
 
 type SplashPhase = "loading" | "ready_for_interaction" | "exiting";
 
-const LOADING_DURATION_MS = 3400;
-const PROGRESS_TICK_MS = 72;
-const EXIT_DURATION_SECONDS = 0.5;
+const LOADING_DURATION_MS = 2500;
+const PROGRESS_TICK_MS = 50;
+const EXIT_DURATION_SECONDS = 0.55;
 const ENTRANCE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const ILLUSTRATION_NODES = [
-  { top: "14%", left: "18%", delay: 0, duration: 4.8, size: 8 },
-  { top: "24%", left: "76%", delay: 0.8, duration: 5.2, size: 6 },
-  { top: "38%", left: "10%", delay: 1.2, duration: 4.6, size: 10 },
-  { top: "48%", left: "82%", delay: 0.4, duration: 5.4, size: 7 },
-  { top: "68%", left: "16%", delay: 1.1, duration: 5.1, size: 8 },
-  { top: "76%", left: "72%", delay: 0.2, duration: 4.4, size: 7 },
+// Scattered network node background particles to fill empty space
+const BACKGROUND_PARTICLES = [
+  { top: "12%", left: "42%", size: 3.5, delay: 0.5, duration: 6 },
+  { top: "25%", left: "75%", size: 2.8, delay: 1.2, duration: 8 },
+  { top: "35%", left: "18%", size: 4.5, delay: 0.2, duration: 5 },
+  { top: "65%", left: "82%", size: 3, delay: 2.1, duration: 7 },
+  { top: "78%", left: "15%", size: 3.8, delay: 1.5, duration: 9 },
+  { top: "82%", left: "52%", size: 2.5, delay: 0.8, duration: 6 },
+  { top: "18%", left: "68%", size: 3.2, delay: 2.5, duration: 7.5 },
+  { top: "72%", left: "32%", size: 2.8, delay: 0.3, duration: 6.5 },
+  { top: "48%", left: "88%", size: 3.5, delay: 1.8, duration: 8.5 },
+  { top: "88%", left: "78%", size: 4.5, delay: 0.9, duration: 7 },
 ];
+
+// Dynamic HTML5 Canvas Constellation System
+function ConstellationCanvas({ isDarkMode }: { isDarkMode: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Dynamic particle count based on screen viewport size
+    const particleCount = Math.min(45, Math.floor((width * height) / 30000));
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+    }> = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        radius: Math.random() * 2 + 1.2,
+      });
+    }
+
+    // Track mouse node attraction coordinates
+    const mouse = { x: -1000, y: -1000, active: false };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.active = false;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseleave", handleMouseLeave);
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Soft theme color schemes
+      const nodeColor = isDarkMode ? "rgba(20, 184, 166, 0.5)" : "rgba(13, 148, 136, 0.3)";
+      const glowColor = isDarkMode ? "rgba(20, 184, 166, 0.08)" : "rgba(13, 148, 136, 0.05)";
+      const lineColor = isDarkMode ? "20, 184, 166" : "13, 148, 136";
+      const connectionDistance = 150;
+
+      // Draw and step particles
+      particles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce walls
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        // Draw node glow halo
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius * 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = glowColor;
+        ctx.fill();
+
+        // Draw core node
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = nodeColor;
+        ctx.fill();
+      });
+
+      // Draw dynamic link lines between nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i];
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+
+          if (dist < connectionDistance) {
+            const alpha = (1 - dist / connectionDistance) * 0.22;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(${lineColor}, ${alpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+
+        // Real-time cursor connectivity attraction
+        if (mouse.active) {
+          const mDist = Math.hypot(p1.x - mouse.x, p1.y - mouse.y);
+          if (mDist < connectionDistance + 35) {
+            const alpha = (1 - mDist / (connectionDistance + 35)) * 0.4;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(${lineColor}, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw cursor attraction halo
+      if (mouse.active) {
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 45, 0, Math.PI * 2);
+        ctx.fillStyle = isDarkMode ? "rgba(20, 184, 166, 0.06)" : "rgba(13, 148, 136, 0.04)";
+        ctx.fill();
+      }
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [isDarkMode]);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none select-none" />;
+}
 
 export function SplashScreen({ onComplete }: SplashScreenProps) {
   const { lang } = useLanguage();
@@ -31,6 +191,37 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
   const [phase, setPhase] = useState<SplashPhase>("loading");
   const [progress, setProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [selectedSection, setSelectedSection] = useState<string | undefined>(undefined);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Mouse positions for 3D parallax tilt
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 28, stiffness: 100, mass: 0.6 };
+
+  // Interpolated rotations & translations for card tilt
+  const cardRotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [7, -7]), springConfig);
+  const cardRotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-7, 7]), springConfig);
+  const cardTranslateX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-10, 10]), springConfig);
+  const cardTranslateY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-10, 10]), springConfig);
+
+  // Monitor document theme mutation to update canvas node colors on theme switches
+  useEffect(() => {
+    const updateTheme = () => {
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
+    };
+
+    updateTheme();
+
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (phase !== "loading") return;
@@ -60,27 +251,40 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     return () => window.clearInterval(intervalId);
   }, [phase]);
 
-  const handleEnterApp = () => {
+  // Track mouse coordinates for interactive parallax
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      mouseX.set((clientX / innerWidth) - 0.5);
+      mouseY.set((clientY / innerHeight) - 0.5);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY, reduceMotion]);
+
+  const handleEnterApp = (sectionId?: string) => {
     if (phase !== "ready_for_interaction") return;
 
+    setSelectedSection(sectionId);
     setPhase("exiting");
     setIsVisible(false);
   };
 
-  const progressScale = progress / 100;
-
   return (
-    <AnimatePresence onExitComplete={onComplete}>
+    <AnimatePresence onExitComplete={() => onComplete?.(selectedSection)}>
       {isVisible && (
         <motion.div
           role="status"
           aria-live="polite"
           aria-label={lang({
             en: "Loading portfolio",
-            vi: "Äang táº£i portfolio",
+            vi: "Đang tải portfolio",
           })}
-          data-phase={phase}
-          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-amber-50 text-slate-900 dark:bg-slate-950 dark:text-amber-100"
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 text-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-slate-100"
           initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
           animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
           exit={
@@ -88,7 +292,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               ? { opacity: 0, transition: { duration: EXIT_DURATION_SECONDS } }
               : {
                   opacity: 0,
-                  scale: 0.99,
+                  scale: 0.98,
                   transition: {
                     duration: EXIT_DURATION_SECONDS,
                     ease: ENTRANCE_EASE,
@@ -96,270 +300,355 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                 }
           }
           transition={{
-            duration: reduceMotion ? 0.28 : 0.58,
+            duration: reduceMotion ? 0.3 : 0.6,
             ease: ENTRANCE_EASE,
           }}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_16%,rgba(251,191,36,0.42),transparent_38%),radial-gradient(circle_at_82%_20%,rgba(251,146,60,0.3),transparent_42%),radial-gradient(circle_at_50%_86%,rgba(245,158,11,0.24),transparent_48%)] dark:bg-[radial-gradient(circle_at_20%_16%,rgba(245,158,11,0.3),transparent_38%),radial-gradient(circle_at_82%_20%,rgba(249,115,22,0.22),transparent_42%),radial-gradient(circle_at_50%_86%,rgba(234,88,12,0.18),transparent_48%)]" />
-          <div className="pointer-events-none absolute inset-0 splash-v2-noise opacity-70 dark:opacity-45" />
-          <div className="pointer-events-none absolute inset-0 splash-v2-starfield opacity-65 dark:opacity-60" />
+          {/* Scrolling 3D perspective cyber grid floor */}
+          {!reduceMotion && (
+            <div className="cyber-grid-container select-none">
+              <div className="cyber-grid-lines" />
+            </div>
+          )}
 
-          <div className="pointer-events-none absolute inset-0">
-            <div className="splash-v2-beam absolute -left-[24%] top-[4%] h-[40%] w-[72%]" />
-            <div className="splash-v2-beam splash-v2-beam-alt absolute -right-[22%] bottom-[4%] h-[42%] w-[70%]" />
-          </div>
+          {/* HTML5 Canvas Constellation Animation */}
+          {!reduceMotion && <ConstellationCanvas isDarkMode={isDarkMode} />}
 
-          <div className="pointer-events-none absolute inset-0">
-            <div className="splash-v2-orb splash-v2-orb-a splash-v2-float-a absolute left-[10%] top-[18%] h-44 w-44" />
-            <div className="splash-v2-orb splash-v2-orb-b splash-v2-float-b absolute right-[8%] top-[8%] h-52 w-52" />
-            <div className="splash-v2-orb splash-v2-orb-c splash-v2-float-c absolute bottom-[6%] left-[34%] h-56 w-56" />
-          </div>
-
-          <div className="pointer-events-none absolute inset-0">
-            {ILLUSTRATION_NODES.map((node) => (
-              <span
-                key={`${node.top}-${node.left}`}
-                className="absolute rounded-full bg-amber-100/90 shadow-[0_0_0_1px_rgba(251,191,36,0.6),0_0_18px_rgba(249,115,22,0.5)] dark:bg-amber-200/80 splash-v2-node-pulse"
-                style={
-                  {
-                    top: node.top,
-                    left: node.left,
-                    width: node.size,
-                    height: node.size,
-                    "--node-delay": `${node.delay}s`,
-                    "--node-duration": `${node.duration}s`,
-                  } as CSSProperties
-                }
+          {/* Glowing colorful blurred background orbs */}
+          {!reduceMotion && (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
+              {/* Orb A: Cyan-Teal gradient */}
+              <motion.div
+                className="absolute w-[420px] h-[420px] rounded-full bg-gradient-to-tr from-cyan-400/22 to-teal-400/18 dark:from-cyan-600/10 dark:to-teal-500/10 blur-[100px]"
+                animate={{
+                  x: [0, 50, -30, 0],
+                  y: [0, -70, 50, 0],
+                  scale: [1, 1.15, 0.9, 1],
+                }}
+                transition={{
+                  duration: 18,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{ top: "8%", left: "6%" }}
               />
-            ))}
-          </div>
+              {/* Orb B: Teal-Emerald gradient */}
+              <motion.div
+                className="absolute w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-teal-400/20 to-emerald-400/18 dark:from-teal-600/9 dark:to-emerald-500/9 blur-[110px]"
+                animate={{
+                  x: [0, -60, 40, 0],
+                  y: [0, 60, -50, 0],
+                  scale: [1, 0.95, 1.1, 1],
+                }}
+                transition={{
+                  duration: 22,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{ bottom: "5%", right: "8%" }}
+              />
+              {/* Orb C: Indigo-Violet gradient */}
+              <motion.div
+                className="absolute w-[360px] h-[360px] rounded-full bg-gradient-to-tr from-indigo-400/22 to-violet-400/18 dark:from-indigo-600/10 dark:to-violet-500/10 blur-[90px]"
+                animate={{
+                  x: [0, 40, -50, 0],
+                  y: [0, 50, 60, 0],
+                  scale: [1, 1.2, 0.95, 1],
+                }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{ top: "40%", left: "35%" }}
+              />
+            </div>
+          )}
 
-          <div className="relative z-10 w-full max-w-4xl px-5 sm:px-8">
-            <motion.div
-              className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-[2rem] border border-amber-100/75 bg-white/58 p-6 shadow-[0_28px_84px_-48px_rgba(120,53,15,0.48)] backdrop-blur-xl sm:p-8 dark:border-amber-300/20 dark:bg-slate-900/48"
-              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
-              animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              transition={{
-                duration: reduceMotion ? 0.22 : 0.56,
-                ease: ENTRANCE_EASE,
-                delay: reduceMotion ? 0 : 0.06,
+          {/* Floating background node particles to populate empty space */}
+          {!reduceMotion && BACKGROUND_PARTICLES.map((p, idx) => (
+            <motion.span
+              key={idx}
+              className="absolute rounded-full bg-teal-400/35 dark:bg-teal-500/20 pointer-events-none select-none shadow-[0_0_8px_rgba(20,184,166,0.3)] z-0"
+              style={{
+                top: p.top,
+                left: p.left,
+                width: p.size,
+                height: p.size,
               }}
+              animate={{
+                opacity: [0.15, 0.75, 0.15],
+                y: [0, -18, 0],
+                x: [0, 8, 0],
+              }}
+              transition={{
+                duration: p.duration,
+                delay: p.delay,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+
+          {/* Background Grid Mesh */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(20,184,166,0.03),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(14,165,233,0.03),transparent_40%)]" />
+
+          {/* Wrapper to hold the glow shadow aura behind the tilted card */}
+          <div className="relative w-full max-w-3xl mx-4 flex items-center justify-center z-10">
+            
+            {/* Ambient Breathing Glow Aura behind card */}
+            {!reduceMotion && (
+              <motion.div
+                className="absolute inset-4 rounded-[2.5rem] bg-gradient-to-tr from-cyan-500/15 via-teal-500/8 to-indigo-500/15 blur-3xl pointer-events-none select-none -z-10"
+                animate={{
+                  opacity: [0.55, 0.85, 0.55],
+                  scale: [0.97, 1.03, 0.97],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            )}
+
+            {/* Main glassmorphism card with 3D parallax tilt */}
+            <motion.div
+              className={`w-full rounded-[2.5rem] bg-white/70 border border-white/80 shadow-[0_32px_100px_-20px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:bg-slate-900/60 dark:border-slate-800/80 dark:shadow-[0_32px_100px_-20px_rgba(0,0,0,0.5)] flex flex-col justify-between overflow-hidden relative p-8 sm:p-10 min-h-[380px] ${
+                phase === "ready_for_interaction" ? "cursor-pointer" : ""
+              }`}
+              onClick={() => phase === "ready_for_interaction" && handleEnterApp()}
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 30, scale: 0.98 }}
+              animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.6, ease: ENTRANCE_EASE }}
+              style={{
+                rotateX: reduceMotion ? 0 : cardRotateX,
+                rotateY: reduceMotion ? 0 : cardRotateY,
+                x: reduceMotion ? 0 : cardTranslateX,
+                y: reduceMotion ? 0 : cardTranslateY,
+                transformStyle: "preserve-3d",
+              }}
+              whileHover={
+                phase === "ready_for_interaction" && !reduceMotion
+                  ? { y: -3, transition: { duration: 0.2 } }
+                  : {}
+              }
             >
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-amber-300/35 via-orange-200/10 to-transparent dark:from-amber-400/14 dark:via-orange-500/8" />
+              {/* Decorative Dot Grid in Top-Right */}
+              <div className="absolute top-8 right-10 hidden sm:grid grid-cols-3 gap-2 opacity-20 dark:opacity-35 pointer-events-none select-none">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <span key={i} className="w-1 h-1 rounded-full bg-slate-400 dark:bg-slate-500" />
+                ))}
+              </div>
 
-              <div className="relative z-10">
-                <motion.div
-                  className="mx-auto flex max-w-2xl flex-col items-center text-center"
-                  initial={
-                    reduceMotion ? false : { opacity: 0, y: 14, scale: 0.98 }
-                  }
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{
-                    duration: reduceMotion ? 0.2 : 0.58,
-                    ease: ENTRANCE_EASE,
-                    delay: reduceMotion ? 0 : 0.04,
-                  }}
-                >
-                  <p className="splash-v2-code-font text-[10px] font-bold uppercase tracking-[0.34em] text-amber-700/85 dark:text-amber-200/80">
-                    {lang({
-                      en: "Portfolio Skills",
-                      vi: "Trải Nghiệm Portfolio",
-                    })}
-                  </p>
+              {/* Vertical Pagination indicators on the Right edge */}
+              <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-2.5 pointer-events-none select-none">
+                <span className="w-2 h-2 bg-teal-500 dark:bg-teal-400 rounded-sm shadow-[0_0_8px_rgba(20,184,166,0.6)]" />
+                <span className="w-2 h-2 bg-slate-300 dark:bg-slate-700 rounded-sm" />
+                <span className="w-2 h-2 bg-slate-300 dark:bg-slate-700 rounded-sm" />
+              </div>
 
-                  <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-300/75 bg-white/60 px-4 py-1.5 shadow-[0_12px_28px_-20px_rgba(146,64,14,0.7)] backdrop-blur-md dark:border-amber-300/25 dark:bg-amber-200/10">
-                    <span className="h-1.5 w-1.5 rounded-full bg-orange-500 shadow-[0_0_16px_rgba(249,115,22,0.75)]" />
-                    <span className="splash-v2-code-font text-[11px] font-bold uppercase tracking-[0.22em] text-orange-600 dark:text-amber-100">
-                      {lang({ en: "Welcome", vi: "Chào Mừng" })}
+              {/* Content area split by layout */}
+              <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-stretch flex-grow">
+                
+                {/* Left-hand vertical line and cybernetic gateway icon badge */}
+                <div className="flex md:flex-col items-center justify-start md:justify-center relative w-full md:w-16">
+                  <div className="absolute left-6 md:left-1/2 right-auto md:right-auto top-1/2 md:top-0 bottom-1/2 md:bottom-0 w-[calc(100%-48px)] md:w-px h-px md:h-full border-t md:border-l border-dashed border-slate-300/80 dark:border-slate-800 pointer-events-none select-none -translate-y-1/2 md:translate-y-0 md:-translate-x-1/2" />
+                  
+                  <div className="relative z-10 w-12 h-12 rounded-full border border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-950 flex items-center justify-center shadow-lg shadow-slate-200/40 dark:shadow-black/50">
+                    <svg className="w-6 h-6 text-teal-600 dark:text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="3" className="fill-teal-500/10" />
+                      <circle cx="12" cy="12" r="1.5" className="fill-teal-600 dark:fill-teal-400" />
+                      <circle cx="12" cy="12" r="6" strokeDasharray="2 2" className="opacity-80" />
+                      <circle cx="12" cy="12" r="9" className="opacity-45" />
+                      <line x1="12" y1="2" x2="12" y2="4" />
+                      <line x1="12" y1="20" x2="12" y2="22" />
+                      <line x1="2" y1="12" x2="4" y2="12" />
+                      <line x1="20" y1="12" x2="22" y2="12" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Right-hand text contents and action pills */}
+                <div className="flex-grow flex flex-col justify-center">
+                  {/* Welcome label */}
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
+                    <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-slate-400 dark:text-slate-500 uppercase">
+                      {lang({ en: "Welcome", vi: "Chào mừng" })}
                     </span>
                   </div>
 
-                  <h1 className="splash-v2-title-lockup splash-v2-title-font relative mt-4 whitespace-nowrap text-[clamp(1.6rem,3.85vw,3rem)] font-semibold leading-none tracking-[-0.035em] text-slate-950 dark:text-amber-50">
-                    <span className="splash-v2-title-word inline-block text-slate-900/90 dark:text-amber-50">
-                      Entering My
-                    </span>{" "}
-                    <span className="splash-v2-title-word splash-v2-title-word-alt relative inline-block font-black tracking-[-0.045em]">
-                      <span className="splash-v2-title-gradient relative z-10 bg-gradient-to-r from-amber-600 via-orange-500 to-amber-500 bg-clip-text text-transparent dark:from-amber-200 dark:via-orange-400 dark:to-amber-300">
-                        Creative Space
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        className="splash-v2-title-swoosh"
-                      />
+                  {/* Subheadings/Tags */}
+                  <div className="text-[10px] sm:text-xs font-extrabold uppercase tracking-widest flex flex-wrap items-center gap-2 mt-4">
+                    <span className="text-teal-600 dark:text-teal-400">
+                      {lang({ en: "Portfolio", vi: "Hồ sơ" })}
                     </span>
+                    <span className="text-slate-300 dark:text-slate-700">•</span>
+                    <span className="text-teal-600 dark:text-teal-400">
+                      {lang({ en: "Networking", vi: "Kết nối" })}
+                    </span>
+                    <span className="text-slate-300 dark:text-slate-700">•</span>
+                    <span className="text-slate-400 dark:text-slate-500">
+                      {lang({ en: "Systems", vi: "Hệ thống" })}
+                    </span>
+                  </div>
+
+                  {/* Main Heading */}
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-800 dark:text-slate-100 mt-4 leading-tight">
+                    {lang({
+                      en: (
+                        <>
+                          Hi, welcome to my{" "}
+                          <span className="text-teal-600 dark:text-teal-400 font-extrabold">
+                            portfolio.
+                          </span>
+                        </>
+                      ),
+                      vi: (
+                        <>
+                          Xin chào, chào mừng đến với{" "}
+                          <span className="text-teal-600 dark:text-teal-400 font-extrabold">
+                            portfolio
+                          </span>{" "}
+                          của tôi.
+                        </>
+                      ),
+                    })}
                   </h1>
 
-                  <p className="splash-v2-subtitle-pill mt-5 max-w-xl px-4 py-1.5 text-sm font-semibold leading-relaxed text-slate-700 dark:text-slate-200 sm:text-[15px]">
+                  {/* Subtitle */}
+                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-3 max-w-xl leading-relaxed">
                     {lang({
-                      en: "A warm little space where code, motion, and ideas come together.",
-                      vi: "Một không gian nhỏ nơi ý tưởng, chuyển động và mã nguồn gặp nhau.",
+                      en: "A simple place to explore projects, practical IT work, and ideas I enjoy building.",
+                      vi: "Một góc nhỏ để khám phá các dự án, công việc IT thực tế và những ý tưởng tôi thích xây dựng.",
                     })}
                   </p>
-                </motion.div>
 
-                <motion.div
-                  className="mx-auto mt-8 w-full max-w-[42rem]"
-                  initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.45,
-                    ease: ENTRANCE_EASE,
-                    delay: reduceMotion ? 0 : 0.18,
-                  }}
-                >
-                  <div className="mb-2 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-700 dark:text-amber-200">
-                    <span>{lang({ en: "Loading", vi: "Äang táº£i" })}</span>
-                    <span>{progress}%</span>
-                  </div>
-
-                  <div
-                    className="relative h-3 w-full overflow-hidden rounded-full border border-amber-300/70 bg-amber-100/45 shadow-[inset_0_2px_4px_rgba(120,53,15,0.16)] dark:border-amber-300/25 dark:bg-amber-950/30 dark:shadow-[inset_0_2px_5px_rgba(0,0,0,0.45)]"
-                    role="progressbar"
-                    aria-label={lang({
-                      en: "Splash loading progress",
-                      vi: "Tiáº¿n trÃ¬nh táº£i splash",
-                    })}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-valuenow={progress}
-                  >
-                    <motion.div
-                      className="absolute inset-y-0 left-0 right-0 origin-left rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 shadow-[0_0_12px_rgba(249,115,22,0.6)]"
-                      initial={false}
-                      animate={{ scaleX: progressScale }}
-                      transition={
-                        reduceMotion
-                          ? { duration: 0 }
-                          : {
-                              type: "spring",
-                              stiffness: 160,
-                              damping: 24,
-                              mass: 0.6,
-                            }
+                  {/* Path Action Pills */}
+                  <div className="flex flex-wrap gap-3 mt-6 sm:mt-8">
+                    <motion.button
+                      type="button"
+                      disabled={phase !== "ready_for_interaction"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEnterApp("projects");
+                      }}
+                      className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full border border-slate-200/80 bg-white/40 dark:border-slate-800 dark:bg-slate-950/40 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-teal-600 hover:border-teal-500 dark:hover:text-teal-400 dark:hover:border-teal-500 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      whileHover={
+                        phase === "ready_for_interaction" && !reduceMotion
+                          ? { y: -2, scale: 1.025, backgroundColor: "rgba(255,255,255,0.9)" }
+                          : {}
                       }
-                    />
-                  </div>
-                </motion.div>
+                      whileTap={phase === "ready_for_interaction" && !reduceMotion ? { scale: 0.975 } : {}}
+                    >
+                      <FolderOpen className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                      <span>{lang({ en: "Projects", vi: "Dự án" })}</span>
+                    </motion.button>
 
-                <div className="mt-8 flex min-h-20 items-center justify-center">
-                  <AnimatePresence mode="wait">
-                    {phase === "ready_for_interaction" ? (
-                      <motion.div
-                        key="cta-ready"
-                        className="splash-v2-cta-shell relative"
-                        initial={
-                          reduceMotion
-                            ? { opacity: 0 }
-                            : { opacity: 0, y: 14, scale: 0.88 }
-                        }
-                        animate={
-                          reduceMotion
-                            ? { opacity: 1 }
-                            : { opacity: 1, y: 0, scale: 1 }
-                        }
-                        exit={
-                          reduceMotion
-                            ? { opacity: 0 }
-                            : { opacity: 0, y: -10, scale: 0.96 }
-                        }
-                        transition={{
-                          duration: reduceMotion ? 0.2 : 0.42,
-                          ease: ENTRANCE_EASE,
-                        }}
-                      >
-                        <motion.button
-                          type="button"
-                          onClick={handleEnterApp}
-                          aria-label={lang({
-                            en: "Enter portfolio",
-                            vi: "VÃ o portfolio",
-                          })}
-                          className="splash-v2-pro-button group relative inline-flex items-center gap-3.5 overflow-hidden rounded-full border border-amber-500 bg-white py-2.5 pl-6 pr-3.5 text-[15px] font-extrabold uppercase tracking-[0.17em] text-amber-700 shadow-[0_16px_34px_-20px_rgba(251,146,60,0.72)] transition-[color,border-color] duration-200 hover:border-amber-500 hover:text-white focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/80 dark:border-amber-500 dark:bg-white dark:text-amber-700 dark:hover:text-white dark:focus-visible:text-white"
-                          whileHover={
-                            reduceMotion
-                              ? undefined
-                              : {
-                                  y: -5,
-                                  scale: 1.025,
-                                  boxShadow:
-                                    "0 22px 44px -16px rgba(251,146,60,0.92)",
-                                }
-                          }
-                          whileTap={
-                            reduceMotion
-                              ? undefined
-                              : {
-                                  scale: 0.975,
-                                  rotate: -0.3,
-                                }
-                          }
-                          transition={
-                            reduceMotion
-                              ? { duration: 0 }
-                              : {
-                                  type: "spring",
-                                  stiffness: 650,
-                                  damping: 34,
-                                  mass: 0.42,
-                                }
-                          }
-                        >
-                          <span className="relative z-20 transition-colors duration-500">
-                            {lang({
-                              en: "Launch",
-                              vi: "Báº¯t Äáº§u",
-                            })}
-                          </span>
-                          <span className="relative z-20 inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-amber-500 text-white shadow-[0_10px_22px_-12px_rgba(120,53,15,0.8)] transition-[background-color,color] duration-500 group-hover:bg-white group-hover:text-amber-600 group-focus-visible:bg-white group-focus-visible:text-amber-600">
-                            <svg
-                              aria-hidden="true"
-                              className="h-5 w-5 transition-transform duration-500 group-hover:rotate-45 group-focus-visible:rotate-45"
-                              fill="none"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M6.5 17.5 17.5 6.5M9 6.5h8.5V15"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2.8"
-                              />
-                            </svg>
-                          </span>
-                        </motion.button>
-                      </motion.div>
-                    ) : (
-                      <motion.p
-                        key="cta-loading-state"
-                        className="text-center text-xs font-semibold uppercase tracking-[0.18em] text-amber-700/85 dark:text-amber-300/75"
-                        initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                        animate={
-                          reduceMotion
-                            ? { opacity: 1 }
-                            : { opacity: [0.5, 1, 0.5], y: [0, -1, 0] }
-                        }
-                        transition={
-                          reduceMotion
-                            ? { duration: 0.2 }
-                            : {
-                                duration: 1.8,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                              }
-                        }
-                      >
-                        {lang({
-                          en: "Preparing interactive entrance...",
-                          vi: "Äang chuáº©n bá»‹ lá»‘i vÃ o tÆ°Æ¡ng tÃ¡c...",
-                        })}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
+                    <motion.button
+                      type="button"
+                      disabled={phase !== "ready_for_interaction"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEnterApp("blog");
+                      }}
+                      className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full border border-slate-200/80 bg-white/40 dark:border-slate-800 dark:bg-slate-950/40 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-teal-600 hover:border-teal-500 dark:hover:text-teal-400 dark:hover:border-teal-500 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      whileHover={
+                        phase === "ready_for_interaction" && !reduceMotion
+                          ? { y: -2, scale: 1.025, backgroundColor: "rgba(255,255,255,0.9)" }
+                          : {}
+                      }
+                      whileTap={phase === "ready_for_interaction" && !reduceMotion ? { scale: 0.975 } : {}}
+                    >
+                      <FileText className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                      <span>{lang({ en: "Notes", vi: "Ghi chú" })}</span>
+                    </motion.button>
+
+                    <motion.button
+                      type="button"
+                      disabled={phase !== "ready_for_interaction"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEnterApp("skills");
+                      }}
+                      className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full border border-slate-200/80 bg-white/40 dark:border-slate-800 dark:bg-slate-950/40 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-teal-600 hover:border-teal-500 dark:hover:text-teal-400 dark:hover:border-teal-500 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      whileHover={
+                        phase === "ready_for_interaction" && !reduceMotion
+                          ? { y: -2, scale: 1.025, backgroundColor: "rgba(255,255,255,0.9)" }
+                          : {}
+                      }
+                      whileTap={phase === "ready_for_interaction" && !reduceMotion ? { scale: 0.975 } : {}}
+                    >
+                      <Beaker className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                      <span>{lang({ en: "Labs", vi: "Thử nghiệm" })}</span>
+                    </motion.button>
+                  </div>
+
                 </div>
+
               </div>
+
+              {/* Bottom Progress and Status Row */}
+              <div className="mt-8 pt-4 border-t border-slate-100/60 dark:border-slate-800/60">
+                
+                {/* Progress Labels */}
+                <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold tracking-[0.2em]">
+                  <span
+                    className={`transition-colors duration-300 ${
+                      phase === "loading"
+                        ? "text-teal-600 dark:text-teal-400 font-extrabold animate-pulse"
+                        : "text-slate-400 dark:text-slate-500"
+                    }`}
+                  >
+                    {lang({ en: "PREPARING", vi: "ĐANG CHUẨN BỊ" })}
+                  </span>
+                  <span
+                    className={`transition-colors duration-300 ${
+                      phase === "ready_for_interaction"
+                        ? "text-teal-600 dark:text-teal-400 font-extrabold"
+                        : "text-slate-400 dark:text-slate-500"
+                    }`}
+                  >
+                    {lang({ en: "READY", vi: "SẴN SÀNG" })}
+                  </span>
+                </div>
+
+                {/* Progress Bar Line utilizing GPU transforms scaleX with Motion */}
+                <div className="relative h-1.5 w-full bg-slate-200/50 dark:bg-slate-800/40 rounded-full overflow-hidden mt-3 shadow-inner">
+                  <motion.div
+                    className="absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-cyan-500 to-teal-500 dark:from-cyan-400 dark:to-teal-400 rounded-full shadow-[0_0_12px_rgba(20,184,166,0.6)]"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: progress / 100 }}
+                    style={{ originX: 0 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { type: "spring", stiffness: 75, damping: 14, mass: 0.55 }
+                    }
+                  />
+                </div>
+
+                {/* Action Helper Indicator */}
+                {phase === "ready_for_interaction" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center text-[10px] sm:text-xs font-semibold tracking-wider text-teal-600/80 dark:text-teal-400/80 mt-3 animate-pulse"
+                  >
+                    {lang({
+                      en: "Click a section or click anywhere to launch",
+                      vi: "Chọn một mục hoặc nhấp bất kỳ đâu để bắt đầu",
+                    })}
+                  </motion.div>
+                )}
+
+              </div>
+
             </motion.div>
+
           </div>
+
         </motion.div>
       )}
     </AnimatePresence>

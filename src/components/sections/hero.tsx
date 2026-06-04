@@ -34,8 +34,8 @@ import ScrollIndicator from "@/components/ui/scroll-indicator";
 const NETWORK_NODES = [
   {
     id: 1,
-    color: "bg-yellow-400",
-    shadow: "shadow-[0_0_24px_rgba(234,179,8,0.65)]",
+    color: "bg-teal-400",
+    shadow: "shadow-[0_0_24px_rgba(20,184,166,0.65)]",
     size: "h-2 w-2",
     top: "68%",
     left: "12%",
@@ -44,8 +44,8 @@ const NETWORK_NODES = [
   },
   {
     id: 2,
-    color: "bg-orange-400",
-    shadow: "shadow-[0_0_18px_rgba(251,146,60,0.6)]",
+    color: "bg-cyan-400",
+    shadow: "shadow-[0_0_18px_rgba(6,182,212,0.6)]",
     size: "h-1.5 w-1.5",
     top: "58%",
     left: "28%",
@@ -104,8 +104,8 @@ const NETWORK_NODES = [
   },
   {
     id: 8,
-    color: "bg-yellow-300",
-    shadow: "shadow-[0_0_18px_rgba(253,224,71,0.6)]",
+    color: "bg-teal-300",
+    shadow: "shadow-[0_0_18px_rgba(45,212,191,0.6)]",
     size: "h-1 w-1",
     top: "15%",
     left: "35%",
@@ -164,8 +164,8 @@ const NETWORK_NODES = [
   },
   {
     id: 14,
-    color: "bg-amber-300",
-    shadow: "shadow-[0_0_16px_rgba(252,211,77,0.55)]",
+    color: "bg-teal-300",
+    shadow: "shadow-[0_0_16px_rgba(45,212,191,0.55)]",
     size: "h-1.5 w-1.5",
     top: "70%",
     left: "72%",
@@ -214,8 +214,8 @@ const NETWORK_NODES = [
   },
   {
     id: 19,
-    color: "bg-orange-300",
-    shadow: "shadow-[0_0_16px_rgba(253,186,116,0.55)]",
+    color: "bg-cyan-300",
+    shadow: "shadow-[0_0_16px_rgba(103,232,249,0.55)]",
     size: "h-1 w-1",
     top: "60%",
     left: "18%",
@@ -374,7 +374,7 @@ export function HeroSection() {
               }}
               className="flex"
             >
-              <Terminal className="h-4 w-4 text-yellow-500" />
+              <Terminal className="h-4 w-4 text-teal-500" />
             </motion.span>
             <span className="text-slate-700 dark:text-slate-300">
               ping 127.0.0.1 -c 1
@@ -395,7 +395,7 @@ export function HeroSection() {
               <TypewriterText
                 key={`${lang(siteConfig.role)}|Data Communications`}
                 words={[lang(siteConfig.role), "Data Communications"]}
-                className="align-top bg-gradient-to-r from-rose-400 via-orange-400 to-amber-400 bg-clip-text leading-[1.12] text-transparent"
+                className="align-top bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400 bg-clip-text leading-[1.12] text-transparent"
                 typingSpeed={85}
                 deletingSpeed={45}
                 pauseDuration={1200}
@@ -417,7 +417,7 @@ export function HeroSection() {
             <a
               href="#projects"
               onClick={(e) => handleAnchorClick(e, "#projects")}
-              className="group inline-flex items-center justify-center gap-2 rounded-lg bg-yellow-500 px-6 py-3 font-medium text-white shadow-lg shadow-yellow-500/20 transition-colors hover:bg-yellow-600"
+              className="group inline-flex items-center justify-center gap-2 rounded-lg bg-teal-600 px-6 py-3 font-medium text-white shadow-lg shadow-teal-500/20 transition-colors hover:bg-teal-700"
             >
               {lang({ en: "View Projects", vi: "Xem Dự Án" })}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -448,9 +448,9 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Internal Network (Màu Slate trung tính để làm nổi bật các Node Vàng/Cam) */}
-            <div className="absolute left-[48%] right-[-3%] top-[7%] bottom-[7%] rounded-2xl border border-amber-300/80 bg-amber-50/35 shadow-[0_18px_60px_-44px_rgba(245,158,11,0.65)] dark:border-amber-500/35 dark:bg-amber-500/10 dark:shadow-[0_18px_60px_-44px_rgba(245,158,11,0.45)]">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-amber-300 bg-amber-50/95 px-3 py-0.5 text-[10px] font-bold tracking-widest text-amber-700 shadow-md shadow-amber-500/20 dark:border-amber-500/55 dark:bg-amber-500/15 dark:text-amber-200">
+            {/* Internal Network (Màu Teal đồng bộ với Splash Screen) */}
+            <div className="absolute left-[48%] right-[-3%] top-[7%] bottom-[7%] rounded-2xl border border-teal-300/80 bg-teal-50/35 shadow-[0_18px_60px_-44px_rgba(20,184,166,0.65)] dark:border-teal-500/35 dark:bg-teal-500/10 dark:shadow-[0_18px_60px_-44px_rgba(20,184,166,0.45)]">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-teal-300 bg-teal-50/95 px-3 py-0.5 text-[10px] font-bold tracking-widest text-teal-700 shadow-md shadow-teal-500/20 dark:border-teal-500/55 dark:bg-teal-500/15 dark:text-teal-200">
                 INTERNAL NETWORK
               </div>
             </div>
@@ -532,7 +532,7 @@ export function HeroSection() {
                   stroke="currentColor"
                   strokeWidth="1.8"
                   strokeDasharray="4 20"
-                  className="text-orange-500 dark:text-orange-300 packet-slow"
+                  className="text-cyan-500 dark:text-cyan-300 packet-slow"
                 />
                 <line
                   x1="33.7"
@@ -542,7 +542,7 @@ export function HeroSection() {
                   stroke="currentColor"
                   strokeWidth="2.35"
                   strokeDasharray="6 18"
-                  className="text-orange-500 dark:text-orange-300 packet-fast"
+                  className="text-teal-500 dark:text-teal-300 packet-fast"
                 />
                 <path
                   d="M 36.1 36 L 29.5 36 L 29.5 44.7"
@@ -577,7 +577,7 @@ export function HeroSection() {
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeDasharray="6 18"
-                  className="text-amber-500 dark:text-amber-300 packet-fast"
+                  className="text-teal-500 dark:text-teal-300 packet-fast"
                 />
                 <path
                   d="M 83 20 L 91.8 20 L 91.8 28 L 93.4 28"
@@ -601,7 +601,7 @@ export function HeroSection() {
                   stroke="currentColor"
                   strokeWidth="1.8"
                   strokeDasharray="4 20"
-                  className="text-orange-500 dark:text-orange-300 packet-slow"
+                  className="text-cyan-500 dark:text-cyan-300 packet-slow"
                 />
                 <path
                   d="M 83.2 80 L 91.8 80 L 91.8 72 L 93.4 72"
@@ -655,20 +655,20 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 4. MAIL SERVER (Orange) */}
+            {/* 4. MAIL SERVER (Cyan) */}
             <div className="absolute left-[29.5%] top-[78%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-orange-300 bg-orange-50 text-orange-600 shadow-lg shadow-orange-500/20 dark:border-orange-500/50 dark:bg-orange-500/10 dark:text-orange-300"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-300 bg-cyan-50 text-cyan-600 shadow-lg shadow-cyan-500/20 dark:border-cyan-500/50 dark:bg-cyan-500/10 dark:text-cyan-300"
               >
                 <Mail size={18} />
               </motion.div>
-              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-orange-50/95 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-orange-600 shadow-md shadow-orange-500/15 backdrop-blur-md dark:bg-orange-500/10 dark:text-orange-300">
+              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-cyan-50/95 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-cyan-600 shadow-md shadow-cyan-500/15 backdrop-blur-md dark:bg-cyan-500/10 dark:text-cyan-300">
                 Mail Srv
               </div>
             </div>
 
-            {/* 5. CORE ROUTER (Amber - Đồng bộ nút bấm View Projects) */}
+            {/* 5. CORE ROUTER (Teal - Đồng bộ với Splash Screen) */}
             <div className="absolute left-[39%] top-[36%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
@@ -685,14 +685,14 @@ export function HeroSection() {
               <motion.div
                 whileHover={{
                   scale: 1.1,
-                  boxShadow: "0 0 25px rgba(245,158,11,0.5)",
+                  boxShadow: "0 0 25px rgba(13,148,136,0.5)",
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-300 bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500 text-white shadow-xl shadow-amber-500/35 transition-colors hover:from-amber-400 hover:via-orange-500 hover:to-rose-500"
+                className="flex h-16 w-16 items-center justify-center rounded-2xl border border-teal-300 bg-gradient-to-br from-cyan-400 via-teal-500 to-teal-600 text-white shadow-xl shadow-teal-500/35 transition-colors hover:from-cyan-300 hover:via-teal-600 hover:to-emerald-500"
               >
                 <Router size={28} />
               </motion.div>
-              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-amber-50/95 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-amber-700 shadow-md shadow-amber-500/20 backdrop-blur-md dark:bg-amber-500/15 dark:text-amber-200">
+              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-teal-50/95 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-teal-700 shadow-md shadow-teal-500/20 backdrop-blur-md dark:bg-teal-500/15 dark:text-teal-200">
                 Core Router
               </div>
             </div>
@@ -710,7 +710,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 7. ACCESS SWITCH (Amber) */}
+            {/* 7. ACCESS SWITCH (App Srv) */}
             <div className="absolute left-[71.4%] top-[36%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
@@ -726,11 +726,11 @@ export function HeroSection() {
             <div className="absolute left-[83%] top-[50%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="flex h-12 w-12 items-center justify-center rounded-xl border border-amber-300 bg-amber-100 text-amber-700 shadow-lg shadow-amber-500/25 dark:border-amber-400/55 dark:bg-amber-500/15 dark:text-amber-200"
+                className="flex h-12 w-12 items-center justify-center rounded-xl border border-teal-300 bg-teal-100 text-teal-700 shadow-lg shadow-teal-500/25 dark:border-teal-400/55 dark:bg-teal-500/15 dark:text-teal-200"
               >
                 <Network size={20} />
               </motion.div>
-              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-amber-50/95 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-amber-700 shadow-md shadow-amber-500/15 backdrop-blur-md dark:bg-amber-500/10 dark:text-amber-200">
+              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-teal-50/95 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-teal-700 shadow-md shadow-teal-500/15 backdrop-blur-md dark:bg-teal-500/10 dark:text-teal-200">
                 Switch
               </div>
             </div>
@@ -748,7 +748,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* 9. WI-FI CLIENT (Orange) */}
+            {/* 9. NAS */}
             <div className="absolute left-[96%] top-[28%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
@@ -761,14 +761,15 @@ export function HeroSection() {
               </div>
             </div>
 
+            {/* 10. WI-FI */}
             <div className="absolute left-[96%] top-[50%] -translate-x-1/2 -translate-y-1/2">
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 10 }}
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-300 bg-orange-100 text-orange-600 shadow-lg shadow-orange-500/25 dark:border-orange-500/50 dark:bg-orange-500/15 dark:text-orange-300"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-300 bg-cyan-100 text-cyan-600 shadow-lg shadow-cyan-500/25 dark:border-cyan-500/50 dark:bg-cyan-500/15 dark:text-cyan-300"
               >
                 <Wifi size={18} />
               </motion.div>
-              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-orange-50/95 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-orange-600 shadow-md shadow-orange-500/15 backdrop-blur-md dark:bg-orange-500/10 dark:text-orange-300">
+              <div className="absolute left-1/2 top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap rounded-md bg-cyan-50/95 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-cyan-600 shadow-md shadow-cyan-500/15 backdrop-blur-md dark:bg-cyan-500/10 dark:text-cyan-300">
                 Wi-Fi
               </div>
             </div>
