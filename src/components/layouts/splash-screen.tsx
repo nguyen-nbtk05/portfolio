@@ -9,18 +9,19 @@ import {
   useTransform,
 } from "motion/react";
 import { useEffect, useState, useRef } from "react";
-import { FolderOpen, FileText, Beaker } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 
 interface SplashScreenProps {
-  onComplete?: (targetSection?: string) => void;
+  onComplete?: () => void;
 }
 
-type SplashPhase = "loading" | "ready_for_interaction" | "exiting";
+type SplashPhase = "loading" | "ready" | "exiting";
 
 const LOADING_DURATION_MS = 2500;
 const PROGRESS_TICK_MS = 50;
 const EXIT_DURATION_SECONDS = 0.55;
+const AUTO_EXIT_DELAY_MS = 600;
+const CONTENT_ENTRANCE_MS = 1500;
 const ENTRANCE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // Scattered network node background particles to fill empty space
@@ -191,7 +192,6 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
   const [phase, setPhase] = useState<SplashPhase>("loading");
   const [progress, setProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const [selectedSection, setSelectedSection] = useState<string | undefined>(undefined);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Mouse positions for 3D parallax tilt
@@ -226,30 +226,39 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
   useEffect(() => {
     if (phase !== "loading") return;
 
-    const startedAt = performance.now();
-    const updateProgress = () => {
-      const elapsed = performance.now() - startedAt;
-      const nextProgress = Math.min(
-        100,
-        Math.round((elapsed / LOADING_DURATION_MS) * 100),
-      );
+    // Wait for content entrance animations to finish before starting progress
+    const entranceDelay = reduceMotion ? 0 : CONTENT_ENTRANCE_MS;
+    let intervalId: number;
 
-      setProgress((current) =>
-        current === nextProgress ? current : nextProgress,
-      );
+    const delayId = window.setTimeout(() => {
+      const startedAt = performance.now();
+      const updateProgress = () => {
+        const elapsed = performance.now() - startedAt;
+        const nextProgress = Math.min(
+          100,
+          Math.round((elapsed / LOADING_DURATION_MS) * 100),
+        );
 
-      if (nextProgress >= 100) {
-        setProgress(100);
-        setPhase("ready_for_interaction");
-        window.clearInterval(intervalId);
-      }
+        setProgress((current) =>
+          current === nextProgress ? current : nextProgress,
+        );
+
+        if (nextProgress >= 100) {
+          setProgress(100);
+          setPhase("ready");
+          window.clearInterval(intervalId);
+        }
+      };
+
+      intervalId = window.setInterval(updateProgress, PROGRESS_TICK_MS);
+      updateProgress();
+    }, entranceDelay);
+
+    return () => {
+      window.clearTimeout(delayId);
+      window.clearInterval(intervalId);
     };
-
-    const intervalId = window.setInterval(updateProgress, PROGRESS_TICK_MS);
-    updateProgress();
-
-    return () => window.clearInterval(intervalId);
-  }, [phase]);
+  }, [phase, reduceMotion]);
 
   // Track mouse coordinates for interactive parallax
   useEffect(() => {
@@ -266,16 +275,20 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY, reduceMotion]);
 
-  const handleEnterApp = (sectionId?: string) => {
-    if (phase !== "ready_for_interaction") return;
+  // Auto-exit after loading completes with a short cinematic delay
+  useEffect(() => {
+    if (phase !== "ready") return;
 
-    setSelectedSection(sectionId);
-    setPhase("exiting");
-    setIsVisible(false);
-  };
+    const timerId = window.setTimeout(() => {
+      setPhase("exiting");
+      setIsVisible(false);
+    }, reduceMotion ? 100 : AUTO_EXIT_DELAY_MS);
+
+    return () => window.clearTimeout(timerId);
+  }, [phase, reduceMotion]);
 
   return (
-    <AnimatePresence onExitComplete={() => onComplete?.(selectedSection)}>
+    <AnimatePresence onExitComplete={() => onComplete?.()}>
       {isVisible && (
         <motion.div
           role="status"
@@ -316,10 +329,10 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
           {/* Glowing colorful blurred background orbs */}
           {!reduceMotion && (
-            <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0" style={{ contain: "paint" }}>
               {/* Orb A: Cyan-Teal gradient */}
               <motion.div
-                className="absolute w-[420px] h-[420px] rounded-full bg-gradient-to-tr from-cyan-400/22 to-teal-400/18 dark:from-cyan-600/10 dark:to-teal-500/10 blur-[100px]"
+                className="absolute w-[420px] h-[420px] rounded-full bg-gradient-to-tr from-cyan-400/22 to-teal-400/18 dark:from-cyan-600/10 dark:to-teal-500/10 blur-[100px] will-change-transform"
                 animate={{
                   x: [0, 50, -30, 0],
                   y: [0, -70, 50, 0],
@@ -334,7 +347,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               />
               {/* Orb B: Teal-Emerald gradient */}
               <motion.div
-                className="absolute w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-teal-400/20 to-emerald-400/18 dark:from-teal-600/9 dark:to-emerald-500/9 blur-[110px]"
+                className="absolute w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-teal-400/20 to-emerald-400/18 dark:from-teal-600/9 dark:to-emerald-500/9 blur-[110px] will-change-transform"
                 animate={{
                   x: [0, -60, 40, 0],
                   y: [0, 60, -50, 0],
@@ -349,7 +362,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               />
               {/* Orb C: Indigo-Violet gradient */}
               <motion.div
-                className="absolute w-[360px] h-[360px] rounded-full bg-gradient-to-tr from-indigo-400/22 to-violet-400/18 dark:from-indigo-600/10 dark:to-violet-500/10 blur-[90px]"
+                className="absolute w-[360px] h-[360px] rounded-full bg-gradient-to-tr from-indigo-400/22 to-violet-400/18 dark:from-indigo-600/10 dark:to-violet-500/10 blur-[90px] will-change-transform"
                 animate={{
                   x: [0, 40, -50, 0],
                   y: [0, 50, 60, 0],
@@ -399,7 +412,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             {/* Ambient Breathing Glow Aura behind card */}
             {!reduceMotion && (
               <motion.div
-                className="absolute inset-4 rounded-[2.5rem] bg-gradient-to-tr from-cyan-500/15 via-teal-500/8 to-indigo-500/15 blur-3xl pointer-events-none select-none -z-10"
+                className="absolute inset-4 rounded-[2.5rem] bg-gradient-to-tr from-cyan-500/15 via-teal-500/8 to-indigo-500/15 blur-3xl pointer-events-none select-none -z-10 will-change-transform"
                 animate={{
                   opacity: [0.55, 0.85, 0.55],
                   scale: [0.97, 1.03, 0.97],
@@ -414,10 +427,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
             {/* Main glassmorphism card with 3D parallax tilt */}
             <motion.div
-              className={`w-full rounded-[2.5rem] bg-white/70 border border-white/80 shadow-[0_32px_100px_-20px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:bg-slate-900/60 dark:border-slate-800/80 dark:shadow-[0_32px_100px_-20px_rgba(0,0,0,0.5)] flex flex-col justify-between overflow-hidden relative p-8 sm:p-10 min-h-[380px] ${
-                phase === "ready_for_interaction" ? "cursor-pointer" : ""
-              }`}
-              onClick={() => phase === "ready_for_interaction" && handleEnterApp()}
+              className="w-full rounded-[2.5rem] bg-white/70 border border-white/80 shadow-[0_32px_100px_-20px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:bg-slate-900/60 dark:border-slate-800/80 dark:shadow-[0_32px_100px_-20px_rgba(0,0,0,0.5)] flex flex-col justify-between overflow-hidden relative p-8 sm:p-10 min-h-[320px]"
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 30, scale: 0.98 }}
               animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.6, ease: ENTRANCE_EASE }}
@@ -428,24 +438,78 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                 y: reduceMotion ? 0 : cardTranslateY,
                 transformStyle: "preserve-3d",
               }}
-              whileHover={
-                phase === "ready_for_interaction" && !reduceMotion
-                  ? { y: -3, transition: { duration: 0.2 } }
-                  : {}
-              }
             >
               {/* Decorative Dot Grid in Top-Right */}
-              <div className="absolute top-8 right-10 hidden sm:grid grid-cols-3 gap-2 opacity-20 dark:opacity-35 pointer-events-none select-none">
+              <div className="absolute top-8 right-10 hidden sm:grid grid-cols-3 gap-2 pointer-events-none select-none">
                 {Array.from({ length: 12 }).map((_, i) => (
-                  <span key={i} className="w-1 h-1 rounded-full bg-slate-400 dark:bg-slate-500" />
+                  <motion.span
+                    key={i}
+                    className="w-1 h-1 rounded-full bg-slate-400 dark:bg-slate-500"
+                    initial={reduceMotion ? { opacity: 0.2 } : { opacity: 0, scale: 0 }}
+                    animate={reduceMotion ? { opacity: 0.2 } : { opacity: [0, 0.35, 0.15], scale: 1 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : {
+                            delay: 0.6 + i * 0.06,
+                            duration: 0.4,
+                            opacity: {
+                              delay: 0.6 + i * 0.06,
+                              duration: 3,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            },
+                          }
+                    }
+                  />
                 ))}
               </div>
 
               {/* Vertical Pagination indicators on the Right edge */}
               <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-2.5 pointer-events-none select-none">
-                <span className="w-2 h-2 bg-teal-500 dark:bg-teal-400 rounded-sm shadow-[0_0_8px_rgba(20,184,166,0.6)]" />
-                <span className="w-2 h-2 bg-slate-300 dark:bg-slate-700 rounded-sm" />
-                <span className="w-2 h-2 bg-slate-300 dark:bg-slate-700 rounded-sm" />
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={i}
+                    initial={reduceMotion ? {} : { opacity: 0, x: 8 }}
+                    animate={reduceMotion ? {} : { opacity: 1, x: 0 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { delay: 0.7 + i * 0.08, duration: 0.3, ease: ENTRANCE_EASE }
+                    }
+                    className="w-4 h-4 flex items-center justify-center"
+                  >
+                    <motion.span
+                      className="w-2 h-2 rounded-sm bg-teal-500 dark:bg-teal-400 shadow-[0_0_8px_rgba(20,184,166,0.6)] dark:shadow-[0_0_8px_rgba(45,212,191,0.6)]"
+                      animate={
+                        reduceMotion
+                          ? {}
+                          : {
+                              opacity: [0.3, 1, 0.3],
+                              scale: [0.85, 1.25, 0.85],
+                            }
+                      }
+                      transition={
+                        reduceMotion
+                          ? { duration: 0 }
+                          : {
+                              opacity: {
+                                delay: 1.1 + i * 0.6,
+                                duration: 1.8,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                              },
+                              scale: {
+                                delay: 1.1 + i * 0.6,
+                                duration: 1.8,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                              },
+                            }
+                      }
+                    />
+                  </motion.div>
+                ))}
               </div>
 
               {/* Content area split by layout */}
@@ -453,10 +517,55 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                 
                 {/* Left-hand vertical line and cybernetic gateway icon badge */}
                 <div className="flex md:flex-col items-center justify-start md:justify-center relative w-full md:w-16">
-                  <div className="absolute left-6 md:left-1/2 right-auto md:right-auto top-1/2 md:top-0 bottom-1/2 md:bottom-0 w-[calc(100%-48px)] md:w-px h-px md:h-full border-t md:border-l border-dashed border-slate-300/80 dark:border-slate-800 pointer-events-none select-none -translate-y-1/2 md:translate-y-0 md:-translate-x-1/2" />
+                  <motion.div
+                    className="absolute left-6 md:left-1/2 right-auto md:right-auto top-1/2 md:top-0 bottom-1/2 md:bottom-0 w-[calc(100%-48px)] md:w-px h-px md:h-full border-t md:border-l border-dashed border-slate-300/80 dark:border-slate-800 pointer-events-none select-none -translate-y-1/2 md:translate-y-0 md:-translate-x-1/2"
+                    initial={reduceMotion ? {} : { scaleY: 0, scaleX: 0 }}
+                    animate={reduceMotion ? {} : { scaleY: 1, scaleX: 1 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { delay: 0.3, duration: 0.7, ease: ENTRANCE_EASE }
+                    }
+                    style={{ originY: 0.5 }}
+                  />
                   
-                  <div className="relative z-10 w-12 h-12 rounded-full border border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-950 flex items-center justify-center shadow-lg shadow-slate-200/40 dark:shadow-black/50">
-                    <svg className="w-6 h-6 text-teal-600 dark:text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <motion.div
+                    className="relative z-10 w-12 h-12 rounded-full border border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-950 flex items-center justify-center shadow-lg shadow-slate-200/40 dark:shadow-black/50"
+                    initial={reduceMotion ? {} : { opacity: 0, scale: 0.5, rotate: -90 }}
+                    animate={reduceMotion ? {} : { opacity: 1, scale: 1, rotate: 0 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { delay: 0.35, duration: 0.6, ease: ENTRANCE_EASE }
+                    }
+                  >
+                    {!reduceMotion && (
+                      <motion.div
+                        className="absolute inset-0 rounded-full bg-teal-500/10 dark:bg-teal-400/5 -z-10"
+                        animate={{ scale: [1, 1.28, 1], opacity: [0.35, 0.85, 0.35] }}
+                        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                    )}
+                    <motion.svg
+                      className="w-6 h-6 text-teal-600 dark:text-teal-400"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      animate={
+                        !reduceMotion
+                          ? { rotate: [0, 360], scale: [1, 1.06, 1] }
+                          : {}
+                      }
+                      transition={
+                        !reduceMotion
+                          ? {
+                              rotate: { duration: 12, repeat: Infinity, ease: "linear" },
+                              scale: { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
+                            }
+                          : { duration: 0 }
+                      }
+                    >
                       <circle cx="12" cy="12" r="3" className="fill-teal-500/10" />
                       <circle cx="12" cy="12" r="1.5" className="fill-teal-600 dark:fill-teal-400" />
                       <circle cx="12" cy="12" r="6" strokeDasharray="2 2" className="opacity-80" />
@@ -465,37 +574,65 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                       <line x1="12" y1="20" x2="12" y2="22" />
                       <line x1="2" y1="12" x2="4" y2="12" />
                       <line x1="20" y1="12" x2="22" y2="12" />
-                    </svg>
-                  </div>
+                    </motion.svg>
+                  </motion.div>
                 </div>
 
                 {/* Right-hand text contents and action pills */}
                 <div className="flex-grow flex flex-col justify-center">
                   {/* Welcome label */}
-                  <div className="flex items-center gap-2">
+                  <motion.div
+                    className="flex items-center gap-2"
+                    initial={reduceMotion ? {} : { opacity: 0, x: -12 }}
+                    animate={reduceMotion ? {} : { opacity: 1, x: 0 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { delay: 0.45, duration: 0.5, ease: ENTRANCE_EASE }
+                    }
+                  >
                     <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
                     <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-slate-400 dark:text-slate-500 uppercase">
                       {lang({ en: "Welcome", vi: "Chào mừng" })}
                     </span>
-                  </div>
+                  </motion.div>
 
                   {/* Subheadings/Tags */}
                   <div className="text-[10px] sm:text-xs font-extrabold uppercase tracking-widest flex flex-wrap items-center gap-2 mt-4">
-                    <span className="text-teal-600 dark:text-teal-400">
-                      {lang({ en: "Portfolio", vi: "Hồ sơ" })}
-                    </span>
-                    <span className="text-slate-300 dark:text-slate-700">•</span>
-                    <span className="text-teal-600 dark:text-teal-400">
-                      {lang({ en: "Networking", vi: "Kết nối" })}
-                    </span>
-                    <span className="text-slate-300 dark:text-slate-700">•</span>
-                    <span className="text-slate-400 dark:text-slate-500">
-                      {lang({ en: "Systems", vi: "Hệ thống" })}
-                    </span>
+                    {[
+                      { text: lang({ en: "Portfolio", vi: "Hồ sơ" }), color: "text-teal-600 dark:text-teal-400" },
+                      { text: "•", color: "text-slate-300 dark:text-slate-700" },
+                      { text: lang({ en: "Networking", vi: "Kết nối" }), color: "text-teal-600 dark:text-teal-400" },
+                      { text: "•", color: "text-slate-300 dark:text-slate-700" },
+                      { text: lang({ en: "Systems", vi: "Hệ thống" }), color: "text-slate-400 dark:text-slate-500" },
+                    ].map((tag, i) => (
+                      <motion.span
+                        key={i}
+                        className={tag.color}
+                        initial={reduceMotion ? {} : { opacity: 0, y: 6 }}
+                        animate={reduceMotion ? {} : { opacity: 1, y: 0 }}
+                        transition={
+                          reduceMotion
+                            ? { duration: 0 }
+                            : { delay: 0.55 + i * 0.08, duration: 0.4, ease: ENTRANCE_EASE }
+                        }
+                      >
+                        {tag.text}
+                      </motion.span>
+                    ))}
                   </div>
 
                   {/* Main Heading */}
-                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-800 dark:text-slate-100 mt-4 leading-tight">
+                  <motion.h1
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-800 dark:text-slate-100 mt-4 leading-tight"
+                    initial={reduceMotion ? {} : { opacity: 0, y: 16 }}
+                    animate={reduceMotion ? {} : { opacity: 1, y: 0 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { delay: 0.7, duration: 0.55, ease: ENTRANCE_EASE }
+                    }
+                  >
                     {lang({
                       en: (
                         <>
@@ -515,82 +652,42 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                         </>
                       ),
                     })}
-                  </h1>
+                  </motion.h1>
 
                   {/* Subtitle */}
-                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-3 max-w-xl leading-relaxed">
+                  <motion.p
+                    className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-3 max-w-xl leading-relaxed"
+                    initial={reduceMotion ? {} : { opacity: 0, y: 12 }}
+                    animate={reduceMotion ? {} : { opacity: 1, y: 0 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { delay: 0.85, duration: 0.5, ease: ENTRANCE_EASE }
+                    }
+                  >
                     {lang({
                       en: "A simple place to explore projects, practical IT work, and ideas I enjoy building.",
                       vi: "Một góc nhỏ để khám phá các dự án, công việc IT thực tế và những ý tưởng tôi thích xây dựng.",
                     })}
-                  </p>
+                  </motion.p>
 
-                  {/* Path Action Pills */}
-                  <div className="flex flex-wrap gap-3 mt-6 sm:mt-8">
-                    <motion.button
-                      type="button"
-                      disabled={phase !== "ready_for_interaction"}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEnterApp("projects");
-                      }}
-                      className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full border border-slate-200/80 bg-white/40 dark:border-slate-800 dark:bg-slate-950/40 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-teal-600 hover:border-teal-500 dark:hover:text-teal-400 dark:hover:border-teal-500 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                      whileHover={
-                        phase === "ready_for_interaction" && !reduceMotion
-                          ? { y: -2, scale: 1.025, backgroundColor: "rgba(255,255,255,0.9)" }
-                          : {}
-                      }
-                      whileTap={phase === "ready_for_interaction" && !reduceMotion ? { scale: 0.975 } : {}}
-                    >
-                      <FolderOpen className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                      <span>{lang({ en: "Projects", vi: "Dự án" })}</span>
-                    </motion.button>
 
-                    <motion.button
-                      type="button"
-                      disabled={phase !== "ready_for_interaction"}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEnterApp("blog");
-                      }}
-                      className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full border border-slate-200/80 bg-white/40 dark:border-slate-800 dark:bg-slate-950/40 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-teal-600 hover:border-teal-500 dark:hover:text-teal-400 dark:hover:border-teal-500 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                      whileHover={
-                        phase === "ready_for_interaction" && !reduceMotion
-                          ? { y: -2, scale: 1.025, backgroundColor: "rgba(255,255,255,0.9)" }
-                          : {}
-                      }
-                      whileTap={phase === "ready_for_interaction" && !reduceMotion ? { scale: 0.975 } : {}}
-                    >
-                      <FileText className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                      <span>{lang({ en: "Notes", vi: "Ghi chú" })}</span>
-                    </motion.button>
-
-                    <motion.button
-                      type="button"
-                      disabled={phase !== "ready_for_interaction"}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEnterApp("skills");
-                      }}
-                      className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full border border-slate-200/80 bg-white/40 dark:border-slate-800 dark:bg-slate-950/40 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-teal-600 hover:border-teal-500 dark:hover:text-teal-400 dark:hover:border-teal-500 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                      whileHover={
-                        phase === "ready_for_interaction" && !reduceMotion
-                          ? { y: -2, scale: 1.025, backgroundColor: "rgba(255,255,255,0.9)" }
-                          : {}
-                      }
-                      whileTap={phase === "ready_for_interaction" && !reduceMotion ? { scale: 0.975 } : {}}
-                    >
-                      <Beaker className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                      <span>{lang({ en: "Labs", vi: "Thử nghiệm" })}</span>
-                    </motion.button>
-                  </div>
 
                 </div>
 
               </div>
 
               {/* Bottom Progress and Status Row */}
-              <div className="mt-8 pt-4 border-t border-slate-100/60 dark:border-slate-800/60">
+              <motion.div
+                className="mt-6 pt-4 border-t border-slate-100/60 dark:border-slate-800/60"
+                initial={reduceMotion ? {} : { opacity: 0, y: 10 }}
+                animate={reduceMotion ? {} : { opacity: 1, y: 0 }}
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { delay: 1.0, duration: 0.45, ease: ENTRANCE_EASE }
+                }
+              >
                 
                 {/* Progress Labels */}
                 <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold tracking-[0.2em]">
@@ -605,7 +702,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                   </span>
                   <span
                     className={`transition-colors duration-300 ${
-                      phase === "ready_for_interaction"
+                      phase === "ready"
                         ? "text-teal-600 dark:text-teal-400 font-extrabold"
                         : "text-slate-400 dark:text-slate-500"
                     }`}
@@ -629,21 +726,9 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                   />
                 </div>
 
-                {/* Action Helper Indicator */}
-                {phase === "ready_for_interaction" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center text-[10px] sm:text-xs font-semibold tracking-wider text-teal-600/80 dark:text-teal-400/80 mt-3 animate-pulse"
-                  >
-                    {lang({
-                      en: "Click a section or click anywhere to launch",
-                      vi: "Chọn một mục hoặc nhấp bất kỳ đâu để bắt đầu",
-                    })}
-                  </motion.div>
-                )}
 
-              </div>
+
+              </motion.div>
 
             </motion.div>
 

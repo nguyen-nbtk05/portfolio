@@ -98,6 +98,62 @@ html.dark::-webkit-scrollbar-thumb:hover {
     animation-duration: 10.5s;
 }
 
+.hero-illustration-scale {
+    --illustration-scale: 0.52;
+    transform: translate(-6px, -4px);
+}
+
+@media (min-width: 1280px) {
+    .hero-illustration-scale {
+        --illustration-scale: 0.66;
+        transform: translate(-8px, -4px);
+    }
+}
+
+@media (min-width: 1440px) {
+    .hero-illustration-scale {
+        --illustration-scale: 0.76;
+        transform: translate(-10px, -4px);
+    }
+}
+
+@media (min-width: 1536px) {
+    .hero-illustration-scale {
+        --illustration-scale: 1;
+        transform: translate(-14px, -4px);
+    }
+}
+
+.hero-neon-sweep {
+    left: -3rem;
+    opacity: 0;
+    animation: hero-neon-sweep var(--sweep-duration, 3s) linear infinite;
+    animation-delay: var(--sweep-delay, 0s);
+    will-change: left, opacity;
+}
+
+@keyframes hero-neon-sweep {
+    0% {
+        left: -3rem;
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    76% {
+        left: calc(100% + 3rem);
+        opacity: 1;
+    }
+
+    82%,
+    100% {
+        left: calc(100% + 3rem);
+        opacity: 0;
+    }
+}
+
 @keyframes packet-travel {
 
     0%,
