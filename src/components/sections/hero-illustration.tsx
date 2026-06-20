@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { MotionValue } from "motion/react";
 import {
   motion,
@@ -44,6 +44,42 @@ const monitorVariants = {
     transition: { delay: 0.08, duration: 0.8, ease: ENTRANCE_EASE },
   },
 } as const;
+
+const UPTIME_VALUES = ["98%", "99%", "97%", "98%"] as const;
+const LATENCY_VALUES = ["12ms", "18ms", "9ms", "15ms"] as const;
+const THROUGHPUT_VALUES = ["1.2Gbps", "1.6Gbps", "980Mbps", "1.4Gbps"] as const;
+const ERROR_VALUES = ["0.01%", "0.03%", "0.00%", "0.02%"] as const;
+
+function useCyclingValue(
+  active: boolean,
+  values: readonly string[],
+  intervalMs: number,
+) {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const resetId = window.setTimeout(() => setIndex(0), 0);
+
+    if (!active || values.length <= 1) {
+      return () => window.clearTimeout(resetId);
+    }
+
+    const intervalId = window.setInterval(() => {
+      setIndex((current) => (current + 1) % values.length);
+    }, intervalMs);
+
+    return () => {
+      window.clearInterval(intervalId);
+      window.clearTimeout(resetId);
+    };
+  }, [active, intervalMs, values]);
+
+  if (!active) {
+    return values[0] ?? "";
+  }
+
+  return values[index] ?? values[0] ?? "";
+}
 
 type ConnectorProps = {
   d: string;
@@ -606,9 +642,6 @@ function ConfigurationCard({ active, pointerX }: AnimatedCardProps) {
           </span>
         ))}
       </div>
-      <div className="absolute bottom-4 right-4 flex h-7 w-10 items-center justify-center rounded-md bg-slate-100 text-cyan-500 dark:bg-slate-800">
-        <Code2 className="h-4 w-4" />
-      </div>
     </FloatingCard>
   );
 }
@@ -676,6 +709,9 @@ function LogsCard({ active, pointerX }: AnimatedCardProps) {
             />
           </motion.div>
         ))}
+      </div>
+      <div className="absolute bottom-3 right-3 flex h-7 w-10 items-center justify-center rounded-md bg-slate-100 text-cyan-500 dark:bg-slate-800">
+        <Code2 className="h-4 w-4" />
       </div>
     </FloatingCard>
   );
@@ -750,6 +786,10 @@ function MonitorDashboard({
 }) {
   const reduceMotion = useReducedMotion();
   const [isHovered, setIsHovered] = useState(false);
+  const uptime = useCyclingValue(active, UPTIME_VALUES, 1400);
+  const latency = useCyclingValue(active, LATENCY_VALUES, 1200);
+  const throughput = useCyclingValue(active, THROUGHPUT_VALUES, 1500);
+  const errors = useCyclingValue(active, ERROR_VALUES, 1700);
   const monitorX = useTransform(pointerX, [-1, 1], [-3, 3]);
   const monitorY = useTransform(pointerY, [-1, 1], [-2, 2]);
   const monitorRotateX = useTransform(pointerY, [-1, 1], [1.8, -1.8]);
@@ -794,7 +834,7 @@ function MonitorDashboard({
           transition={{ duration: 0.2, ease: ENTRANCE_EASE }}
           className="w-full"
         >
-          <div className="h-[270px] rounded-[18px] border-[9px] border-slate-800 bg-slate-800 p-1 shadow-[0_24px_42px_-25px_rgba(15,23,42,0.75)] dark:border-slate-700 dark:bg-slate-700">
+          <div className="h-[270px] rounded-[18px] border-[9px] border-slate-800 bg-slate-800 p-1 shadow-[0_24px_42px_-25px_rgba(15,23,42,0.75)] dark:border-cyan-200/45 dark:bg-cyan-200/15 dark:shadow-[0_24px_48px_-24px_rgba(34,211,238,0.35)]">
         <div className="flex h-full overflow-hidden rounded-[8px] bg-white dark:bg-slate-900">
           <aside className="flex w-[50px] shrink-0 flex-col items-center gap-4 border-r border-slate-100 bg-slate-50/80 py-4 text-slate-400 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-500">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-teal-500 text-white shadow-md shadow-teal-500/20">
@@ -940,7 +980,7 @@ function MonitorDashboard({
                     />
                   </svg>
                   <div className="absolute text-center">
-                    <p className="text-[15px] font-bold">98%</p>
+                    <p className="text-[15px] font-bold">{uptime}</p>
                     <p className="text-[7px] text-slate-500 dark:text-slate-400">
                       Uptime
                     </p>
@@ -955,21 +995,21 @@ function MonitorDashboard({
                 delay={0}
                 icon={<Activity className="h-3 w-3 text-cyan-500" />}
                 label="Latency"
-                value="12ms"
+                value={latency}
               />
               <MetricCard
                 active={active}
                 delay={0.25}
                 icon={<ArrowDownUp className="h-3 w-3 text-teal-500" />}
                 label="Throughput"
-                value="1.2Gbps"
+                value={throughput}
               />
               <MetricCard
                 active={active}
                 delay={0.5}
                 icon={<AlertTriangle className="h-3 w-3 text-amber-500" />}
                 label="Errors"
-                value="0.01%"
+                value={errors}
               />
             </div>
           </div>
