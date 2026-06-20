@@ -10,7 +10,7 @@ import {
   useTransform,
 } from "motion/react";
 import { ArrowRight, Terminal } from "lucide-react";
-import { HeroIllustration } from "./hero-illustration";
+import { HeroIllustration } from "../ui/hero-illustration";
 import { siteConfig } from "@/data/config";
 import { useLanguage } from "@/hooks/use-language";
 import { TypewriterText } from "@/components/ui/typewriter-text";
