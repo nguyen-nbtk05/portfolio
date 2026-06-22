@@ -162,7 +162,7 @@ export function Navbar() {
           y: hidden ? "-150%" : 0,
         }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-auto flex h-[3.5rem] w-fit items-center rounded-full border border-slate-200/80 bg-white/95 px-6 text-slate-900 backdrop-blur-md shadow-md shadow-slate-200/50 dark:border-cyan-200/55 dark:bg-cyan-950/75 dark:text-cyan-50 dark:ring-1 dark:ring-cyan-200/20 dark:shadow-[0_18px_44px_-20px_rgba(34,211,238,0.95),inset_0_1px_0_rgba(255,255,255,0.12)]"
+        className="pointer-events-auto flex h-[3.5rem] w-fit items-center rounded-full border border-slate-200/80 bg-white/95 px-6 text-slate-900 backdrop-blur-md shadow-md shadow-slate-200/50 dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-100 dark:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.04)]"
       >
         <motion.nav
           className="hidden items-center gap-0 text-sm font-medium md:flex"
@@ -176,7 +176,7 @@ export function Navbar() {
                 <a
                   href={item.href}
                   onClick={(e) => handleAnchorClick(e, item.href)}
-                  className="flex items-center justify-center rounded-full px-2.5 py-1.5 transition-all duration-200 hover:bg-slate-100 hover:text-teal-500 dark:text-cyan-50/90 dark:hover:bg-cyan-200/20 dark:hover:text-white"
+                  className="flex items-center justify-center rounded-full px-2.5 py-1.5 transition-all duration-200 hover:bg-slate-100 hover:text-teal-500 dark:text-slate-300 dark:hover:bg-slate-800/60 dark:hover:text-teal-400"
                 >
                   {lang(item.label)}
                 </a>

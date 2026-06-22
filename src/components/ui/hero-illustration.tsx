@@ -834,7 +834,7 @@ function MonitorDashboard({
           transition={{ duration: 0.2, ease: ENTRANCE_EASE }}
           className="w-full"
         >
-          <div className="h-[270px] rounded-[18px] border-[9px] border-slate-800 bg-slate-800 p-1 shadow-[0_24px_42px_-25px_rgba(15,23,42,0.75)] dark:border-cyan-200/45 dark:bg-cyan-200/15 dark:shadow-[0_24px_48px_-24px_rgba(34,211,238,0.35)]">
+          <div className="h-[270px] rounded-[18px] border-[9px] border-slate-800 bg-slate-800 p-1 shadow-[0_24px_42px_-25px_rgba(15,23,42,0.75)] dark:border-white/80 dark:bg-white/20 dark:shadow-[0_24px_48px_-24px_rgba(15,23,42,0.6)]">
         <div className="flex h-full overflow-hidden rounded-[8px] bg-white dark:bg-slate-900">
           <aside className="flex w-[50px] shrink-0 flex-col items-center gap-4 border-r border-slate-100 bg-slate-50/80 py-4 text-slate-400 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-500">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-teal-500 text-white shadow-md shadow-teal-500/20">
@@ -1097,6 +1097,16 @@ export function HeroIllustration() {
         style={{ scale: "var(--illustration-scale)" }}
       >
         <motion.div
+          animate={animationActive ? { y: [0, -8, 0] } : { y: 0 }}
+          className="absolute inset-0 select-none"
+          transition={{
+            duration: 5.8,
+            ease: "easeInOut",
+            repeat: Infinity,
+            repeatType: "loop",
+          }}
+        >
+        <motion.div
           className="hero-illustration-wrapper absolute inset-0 select-none"
           style={
             reduceMotion
@@ -1220,6 +1230,7 @@ export function HeroIllustration() {
           active={animationActive}
           pointerX={springX}
         />
+        </motion.div>
         </motion.div>
       </motion.div>
     </div>

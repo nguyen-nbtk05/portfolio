@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type PointerEvent } from "react";
+import { useState, type ElementType, type PointerEvent } from "react";
 import Image from "next/image";
 import {
   motion,
@@ -20,12 +20,12 @@ import {
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/motion";
 import { SectionBackground } from "@/components/ui/section-background";
-import { TypewriterText } from "@/components/ui/typewriter-text";
-import { Github } from "@/components/ui/icons";
+import { DiscordIcon, FacebookIcon, Github, TelegramIcon, XIcon } from "@/components/ui/icons";
 import { siteConfig } from "@/data/config";
+import { SmartIconButton } from "@/components/layouts/footer";
 
 const aboutIntro = {
-  en: "I am shaping this space into a concise personal introduction about how I think, build, and solve problems across modern network systems. This placeholder is intentionally sized for a 70-100 word bio, so the full About section stays visible in one focused screen.",
+  en: "I am shaping this space into a concise personal introduction about how I think, build, and solve problems across modern network systems. This placeholder is intentionally sized for a 70-100 word bio, so the full About section stays visible in one focused screen. ",
   vi: "Tôi sẽ bổ sung phần giới thiệu bản thân tại đây, tập trung vào cách tôi tư duy, xây dựng và giải quyết vấn đề trong các hệ thống mạng hiện đại. Đoạn placeholder này được giữ ở kích thước phù hợp cho phần bio khoảng 70-100 từ, để toàn bộ section About vẫn nằm gọn trong một khung hình.",
 };
 
@@ -34,10 +34,6 @@ const getHudTiles = (lang: (dict: { en: string; vi: string }) => string) => [
     icon: Cpu,
     label: lang({ en: "Role", vi: "Vai trò" }),
     value: lang({ en: "Network Engineer", vi: "Kỹ sư mạng" }),
-    typewriterValues: [
-      lang({ en: "Network Engineer", vi: "Kỹ sư mạng" }),
-      "Data Communications",
-    ],
   },
   {
     icon: ShieldCheck,
@@ -91,6 +87,45 @@ const getNetworkSignals = (lang: (dict: { en: string; vi: string }) => string) =
       en: "Ready for network projects and collaboration.",
       vi: "Sẵn sàng cho dự án mạng và cộng tác.",
     }),
+  },
+];
+
+const socialDockItems: Array<{
+  href: string;
+  icon: ElementType;
+  label: string;
+  isExternal?: boolean;
+}> = [
+  {
+    href: `mailto:${siteConfig.email}`,
+    icon: Mail,
+    label: "Email",
+    isExternal: false,
+  },
+  {
+    href: siteConfig.github,
+    icon: Github,
+    label: "GitHub",
+  },
+  {
+    href: siteConfig.x,
+    icon: XIcon,
+    label: "X",
+  },
+  {
+    href: siteConfig.facebook,
+    icon: FacebookIcon,
+    label: "Facebook",
+  },
+  {
+    href: siteConfig.telegram,
+    icon: TelegramIcon,
+    label: "Telegram",
+  },
+  {
+    href: siteConfig.discord,
+    icon: DiscordIcon,
+    label: "Discord",
   },
 ];
 
@@ -165,7 +200,7 @@ export function AboutSection() {
             <span className="text-teal-500">.</span>
           </h2>
 
-          <p className="mt-4 max-w-2xl text-justify rounded-xl border border-slate-200/80 bg-white/65 p-4 text-sm leading-6 text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 sm:text-base sm:leading-7">
+          <p className="mt-4 w-full text-justify rounded-xl border border-slate-200/80 bg-white/65 p-4 text-sm leading-6 text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 sm:text-base sm:leading-7">
             {lang(aboutIntro)}
           </p>
 
@@ -186,23 +221,28 @@ export function AboutSection() {
                   {tile.label}
                 </div>
                 <div className="mt-2 min-h-5 text-xs font-bold text-slate-950 dark:text-slate-50">
-                  {tile.typewriterValues ? (
-                    <TypewriterText
-                      key={tile.typewriterValues.join("|")}
-                      words={tile.typewriterValues}
-                      typingSpeed={72}
-                      deletingSpeed={38}
-                      pauseDuration={1300}
-                      className="text-current"
-                      cursorClassName="bg-teal-500 dark:bg-teal-300"
-                    />
-                  ) : (
-                    tile.value
-                  )}
+                  {tile.value}
                 </div>
               </motion.div>
             ))}
           </motion.div>
+
+          <motion.nav
+            variants={scaleIn}
+            layout
+            aria-label="Social dock"
+            className="mt-4 flex w-fit items-center gap-2 rounded-2xl border border-slate-200/80 bg-white/70 p-2 shadow-lg shadow-slate-200/50 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/20"
+          >
+            {socialDockItems.map((item) => (
+              <SmartIconButton
+                key={item.label}
+                href={item.href}
+                icon={item.icon}
+                label={item.label}
+                isExternal={item.isExternal}
+              />
+            ))}
+          </motion.nav>
         </motion.div>
 
         <motion.div variants={fadeUp} className="mx-auto w-full max-w-[430px]">

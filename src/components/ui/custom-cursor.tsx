@@ -142,6 +142,7 @@ export default function CustomCursor() {
         width={24}
         height={24}
         draggable={false}
+        priority={true}
         unoptimized
         className={`h-6 w-6 select-none object-contain transition-transform duration-150 ${
           cursorType === "pointer" ? "scale-105" : "scale-100"
