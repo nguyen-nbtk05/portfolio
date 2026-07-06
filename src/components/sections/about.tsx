@@ -233,6 +233,9 @@ export function AboutSection() {
             aria-label="Social dock"
             className="mt-4 flex w-fit items-center gap-2 rounded-2xl border border-slate-200/80 bg-white/70 p-2 shadow-lg shadow-slate-200/50 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/20"
           >
+            <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
+              {lang({ en: "Follow me", vi: "Theo dõi tôi" })}
+            </span>
             {socialDockItems.map((item) => (
               <SmartIconButton
                 key={item.label}
