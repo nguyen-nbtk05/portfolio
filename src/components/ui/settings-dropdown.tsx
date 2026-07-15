@@ -63,7 +63,7 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
           setIsOpen(!isOpen);
           setActiveSubMenu(null);
         }}
-        className={`p-2 rounded-full transition-colors duration-200 flex items-center justify-center ${
+        className={`p-2 rounded-lg transition-colors duration-200 flex items-center justify-center ${
           isOpen
             ? "bg-slate-200 text-teal-500 dark:bg-slate-800"
             : "hover:bg-slate-200 hover:text-teal-500 dark:hover:bg-slate-800"
@@ -85,13 +85,13 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
               transition: { duration: 0.15 },
             }}
             transition={{ duration: 0.2, ease: "easeOut" }}
+            onMouseLeave={() => setActiveSubMenu(null)}
             className="absolute left-1/2 -translate-x-1/2 top-full mt-4 w-48 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 backdrop-blur-xl shadow-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
           >
             {/* --- NGÔN NGỮ --- */}
             <div
               className="relative"
               onMouseEnter={() => setActiveSubMenu("language")}
-              onMouseLeave={() => setActiveSubMenu(null)}
             >
               <button className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
                 <div className="flex items-center gap-2">
@@ -108,7 +108,7 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-full top-0 ml-2 w-52 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 backdrop-blur-xl shadow-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
+                    className="absolute left-full top-0 ml-2 w-52 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 backdrop-blur-xl shadow-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none before:absolute before:-left-3 before:top-0 before:bottom-0 before:w-3"
                   >
                     <button
                       onClick={() => setLanguage("vi")}
@@ -182,7 +182,6 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
             <div
               className="relative"
               onMouseEnter={() => setActiveSubMenu("font")}
-              onMouseLeave={() => setActiveSubMenu(null)}
             >
               <button className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
                 <div className="flex items-center gap-2">
@@ -199,7 +198,7 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-full top-0 ml-2 w-52 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 backdrop-blur-xl shadow-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
+                    className="absolute left-full top-0 ml-2 w-52 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 backdrop-blur-xl shadow-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none before:absolute before:-left-3 before:top-0 before:bottom-0 before:w-3"
                   >
                     <button
                       onClick={() => handleFontChange("sans")}

@@ -311,10 +311,11 @@ export function HeroSection() {
 
   return (
     <section
+      id="hero"
       data-cursor="default"
       onMouseMove={reduceMotion ? undefined : handleMouseMove}
       onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
-      className="relative flex min-h-[100vh] select-none items-center justify-center overflow-hidden py-6 sm:py-8 lg:py-10"
+      className="relative flex h-full min-h-screen select-none items-center justify-center overflow-hidden py-6 sm:py-8 lg:py-10"
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
 

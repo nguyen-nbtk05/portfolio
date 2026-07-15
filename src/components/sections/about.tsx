@@ -31,16 +31,19 @@ const aboutIntro = {
 
 const getHudTiles = (lang: (dict: { en: string; vi: string }) => string) => [
   {
+    id: "role",
     icon: Cpu,
     label: lang({ en: "Role", vi: "Vai trò" }),
     value: lang({ en: "Network Engineer", vi: "Kỹ sư mạng" }),
   },
   {
+    id: "focus",
     icon: ShieldCheck,
     label: lang({ en: "Focus", vi: "Trọng tâm" }),
     value: lang({ en: "Secure infrastructure", vi: "Hạ tầng an toàn" }),
   },
   {
+    id: "mode",
     icon: Activity,
     label: lang({ en: "Mode", vi: "Trạng thái" }),
     value: lang({ en: "Building quietly", vi: "Đang hoàn thiện" }),
@@ -64,8 +67,8 @@ const getNetworkSignals = (lang: (dict: { en: string; vi: string }) => string) =
     label: "GitHub",
     value: siteConfig.github.replace(/^https?:\/\//, ""),
     detail: lang({
-      en: "A place for my code, project notes, and technical experiments.",
-      vi: "Nơi lưu mã nguồn, ghi chú dự án và các thử nghiệm kỹ thuật của tôi.",
+      en: "A place for my code and technical experiments.",
+      vi: "Nơi lưu mã nguồn và các thử nghiệm kỹ thuật của tôi.",
     }),
   },
   {
@@ -210,7 +213,7 @@ export function AboutSection() {
           >
             {hudTiles.map((tile) => (
               <motion.div
-                key={tile.label}
+                key={tile.id}
                 variants={scaleIn}
                 whileHover={reduceMotion ? undefined : { y: -4 }}
                 className="group overflow-hidden rounded-xl border border-slate-200/80 bg-white/75 p-4 shadow-md shadow-slate-200/50 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/20"
@@ -333,7 +336,7 @@ export function AboutSection() {
               >
                 <div className="relative h-full overflow-hidden rounded-[1.35rem] border border-slate-200 bg-slate-100 shadow-xl dark:border-slate-800 dark:bg-slate-950">
                   <Image
-                    src="/cover.jpg"
+                    src="/cover.png"
                     alt={lang({ en: "Nora profile avatar", vi: "Avatar hồ sơ của Nora" })}
                     fill
                     sizes="(min-width: 1024px) 250px, 64vw"

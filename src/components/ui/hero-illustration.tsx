@@ -650,7 +650,7 @@ function LogsCard({ active, pointerX }: AnimatedCardProps) {
   return (
     <FloatingCard
       active={active}
-      className="left-[313px] top-[544px] min-h-[86px] w-[278px]"
+      className="left-[313px] top-[515px] min-h-[86px] w-[278px]"
       delay={1.28}
       depth={2.4}
       direction={[0, 24]}
@@ -674,7 +674,7 @@ function LogsCard({ active, pointerX }: AnimatedCardProps) {
           className="h-3 w-3 rounded-full border-[3px] border-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.6)]"
         />
       </div>
-      <div className="mt-2.5 space-y-1.5">
+      <div className="mt-2.5 space-y-2.5">
         {[
           ["bg-emerald-400", "w-40"],
           ["bg-violet-400", "w-28"],
@@ -1015,10 +1015,6 @@ function MonitorDashboard({
           </div>
         </div>
           </div>
-
-          <div className="mx-auto h-8 w-10 bg-slate-700 shadow-inner dark:bg-slate-600" />
-          <div className="mx-auto h-2 w-36 rounded-full bg-slate-700 shadow-md dark:bg-slate-600" />
-          <div className="mx-auto mt-1 h-2 w-64 rounded-full bg-slate-400/15 blur-sm dark:bg-black/20" />
         </motion.div>
       </motion.div>
     </motion.div>
@@ -1193,11 +1189,11 @@ export function HeroIllustration() {
           />
           <Connector
             active={animationActive}
-            d="M452 508 V544"
+            d="M452 464 V515"
             delay={0.75}
-            duration={3.6}
-            end={[452, 544]}
-            start={[452, 508]}
+            duration={4}
+            end={[452, 515]}
+            start={[452, 464]}
           />
         </motion.svg>
 

@@ -277,6 +277,19 @@ export function ContactSection() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
+                  {/* Form Header */}
+                  <div className="space-y-1 pb-3 border-b border-slate-200/60 dark:border-slate-800/60">
+                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+                      {lang({ en: "Send Me a Message", vi: "Gửi Tin Nhắn Cho Tôi" })}
+                      <span className="text-teal-500">.</span>
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                      {lang({
+                        en: "Fill out the form below and I'll get back to you shortly.",
+                        vi: "Điền thông tin bên dưới và tôi sẽ phản hồi bạn trong thời gian sớm nhất.",
+                      })}
+                    </p>
+                  </div>
                   {/* Name and Email side-by-side on tablet/desktop */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {/* Name */}
