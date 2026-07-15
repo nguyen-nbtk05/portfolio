@@ -58,9 +58,47 @@ export default function SmoothScroll({
       }
     }
 
-    // Initial compute after DOM is ready
-    const initTimer = setTimeout(computeSectionPositions, 300);
-    window.addEventListener("resize", computeSectionPositions);
+    // Recompute section tops on the next animation frame so the browser has
+    // finished any pending layout/paint work.
+    let recomputeRaf = 0;
+    const scheduleRecompute = () => {
+      if (recomputeRaf) cancelAnimationFrame(recomputeRaf);
+      recomputeRaf = requestAnimationFrame(() => {
+        recomputeRaf = 0;
+        computeSectionPositions();
+      });
+    };
+
+    // Initial compute. On first paint the splash screen is still mounted and
+    // the actual page sections are not in the DOM yet, so this will likely be
+    // empty — the observer below will recompute as soon as they appear.
+    computeSectionPositions();
+
+    // Watch for the page sections being mounted after the splash screen exits.
+    const sectionSelector = SNAP_SECTION_IDS.map((id) => `#${id}`).join(", ");
+    const mutationObserver = new MutationObserver((records) => {
+      for (const record of records) {
+        if (record.type !== "childList") continue;
+        for (const node of record.addedNodes) {
+          if (
+            node instanceof Element &&
+            ((node.id && SNAP_SECTION_IDS.includes(node.id)) ||
+              node.querySelector(sectionSelector))
+          ) {
+            scheduleRecompute();
+            return;
+          }
+        }
+      }
+    });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    // Fonts/images can shift layout and therefore section tops.
+    if (document.fonts) {
+      document.fonts.ready.then(scheduleRecompute);
+    }
+
+    window.addEventListener("resize", scheduleRecompute);
 
     let isSnapping = false;
 
@@ -88,11 +126,11 @@ export default function SmoothScroll({
 
       // Magnetic zone: if within threshold, gently pull to exact position
       // Skip if already perfectly aligned (distance <= 1px)
-      const MAGNETIC_ZONE = 100; // px — how close before the "magnet" activates
+      const MAGNETIC_ZONE = 70; // px — how close before the "magnet" activates
       if (nearestTop >= 0 && nearestDistance > 1 && nearestDistance <= MAGNETIC_ZONE) {
         isSnapping = true;
         instance.scrollTo(nearestTop, {
-          duration: 1.2,
+          duration: 1.5,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           onComplete: () => {
             isSnapping = false;
@@ -115,8 +153,9 @@ export default function SmoothScroll({
     rafId.current = requestAnimationFrame(raf);
 
     return () => {
-      clearTimeout(initTimer);
-      window.removeEventListener("resize", computeSectionPositions);
+      mutationObserver.disconnect();
+      if (recomputeRaf) cancelAnimationFrame(recomputeRaf);
+      window.removeEventListener("resize", scheduleRecompute);
       instance.off("scroll", onScroll);
       cancelAnimationFrame(rafId.current);
       instance.destroy();
