@@ -1,10 +1,13 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useRef } from "react"
 import { Moon, Sun } from "lucide-react"
 import { flushSync } from "react-dom"
 
 import { cn } from "@/lib/utils"
+import { useTheme } from "@/providers/theme-provider"
+
+const CIRCLE_REVEAL_OVERSCAN = 1.05
 
 export type TransitionVariant =
   | "circle"
@@ -42,7 +45,7 @@ function getThemeTransitionClipPaths(
     case "circle":
       return [
         `circle(0px at ${cx}px ${cy}px)`,
-        `circle(${maxRadius}px at ${cx}px ${cy}px)`,
+        `circle(${maxRadius * CIRCLE_REVEAL_OVERSCAN}px at ${cx}px ${cy}px)`,
       ]
     case "square": {
       const halfW = Math.max(cx, viewportWidth - cx)
@@ -121,7 +124,7 @@ function getThemeTransitionClipPaths(
     default:
       return [
         `circle(0px at ${cx}px ${cy}px)`,
-        `circle(${maxRadius}px at ${cx}px ${cy}px)`,
+        `circle(${maxRadius * CIRCLE_REVEAL_OVERSCAN}px at ${cx}px ${cy}px)`,
       ]
   }
 }
@@ -134,31 +137,19 @@ export const AnimatedThemeToggler = ({
   ...props
 }: AnimatedThemeTogglerProps) => {
   const shape = variant ?? "circle"
-  const [isDark, setIsDark] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
   const buttonRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    const updateTheme = () => {
-      setIsDark(document.documentElement.classList.contains("dark"))
-    }
-
-    updateTheme()
-
-    const observer = new MutationObserver(updateTheme)
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    })
-
-    return () => observer.disconnect()
-  }, [])
+  const transitionInProgressRef = useRef(false)
 
   const toggleTheme = useCallback(() => {
     const button = buttonRef.current
-    if (!button) return
+    if (!button || transitionInProgressRef.current) return
 
-    const viewportWidth = window.visualViewport?.width ?? window.innerWidth
-    const viewportHeight = window.visualViewport?.height ?? window.innerHeight
+    // The root View Transition snapshot uses the layout viewport. A visual
+    // viewport can be smaller or fractional and leave the far corners exposed.
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
 
     let x: number
     let y: number
@@ -176,25 +167,26 @@ export const AnimatedThemeToggler = ({
       Math.max(y, viewportHeight - y)
     )
 
-    const applyTheme = () => {
-      const newTheme = !isDark
-      setIsDark(newTheme)
-      document.documentElement.classList.toggle("dark")
-      localStorage.setItem("theme", newTheme ? "dark" : "light")
-    }
+    const nextTheme = isDark ? "light" : "dark"
+    const applyTheme = () => setTheme(nextTheme)
 
     if (typeof document.startViewTransition !== "function") {
       applyTheme()
       return
     }
 
+    transitionInProgressRef.current = true
     const root = document.documentElement
     root.dataset.magicuiThemeVt = "active"
     root.style.setProperty(
       "--magicui-theme-toggle-vt-duration",
       `${duration}ms`
     )
+    let cleanedUp = false
     const cleanup = () => {
+      if (cleanedUp) return
+      cleanedUp = true
+      transitionInProgressRef.current = false
       delete root.dataset.magicuiThemeVt
       root.style.removeProperty("--magicui-theme-toggle-vt-duration")
     }
@@ -202,11 +194,7 @@ export const AnimatedThemeToggler = ({
     const transition = document.startViewTransition(() => {
       flushSync(applyTheme)
     })
-    if (typeof transition?.finished?.finally === "function") {
-      transition.finished.finally(cleanup)
-    } else {
-      cleanup()
-    }
+    void transition.finished.then(cleanup, cleanup)
 
     const ready = transition?.ready
     if (ready && typeof ready.then === "function") {
@@ -218,8 +206,8 @@ export const AnimatedThemeToggler = ({
         viewportWidth,
         viewportHeight
       )
-      ready.then(() => {
-        document.documentElement.animate(
+      void ready.then(() => {
+        root.animate(
           {
             clipPath,
           },
@@ -230,9 +218,9 @@ export const AnimatedThemeToggler = ({
             pseudoElement: "::view-transition-new(root)",
           }
         )
-      })
+      }, cleanup)
     }
-  }, [shape, fromCenter, duration, isDark])
+  }, [shape, fromCenter, duration, isDark, setTheme])
 
   return (
     <button

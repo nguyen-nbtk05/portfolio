@@ -63,6 +63,21 @@ html.dark::-webkit-scrollbar-thumb:hover {
     mix-blend-mode: normal;
 }
 
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 2;
+}
+
+/* Keep the View Transition snapshots stable while the root theme class changes. */
+html[data-magicui-theme-vt="active"] *,
+html[data-magicui-theme-vt="active"] *::before,
+html[data-magicui-theme-vt="active"] *::after {
+    transition: none !important;
+}
+
 @media (min-width: 1536px) {
     .container {
         max-width: min(100%, 1760px);
