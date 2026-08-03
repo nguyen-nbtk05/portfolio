@@ -61,7 +61,7 @@ export function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-slate-50 py-8 dark:border-slate-800 dark:bg-slate-950">
       <motion.div
-        className="container mx-auto flex flex-col items-center justify-between gap-4 px-[1cm] md:flex-row"
+        className="site-container mx-auto flex flex-col items-center justify-between gap-4 px-[1cm] md:flex-row"
         initial={reduceMotion ? false : "hidden"}
         animate="visible"
         variants={staggerContainer(0.08)}

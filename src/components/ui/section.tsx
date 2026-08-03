@@ -46,7 +46,7 @@ export function Section({
       )}
     >
       {resolvedBackgroundVariant ? <SectionBackground variant={resolvedBackgroundVariant} /> : null}
-      <div className="container relative z-10 mx-auto px-[1cm] w-full">
+      <div className="site-container relative z-10 mx-auto px-[1cm] w-full">
         {(title || subtitle) && (
           <motion.div
             initial={initial}

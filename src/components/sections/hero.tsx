@@ -340,7 +340,7 @@ export function HeroSection() {
         ))}
       </motion.div>
 
-      <div className="container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-[1cm] lg:grid-cols-[42%_58%] lg:gap-8 xl:gap-10">
+      <div className="site-container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-[1cm] lg:grid-cols-[42%_58%] lg:gap-8 xl:gap-10">
         <motion.div
           className="flex max-w-3xl flex-col items-start gap-8"
           initial={initial}

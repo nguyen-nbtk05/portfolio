@@ -183,7 +183,7 @@ export function AboutSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.1)}
-        className="container mx-auto grid w-full items-center gap-6 px-[1cm] lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:gap-10 xl:gap-12"
+        className="site-container mx-auto grid w-full items-center gap-6 px-[1cm] lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:gap-10 xl:gap-12"
       >
         <motion.div variants={fadeUp} className="max-w-3xl lg:ml-8 xl:ml-12">
           <motion.div
