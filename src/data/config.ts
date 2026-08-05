@@ -12,7 +12,7 @@ export const siteConfig = {
     vi: "Kỹ Sư Mạng Máy Tính",
   },
   description: {
-    en: "I specialize in designing, implementing, and managing robust network infrastructures, ensuring security, performance, and high availability.",
-    vi: "Tôi chuyên về thiết kế, triển khai và quản lý cơ sở hạ tầng mạng, đảm bảo tính bảo mật, hiệu suất và độ sẵn sàng cao.",
+    en: "Building secure, reliable, and scalable network and cloud solutions through continuous learning and hands-on experience.",
+    vi: "Xây dựng các giải pháp mạng và đám mây an toàn, ổn định và có khả năng mở rộng thông qua quá trình học hỏi liên tục và trải nghiệm thực tế.",
   },
 };
