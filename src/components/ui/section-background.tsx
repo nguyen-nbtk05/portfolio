@@ -13,6 +13,7 @@ type SectionBackgroundStyle = {
   baseClassName: string;
   textureClassName?: string;
   accentClassName?: string;
+  ambientClassName?: string;
   edgeClassName?: string;
 };
 
@@ -32,11 +33,14 @@ const SECTION_BACKGROUND_STYLES: Record<SectionBackgroundVariant, SectionBackgro
   },
   skills: {
     baseClassName:
-      "bg-[linear-gradient(180deg,rgba(248,250,252,0.96)_0%,rgba(241,245,249,0.86)_100%)] dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.92)_0%,rgba(15,23,42,0.78)_100%)]",
+      "bg-[linear-gradient(180deg,rgba(248,250,252,0.98)_0%,rgba(241,245,249,0.94)_52%,rgba(248,250,252,0.98)_100%)] dark:bg-[linear-gradient(180deg,rgba(1,4,3,0.99)_0%,rgba(2,5,5,0.98)_45%,rgba(8,3,12,0.99)_100%)]",
     textureClassName:
-      "bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.28)_1px,transparent_0)] bg-[size:20px_20px] dark:bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.18)_1px,transparent_0)]",
+      "bg-[radial-gradient(circle_at_1px_1px,rgba(100,116,139,0.18)_1px,transparent_0)] bg-[size:24px_24px] opacity-55 dark:bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.13)_1px,transparent_0)] dark:opacity-45",
     accentClassName:
-      "bg-[radial-gradient(circle_at_80%_16%,rgba(20,184,166,0.18),transparent_38%),radial-gradient(circle_at_20%_88%,rgba(148,163,184,0.18),transparent_40%)] dark:bg-[radial-gradient(circle_at_80%_16%,rgba(20,184,166,0.14),transparent_40%),radial-gradient(circle_at_20%_88%,rgba(51,65,85,0.26),transparent_46%)]",
+      "bg-[radial-gradient(circle_at_5%_15%,rgba(16,185,129,0.2),transparent_34%),radial-gradient(circle_at_94%_18%,rgba(168,85,247,0.18),transparent_34%),radial-gradient(circle_at_50%_102%,rgba(245,158,11,0.13),transparent_34%)] dark:bg-[radial-gradient(circle_at_4%_14%,rgba(16,185,129,0.2),transparent_35%),radial-gradient(circle_at_96%_16%,rgba(217,70,239,0.2),transparent_36%),radial-gradient(circle_at_50%_104%,rgba(245,158,11,0.15),transparent_34%)]",
+    ambientClassName: "skills-ambient-glow",
+    edgeClassName:
+      "bg-gradient-to-r from-transparent via-teal-500/30 to-transparent dark:via-teal-400/20",
   },
   projects: {
     baseClassName:
@@ -76,7 +80,11 @@ export function SectionBackground({ variant }: { variant: SectionBackgroundVaria
       {style.accentClassName ? (
         <div
           aria-hidden="true"
-          className={cn("pointer-events-none absolute inset-0 -z-10", style.accentClassName)}
+          className={cn(
+            "pointer-events-none absolute inset-0 -z-10",
+            style.accentClassName,
+            style.ambientClassName,
+          )}
         />
       ) : null}
       {style.edgeClassName ? (

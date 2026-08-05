@@ -19,6 +19,9 @@ interface SectionProps {
   subtitle?: string;
   children: React.ReactNode;
   className?: string;
+  headerClassName?: string;
+  titleClassName?: string;
+  subtitleClassName?: string;
   backgroundVariant?: SectionBackgroundVariant;
 }
 
@@ -28,6 +31,9 @@ export function Section({
   subtitle,
   children,
   className,
+  headerClassName,
+  titleClassName,
+  subtitleClassName,
   backgroundVariant,
 }: SectionProps) {
   const reduceMotion = useReducedMotion();
@@ -53,16 +59,21 @@ export function Section({
             whileInView="visible"
             viewport={viewportOnce}
             variants={fadeUp}
-            className="mb-12 md:mb-16"
+            className={cn("mb-12 md:mb-16", headerClassName)}
           >
             {title && (
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              <h2 className={cn("text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl mb-4", titleClassName)}>
                 {title}
                 <span className="text-teal-500">.</span>
               </h2>
             )}
             {subtitle && (
-              <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl">
+              <p
+                className={cn(
+                  "max-w-2xl text-lg text-slate-600 dark:text-slate-400",
+                  subtitleClassName,
+                )}
+              >
                 {subtitle}
               </p>
             )}

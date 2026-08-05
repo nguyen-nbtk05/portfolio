@@ -189,7 +189,7 @@ function TerminalOutputView({ output }: { output: TerminalOutput }) {
             <span className="font-semibold text-teal-700 dark:text-teal-300">
               {lang(group.category)}:
             </span>{" "}
-            <span>{group.items.join(" · ")}</span>
+            <span>{group.items.map((item) => item.label).join(" · ")}</span>
           </div>
         ))}
       </div>

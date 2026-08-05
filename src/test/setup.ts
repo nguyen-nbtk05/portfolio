@@ -82,4 +82,27 @@ Object.defineProperty(window, "matchMedia", {
   }),
 });
 
+class IntersectionObserverMock implements IntersectionObserver {
+  readonly root = null;
+  readonly rootMargin = "0px";
+  readonly thresholds = [0];
+
+  disconnect() {}
+  observe() {}
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
+  unobserve() {}
+}
+
+Object.defineProperty(window, "IntersectionObserver", {
+  configurable: true,
+  value: IntersectionObserverMock,
+});
+
+Object.defineProperty(globalThis, "IntersectionObserver", {
+  configurable: true,
+  value: IntersectionObserverMock,
+});
+
 Element.prototype.scrollIntoView = () => undefined;

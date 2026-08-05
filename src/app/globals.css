@@ -80,6 +80,36 @@ html[data-magicui-theme-vt="active"] *::after {
     max-width: 1760px;
 }
 
+.skills-ambient-glow {
+    transform: scale(1.08);
+    animation: skills-ambient-drift 16s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+}
+
+@keyframes skills-ambient-drift {
+    0% {
+        opacity: 0.82;
+        transform: translate3d(-1.5%, -1%, 0) scale(1.08);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate3d(1.5%, 1%, 0) scale(1.12);
+    }
+
+    100% {
+        opacity: 0.88;
+        transform: translate3d(-0.5%, 1.5%, 0) scale(1.09);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skills-ambient-glow {
+        animation: none;
+        transform: none;
+    }
+}
+
 .network-grid-strong {
     --grid-size: 48px;
     --grid-line-light: rgb(100 116 139 / 0.38);

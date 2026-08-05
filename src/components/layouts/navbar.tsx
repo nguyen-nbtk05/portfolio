@@ -25,7 +25,7 @@ const navItems = [
   {
     href: "#skills",
     label: { en: "Skills", vi: "Kỹ năng" },
-    tooltip: { en: "My Tech Stack", vi: "Kỹ năng chuyên môn" },
+    tooltip: { en: "My Technical Skills", vi: "Kỹ năng chuyên môn" },
   },
   {
     href: "#projects",
