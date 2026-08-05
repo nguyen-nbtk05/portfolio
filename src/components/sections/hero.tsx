@@ -9,12 +9,13 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import { ArrowRight, Terminal } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { siteConfig } from "@/data/config";
 import { useLanguage } from "@/hooks/use-language";
 import { TypewriterText } from "@/components/ui/typewriter-text";
 import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
 import ScrollIndicator from "@/components/ui/scroll-indicator";
+import { PortfolioTerminal } from "@/components/sections/portfolio-terminal";
 
 const NETWORK_NODES = [
   {
@@ -314,7 +315,7 @@ export function HeroSection() {
       data-cursor="default"
       onMouseMove={reduceMotion ? undefined : handleMouseMove}
       onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
-      className="relative flex h-full min-h-screen select-none items-center justify-center overflow-hidden py-6 sm:py-8 lg:py-10"
+      className="relative flex min-h-screen select-none items-center justify-center overflow-hidden py-24 sm:py-28 lg:h-full lg:py-10"
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
 
@@ -341,29 +342,25 @@ export function HeroSection() {
 
       <div className="site-container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-[1cm] lg:grid-cols-[42%_58%] lg:gap-8 xl:gap-10">
         <motion.div
-          className="flex max-w-3xl flex-col items-start gap-8"
+          className="ml-[10px] flex max-w-3xl flex-col items-start gap-8"
           initial={initial}
           animate="visible"
           variants={staggerContainer(0.11)}
         >
           <motion.div
             variants={fadeUp}
-            className="flex select-none items-center gap-2 rounded-full border border-slate-300/70 bg-slate-200/55 px-3 py-1 font-mono text-sm shadow-sm backdrop-blur dark:border-slate-700/70 dark:bg-slate-800/55"
+            className="flex select-none items-center gap-2 whitespace-nowrap rounded-full border border-teal-400/40 bg-teal-100/70 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-700 shadow-sm backdrop-blur sm:text-xs sm:tracking-[0.16em] dark:border-teal-400/30 dark:bg-teal-500/10 dark:text-teal-300"
           >
             <motion.span
               aria-hidden="true"
-              animate={reduceMotion ? undefined : { opacity: [0.45, 1, 0.45] }}
-              transition={{
-                duration: 1.8,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="flex"
+              animate={reduceMotion ? undefined : { opacity: [0.55, 1, 0.55], scale: [0.92, 1.08, 0.92] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              className="flex shrink-0"
             >
-              <Terminal className="h-4 w-4 text-teal-500" />
+              <Sparkles className="h-5 w-4" />
             </motion.span>
-            <span className="text-slate-700 dark:text-slate-300">
-              ping 127.0.0.1 -c 1
+            <span className="relative top-px inline-flex items-center leading-none">
+              SYSTEM STATUS: STUDENT
             </span>
           </motion.div>
 
@@ -418,8 +415,9 @@ export function HeroSection() {
           </motion.div>
         </motion.div>
 
+        <PortfolioTerminal />
       </div>
-      <motion.div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+      <motion.div className="absolute bottom-10 left-1/2 z-20 hidden -translate-x-1/2 lg:block">
         <ScrollIndicator />
       </motion.div>
     </section>
