@@ -99,8 +99,8 @@ export const skills: SkillGroup[] = [
   {
     id: "network-engineering-simulation",
     category: {
-      en: "Network Engineering & Simulation",
-      vi: "Kỹ thuật mạng & Mô phỏng",
+      en: "Networking Fundamentals & Routing",
+      vi: "Kỹ thuật mạng & Định tuyến",
     },
     icon: "network-engineering",
     tone: "networking",

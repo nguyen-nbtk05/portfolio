@@ -566,6 +566,7 @@ export function PortfolioTerminal() {
 
   return (
     <motion.div
+      data-cursor="auto"
       initial={reduceMotion ? false : { opacity: 0, x: 28, scale: 0.98 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ duration: 0.62, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}

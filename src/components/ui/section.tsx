@@ -23,6 +23,7 @@ interface SectionProps {
   titleClassName?: string;
   subtitleClassName?: string;
   backgroundVariant?: SectionBackgroundVariant;
+  "data-cursor"?: string;
 }
 
 export function Section({
@@ -35,6 +36,7 @@ export function Section({
   titleClassName,
   subtitleClassName,
   backgroundVariant,
+  "data-cursor": dataCursor,
 }: SectionProps) {
   const reduceMotion = useReducedMotion();
   const initial = reduceMotion ? false : "hidden";
@@ -45,6 +47,7 @@ export function Section({
   return (
     <section
       id={id}
+      data-cursor={dataCursor}
       className={cn(
         "flex min-h-[100vh] items-center py-6 sm:py-8 lg:py-10",
         resolvedBackgroundVariant ? "relative isolate overflow-hidden" : null,

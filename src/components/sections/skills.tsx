@@ -160,6 +160,7 @@ export function SkillsSection() {
   return (
     <Section
       id="skills"
+      data-cursor="default"
       title={lang({ en: "Technical Skills", vi: "Kỹ năng chuyên môn" })}
       subtitle={lang({
         en: "Core technologies and tools for programming, Linux administration, version control, and network engineering.",

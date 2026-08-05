@@ -76,18 +76,23 @@ export default function CustomCursor() {
       const computedCursor = window.getComputedStyle(target).cursor;
       const tagName = target.tagName.toLowerCase();
 
+      const cursorScope = target.closest("[data-cursor]");
+      const cursorOverride = cursorScope ? cursorScope.getAttribute("data-cursor") : null;
+
       if (
         target.closest("a, button, [role='button'], [data-cursor='pointer']") ||
-        computedCursor === "pointer"
+        computedCursor === "pointer" ||
+        cursorOverride === "pointer"
       ) {
         nextType = "pointer";
-      } else if (target.closest("[data-cursor='default']")) {
+      } else if (cursorOverride === "default") {
         nextType = "default";
       } else if (
         target.closest("input, textarea, [contenteditable='true']") ||
         computedCursor === "text" ||
         computedCursor === "vertical-text" ||
-        TEXT_TAGS.has(tagName)
+        TEXT_TAGS.has(tagName) ||
+        cursorOverride === "text"
       ) {
         nextType = "text";
       }
