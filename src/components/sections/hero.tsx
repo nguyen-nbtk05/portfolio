@@ -10,7 +10,6 @@ import {
   useTransform,
 } from "motion/react";
 import { ArrowRight, Terminal } from "lucide-react";
-import { HeroIllustration } from "../ui/hero-illustration";
 import { siteConfig } from "@/data/config";
 import { useLanguage } from "@/hooks/use-language";
 import { TypewriterText } from "@/components/ui/typewriter-text";
@@ -419,15 +418,6 @@ export function HeroSection() {
           </motion.div>
         </motion.div>
 
-        {/* --- CỘT PHẢI: MODERN 2D ILLUSTRATION --- */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="hidden w-full items-center justify-center lg:flex"
-        >
-          <HeroIllustration />
-        </motion.div>
       </div>
       <motion.div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
         <ScrollIndicator />

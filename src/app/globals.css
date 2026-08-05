@@ -16,45 +16,22 @@
 
 html {
     color-scheme: light;
-    scrollbar-color: rgb(148 163 184) rgb(241 245 249);
     scroll-behavior: smooth;
     scroll-padding-top: 100px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
 }
 
 html.dark {
     color-scheme: dark;
-    scrollbar-color: rgb(71 85 105) rgb(2 6 23);
 }
 
-html::-webkit-scrollbar {
-    width: 12px;
-}
-
-html::-webkit-scrollbar-track {
-    background: rgb(241 245 249);
-}
-
-html::-webkit-scrollbar-thumb {
-    background: rgb(148 163 184);
-    border: 3px solid rgb(241 245 249);
-    border-radius: 999px;
-}
-
-html::-webkit-scrollbar-thumb:hover {
-    background: rgb(100 116 139);
-}
-
-html.dark::-webkit-scrollbar-track {
-    background: rgb(2 6 23);
-}
-
-html.dark::-webkit-scrollbar-thumb {
-    background: rgb(71 85 105);
-    border-color: rgb(2 6 23);
-}
-
-html.dark::-webkit-scrollbar-thumb:hover {
-    background: rgb(100 116 139);
+/* Hide scrollbar for Chrome, Safari, Edge, Opera */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 ::view-transition-old(root),

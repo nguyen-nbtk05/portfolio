@@ -24,13 +24,13 @@ export default function SmoothScroll({
 
   useEffect(() => {
     const instance = new Lenis({
-      duration: 1.2,
+      duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 0.75,
+      touchMultiplier: 1.5,
     });
 
     setTimeout(() => {
@@ -109,8 +109,8 @@ export default function SmoothScroll({
       const scroll = instance.scroll;
 
       // Only activate magnetic pull when scroll is decelerating
-      // (velocity < 1 means user is almost done scrolling)
-      if (velocity > 1.5) return;
+      // (velocity < 0.8 means user is almost completely stopped)
+      if (velocity > 0.8) return;
 
       // Find the nearest section top
       let nearestTop = -1;
@@ -126,7 +126,7 @@ export default function SmoothScroll({
 
       // Magnetic zone: if within threshold, gently pull to exact position
       // Skip if already perfectly aligned (distance <= 1px)
-      const MAGNETIC_ZONE = 70; // px — how close before the "magnet" activates
+      const MAGNETIC_ZONE = 50; // px — how close before the "magnet" activates
       if (nearestTop >= 0 && nearestDistance > 1 && nearestDistance <= MAGNETIC_ZONE) {
         isSnapping = true;
         instance.scrollTo(nearestTop, {
