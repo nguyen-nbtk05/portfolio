@@ -439,15 +439,10 @@ export function ContactSection() {
         {/* Integrated Footer */}
         <footer className="w-full mt-auto pt-4 pb-0 border-t border-slate-200/50 dark:border-slate-800/50">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row text-sm text-slate-500 dark:text-slate-400">
-            <p>
-              © {new Date().getFullYear()} {siteConfig.name}.{" "}
-              {lang({ en: "All rights reserved.", vi: "Đã đăng ký bản quyền." })}
-            </p>
-            
             <div className="flex flex-wrap items-center justify-center gap-1">
-            <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
-              {lang({ en: "Follow me", vi: "Theo dõi tôi" })}
-            </span>
+              <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
+                {lang({ en: "Follow me", vi: "Theo dõi tôi" })}
+              </span>
               <SmartIconButton href={`mailto:${siteConfig.email}`} icon={Mail} label="Email" isExternal={false} />
               <SmartIconButton href={siteConfig.github} icon={Github} label="GitHub" />
               <SmartIconButton href={siteConfig.x} icon={XIcon} label="X" />
@@ -455,6 +450,11 @@ export function ContactSection() {
               <SmartIconButton href={siteConfig.telegram} icon={TelegramIcon} label="Telegram" />
               <SmartIconButton href={siteConfig.discord} icon={DiscordIcon} label="Discord" />
             </div>
+
+            <p>
+              © {new Date().getFullYear()} {siteConfig.name}.{" "}
+              {lang({ en: "All rights reserved.", vi: "Đã đăng ký bản quyền." })}
+            </p>
           </div>
         </footer>
       </div>

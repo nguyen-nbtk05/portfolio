@@ -29,7 +29,9 @@
 }
 
 .theme-font-mono {
-    font-family: "Cascadia Code", "Fira Code", ui-monospace, monospace !important;
+    font-family: "Maple Mono NF", "Cascadia Code", "Fira Code", ui-monospace, monospace !important;
+    font-feature-settings: "calt" 1, "liga" 1;
+    font-variant-ligatures: contextual common-ligatures;
 }
 
 html {

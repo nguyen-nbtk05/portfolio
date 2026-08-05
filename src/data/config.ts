@@ -1,6 +1,7 @@
 export const siteConfig = {
   name: "Nora",
   email: "nguyen.nbtk05@gmail.com",
+  resumeUrl: "/docs/resume.pdf",
   github: "https://github.com/nguyen-nbtk05",
   x: "https://x.com/yourusername",
   facebook: "https://facebook.com/yourusername",

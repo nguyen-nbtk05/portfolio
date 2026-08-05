@@ -66,21 +66,22 @@ export function Footer() {
         animate="visible"
         variants={staggerContainer(0.08)}
       >
-        <motion.p variants={fadeUp} className="text-sm text-slate-500 dark:text-slate-400">
-          © {new Date().getFullYear()} {siteConfig.name}.{" "}
-          {lang({ en: "All rights reserved.", vi: "Đã đăng ký bản quyền." })}
-        </motion.p>
-        
-        <motion.div variants={fadeUp} layout className="flex flex-wrap items-center justify-center gap-2">
-          
+        <motion.div variants={fadeUp} layout className="flex flex-wrap items-center justify-center gap-1">
+          <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
+            {lang({ en: "Follow me", vi: "Theo dõi tôi" })}
+          </span>
           <SmartIconButton href={`mailto:${siteConfig.email}`} icon={Mail} label="Email" isExternal={false} />
           <SmartIconButton href={siteConfig.github} icon={Github} label="GitHub" />
           <SmartIconButton href={siteConfig.x} icon={XIcon} label="X" />
           <SmartIconButton href={siteConfig.facebook} icon={FacebookIcon} label="Facebook" />
           <SmartIconButton href={siteConfig.telegram} icon={TelegramIcon} label="Telegram" />
           <SmartIconButton href={siteConfig.discord} icon={DiscordIcon} label="Discord" />
-          
         </motion.div>
+
+        <motion.p variants={fadeUp} className="text-sm text-slate-500 dark:text-slate-400">
+          © {new Date().getFullYear()} {siteConfig.name}.{" "}
+          {lang({ en: "All rights reserved.", vi: "Đã đăng ký bản quyền." })}
+        </motion.p>
       </motion.div>
     </footer>
   );

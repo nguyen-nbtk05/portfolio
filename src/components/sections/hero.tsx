@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
-import { useLenis } from "@/hooks/use-lenis";
 import {
   motion,
   useReducedMotion,
@@ -9,7 +8,7 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { FileText, Sparkles } from "lucide-react";
 import { siteConfig } from "@/data/config";
 import { useLanguage } from "@/hooks/use-language";
 import { TypewriterText } from "@/components/ui/typewriter-text";
@@ -224,25 +223,6 @@ export function HeroSection() {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
   const initial = reduceMotion ? false : "hidden";
-  const lenis = useLenis();
-
-  const handleAnchorClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-      e.preventDefault();
-      const targetId = href.replace("#", "");
-      const targetEl = document.getElementById(targetId);
-      if (!targetEl) return;
-
-      if (lenis) {
-        lenis.scrollTo(targetEl, { duration: 1.2, offset: 0 });
-      } else {
-        const top = targetEl.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top, behavior: "smooth" });
-      }
-      window.history.pushState(null, "", href);
-    },
-    [lenis],
-  );
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -398,19 +378,13 @@ export function HeroSection() {
             className="mt-4 flex flex-wrap items-center gap-4"
           >
             <a
-              href="#projects"
-              onClick={(e) => handleAnchorClick(e, "#projects")}
+              href={siteConfig.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center justify-center gap-2 rounded-lg bg-teal-600 px-6 py-3 font-medium text-white shadow-lg shadow-teal-500/20 transition-colors hover:bg-teal-700"
             >
-              {lang({ en: "View Projects", vi: "Xem Dự Án" })}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#contact"
-              onClick={(e) => handleAnchorClick(e, "#contact")}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-200 px-6 py-3 font-medium text-slate-900 transition-colors hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700"
-            >
-              {lang({ en: "Contact Me", vi: "Liên Hệ" })}
+              <FileText className="h-4 w-4 transition-transform group-hover:scale-110" />
+              {lang({ en: "View Resume", vi: "Xem CV" })}
             </a>
           </motion.div>
         </motion.div>

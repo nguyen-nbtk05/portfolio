@@ -4,8 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import {
   motion,
   useReducedMotion,
-  useScroll,
-  useMotionValueEvent,
 } from "motion/react";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import { useLanguage } from "@/hooks/use-language";
@@ -78,8 +76,6 @@ const DockTooltip = ({
 export function Navbar() {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
-  const { scrollY } = useScroll();
-  const [hidden, setHidden] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const lenis = useLenis();
@@ -144,23 +140,11 @@ export function Navbar() {
     };
   }, []);
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    if (latest > previous && latest > 150) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
-  });
-
   return (
     <div className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full px-6 pointer-events-none">
       <motion.header
         initial={reduceMotion ? false : { opacity: 0, y: -20 }}
-        animate={{
-          opacity: hidden ? 0 : 1,
-          y: hidden ? "-150%" : 0,
-        }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className="pointer-events-auto flex h-[3.5rem] w-fit items-center rounded-2xl border border-slate-200/80 bg-white/95 px-6 text-slate-900 backdrop-blur-md shadow-md shadow-slate-200/50 dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-100 dark:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.04)]"
       >

@@ -218,7 +218,7 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
                       onClick={() => handleFontChange("mono")}
                       className="flex w-full items-center rounded-lg px-3 py-2 text-sm theme-font-mono transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 mt-0.5"
                     >
-                      Cascadia Code
+                      Maple Mono NF
                       {currentFont === "mono" && <ActiveBadge />}
                     </button>
                   </motion.div>

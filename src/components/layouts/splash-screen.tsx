@@ -636,19 +636,18 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                     {lang({
                       en: (
                         <>
-                          Hi, welcome to my{" "}
+                          Loading{" "}
                           <span className="text-teal-600 dark:text-teal-400 font-extrabold">
-                            portfolio.
+                            Portfolio...
                           </span>
                         </>
                       ),
                       vi: (
                         <>
-                          Xin chào, chào mừng đến với{" "}
+                          Đang tải{" "}
                           <span className="text-teal-600 dark:text-teal-400 font-extrabold">
-                            portfolio
+                            Portfolio...
                           </span>{" "}
-                          của tôi.
                         </>
                       ),
                     })}
