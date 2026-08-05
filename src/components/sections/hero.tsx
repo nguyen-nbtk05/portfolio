@@ -342,7 +342,7 @@ export function HeroSection() {
 
       <div className="site-container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-[1cm] lg:grid-cols-[42%_58%] lg:gap-8 xl:gap-10">
         <motion.div
-          className="ml-[10px] flex max-w-3xl flex-col items-start gap-8"
+          className="ml-[20px] flex max-w-3xl flex-col items-start gap-8"
           initial={initial}
           animate="visible"
           variants={staggerContainer(0.11)}

@@ -569,14 +569,14 @@ export function PortfolioTerminal() {
       initial={reduceMotion ? false : { opacity: 0, x: 28, scale: 0.98 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ duration: 0.62, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto w-full max-w-[680px] select-text"
+      className="mx-auto w-full max-w-[690px] select-text"
     >
       <div
         ref={terminalRef}
         role="region"
         aria-label={lang({ en: "Interactive portfolio terminal", vi: "Terminal portfolio tương tác" })}
         onClick={handleTerminalClick}
-        className="flex h-[430px] min-h-0 flex-col overflow-hidden rounded-2xl border-2 border-slate-900/90 bg-white/90 font-mono text-[13px] shadow-2xl shadow-slate-900/15 ring-1 ring-black/5 backdrop-blur-xl sm:h-[470px] sm:text-sm lg:h-[clamp(430px,58vh,610px)] lg:text-[15px] dark:border-white/90 dark:bg-slate-950/90 dark:shadow-black/45 dark:ring-white/10"
+        className="terminal-maple-mono flex h-[430px] min-h-0 flex-col overflow-hidden rounded-2xl border-2 border-slate-900/90 bg-white/90 text-xs shadow-2xl shadow-slate-900/15 ring-1 ring-black/5 backdrop-blur-xl sm:h-[470px] sm:text-[13px] lg:h-[clamp(430px,58vh,610px)] lg:text-sm dark:border-white/90 dark:bg-slate-950/90 dark:shadow-black/45 dark:ring-white/10"
       >
         <div className="flex min-h-11 items-center gap-3 bg-black px-4 text-white dark:bg-white dark:text-black">
           <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -584,7 +584,7 @@ export function PortfolioTerminal() {
               reduceMotion={reduceMotion}
               className="h-4 w-4 text-teal-300 sm:h-[18px] sm:w-[18px] dark:text-teal-600"
             />
-            <span className="truncate text-xs font-semibold sm:text-[13px]">
+            <span className="truncate text-[11px] font-semibold sm:text-xs">
               {TERMINAL_IDENTITY.username}@{TERMINAL_IDENTITY.host}:{TERMINAL_IDENTITY.cwd}
             </span>
           </div>
@@ -614,7 +614,7 @@ export function PortfolioTerminal() {
           className="min-h-0 flex-1 overflow-y-auto px-4 py-5 text-slate-700 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-5 dark:text-slate-200"
         >
           <div className="space-y-2 leading-relaxed">
-            <p className="text-lg font-bold text-slate-950 sm:text-xl dark:text-white">
+            <p className="text-[17px] font-bold text-slate-950 sm:text-[19px] dark:text-white">
               Welcome to {siteConfig.name}&apos;s Portfolio Terminal v{TERMINAL_IDENTITY.version}
             </p>
             <p className="max-w-3xl">
@@ -687,7 +687,7 @@ export function PortfolioTerminal() {
 
         <div className="border-t border-slate-200 bg-slate-50/90 px-4 py-3 dark:border-slate-200 dark:bg-white">
           <div className="flex items-start gap-3">
-            <span className="shrink-0 pt-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 sm:text-[11px] dark:text-slate-600">
+            <span className="shrink-0 pt-1 text-[9px] font-bold uppercase tracking-wider text-slate-500 sm:text-[10px] dark:text-slate-600">
               {lang({ en: "Quick commands", vi: "Lệnh nhanh" })}:
             </span>
             <div className="flex min-w-0 flex-1 items-start gap-2">
@@ -697,7 +697,7 @@ export function PortfolioTerminal() {
                     key={command}
                     type="button"
                     onClick={() => handleQuickCommand(command)}
-                    className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-bold text-slate-800 transition-all hover:-translate-y-0.5 hover:border-teal-400 hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 sm:text-xs dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-teal-500 dark:hover:text-teal-300"
+                    className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-[10px] font-bold text-slate-800 transition-all hover:-translate-y-0.5 hover:border-teal-400 hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 sm:text-[11px] dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-teal-500 dark:hover:text-teal-300"
                   >
                     {command}
                   </button>
@@ -706,7 +706,7 @@ export function PortfolioTerminal() {
               <button
                 type="button"
                 onClick={() => handleQuickCommand("clear")}
-                className="ml-auto shrink-0 rounded-md border border-rose-300 px-2.5 py-1 text-[11px] font-bold text-rose-700 transition-all hover:bg-rose-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400 sm:text-xs dark:border-rose-300 dark:text-rose-700 dark:hover:bg-rose-50"
+                className="ml-auto shrink-0 rounded-md border border-rose-300 px-2.5 py-1 text-[10px] font-bold text-rose-700 transition-all hover:bg-rose-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400 sm:text-[11px] dark:border-rose-300 dark:text-rose-700 dark:hover:bg-rose-50"
               >
                 [clear]
               </button>

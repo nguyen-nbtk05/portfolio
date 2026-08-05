@@ -2,6 +2,24 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+    font-family: "Maple Mono NF";
+    src:
+        local("Maple Mono NF"),
+        local("MapleMono NF"),
+        url("/fonts/MapleMono-NF-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+.terminal-maple-mono,
+.terminal-maple-mono * {
+    font-family: "Maple Mono NF", "Cascadia Code", "Fira Code", ui-monospace, monospace !important;
+    font-feature-settings: "calt" 1, "liga" 1;
+    font-variant-ligatures: contextual common-ligatures;
+}
+
 .theme-font-sans {
     font-family: ui-sans-serif, system-ui, sans-serif !important;
 }
