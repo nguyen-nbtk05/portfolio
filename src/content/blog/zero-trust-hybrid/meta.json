@@ -10,5 +10,6 @@
   "publishedAt": "2026-04-09",
   "tags": ["Zero Trust", "IAM", "Hybrid Cloud"],
   "featured": false,
-  "status": "published"
+  "status": "published",
+  "access": "public"
 }

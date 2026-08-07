@@ -1,8 +1,10 @@
 import type { Language, Localized } from "../language";
 
 export const BLOG_STATUSES = ["published", "draft", "comingSoon"] as const;
+export const BLOG_ACCESS_LEVELS = ["public", "vault"] as const;
 
 export type BlogStatus = (typeof BLOG_STATUSES)[number];
+export type BlogAccess = (typeof BLOG_ACCESS_LEVELS)[number];
 
 export type LocalizedText = Localized<string>;
 
@@ -15,6 +17,7 @@ export interface BlogPostMeta {
   tags: string[];
   featured: boolean;
   status: BlogStatus;
+  access: BlogAccess;
 }
 
 export interface BlogPostSummary extends BlogPostMeta {

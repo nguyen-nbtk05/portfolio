@@ -4,5 +4,6 @@
   "publishedAt": "2026-07-01",
   "tags": ["Preview"],
   "featured": false,
-  "status": "comingSoon"
+  "status": "comingSoon",
+  "access": "public"
 }

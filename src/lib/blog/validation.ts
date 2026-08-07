@@ -1,4 +1,10 @@
-import { BLOG_STATUSES, type BlogPostMeta, type BlogStatus } from "./types";
+import {
+  BLOG_ACCESS_LEVELS,
+  BLOG_STATUSES,
+  type BlogAccess,
+  type BlogPostMeta,
+  type BlogStatus,
+} from "./types";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -21,6 +27,13 @@ export function isBlogStatus(value: unknown): value is BlogStatus {
   return (
     typeof value === "string" &&
     BLOG_STATUSES.includes(value as BlogStatus)
+  );
+}
+
+export function isBlogAccess(value: unknown): value is BlogAccess {
+  return (
+    typeof value === "string" &&
+    BLOG_ACCESS_LEVELS.includes(value as BlogAccess)
   );
 }
 
@@ -104,6 +117,10 @@ export function validateBlogPostMeta(value: unknown): string[] {
 
   if (!isBlogStatus(status)) {
     errors.push(`status must be one of: ${BLOG_STATUSES.join(", ")}`);
+  }
+
+  if (!isBlogAccess(value.access)) {
+    errors.push(`access must be one of: ${BLOG_ACCESS_LEVELS.join(", ")}`);
   }
 
   return errors;

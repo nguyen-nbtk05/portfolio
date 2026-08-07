@@ -5,9 +5,11 @@ import {
   readRequiredLocalizedBodies,
   type BlogRepositoryOptions,
 } from "./content";
+import { isVisiblePostForAccess } from "./access";
 import { calculateLocalizedReadTime } from "./read-time";
 import type {
   AdjacentBlogPosts,
+  BlogAccess,
   BlogPostMeta,
   BlogPostSummary,
 } from "./types";
@@ -37,7 +39,8 @@ async function createSummary(
   };
 }
 
-export async function getAllPosts(
+async function getPostsByAccess(
+  access: BlogAccess,
   options: BlogRepositoryOptions = {},
 ): Promise<BlogPostSummary[]> {
   const slugs = await listArticleSlugs(options);
@@ -51,9 +54,9 @@ export async function getAllPosts(
           );
         }
 
-        return meta.status === "draft"
-          ? null
-          : createSummary(slug, meta, options);
+        return isVisiblePostForAccess(meta, access)
+          ? createSummary(slug, meta, options)
+          : null;
       } catch (error) {
         if (process.env.NODE_ENV !== "production") throw error;
 
@@ -71,11 +74,25 @@ export async function getAllPosts(
     });
 }
 
+/** Returns only public posts. Vault metadata must never be serialized by default. */
+export async function getAllPosts(
+  options: BlogRepositoryOptions = {},
+): Promise<BlogPostSummary[]> {
+  return getPostsByAccess("public", options);
+}
+
+export async function getVaultPosts(
+  options: BlogRepositoryOptions = {},
+): Promise<BlogPostSummary[]> {
+  return getPostsByAccess("vault", options);
+}
+
 export async function getAdjacentPosts(
   slug: string,
+  access: BlogAccess,
   options: BlogRepositoryOptions = {},
 ): Promise<AdjacentBlogPosts> {
-  const posts = (await getAllPosts(options)).filter(
+  const posts = (await getPostsByAccess(access, options)).filter(
     (post) => post.status === "published",
   );
   const index = posts.findIndex((post) => post.slug === slug);

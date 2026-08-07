@@ -186,17 +186,6 @@ export function AboutSection() {
         className="site-container mx-auto grid w-full items-center gap-6 px-[1cm] lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:gap-10 xl:gap-12"
       >
         <motion.div variants={fadeUp} className="max-w-3xl lg:ml-8 xl:ml-12">
-          <motion.div
-            variants={scaleIn}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-teal-400/40 bg-teal-100/70 px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-teal-700 shadow-sm backdrop-blur dark:border-teal-400/30 dark:bg-teal-500/10 dark:text-teal-300"
-          >
-            <motion.span
-              className="h-1.5 w-1.5 rounded-full bg-teal-500 shadow-[0_0_16px_rgba(20,184,166,0.8)]"
-              animate={reduceMotion ? undefined : { opacity: [0.45, 1, 0.45] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            />
-            {lang({ en: "Profile console", vi: "Profile console" })}
-          </motion.div>
 
           <h2 className="max-w-2xl text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
             {lang({ en: "About Me", vi: "Giới Thiệu" })}

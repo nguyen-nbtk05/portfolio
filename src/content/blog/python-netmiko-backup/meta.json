@@ -10,5 +10,6 @@
   "publishedAt": "2026-04-27",
   "tags": ["Python", "Netmiko", "Automation"],
   "featured": false,
-  "status": "published"
+  "status": "published",
+  "access": "public"
 }

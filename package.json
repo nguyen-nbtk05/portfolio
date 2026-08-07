@@ -2,11 +2,13 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "node --test tests/blog-vault.test.mts",
     "blog:new": "node scripts/new-blog.mjs",
     "blog:check": "node scripts/check-blogs.mjs"
   },

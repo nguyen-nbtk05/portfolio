@@ -4,5 +4,6 @@
   "publishedAt": "2026-06-01",
   "tags": ["Networking", "Automation"],
   "featured": true,
-  "status": "published"
+  "status": "published",
+  "access": "public"
 }

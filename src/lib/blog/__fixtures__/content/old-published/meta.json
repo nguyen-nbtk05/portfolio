@@ -4,5 +4,6 @@
   "publishedAt": "2026-01-01",
   "tags": ["Networking"],
   "featured": false,
-  "status": "published"
+  "status": "published",
+  "access": "public"
 }

@@ -15,6 +15,10 @@ import { Volume2, VolumeX } from "lucide-react";
 import { useTheme } from "@/providers/theme-provider";
 import { useLanguage } from "@/hooks/use-language";
 import { useLenis } from "@/hooks/use-lenis";
+import {
+  getHomeSectionIdFromHash,
+  pushHomeSectionHash,
+} from "@/lib/section-navigation";
 import { siteConfig } from "@/data/config";
 import { skills } from "@/data/skills";
 import { projects } from "@/data/projects";
@@ -298,7 +302,10 @@ export function PortfolioTerminal() {
 
   const navigateToSection = useCallback(
     (target: string) => {
-      const element = document.getElementById(target);
+      const sectionId = getHomeSectionIdFromHash(`#${target}`);
+      if (!sectionId) return;
+
+      const element = document.getElementById(sectionId);
       if (!element) return;
 
       if (lenis) {
@@ -307,7 +314,7 @@ export function PortfolioTerminal() {
         element.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
       }
 
-      window.history.pushState(null, "", `#${target}`);
+      pushHomeSectionHash(sectionId);
     },
     [lenis, reduceMotion],
   );

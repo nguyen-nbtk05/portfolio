@@ -340,7 +340,7 @@ export function HeroSection() {
               <Sparkles className="h-5 w-4" />
             </motion.span>
             <span className="relative top-px inline-flex items-center leading-none">
-              SYSTEM STATUS: STUDENT
+              SYSTEM STATUS: UNDERGRADUATE
             </span>
           </motion.div>
 

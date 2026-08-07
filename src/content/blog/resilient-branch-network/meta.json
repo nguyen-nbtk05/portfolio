@@ -10,5 +10,6 @@
   "publishedAt": "2026-05-12",
   "tags": ["SD-WAN", "Routing", "Security"],
   "featured": false,
-  "status": "published"
+  "status": "published",
+  "access": "public"
 }

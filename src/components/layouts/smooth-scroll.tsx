@@ -5,9 +5,16 @@ import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { LenisContext } from "@/hooks/use-lenis";
 import { scrollToSection } from "@/lib/scroll-to-section";
+import {
+  canonicalizeHomeSectionHash,
+  getCanonicalSectionHash,
+  getHomeSectionIdFromHash,
+  HOME_SECTION_IDS,
+} from "@/lib/section-navigation";
 
 // Section IDs in DOM order — these are magnetic snap targets
-const SNAP_SECTION_IDS = ["hero", "about", "skills", "projects", "blog", "contact"];
+const SNAP_SECTION_IDS = HOME_SECTION_IDS;
+const SNAP_SECTION_ID_SET = new Set<string>(SNAP_SECTION_IDS);
 
 export default function SmoothScroll({
   children,
@@ -17,6 +24,7 @@ export default function SmoothScroll({
   const [lenis, setLenis] = useState<Lenis | null>(null);
   const rafId = useRef<number>(0);
   const pathname = usePathname();
+  const previousPathnameRef = useRef(pathname);
 
   useEffect(() => {
     const instance = new Lenis({
@@ -78,7 +86,7 @@ export default function SmoothScroll({
         for (const node of record.addedNodes) {
           if (
             node instanceof Element &&
-            ((node.id && SNAP_SECTION_IDS.includes(node.id)) ||
+            ((node.id && SNAP_SECTION_ID_SET.has(node.id)) ||
               node.querySelector(sectionSelector))
           ) {
             scheduleRecompute();
@@ -161,47 +169,74 @@ export default function SmoothScroll({
   useEffect(() => {
     if (!lenis) return;
 
+    const previousPathname = previousPathnameRef.current;
+    previousPathnameRef.current = pathname;
+
+    const isBlogRoute =
+      pathname === "/blog" || /^\/blog\/[^/]+\/?$/.test(pathname);
+
+    if (isBlogRoute && !window.location.hash) {
+      const resetBlogScroll = () => {
+        lenis.resize();
+        lenis.scrollTo(0, { immediate: true, force: true });
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      };
+
+      // Next can restore the previous history-entry position after the route
+      // commits. Reset once now and once on the next frame so the new route
+      // starts at its header before its fade-in becomes visible.
+      resetBlogScroll();
+      const resetScrollRaf = requestAnimationFrame(resetBlogScroll);
+
+      return () => cancelAnimationFrame(resetScrollRaf);
+    }
+
     let hashScrollRaf = 0;
     let handledHashLocation: string | null = null;
+    // Only a transition from another route to the homepage should jump to its
+    // hash immediately. Checking the prior pathname avoids mistaking a navbar
+    // click during Lenis startup for a cross-route navigation.
+    let preferInstantHashScroll =
+      pathname === "/" && previousPathname !== "/";
 
-    const scheduleHashScroll = () => {
+    const scheduleHashScroll = (immediate = preferInstantHashScroll) => {
       if (!window.location.hash) {
         handledHashLocation = null;
         return;
       }
 
-      const hashLocation = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      const targetId = getHomeSectionIdFromHash(window.location.hash);
+      if (!targetId) return;
+
+      canonicalizeHomeSectionHash(targetId);
+
+      const hashLocation = `${window.location.pathname}${window.location.search}${getCanonicalSectionHash(targetId)}`;
       if (handledHashLocation === hashLocation) return;
 
       if (hashScrollRaf) cancelAnimationFrame(hashScrollRaf);
       hashScrollRaf = requestAnimationFrame(() => {
         hashScrollRaf = 0;
 
-        let targetId = window.location.hash.slice(1);
-        try {
-          targetId = decodeURIComponent(targetId);
-        } catch {
-          // Keep the literal hash when it contains malformed escape sequences.
-        }
-
         const target = document.getElementById(targetId);
         if (!target) return;
 
         handledHashLocation = hashLocation;
-        scrollToSection(target, lenis);
+        scrollToSection(target, lenis, { immediate });
+        preferInstantHashScroll = false;
       });
     };
 
     const handleHistoryNavigation = () => {
+      preferInstantHashScroll = false;
       handledHashLocation = null;
-      scheduleHashScroll();
+      scheduleHashScroll(false);
     };
 
     scheduleHashScroll();
 
     // App Router changes are tracked by pathname. The observer covers delayed
     // section mounts, including the initial splash screen transition.
-    const mutationObserver = new MutationObserver(scheduleHashScroll);
+    const mutationObserver = new MutationObserver(() => scheduleHashScroll());
     mutationObserver.observe(document.body, { childList: true, subtree: true });
 
     window.addEventListener("hashchange", handleHistoryNavigation);

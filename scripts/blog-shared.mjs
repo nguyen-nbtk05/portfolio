@@ -16,6 +16,7 @@ export const BLOG_CONTENT_DIRECTORY = process.env.BLOG_CONTENT_DIRECTORY
   : defaultBlogContentDirectory;
 
 export const BLOG_STATUSES = ["published", "draft", "comingSoon"];
+export const BLOG_ACCESS_LEVELS = ["public", "vault"];
 export const BLOG_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export function isValidBlogSlug(value) {
@@ -141,6 +142,10 @@ export function validateBlogMeta(value) {
 
   if (!BLOG_STATUSES.includes(value.status)) {
     errors.push(`status must be one of: ${BLOG_STATUSES.join(", ")}`);
+  }
+
+  if (!BLOG_ACCESS_LEVELS.includes(value.access)) {
+    errors.push(`access must be one of: ${BLOG_ACCESS_LEVELS.join(", ")}`);
   }
 
   return errors;

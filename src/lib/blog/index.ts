@@ -3,12 +3,13 @@ export {
   DEFAULT_BLOG_CONTENT_DIRECTORY,
   type BlogRepositoryOptions,
 } from "./content";
-export { getPostBySlug } from "./get-post";
+export { getPostBySlug, getPublishedPostAccess } from "./get-post";
 export {
   getAdjacentPosts,
   getAllPosts,
   getAllTags,
   getPublishedSlugs,
+  getVaultPosts,
 } from "./get-posts";
 export {
   calculateLocalizedReadTime,
@@ -17,8 +18,10 @@ export {
 } from "./read-time";
 export { BLOG_SLUG_PATTERN, isValidBlogSlug, slugifyBlogTitle } from "./slug";
 export {
+  BLOG_ACCESS_LEVELS,
   BLOG_STATUSES,
   type AdjacentBlogPosts,
+  type BlogAccess,
   type BlogPost,
   type BlogPostMeta,
   type BlogPostSummary,
@@ -27,8 +30,10 @@ export {
   type LocalizedText,
 } from "./types";
 export {
+  isBlogAccess,
   isBlogStatus,
   isValidPublishedDate,
   parseBlogPostMeta,
   validateBlogPostMeta,
 } from "./validation";
+export { isVisiblePostForAccess } from "./access";

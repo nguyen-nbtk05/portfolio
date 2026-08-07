@@ -35,9 +35,11 @@ function isErrorCode(error, code) {
 }
 
 async function main() {
-  const title = process.argv.slice(2).join(" ").trim();
+  const args = process.argv.slice(2);
+  const access = args.includes("--vault") ? "vault" : "public";
+  const title = args.filter((arg) => arg !== "--vault").join(" ").trim();
   if (!title) {
-    throw new Error('Usage: npm run blog:new -- "Article title"');
+    throw new Error('Usage: npm run blog:new -- [--vault] "Article title"');
   }
 
   const slug = slugifyBlogTitle(title);
@@ -71,6 +73,7 @@ async function main() {
     tags: [],
     featured: false,
     status: "draft",
+    access,
   };
 
   const createdFiles = [
@@ -93,7 +96,8 @@ async function main() {
   console.log("\nNext steps:");
   console.log("1. Complete both translations and metadata.");
   console.log('2. Change status from "draft" to "published" when ready.');
-  console.log("3. Run npm run blog:check.");
+  console.log(`3. Access level: ${access}.`);
+  console.log("4. Run npm run blog:check.");
 }
 
 main().catch((error) => {

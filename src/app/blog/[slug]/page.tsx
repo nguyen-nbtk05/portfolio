@@ -4,11 +4,15 @@ import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { ArrowLeft, ArrowRight, CalendarDays, Clock3 } from "lucide-react";
 import { BlogBackLink } from "@/components/blog/blog-back-link";
+import { BlogTableOfContents } from "@/components/blog/blog-table-of-contents";
 import { MdxRenderer } from "@/components/blog/mdx-renderer";
 import { ReadingProgress } from "@/components/blog/reading-progress";
+import { VaultAccessPanel } from "@/components/blog/vault-access-panel";
 import { SectionBackground } from "@/components/ui/section-background";
-import { getPostBySlug } from "@/lib/blog/get-post";
+import { getPostBySlug, getPublishedPostAccess } from "@/lib/blog/get-post";
 import { getAdjacentPosts, getPublishedSlugs } from "@/lib/blog/get-posts";
+import { extractBlogTableOfContents } from "@/lib/blog/heading-slug";
+import { isVaultConfigured, isVaultUnlocked } from "@/lib/blog/vault-auth";
 import {
   DEFAULT_LANGUAGE,
   LANGUAGE_COOKIE_NAME,
@@ -22,7 +26,8 @@ type ArticlePageProps = {
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export const dynamicParams = false;
+export const revalidate = 0;
+export const dynamicParams = true;
 
 async function getRequestLanguage(): Promise<Language> {
   const cookieStore = await cookies();
@@ -46,6 +51,21 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const [{ slug }, locale] = await Promise.all([params, getRequestLanguage()]);
+  const access = await getPublishedPostAccess(slug);
+
+  if (!access) notFound();
+
+  if (access === "vault") {
+    return {
+      title: locale === "vi" ? "Góc riêng | Blog" : "Private Vault | Blog",
+      description:
+        locale === "vi"
+          ? "Khu vực ghi chép riêng tư được bảo vệ bằng mật khẩu."
+          : "Password-protected private notes.",
+      robots: { index: false, follow: false, nocache: true },
+    };
+  }
+
   const post = await getPostBySlug(slug, locale);
 
   if (!post) notFound();
@@ -96,82 +116,115 @@ function AdjacentLink({
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const [{ slug }, locale] = await Promise.all([params, getRequestLanguage()]);
+  const access = await getPublishedPostAccess(slug);
+
+  if (!access) notFound();
+
+  const vaultUnlocked = access === "vault" ? await isVaultUnlocked() : false;
+
+  if (access === "vault" && !vaultUnlocked) {
+    return (
+      <section
+        lang={locale}
+        className="relative isolate min-h-screen overflow-hidden pb-20 pt-20"
+      >
+        <SectionBackground variant="blog" />
+        <div className="site-container relative z-10 mx-auto w-full px-[1cm]">
+          <BlogBackLink>
+            {locale === "vi" ? "Quay lại Blog" : "Back to Blog"}
+          </BlogBackLink>
+          <VaultAccessPanel
+            configured={isVaultConfigured()}
+            className="mx-auto mt-8 max-w-2xl"
+          />
+        </div>
+      </section>
+    );
+  }
+
   const [post, adjacent] = await Promise.all([
-    getPostBySlug(slug, locale),
-    getAdjacentPosts(slug),
+    getPostBySlug(slug, locale, { allowVault: vaultUnlocked }),
+    getAdjacentPosts(slug, access),
   ]);
 
   if (!post) notFound();
 
   const readMinutes = post.readTime[locale];
+  const tableOfContents = extractBlogTableOfContents(post.content);
 
   return (
-    <section lang={locale} className="relative isolate min-h-screen overflow-hidden pb-24 pt-32 sm:pt-36">
+    <section lang={locale} className="relative isolate min-h-screen overflow-x-clip pb-20 pt-20">
       <SectionBackground variant="blog" />
       <ReadingProgress targetId="article-body" />
 
-      <article className="relative z-10 mx-auto w-full px-[1cm]">
-        <header className="mx-auto max-w-4xl border-b border-slate-200 pb-9 dark:border-slate-800">
-          <BlogBackLink>
-            {locale === "vi" ? "Quay lại Blog" : "Back to Blog"}
-          </BlogBackLink>
+      <article className="site-container relative z-10 mx-auto w-full px-[1cm]">
+        <div className="mx-auto grid max-w-7xl gap-10 xl:grid-cols-[minmax(0,1fr)_15rem] xl:items-start xl:gap-10">
+          <div className="min-w-0">
+            <header className="border-b border-slate-200 pb-6 dark:border-slate-800">
+              <BlogBackLink>
+                {locale === "vi" ? "Quay lại Blog" : "Back to Blog"}
+              </BlogBackLink>
 
-          <div className="mb-4 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
-            {post.tags.slice(0, 2).join(" · ")}
+              <div className="mb-4 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
+                {post.tags.slice(0, 2).join(" · ")}
+              </div>
+              <h1 className="text-4xl font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-[2.75rem] sm:text-justify dark:text-slate-50">
+                {post.title[locale]}
+              </h1>
+              <p className="mt-4 text-lg leading-8 text-slate-600 sm:text-justify dark:text-slate-400">
+                {post.excerpt[locale]}
+              </p>
+
+              <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-500 dark:text-slate-400">
+                <span className="inline-flex items-center gap-2">
+                  <CalendarDays aria-hidden="true" className="h-4 w-4 text-teal-500" />
+                  <time dateTime={post.publishedAt}>{formatDate(post.publishedAt, locale)}</time>
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <Clock3 aria-hidden="true" className="h-4 w-4 text-teal-500" />
+                  {locale === "vi" ? `${readMinutes} phút đọc` : `${readMinutes} min read`}
+                </span>
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <span key={tag} className="rounded-md bg-slate-200/70 px-2.5 py-1 font-mono text-xs text-slate-700 dark:bg-slate-900 dark:text-slate-300">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </header>
+
+            <div
+              id="article-body"
+              data-cursor="text"
+              className="w-full py-8 text-[1.02rem] [&>:first-child]:mt-0 [&_img]:my-8 [&_img]:h-auto [&_img]:max-w-full [&_img]:rounded-xl [&_img]:border [&_img]:border-slate-200 [&_img]:dark:border-slate-800"
+            >
+              <MdxRenderer source={post.content} sourcePath={`${post.slug}/${locale}.mdx`} />
+            </div>
+
+            <nav aria-label={locale === "vi" ? "Bài viết liền kề" : "Adjacent articles"} className="grid gap-4 border-t border-slate-200 pt-8 md:grid-cols-2 dark:border-slate-800">
+              {adjacent.previous?.href ? (
+                <AdjacentLink
+                  href={adjacent.previous.href}
+                  label={locale === "vi" ? "Bài trước" : "Previous"}
+                  title={adjacent.previous.title[locale]}
+                  direction="previous"
+                />
+              ) : <span aria-hidden="true" />}
+              {adjacent.next?.href ? (
+                <AdjacentLink
+                  href={adjacent.next.href}
+                  label={locale === "vi" ? "Bài tiếp" : "Next"}
+                  title={adjacent.next.title[locale]}
+                  direction="next"
+                />
+              ) : <span aria-hidden="true" />}
+            </nav>
           </div>
-          <h1 className="max-w-4xl text-4xl font-bold leading-tight tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
-            {post.title[locale]}
-          </h1>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-            {post.excerpt[locale]}
-          </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-2">
-              <CalendarDays aria-hidden="true" className="h-4 w-4 text-teal-500" />
-              <time dateTime={post.publishedAt}>{formatDate(post.publishedAt, locale)}</time>
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Clock3 aria-hidden="true" className="h-4 w-4 text-teal-500" />
-              {locale === "vi" ? `${readMinutes} phút đọc` : `${readMinutes} min read`}
-            </span>
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <span key={tag} className="rounded-md bg-slate-200/70 px-2.5 py-1 font-mono text-xs text-slate-700 dark:bg-slate-900 dark:text-slate-300">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </header>
-
-        <div
-          id="article-body"
-          data-cursor="text"
-          className="mx-auto max-w-[72ch] py-10 text-[1.02rem] [&_img]:my-8 [&_img]:h-auto [&_img]:max-w-full [&_img]:rounded-xl [&_img]:border [&_img]:border-slate-200 [&_img]:dark:border-slate-800"
-        >
-          <MdxRenderer source={post.content} sourcePath={`${post.slug}/${locale}.mdx`} />
+          <BlogTableOfContents items={tableOfContents} locale={locale} />
         </div>
-
-        <nav aria-label={locale === "vi" ? "Bài viết liền kề" : "Adjacent articles"} className="mx-auto grid max-w-4xl gap-4 border-t border-slate-200 pt-8 md:grid-cols-2 dark:border-slate-800">
-          {adjacent.previous?.href ? (
-            <AdjacentLink
-              href={adjacent.previous.href}
-              label={locale === "vi" ? "Bài trước" : "Previous"}
-              title={adjacent.previous.title[locale]}
-              direction="previous"
-            />
-          ) : <span aria-hidden="true" />}
-          {adjacent.next?.href ? (
-            <AdjacentLink
-              href={adjacent.next.href}
-              label={locale === "vi" ? "Bài tiếp" : "Next"}
-              title={adjacent.next.title[locale]}
-              direction="next"
-            />
-          ) : <span aria-hidden="true" />}
-        </nav>
       </article>
     </section>
   );

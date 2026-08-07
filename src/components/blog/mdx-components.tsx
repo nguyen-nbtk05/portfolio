@@ -1,8 +1,27 @@
-import type { ComponentPropsWithoutRef } from "react";
+import {
+  isValidElement,
+  type ComponentPropsWithoutRef,
+  type ReactNode,
+} from "react";
 import type { MDXComponents } from "mdx/types";
+import { slugifyBlogHeading } from "@/lib/blog/heading-slug";
 import { cn } from "@/lib/utils";
 
-type HeadingProps = ComponentPropsWithoutRef<"h2">;
+function getHeadingText(node: ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") {
+    return String(node);
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(getHeadingText).join("");
+  }
+
+  if (isValidElement<{ children?: ReactNode }>(node)) {
+    return getHeadingText(node.props.children);
+  }
+
+  return "";
+}
 
 function MdxLink({ href, className, ...props }: ComponentPropsWithoutRef<"a">) {
   const isExternal = href?.startsWith("http://") || href?.startsWith("https://");
@@ -33,43 +52,52 @@ function MdxTable({ className, ...props }: ComponentPropsWithoutRef<"table">) {
 }
 
 const headingClassName =
-  "scroll-mt-28 font-bold tracking-tight text-slate-950 dark:text-slate-50";
+  "font-bold tracking-tight text-slate-950 sm:text-justify dark:text-slate-50";
 
 export const mdxComponents: MDXComponents = {
-  h1: ({ className, ...props }: HeadingProps) => (
+  h1: ({ className, children, id, ...props }: ComponentPropsWithoutRef<"h1">) => (
     <h1
+      id={id ?? slugifyBlogHeading(getHeadingText(children))}
       className={cn(headingClassName, "mb-5 mt-12 text-3xl sm:text-4xl", className)}
       {...props}
-    />
+    >
+      {children}
+    </h1>
   ),
-  h2: ({ className, ...props }: HeadingProps) => (
+  h2: ({ className, children, id, ...props }: ComponentPropsWithoutRef<"h2">) => (
     <h2
+      id={id ?? slugifyBlogHeading(getHeadingText(children))}
       className={cn(headingClassName, "mb-4 mt-12 text-2xl sm:text-3xl", className)}
       {...props}
-    />
+    >
+      {children}
+    </h2>
   ),
-  h3: ({ className, ...props }: ComponentPropsWithoutRef<"h3">) => (
+  h3: ({ className, children, id, ...props }: ComponentPropsWithoutRef<"h3">) => (
     <h3
+      id={id ?? slugifyBlogHeading(getHeadingText(children))}
       className={cn(headingClassName, "mb-3 mt-9 text-xl sm:text-2xl", className)}
       {...props}
-    />
+    >
+      {children}
+    </h3>
   ),
   p: ({ className, ...props }: ComponentPropsWithoutRef<"p">) => (
     <p
-      className={cn("my-5 leading-8 text-slate-700 dark:text-slate-300", className)}
+      className={cn("my-5 leading-8 text-slate-700 sm:text-justify dark:text-slate-300", className)}
       {...props}
     />
   ),
   a: MdxLink,
   ul: ({ className, ...props }: ComponentPropsWithoutRef<"ul">) => (
     <ul
-      className={cn("my-5 list-disc space-y-2 pl-6 text-slate-700 marker:text-teal-500 dark:text-slate-300", className)}
+      className={cn("my-5 list-disc space-y-2 pl-6 text-slate-700 marker:text-teal-500 sm:text-justify dark:text-slate-300", className)}
       {...props}
     />
   ),
   ol: ({ className, ...props }: ComponentPropsWithoutRef<"ol">) => (
     <ol
-      className={cn("my-5 list-decimal space-y-2 pl-6 text-slate-700 marker:font-semibold marker:text-teal-600 dark:text-slate-300 dark:marker:text-teal-400", className)}
+      className={cn("my-5 list-decimal space-y-2 pl-6 text-slate-700 marker:font-semibold marker:text-teal-600 sm:text-justify dark:text-slate-300 dark:marker:text-teal-400", className)}
       {...props}
     />
   ),
@@ -79,7 +107,7 @@ export const mdxComponents: MDXComponents = {
   blockquote: ({ className, ...props }: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
       className={cn(
-        "my-8 border-l-2 border-teal-500 bg-teal-50/70 px-5 py-3 italic text-slate-700 dark:bg-teal-500/5 dark:text-slate-300",
+        "my-8 border-l-2 border-teal-500 bg-teal-50/70 px-5 py-3 italic text-slate-700 sm:text-justify dark:bg-teal-500/5 dark:text-slate-300",
         className,
       )}
       {...props}
@@ -97,7 +125,7 @@ export const mdxComponents: MDXComponents = {
   pre: ({ className, ...props }: ComponentPropsWithoutRef<"pre">) => (
     <pre
       className={cn(
-        "my-8 overflow-x-auto rounded-xl border border-slate-800 bg-slate-950 p-5 font-mono text-sm leading-6 text-slate-100 shadow-lg shadow-slate-950/10 [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit",
+        "my-8 overflow-x-auto rounded-xl border border-slate-800 bg-slate-950 p-5 text-left font-mono text-sm leading-6 text-slate-100 shadow-lg shadow-slate-950/10 [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit",
         className,
       )}
       {...props}

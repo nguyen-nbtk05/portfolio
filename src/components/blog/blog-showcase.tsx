@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, Network } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { BlogCard } from "@/components/blog/blog-card";
 import { BlogPagination } from "@/components/blog/blog-pagination";
 import {
@@ -85,10 +85,6 @@ export function BlogShowcase({ posts }: BlogShowcaseProps) {
     <div>
       <header className="grid items-end gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-10">
         <div>
-          <div className="mb-2 inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
-            <Network aria-hidden="true" className="h-4 w-4" />
-            {lang({ en: "Field notes", vi: "Ghi chép thực địa" })}
-          </div>
           <h2 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
             Blog<span className="text-teal-500">.</span>
           </h2>
@@ -123,6 +119,7 @@ export function BlogShowcase({ posts }: BlogShowcaseProps) {
           </div>
           <Link
             href="/blog"
+            scroll
             className="inline-flex items-center gap-1.5 rounded-sm text-sm font-semibold text-teal-600 transition-colors hover:text-teal-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-4 dark:text-teal-400 dark:hover:text-teal-300 dark:focus-visible:ring-offset-slate-950"
           >
             {lang({ en: "View all", vi: "Xem tất cả" })}

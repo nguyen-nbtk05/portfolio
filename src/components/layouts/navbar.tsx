@@ -13,6 +13,10 @@ import { fadeUp, staggerContainer } from "@/lib/motion";
 import { SettingsDropdown } from "../ui/settings-dropdown";
 import { useLenis } from "@/hooks/use-lenis";
 import { scrollToSection } from "@/lib/scroll-to-section";
+import {
+  getHomeSectionIdFromHash,
+  pushHomeSectionHash,
+} from "@/lib/section-navigation";
 
 const navItems = [
   {
@@ -111,13 +115,14 @@ export function Navbar() {
       }
 
       // For hash links like #about, #skills, etc.
-      const targetId = href.replace("#", "");
+      const targetId = getHomeSectionIdFromHash(href);
+      if (!targetId) return;
+
       const targetEl = document.getElementById(targetId);
       if (!targetEl) return;
 
       scrollToSection(targetEl, lenis);
-
-      window.history.pushState(null, "", href);
+      pushHomeSectionHash(targetId);
     },
     [lenis, pathname]
   );
@@ -179,18 +184,6 @@ export function Navbar() {
         <div className="flex items-center gap-1">
           <DockTooltip
             label={lang({
-              en: "Settings & Preferences",
-              vi: "Cài đặt & Tùy chọn",
-            })}
-            isDropdownOpen={isSettingsOpen}
-          >
-            <div>
-              <SettingsDropdown onOpenChange={setIsSettingsOpen} />
-            </div>
-          </DockTooltip>
-
-          <DockTooltip
-            label={lang({
               en: !mounted
                 ? "Theme"
                 : isDarkMode
@@ -205,6 +198,18 @@ export function Navbar() {
           >
             <div>
               <AnimatedThemeToggler variant="circle" duration={800} />
+            </div>
+          </DockTooltip>
+
+          <DockTooltip
+            label={lang({
+              en: "Settings & Preferences",
+              vi: "Cài đặt & Tùy chọn",
+            })}
+            isDropdownOpen={isSettingsOpen}
+          >
+            <div>
+              <SettingsDropdown onOpenChange={setIsSettingsOpen} />
             </div>
           </DockTooltip>
         </div>
