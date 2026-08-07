@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   motion,
   useReducedMotion,
@@ -10,6 +12,7 @@ import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { SettingsDropdown } from "../ui/settings-dropdown";
 import { useLenis } from "@/hooks/use-lenis";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
 const navItems = [
   {
@@ -79,9 +82,21 @@ export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const lenis = useLenis();
+  const pathname = usePathname();
 
   const handleAnchorClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      if (
+        pathname !== "/" ||
+        e.button !== 0 ||
+        e.metaKey ||
+        e.ctrlKey ||
+        e.shiftKey ||
+        e.altKey
+      ) {
+        return;
+      }
+
       e.preventDefault();
 
       if (href === "/") {
@@ -100,20 +115,11 @@ export function Navbar() {
       const targetEl = document.getElementById(targetId);
       if (!targetEl) return;
 
-      // THÊM OFFSET VÀO ĐÂY: Dùng số âm để Lenis dừng lại sớm 100px
-      const offsetValue = 100; 
-
-      if (lenis) {
-        lenis.scrollTo(targetEl, { duration: 1.2, offset: offsetValue });
-      } else {
-        // Fallback if Lenis isn't available yet
-        const top = targetEl.getBoundingClientRect().top + window.scrollY + offsetValue;
-        window.scrollTo({ top, behavior: "smooth" });
-      }
+      scrollToSection(targetEl, lenis);
 
       window.history.pushState(null, "", href);
     },
-    [lenis]
+    [lenis, pathname]
   );
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -157,13 +163,14 @@ export function Navbar() {
           {navItems.map((item) => (
             <motion.div key={item.href} variants={fadeUp}>
               <DockTooltip label={lang(item.tooltip)}>
-                <a
-                  href={item.href}
+                <Link
+                  href={item.href === "/" ? "/" : `/${item.href}`}
+                  scroll={item.href === "/"}
                   onClick={(e) => handleAnchorClick(e, item.href)}
                   className="flex items-center justify-center rounded-lg px-2.5 py-1.5 transition-all duration-200 hover:bg-slate-100 hover:text-teal-500 dark:text-slate-300 dark:hover:bg-slate-800/60 dark:hover:text-teal-400"
                 >
                   {lang(item.label)}
-                </a>
+                </Link>
               </DockTooltip>
             </motion.div>
           ))}

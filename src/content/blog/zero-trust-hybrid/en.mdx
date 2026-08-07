@@ -1,0 +1,88 @@
+# Zero-Trust Basics for Hybrid Infrastructure
+
+> **Demo content for testing:** This article is sample material for validating the portfolio blog layout, typography, localization, and MDX components. Replace it with reviewed production content before publishing the site publicly.
+
+Hybrid infrastructure spreads identities, applications, and data across office networks, private platforms, and public cloud services. A zero-trust design treats every access request as a decision to verify, not as a privilege granted simply because a device is connected to an internal network.
+
+The goal is not to buy a single “zero-trust product.” It is to create a repeatable decision flow: identify the subject, evaluate the device and context, grant the smallest useful permission, and record enough evidence to investigate the result.
+
+## A small, testable model
+
+For a first implementation, I separate the design into three control planes:
+
+1. **Identity** establishes who or what is making the request.
+2. **Policy enforcement** decides whether the requested action is allowed.
+3. **Observability** proves that the controls behave as expected.
+
+An access decision should combine several signals rather than relying on a source IP address alone:
+
+- user and workload identity;
+- device enrollment and security posture;
+- requested application, action, and data sensitivity;
+- location, time, and recent authentication risk;
+- current incident indicators or explicit deny rules.
+
+The resulting rule can remain easy to explain: `allow when identity is known, device is healthy, and the requested action matches the assigned role`.
+
+### Example policy inventory
+
+| Access path | Identity signal | Minimum control | Evidence to retain |
+| --- | --- | --- | --- |
+| Employee to SaaS | SSO user and MFA | Conditional access | Sign-in and policy logs |
+| Engineer to private API | User plus managed device | Short-lived application token | Gateway and API audit logs |
+| Service to database | Workload identity | Explicit service role | Query and identity events |
+| Administrator to network device | Privileged account | Approval and session recording | Command and configuration logs |
+
+The table is intentionally compact. It gives the team a shared inventory before individual products or vendors shape the architecture.
+
+## Policy as a reviewable artifact
+
+The following YAML is illustrative rather than tied to a particular platform. It is useful for testing fenced-code rendering and for showing the kind of policy intent that should live in version control.
+
+```yaml
+policy: hybrid-admin-access
+effect: allow
+subjects:
+  groups:
+    - network-operations
+resources:
+  applications:
+    - branch-controller
+conditions:
+  require_mfa: true
+  device_posture: compliant
+  session_ttl_minutes: 30
+logging:
+  decision: required
+  session: required
+```
+
+In a real deployment, the policy needs an owner, a review date, and a documented fallback. A technically correct rule can still become risky when nobody knows why it exists.
+
+## Rollout sequence
+
+Start with one access path that is important enough to matter but narrow enough to observe. Privileged access to a lab environment is often a practical candidate.
+
+1. Map the users, workloads, resources, and existing trust assumptions.
+2. Collect logs before enforcement to establish a behavioral baseline.
+3. Add strong authentication and device checks in report-only mode.
+4. Test expected access as well as explicit denial scenarios.
+5. Enforce the policy for a pilot group and define a time-limited recovery path.
+6. Review exceptions weekly and remove permissions that are no longer needed.
+
+Useful validation questions include:
+
+- Can a healthy managed device complete the expected workflow?
+- Does an unmanaged device receive a clear denial?
+- Is a revoked identity blocked quickly across both cloud and private services?
+- Can an operator connect one policy decision to its authentication and application logs?
+
+### Measure outcomes, not product count
+
+A dashboard should answer operational questions. Track the percentage of applications behind identity-aware controls, median revocation time, stale privileged roles, policy exceptions by age, and access failures caused by control errors. These measures expose gaps more clearly than counting how many security tools have been installed.
+
+For additional background, the [NIST Zero Trust Architecture overview](https://www.nist.gov/publications/zero-trust-architecture) provides a vendor-neutral reference model.
+
+---
+
+This demo deliberately includes headings, lists, inline code, a fenced code block, a blockquote, a GFM table, a link, and a horizontal rule so the article page can be checked in light and dark themes.

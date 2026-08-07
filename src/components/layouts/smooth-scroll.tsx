@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { LenisContext } from "@/hooks/use-lenis";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
 // Section IDs in DOM order — these are magnetic snap targets
 const SNAP_SECTION_IDS = ["hero", "about", "skills", "projects", "blog", "contact"];
@@ -14,13 +16,7 @@ export default function SmoothScroll({
 }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
   const rafId = useRef<number>(0);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.location.hash) {
-      window.history.replaceState(null, "", window.location.pathname);
-      window.scrollTo(0, 0);
-    }
-  }, []);
+  const pathname = usePathname();
 
   useEffect(() => {
     const instance = new Lenis({
@@ -161,6 +157,63 @@ export default function SmoothScroll({
       instance.destroy();
     };
   }, []);
+
+  useEffect(() => {
+    if (!lenis) return;
+
+    let hashScrollRaf = 0;
+    let handledHashLocation: string | null = null;
+
+    const scheduleHashScroll = () => {
+      if (!window.location.hash) {
+        handledHashLocation = null;
+        return;
+      }
+
+      const hashLocation = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      if (handledHashLocation === hashLocation) return;
+
+      if (hashScrollRaf) cancelAnimationFrame(hashScrollRaf);
+      hashScrollRaf = requestAnimationFrame(() => {
+        hashScrollRaf = 0;
+
+        let targetId = window.location.hash.slice(1);
+        try {
+          targetId = decodeURIComponent(targetId);
+        } catch {
+          // Keep the literal hash when it contains malformed escape sequences.
+        }
+
+        const target = document.getElementById(targetId);
+        if (!target) return;
+
+        handledHashLocation = hashLocation;
+        scrollToSection(target, lenis);
+      });
+    };
+
+    const handleHistoryNavigation = () => {
+      handledHashLocation = null;
+      scheduleHashScroll();
+    };
+
+    scheduleHashScroll();
+
+    // App Router changes are tracked by pathname. The observer covers delayed
+    // section mounts, including the initial splash screen transition.
+    const mutationObserver = new MutationObserver(scheduleHashScroll);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    window.addEventListener("hashchange", handleHistoryNavigation);
+    window.addEventListener("popstate", handleHistoryNavigation);
+
+    return () => {
+      mutationObserver.disconnect();
+      if (hashScrollRaf) cancelAnimationFrame(hashScrollRaf);
+      window.removeEventListener("hashchange", handleHistoryNavigation);
+      window.removeEventListener("popstate", handleHistoryNavigation);
+    };
+  }, [lenis, pathname]);
 
   return (
     <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>

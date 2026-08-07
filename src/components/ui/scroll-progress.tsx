@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, useMotionValue, useReducedMotion } from "motion/react";
 import type Lenis from "lenis";
 import { useLenis } from "@/hooks/use-lenis";
@@ -21,8 +22,12 @@ export function ScrollProgress() {
   const lenis = useLenis();
   const progress = useMotionValue(0);
   const reduceMotion = useReducedMotion();
+  const pathname = usePathname();
+  const isBlogArticle = /^\/blog\/[^/]+\/?$/.test(pathname);
 
   useEffect(() => {
+    if (isBlogArticle) return;
+
     const updateFromDocument = () => {
       progress.set(getDocumentProgress());
     };
@@ -58,7 +63,9 @@ export function ScrollProgress() {
       window.removeEventListener("resize", updateFromDocument);
       resizeObserver?.disconnect();
     };
-  }, [lenis, progress]);
+  }, [isBlogArticle, lenis, progress]);
+
+  if (isBlogArticle) return null;
 
   return (
     <div

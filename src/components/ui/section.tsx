@@ -10,6 +10,7 @@ const SECTION_BACKGROUND_VARIANTS = new Set<string>([
   "about",
   "skills",
   "projects",
+  "blog",
   "contact",
 ]);
 

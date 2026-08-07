@@ -7,6 +7,7 @@ export type SectionBackgroundVariant =
   | "about"
   | "skills"
   | "projects"
+  | "blog"
   | "contact";
 
 type SectionBackgroundStyle = {
@@ -49,6 +50,15 @@ const SECTION_BACKGROUND_STYLES: Record<SectionBackgroundVariant, SectionBackgro
       "bg-[linear-gradient(120deg,rgba(148,163,184,0.14)_0,transparent_46%),linear-gradient(30deg,rgba(148,163,184,0.11)_0,transparent_52%)] dark:bg-[linear-gradient(120deg,rgba(148,163,184,0.12)_0,transparent_52%),linear-gradient(30deg,rgba(71,85,105,0.22)_0,transparent_56%)]",
     accentClassName:
       "bg-[radial-gradient(circle_at_84%_18%,rgba(20,184,166,0.16),transparent_35%),radial-gradient(circle_at_18%_84%,rgba(148,163,184,0.16),transparent_38%)] dark:bg-[radial-gradient(circle_at_84%_18%,rgba(13,148,136,0.13),transparent_38%),radial-gradient(circle_at_18%_84%,rgba(100,116,139,0.2),transparent_42%)]",
+  },
+  blog: {
+    baseClassName: "bg-slate-50 dark:bg-slate-950",
+    textureClassName:
+      "bg-[linear-gradient(rgba(148,163,184,0.09)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.09)_1px,transparent_1px)] bg-[size:48px_48px] opacity-45 [mask-image:linear-gradient(to_bottom,transparent_2%,black_24%,black_76%,transparent_98%)] dark:bg-[linear-gradient(rgba(100,116,139,0.13)_1px,transparent_1px),linear-gradient(90deg,rgba(100,116,139,0.13)_1px,transparent_1px)] dark:opacity-35",
+    accentClassName:
+      "bg-[radial-gradient(circle_at_16%_28%,rgba(20,184,166,0.1),transparent_32%),radial-gradient(circle_at_82%_74%,rgba(34,211,238,0.06),transparent_34%)] dark:bg-[radial-gradient(circle_at_16%_28%,rgba(13,148,136,0.11),transparent_35%),radial-gradient(circle_at_82%_74%,rgba(6,182,212,0.07),transparent_38%)]",
+    edgeClassName:
+      "bg-gradient-to-r from-transparent via-slate-300/70 to-transparent dark:via-slate-700/60",
   },
   contact: {
     baseClassName:

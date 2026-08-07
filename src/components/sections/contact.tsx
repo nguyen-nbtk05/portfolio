@@ -196,7 +196,7 @@ export function ContactSection() {
                       {lang({ en: "Location", vi: "Vị trí" })}
                     </p>
                     <p className="text-sm font-medium text-slate-800 dark:text-slate-200">
-                      {lang({ en: "Ho Chi Minh City, Vietnam", vi: "TP. Hồ Chí Minh, Việt Nam" })}
+                      {lang({ en: "Da Lat, Vietnam", vi: "TP. Đà Lạt, Việt Nam" })}
                     </p>
                   </div>
                 </motion.div>

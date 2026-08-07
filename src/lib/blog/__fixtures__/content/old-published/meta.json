@@ -1,0 +1,8 @@
+{
+  "title": { "en": "Old published post", "vi": "Bài viết cũ" },
+  "excerpt": { "en": "An older field note", "vi": "Ghi chú cũ hơn" },
+  "publishedAt": "2026-01-01",
+  "tags": ["Networking"],
+  "featured": false,
+  "status": "published"
+}

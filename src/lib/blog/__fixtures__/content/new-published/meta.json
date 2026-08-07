@@ -1,0 +1,8 @@
+{
+  "title": { "en": "New published post", "vi": "Bài viết mới" },
+  "excerpt": { "en": "A newer field note", "vi": "Ghi chú mới hơn" },
+  "publishedAt": "2026-06-01",
+  "tags": ["Networking", "Automation"],
+  "featured": true,
+  "status": "published"
+}

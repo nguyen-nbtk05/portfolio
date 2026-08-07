@@ -1,0 +1,88 @@
+# Nền Tảng Zero-Trust Cho Hạ Tầng Hybrid
+
+> **Nội dung mẫu để kiểm thử:** Bài viết này dùng để kiểm tra bố cục blog portfolio, kiểu chữ, chuyển đổi ngôn ngữ và các component MDX. Hãy thay bằng nội dung đã được rà soát trước khi phát hành website chính thức.
+
+Hạ tầng hybrid phân tán danh tính, ứng dụng và dữ liệu giữa mạng văn phòng, nền tảng riêng và dịch vụ đám mây công cộng. Thiết kế zero-trust coi mỗi yêu cầu truy cập là một quyết định cần xác minh, thay vì mặc nhiên tin cậy thiết bị chỉ vì nó đang kết nối vào mạng nội bộ.
+
+Mục tiêu không phải là mua một “sản phẩm zero-trust” duy nhất. Mục tiêu là xây dựng luồng quyết định có thể lặp lại: xác định chủ thể, đánh giá thiết bị và ngữ cảnh, cấp quyền nhỏ nhất đủ dùng, rồi lưu bằng chứng để điều tra kết quả.
+
+## Mô hình nhỏ và có thể kiểm thử
+
+Trong lần triển khai đầu tiên, tôi chia thiết kế thành ba lớp kiểm soát:
+
+1. **Danh tính** xác định người dùng hoặc workload nào đang gửi yêu cầu.
+2. **Thực thi chính sách** quyết định hành động được yêu cầu có được phép hay không.
+3. **Khả năng quan sát** chứng minh các biện pháp kiểm soát đang hoạt động đúng.
+
+Một quyết định truy cập nên kết hợp nhiều tín hiệu thay vì chỉ dựa vào địa chỉ IP nguồn:
+
+- danh tính người dùng và workload;
+- trạng thái đăng ký và mức độ an toàn của thiết bị;
+- ứng dụng, hành động được yêu cầu và độ nhạy cảm của dữ liệu;
+- vị trí, thời gian và rủi ro xác thực gần nhất;
+- chỉ báo sự cố hiện tại hoặc quy tắc từ chối rõ ràng.
+
+Quy tắc cuối cùng vẫn có thể dễ giải thích: `cho phép khi danh tính đã biết, thiết bị an toàn và hành động phù hợp với vai trò được cấp`.
+
+### Bảng kiểm kê chính sách mẫu
+
+| Luồng truy cập | Tín hiệu danh tính | Kiểm soát tối thiểu | Bằng chứng cần lưu |
+| --- | --- | --- | --- |
+| Nhân viên đến SaaS | Người dùng SSO và MFA | Truy cập có điều kiện | Log đăng nhập và chính sách |
+| Kỹ sư đến API riêng | Người dùng và thiết bị được quản lý | Token ứng dụng ngắn hạn | Log gateway và audit API |
+| Dịch vụ đến cơ sở dữ liệu | Danh tính workload | Vai trò dịch vụ rõ ràng | Sự kiện truy vấn và danh tính |
+| Quản trị viên đến thiết bị mạng | Tài khoản đặc quyền | Phê duyệt và ghi lại phiên | Log lệnh và thay đổi cấu hình |
+
+Bảng này được giữ gọn có chủ đích. Nó tạo ra một danh mục chung cho cả nhóm trước khi kiến trúc bị chi phối bởi từng sản phẩm hoặc nhà cung cấp cụ thể.
+
+## Chính sách dưới dạng tài liệu có thể rà soát
+
+Đoạn YAML dưới đây chỉ mang tính minh họa, không phụ thuộc vào nền tảng cụ thể. Nó vừa dùng để kiểm thử cách hiển thị code block, vừa thể hiện ý định chính sách nên được quản lý trong hệ thống kiểm soát phiên bản.
+
+```yaml
+policy: hybrid-admin-access
+effect: allow
+subjects:
+  groups:
+    - network-operations
+resources:
+  applications:
+    - branch-controller
+conditions:
+  require_mfa: true
+  device_posture: compliant
+  session_ttl_minutes: 30
+logging:
+  decision: required
+  session: required
+```
+
+Trong môi trường thật, mỗi chính sách cần có người sở hữu, ngày rà soát và phương án dự phòng được ghi rõ. Một quy tắc đúng về mặt kỹ thuật vẫn có thể trở thành rủi ro nếu không ai biết lý do nó tồn tại.
+
+## Trình tự triển khai
+
+Hãy bắt đầu với một luồng truy cập đủ quan trọng để có giá trị nhưng đủ hẹp để quan sát. Quyền truy cập đặc quyền vào môi trường lab thường là một lựa chọn thực tế.
+
+1. Lập bản đồ người dùng, workload, tài nguyên và các giả định tin cậy hiện tại.
+2. Thu thập log trước khi thực thi để tạo đường cơ sở về hành vi.
+3. Bổ sung xác thực mạnh và kiểm tra thiết bị ở chế độ chỉ báo cáo.
+4. Kiểm thử cả truy cập hợp lệ lẫn những trường hợp phải bị từ chối.
+5. Áp dụng chính sách cho nhóm thử nghiệm và chuẩn bị luồng khôi phục có giới hạn thời gian.
+6. Rà soát ngoại lệ hằng tuần và thu hồi quyền không còn cần thiết.
+
+Các câu hỏi xác minh hữu ích gồm:
+
+- Thiết bị được quản lý và an toàn có hoàn thành đúng quy trình không?
+- Thiết bị không được quản lý có nhận thông báo từ chối rõ ràng không?
+- Danh tính đã bị thu hồi có nhanh chóng mất quyền trên cả dịch vụ cloud và dịch vụ riêng không?
+- Người vận hành có thể nối một quyết định chính sách với log xác thực và ứng dụng tương ứng không?
+
+### Đo lường kết quả, không đếm số sản phẩm
+
+Dashboard nên trả lời được câu hỏi vận hành. Hãy theo dõi tỷ lệ ứng dụng đã nằm sau lớp kiểm soát theo danh tính, thời gian thu hồi trung vị, vai trò đặc quyền lâu không dùng, tuổi của ngoại lệ chính sách và lỗi truy cập do cấu hình kiểm soát. Các chỉ số này chỉ ra khoảng trống rõ hơn việc đếm số công cụ bảo mật đã cài đặt.
+
+Bạn có thể đọc thêm mô hình trung lập với nhà cung cấp trong tài liệu [NIST Zero Trust Architecture](https://www.nist.gov/publications/zero-trust-architecture).
+
+---
+
+Bài demo này chủ động bao gồm tiêu đề, danh sách, code nội tuyến, code block, blockquote, bảng GFM, liên kết và đường phân cách để kiểm tra trang bài viết ở cả giao diện sáng lẫn tối.

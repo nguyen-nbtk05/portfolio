@@ -1,0 +1,101 @@
+# Thiết kế mạng chi nhánh bền vững với SD-WAN
+
+> **Nội dung mẫu để kiểm thử.** Mô hình, địa chỉ, chính sách và kết quả dưới đây đều là giả lập. Hãy thay thế bằng thông tin đã được xác minh trước khi xuất bản bài viết thực tế.
+
+Một chi nhánh cần tiếp tục hoạt động khi đường truyền Internet không ổn định, nhưng khả năng phục hồi không chỉ đến từ việc cắm thêm một sợi cáp. Thiết kế còn phải có định tuyến dễ dự đoán, ranh giới lưu lượng rõ ràng và đủ dữ liệu quan sát để giải thích vì sao hệ thống đổi đường đi. Bài mẫu này trình bày một phòng lab SD-WAN nhỏ, không phụ thuộc vào nhà cung cấp cụ thể.
+
+![Ảnh bìa mẫu dùng để kiểm thử hình ảnh thích ứng](/cover.jpg)
+
+## Mục tiêu và giả định
+
+Chi nhánh giả lập có hai đường truyền: Internet doanh nghiệp 300 Mbps và LTE dự phòng 100 Mbps. Mỗi thiết bị biên tạo đường hầm mã hóa đến hai hub khu vực. Kế hoạch kiểm thử tập trung vào bốn kết quả:
+
+- Giữ thoại và các phiên tương tác trên đường truyền có chất lượng tốt nhất.
+- Tách biệt lưu lượng nội bộ, khách và quản trị từ đầu đến cuối.
+- Tự động chuyển tuyến khi độ trễ, jitter hoặc mất gói vượt ngưỡng.
+- Cho phép truy cập Internet cục bộ đối với các dịch vụ SaaS đã được phê duyệt.
+
+Nguyên tắc quan trọng là mô tả ý định một cách tường minh. Nhãn `business-critical` phải gắn với mục tiêu chất lượng đo được, thay vì chỉ là một ưu tiên không được ghi chép dành cho WAN 1.
+
+### Mô hình phân đoạn mẫu
+
+| Phân đoạn | Mạng con ví dụ | Lối ra ưu tiên | Truy cập sang phân đoạn khác |
+| --- | --- | --- | --- |
+| Nội bộ | `10.42.10.0/24` | Hub khu vực | DNS, định danh, ứng dụng được duyệt |
+| Khách | `10.42.20.0/24` | Internet cục bộ | Mặc định từ chối |
+| Quản trị | `10.42.99.0/24` | Hub vận hành | Chỉ jump host và giám sát |
+
+Bảng được cố ý trình bày gọn để đồng thời kiểm thử khả năng cuộn ngang trên màn hình hẹp.
+
+## Chính sách chọn đường truyền
+
+Thay vì chờ giao diện mạng mất kết nối hoàn toàn, thiết bị biên liên tục đo chất lượng đường đi. Đoạn YAML trung lập dưới đây chỉ là cấu hình minh họa, không phải tệp có thể triển khai trực tiếp:
+
+```yaml
+service_classes:
+  realtime:
+    match: [voice, video]
+    sla:
+      latency_ms: 120
+      jitter_ms: 30
+      loss_percent: 1
+    preferred_paths: [business-internet, lte]
+
+  default:
+    match: [remaining-traffic]
+    sla:
+      latency_ms: 220
+      loss_percent: 3
+    preferred_paths: [business-internet, lte]
+```
+
+Vi phạm SLA nên kéo dài qua vài lần thăm dò trước khi lưu lượng được chuyển hướng. Một bộ đếm phục hồi tương tự giúp tránh đổi qua lại liên tục khi chất lượng đường truyền dao động quanh ngưỡng. Trong phòng lab, tôi sẽ bắt đầu với cửa sổ lỗi năm lần thăm dò và cửa sổ phục hồi ba mươi giây, sau đó tinh chỉnh từ dữ liệu thực tế.
+
+### Biện pháp bảo vệ định tuyến và chính sách
+
+1. Chỉ quảng bá các prefix chi nhánh đã được tổng hợp vào overlay.
+2. Áp dụng cùng một chính sách bảo mật trên cả đường truyền chính và dự phòng.
+3. Chặn prefix riêng từ mạng khách trước điểm truy cập Internet cục bộ.
+4. Ưu tiên tuyến hub có tính xác định và ghi chép mọi ngoại lệ.
+5. Giới hạn băng thông LTE để sự cố không tạo ra chi phí dữ liệu bất ngờ.
+
+Để kiểm tra nhanh, người vận hành có thể đối chiếu bảng định tuyến với trạng thái đường hầm đang hoạt động:
+
+```text
+branch-01# show sdwan path summary
+PATH                 STATE   LOSS   LATENCY   SELECTED
+business-internet    up      0.2%   34 ms     yes
+lte                  up      0.8%   71 ms     standby
+```
+
+Không nên xem trạng thái `up` là bằng chứng cho trải nghiệm ứng dụng tốt. Đường hầm vẫn có thể duy trì kết nối trong khi nghẽn mạng khiến nó gần như không sử dụng được.
+
+## Kiểm thử sự cố
+
+Cách kiểm thử an toàn nhất là chỉ thay đổi một biến tại mỗi thời điểm. Hãy duy trì một cuộc gọi thoại và một phiên truyền tệp, tạo mất gói có kiểm soát trên đường truyền chính, rồi ghi lại:
+
+- thời điểm SLA lần đầu chuyển sang trạng thái không đạt;
+- thời điểm luồng mới và luồng đang chạy được chuyển hướng;
+- tỷ lệ mất gói trong quá trình hội tụ;
+- thời điểm đường truyền chính đủ điều kiện hoạt động trở lại;
+- hành vi của ứng dụng sau khi phục hồi.
+
+Kết quả mong đợi không nhất thiết là không mất gói. Mục tiêu là một gián đoạn có giới hạn, lặp lại được và đáp ứng yêu cầu ứng dụng. Nếu cuộc gọi phục hồi sau hai giây nhưng phiên truyền tệp bị ngắt, chính sách có thể cần xử lý riêng theo ứng dụng thay vì dùng một ngưỡng chung.
+
+## Danh sách kiểm tra vận hành
+
+Trước khi chấp nhận thiết kế, hãy xác nhận rằng:
+
+- dashboard hiển thị độ trễ, jitter, mất gói và lịch sử đổi đường theo từng transport;
+- log ghi tên chính sách và lý do của mỗi quyết định điều hướng;
+- các dịch vụ DNS và định danh truy cập được qua mọi đường truyền cho phép;
+- đường dự phòng được thử với tải thực tế, không chỉ bằng một lệnh ping;
+- runbook giải thích cách bật, gỡ và kiểm tra một thao tác ghi đè thủ công.
+
+[Khu vực định tuyến của IETF](https://www.ietf.org/topics/routing/) là điểm khởi đầu hữu ích để đọc tiêu chuẩn và tài liệu nhóm làm việc; các lệnh riêng của sản phẩm luôn cần được đối chiếu với phiên bản phần mềm đang triển khai.
+
+---
+
+## Nội dung mẫu này giúp kiểm thử gì?
+
+Phần thân bài có tiêu đề, ảnh thích ứng, liên kết, mã nội tuyến, khối mã, trích dẫn, danh sách có và không đánh số, bảng GFM cùng đường phân cách ngang. Lượng văn bản cũng đủ để kiểm thử cách tính thời gian đọc theo ngôn ngữ và điều hướng bài trước/bài tiếp theo.

@@ -1,0 +1,101 @@
+# Designing a Resilient Branch Network with SD-WAN
+
+> **Demo content for testing.** The topology, addresses, policies, and results below are fictional. Replace them with verified production details before publishing this article for real.
+
+A branch should keep working when an internet circuit becomes unstable, but resilience is more than adding a second cable. The design also needs predictable routing, clear traffic boundaries, and enough telemetry to explain why a path changed. This sample article walks through a small SD-WAN lab that exercises those ideas without tying the implementation to a particular vendor.
+
+![Sample cover used to test responsive article images](/cover.jpg)
+
+## Goals and assumptions
+
+The fictional site has two transports: a 300 Mbps business-internet circuit and a 100 Mbps LTE backup. Each edge establishes encrypted overlays to two regional hubs. The test plan focuses on four outcomes:
+
+- Keep voice and interactive sessions on the healthiest path.
+- Separate corporate, guest, and management traffic from end to end.
+- Fail over automatically when latency, jitter, or packet loss exceeds a defined threshold.
+- Keep a local breakout available for approved SaaS destinations.
+
+The key principle is to make intent explicit. A label such as `business-critical` should map to measurable service-level objectives instead of an undocumented preference for WAN 1.
+
+### Example segmentation model
+
+| Segment | Example subnet | Preferred exit | Cross-segment access |
+| --- | --- | --- | --- |
+| Corporate | `10.42.10.0/24` | Regional hub | DNS, identity, approved apps |
+| Guest | `10.42.20.0/24` | Local internet | Denied by default |
+| Management | `10.42.99.0/24` | Operations hub | Jump host and monitoring only |
+
+This table is intentionally compact so it can also be used to verify horizontal scrolling on narrow screens.
+
+## Path selection policy
+
+Rather than waiting for an interface to go completely down, the edge measures path quality continuously. The following vendor-neutral YAML is sample configuration, not a deployable file:
+
+```yaml
+service_classes:
+  realtime:
+    match: [voice, video]
+    sla:
+      latency_ms: 120
+      jitter_ms: 30
+      loss_percent: 1
+    preferred_paths: [business-internet, lte]
+
+  default:
+    match: [remaining-traffic]
+    sla:
+      latency_ms: 220
+      loss_percent: 3
+    preferred_paths: [business-internet, lte]
+```
+
+An SLA breach should be sustained for several probes before traffic moves. A similar recovery timer prevents rapid switching when a circuit hovers around the threshold. In the lab, I would begin with a five-probe failure window and a thirty-second recovery window, then tune both from observed data.
+
+### Route and policy safeguards
+
+1. Advertise only summarized branch prefixes into the overlay.
+2. Apply the same security policy whether traffic uses the primary or backup transport.
+3. Reject private prefixes from the guest segment before local breakout.
+4. Prefer deterministic hub routes and document every exception.
+5. Rate-limit LTE traffic so an incident cannot create an unexpected data bill.
+
+For a quick validation, an operator might compare the routing table with the active tunnel state:
+
+```text
+branch-01# show sdwan path summary
+PATH                 STATE   LOSS   LATENCY   SELECTED
+business-internet    up      0.2%   34 ms     yes
+lte                  up      0.8%   71 ms     standby
+```
+
+Do not treat an `up` state as proof of good application experience. A tunnel can remain established while congestion makes it unusable.
+
+## Failure test
+
+The safest test changes one variable at a time. Start a continuous voice call and a file transfer, introduce controlled packet loss on the primary circuit, and record these events:
+
+- time at which the SLA first becomes unhealthy;
+- time at which new and existing flows move;
+- packet loss experienced during convergence;
+- time at which the primary path becomes eligible again;
+- application behavior after recovery.
+
+The expected result is not necessarily zero lost packets. It is a bounded, repeatable interruption that meets the application target. If the call recovers in two seconds but the file transfer resets, the policy may need per-application handling rather than one global threshold.
+
+## Operational checklist
+
+Before accepting the design, verify that:
+
+- dashboards expose latency, jitter, loss, and path changes per transport;
+- logs include the policy name and reason for each steering decision;
+- DNS and identity dependencies are reachable on every permitted path;
+- backup circuits are tested under realistic load, not only with a ping;
+- runbooks explain how to force, release, and audit a manual override.
+
+The [IETF routing area](https://www.ietf.org/topics/routing/) is a useful starting point for standards and working-group material, while product-specific commands should always be checked against the deployed software release.
+
+---
+
+## What this demo helps test
+
+This sample body includes headings, a responsive image, links, inline code, fenced code blocks, a blockquote, ordered and unordered lists, a GFM table, and a horizontal rule. It also contains enough prose to exercise localized reading-time calculation and previous/next article navigation.
