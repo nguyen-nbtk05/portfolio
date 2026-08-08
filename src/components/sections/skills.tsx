@@ -166,6 +166,7 @@ export function SkillsSection() {
         en: "Core technologies and tools for programming, Linux administration, version control, and network engineering.",
         vi: "Những công nghệ và công cụ cốt lõi cho lập trình, quản trị Linux, quản lý phiên bản và kỹ thuật mạng.",
       })}
+      className="pt-20 sm:pt-28 lg:pt-20 pb-12"
       headerClassName="mb-8 md:mb-10 xl:px-4 2xl:px-6"
       subtitleClassName="xl:max-w-none xl:whitespace-nowrap"
     >

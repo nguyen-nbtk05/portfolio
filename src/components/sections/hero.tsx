@@ -8,7 +8,7 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import { FileText, Sparkles } from "lucide-react";
+import { FileText } from "lucide-react";
 import { siteConfig } from "@/data/config";
 import { useLanguage } from "@/hooks/use-language";
 import { TypewriterText } from "@/components/ui/typewriter-text";
@@ -322,25 +322,29 @@ export function HeroSection() {
 
       <div className="site-container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-[1cm] lg:grid-cols-[42%_58%] lg:gap-8 xl:gap-10">
         <motion.div
-          className="ml-[20px] flex max-w-3xl flex-col items-start gap-8"
+          className="flex max-w-3xl flex-col items-start gap-8"
           initial={initial}
           animate="visible"
           variants={staggerContainer(0.11)}
         >
           <motion.div
             variants={fadeUp}
-            className="flex select-none items-center gap-2 whitespace-nowrap rounded-full border border-teal-400/40 bg-teal-100/70 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-700 shadow-sm backdrop-blur sm:text-xs sm:tracking-[0.16em] dark:border-teal-400/30 dark:bg-teal-500/10 dark:text-teal-300"
+            className="flex select-none items-center gap-2.5 whitespace-nowrap rounded-full border border-slate-200/80 bg-white/80 px-4 py-1.5 text-xs sm:text-sm font-medium text-slate-700 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300"
           >
-            <motion.span
-              aria-hidden="true"
-              animate={reduceMotion ? undefined : { opacity: [0.55, 1, 0.55], scale: [0.92, 1.08, 0.92] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-              className="flex shrink-0"
-            >
-              <Sparkles className="h-5 w-4" />
-            </motion.span>
-            <span className="relative top-px inline-flex items-center leading-none">
-              SYSTEM STATUS: UNDERGRADUATE
+            <span className="relative flex h-2.5 w-2.5 items-center justify-center shrink-0">
+              <motion.span
+                aria-hidden="true"
+                animate={reduceMotion ? undefined : { scale: [1, 1.8, 1], opacity: [0.7, 0, 0.7] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+              />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+            </span>
+            <span>
+              {lang({
+                en: "Computer Networks & Data Communications",
+                vi: "Mạng máy tính & Truyền thông dữ liệu",
+              })}
             </span>
           </motion.div>
 
@@ -350,6 +354,7 @@ export function HeroSection() {
           >
             <span className="block">
               {lang({ en: "Hi, I'm", vi: "Xin chào, tôi là" })} {siteConfig.name}
+              <span className="text-teal-500">.</span>
             </span>
             <motion.span
               variants={fadeIn}

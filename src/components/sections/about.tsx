@@ -25,8 +25,8 @@ import { siteConfig } from "@/data/config";
 import { SmartIconButton } from "@/components/layouts/footer";
 
 const aboutIntro = {
-  en: "I am an aspiring IT professional with a strong interest in networking and cybersecurity. Driven by a desire to understand how modern systems are designed, connected, and secured, I actively develop my knowledge through continuous learning and hands-on practice. \nMy current areas of focus include Linux, Python, network administration, infrastructure automation, and cloud-based technologies. By working on practical projects, I aim to strengthen my technical expertise, analytical thinking, and ability to design reliable and efficient IT solutions. I am also enthusiastic about exploring emerging technologies, contributing to collaborative projects, and connecting with professionals and fellow technology enthusiasts within the IT community.",
-  vi: "Tôi là một sinh viên định hướng phát triển sự nghiệp trong lĩnh vực công nghệ thông tin, đặc biệt quan tâm đến mạng máy tính và an ninh mạng. Với mong muốn hiểu sâu hơn về cách các hệ thống hiện đại được thiết kế, kết nối, vận hành và bảo mật, tôi luôn chủ động nâng cao kiến thức thông qua quá trình tự học và thực hành trên các dự án thực tế. \n Hiện tại, tôi tập trung phát triển kỹ năng về Linux, Python, quản trị mạng, tự động hóa hạ tầng và các công nghệ nền tảng đám mây. Thông qua việc xây dựng và triển khai các dự án cá nhân, tôi hướng đến việc củng cố chuyên môn kỹ thuật, tư duy phân tích và khả năng thiết kế những giải pháp công nghệ ổn định, hiệu quả. Đồng thời, tôi luôn sẵn sàng tiếp cận các công nghệ mới, tham gia những dự án mang tính hợp tác và kết nối với các chuyên gia cũng như những người có chung niềm đam mê trong cộng đồng công nghệ.",
+  en: "A technology-focused learner with a strong interest in cybersecurity, Linux systems, networking, and modern IT infrastructure. Through academic learning and hands-on projects, I am developing practical skills in Linux administration, network security, infrastructure automation, and system hardening while exploring how secure and reliable systems are configured, monitored, and maintained. Driven by curiosity and continuous learning, I enjoy taking on technical challenges, expanding my knowledge, and turning what I learn into practical experience.",
+  vi: "Một người học công nghệ với sự quan tâm đặc biệt đến an ninh mạng, hệ thống Linux, mạng máy tính và hạ tầng CNTT hiện đại. Thông qua quá trình học tập và các dự án thực hành, tôi đang từng bước phát triển kỹ năng về quản trị Linux, bảo mật mạng, tự động hóa hạ tầng và gia cố hệ thống, đồng thời tìm hiểu cách các hệ thống an toàn và đáng tin cậy được cấu hình, giám sát và duy trì. Với tinh thần tò mò và không ngừng học hỏi, tôi luôn hứng thú với những thử thách kỹ thuật, mở rộng kiến thức và biến những điều đã học thành kinh nghiệm thực tế.",
 };
 
 const getHudTiles = (lang: (dict: { en: string; vi: string }) => string) => [
@@ -193,6 +193,9 @@ export function AboutSection() {
           </h2>
 
           <div className="mt-4 w-full space-y-3 rounded-xl border border-slate-200/80 bg-white/65 p-4 text-sm leading-6 text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 sm:text-base sm:leading-7">
+            <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base sm:text-lg">
+              {lang({ en: "Who am I?", vi: "Tôi là ai?" })}
+            </h3>
             {lang(aboutIntro)
               .split(/\n+/)
               .map((paragraph) => (
