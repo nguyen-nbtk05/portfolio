@@ -157,7 +157,7 @@ export function Navbar() {
         initial={reduceMotion ? false : { opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-auto flex h-[3.5rem] w-fit items-center rounded-2xl border border-slate-200/80 bg-white/95 px-6 text-slate-900 backdrop-blur-md shadow-md shadow-slate-200/50 dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-100 dark:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.04)]"
+        className="pointer-events-auto flex h-[3.5rem] w-fit items-center rounded-2xl border border-slate-200/80 bg-white/95 px-6 text-slate-900 backdrop-blur-md shadow-md shadow-slate-200/50 dark:border-slate-800/80 dark:bg-slate-900/80 dark:text-slate-100 dark:shadow-md dark:shadow-slate-950/50"
       >
         <motion.nav
           className="hidden items-center gap-0 text-sm font-medium md:flex"

@@ -353,7 +353,7 @@ export function HeroSection() {
             className="text-5xl font-bold leading-none tracking-tighter md:text-7xl"
           >
             <span className="block">
-              {lang({ en: "Hi, I'm", vi: "Xin chào, tôi là" })} {siteConfig.name}
+              {lang({ en: "Hi, I'm", vi: "Xin chào! Tôi là" })} {siteConfig.name}
               <span className="text-teal-500">.</span>
             </span>
             <motion.span
@@ -361,8 +361,8 @@ export function HeroSection() {
               className="mt-3 block min-h-[1.18em] w-full text-4xl leading-[1.12] md:text-6xl"
             >
               <TypewriterText
-                key={`${lang(siteConfig.role)}|Data Communications`}
-                words={[lang(siteConfig.role), "Data Communications"]}
+                key={`Computer Networks | Data Communications`}
+                words={["Computer Networks", "Data Communications"]}
                 className="align-top bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400 bg-clip-text leading-[1.12] text-transparent"
                 typingSpeed={85}
                 deletingSpeed={45}

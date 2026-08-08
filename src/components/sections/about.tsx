@@ -34,13 +34,13 @@ const getHudTiles = (lang: (dict: { en: string; vi: string }) => string) => [
     id: "role",
     icon: Cpu,
     label: lang({ en: "Role", vi: "Vai trò" }),
-    value: lang({ en: "Network Engineer", vi: "Kỹ sư mạng" }),
+    value: lang({ en: "Computer Networks Student", vi: "Sinh viên Mạng Máy tính" }),
   },
   {
     id: "focus",
     icon: ShieldCheck,
     label: lang({ en: "Focus", vi: "Trọng tâm" }),
-    value: lang({ en: "Secure infrastructure", vi: "Hạ tầng an toàn" }),
+    value: lang({ en: "Network Infrastructure", vi: "Hạ tầng mạng" }),
   },
   {
     id: "mode",
