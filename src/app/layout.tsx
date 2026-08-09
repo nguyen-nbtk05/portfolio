@@ -9,8 +9,13 @@ import { LanguageProvider } from "@/providers/language-provider";
 import { AppShell } from "@/components/layouts/app-shell";
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Computer Networks Engineer",
+  title: "Nora | Portfolio",
+  description: "Computer Networks Student",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

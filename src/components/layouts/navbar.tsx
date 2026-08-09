@@ -3,10 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  motion,
-  useReducedMotion,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import { useTheme } from "@/providers/theme-provider";
 import { useLanguage } from "@/hooks/use-language";
@@ -106,7 +103,6 @@ export function Navbar() {
       e.preventDefault();
 
       if (href === "/") {
-        // Scroll to top for Home
         if (lenis) {
           lenis.scrollTo(0, { duration: 1.2, offset: 0 });
         } else {
@@ -115,8 +111,6 @@ export function Navbar() {
         window.history.pushState(null, "", "/");
         return;
       }
-
-      // For hash links like #about, #skills, etc.
       const targetId = getHomeSectionIdFromHash(href);
       if (!targetId) return;
 
@@ -126,7 +120,7 @@ export function Navbar() {
       scrollToSection(targetEl, lenis);
       pushHomeSectionHash(targetId);
     },
-    [lenis, pathname]
+    [lenis, pathname],
   );
   const [isDarkMode, setIsDarkMode] = useState(false);
 

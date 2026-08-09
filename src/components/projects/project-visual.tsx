@@ -113,7 +113,6 @@ function DatacenterVisual({ reduceMotion }: { reduceMotion: boolean }) {
           </linearGradient>
         </defs>
 
-        {/* Mesh lines */}
         {spines.map((s) =>
           leaves.map((l) => {
             const index = lineCount++;
@@ -136,7 +135,6 @@ function DatacenterVisual({ reduceMotion }: { reduceMotion: boolean }) {
           }),
         )}
 
-        {/* Spines */}
         {spines.map((s, idx) => (
           <motion.g
             key={s.id}
@@ -166,7 +164,6 @@ function DatacenterVisual({ reduceMotion }: { reduceMotion: boolean }) {
           </motion.g>
         ))}
 
-        {/* Leaves */}
         {leaves.map((l, idx) => (
           <motion.g
             key={l.id}
@@ -252,7 +249,6 @@ function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
           variants={lineVariants}
         />
 
-        {/* On-Prem Node */}
         <motion.g
           initial={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -285,7 +281,6 @@ function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
           </text>
         </motion.g>
 
-        {/* IPsec / Firewall Node */}
         <motion.g
           initial={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -318,7 +313,6 @@ function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
           </text>
         </motion.g>
 
-        {/* AWS VPC */}
         <motion.g
           initial={reduceMotion ? { opacity: 1 } : { opacity: 0, x: 8 }}
           animate={{ opacity: 1, x: 0 }}

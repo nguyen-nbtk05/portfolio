@@ -7,13 +7,11 @@ export default function ScrollIndicator() {
   const lenis = useLenis();
 
   const handleScroll = () => {
-    // Scroll exactly one viewport height (past the Hero section)
     const targetPosition = window.innerHeight;
 
     if (lenis) {
       lenis.scrollTo(targetPosition, { duration: 1.2 });
     } else {
-      // Fallback: manual smooth scroll
       const startPosition = window.scrollY;
       const distance = targetPosition - startPosition;
       const duration = 1200;
@@ -23,7 +21,6 @@ export default function ScrollIndicator() {
         if (!start) start = timestamp;
         const progress = timestamp - start;
 
-        // EaseInOutCubic for buttery smooth scrolling
         const ease = (t: number) =>
           t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 

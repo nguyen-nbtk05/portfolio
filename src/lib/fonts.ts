@@ -1,16 +1,14 @@
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
-// 1. Font Google cho text thông thường
 export const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
 });
 
-// 2. Font Local cho phong cách Pixel
 export const pixelFont = localFont({
-  src: "../../public/fonts/PressStart2P-Regular.ttf", // Đường dẫn tới file font vật lý
+  src: "../../public/fonts/PressStart2P-Regular.ttf",
   display: "swap",
   variable: "--font-pixel",
 });

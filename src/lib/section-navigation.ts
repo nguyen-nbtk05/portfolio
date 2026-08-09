@@ -19,11 +19,9 @@ export function getHomeSectionIdFromHash(hash: string): HomeSectionId | null {
   try {
     fragment = decodeURIComponent(fragment);
   } catch {
-    // Keep the literal fragment when it contains malformed escape sequences.
+
   }
 
-  // A URL such as #blog#blog is invalid for section navigation. Preserve the
-  // first valid section so old malformed URLs recover instead of getting stuck.
   const sectionId = fragment.split("#", 1)[0]?.trim();
 
   return sectionId && HOME_SECTION_ID_SET.has(sectionId)

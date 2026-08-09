@@ -13,11 +13,6 @@ function getRootScrollPaddingTop() {
   return Number.isFinite(pixels) ? pixels : 0;
 }
 
-/**
- * Align a full-height page section with the viewport start. Lenis subtracts
- * the root scroll padding for element targets, so add that same computed value
- * back to preserve the section alignment used by the magnetic snap behavior.
- */
 export function scrollToSection(
   target: HTMLElement,
   scroller: Pick<Lenis, "resize" | "scrollTo"> | null,
@@ -26,9 +21,6 @@ export function scrollToSection(
   const { immediate = false } = options;
 
   if (scroller) {
-    // App Router can replace a short page with the much taller homepage before
-    // Lenis' debounced ResizeObserver refreshes its scroll limit. Refresh it
-    // synchronously so the target is not clamped to the previous route height.
     scroller.resize();
     scroller.scrollTo(
       target,

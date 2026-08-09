@@ -88,7 +88,6 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
             onMouseLeave={() => setActiveSubMenu(null)}
             className="absolute left-1/2 -translate-x-1/2 top-full mt-4 w-48 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 backdrop-blur-xl shadow-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
           >
-            {/* --- NGÔN NGỮ --- */}
             <div
               className="relative"
               onMouseEnter={() => setActiveSubMenu("language")}
@@ -178,7 +177,6 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
 
             <div className="my-1 mx-2 border-t border-slate-100 dark:border-slate-800" />
 
-            {/* --- FONT CHỮ --- */}
             <div
               className="relative"
               onMouseEnter={() => setActiveSubMenu("font")}

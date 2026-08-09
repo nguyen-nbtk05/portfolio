@@ -18,7 +18,6 @@ export function ProjectStage({ project }: ProjectStageProps) {
 
   return (
     <div className="relative h-[390px] lg:h-[410px] w-full rounded-2xl border border-slate-200/90 bg-slate-50/80 dark:border-slate-800/90 dark:bg-slate-950/50 backdrop-blur-xs p-5 lg:p-6 flex flex-col justify-between overflow-hidden shadow-xs">
-      {/* Subtly textured background dot-grid (3-6% opacity) */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.07]"
         style={{
@@ -41,7 +40,6 @@ export function ProjectStage({ project }: ProjectStageProps) {
           transition={{ duration: 0.25, ease: "easeInOut" }}
           className="relative z-10 h-full flex flex-col justify-between"
         >
-          {/* STAGE HEADER */}
           <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 pb-3 font-mono text-xs">
             <div className="flex items-center gap-2">
               <span className="text-teal-600 font-bold dark:text-teal-400 tracking-wider">
@@ -56,7 +54,6 @@ export function ProjectStage({ project }: ProjectStageProps) {
             </div>
           </div>
 
-          {/* PROJECT INTRO (Primary Level 1 Hierarchy) */}
           <div className="my-2">
             <h3 className="text-2xl lg:text-3xl font-bold tracking-tight text-slate-950 dark:text-slate-50 mb-1.5">
               {lang(project.title)}
@@ -66,16 +63,12 @@ export function ProjectStage({ project }: ProjectStageProps) {
             </p>
           </div>
 
-          {/* STAGE BODY (2 Columns on Desktop) */}
           <div className="my-2 flex-1 grid grid-cols-12 gap-4 items-center">
-            {/* Left: Visual Stage (~60%) */}
             <div className="col-span-7 h-full flex items-center justify-center min-h-[140px]">
               <ProjectVisual presentation={project.presentation} />
             </div>
 
-            {/* Right: Project Facts (~40%) */}
             <div className="col-span-5 flex flex-col justify-center gap-3 pl-2 border-l border-slate-200/60 dark:border-slate-800/60 h-full">
-              {/* Impact Metric */}
               <div>
                 <div className="text-[10px] font-mono uppercase text-slate-400 dark:text-slate-500 tracking-widest mb-0.5">
                   {lang({ en: "IMPACT", vi: "TÁC ĐỘNG" })}
@@ -88,7 +81,6 @@ export function ProjectStage({ project }: ProjectStageProps) {
                 </div>
               </div>
 
-              {/* Focus / Category */}
               <div>
                 <div className="text-[10px] font-mono uppercase text-slate-400 dark:text-slate-500 tracking-widest mb-0.5">
                   {lang({ en: "FOCUS", vi: "TRỌNG TÂM" })}
@@ -100,9 +92,7 @@ export function ProjectStage({ project }: ProjectStageProps) {
             </div>
           </div>
 
-          {/* STAGE FOOTER */}
           <div className="pt-3 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
-            {/* Tech Stack */}
             <div className="font-mono text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
               {project.techStack.slice(0, 4).join("  /  ")}
               {project.techStack.length > 4 && (
@@ -112,7 +102,6 @@ export function ProjectStage({ project }: ProjectStageProps) {
               )}
             </div>
 
-            {/* Prominent CTA Button */}
             <ProjectCTA links={project.links} />
           </div>
         </motion.div>

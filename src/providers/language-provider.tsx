@@ -128,7 +128,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     [handleSetLanguage, lang, language],
   );
 
-  // Provide default context even during SSR
   return (
     <LanguageContext.Provider value={contextValue}>
       <div style={{ visibility: mounted ? "visible" : "hidden" }}>

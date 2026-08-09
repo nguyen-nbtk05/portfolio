@@ -544,7 +544,6 @@ html.dark .splash-v2-subtitle-pill {
     cursor: url('/cursors/xterm.png') 12 12, text;
 }
 
-/* Animated 3D perspective cyber grid floor */
 .cyber-grid-container {
     position: absolute;
     bottom: 0;

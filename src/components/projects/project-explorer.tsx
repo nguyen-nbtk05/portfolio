@@ -13,7 +13,8 @@ export function ProjectExplorer() {
   const [mobileActiveId, setMobileActiveId] = useState<number>(1);
 
   const activeProject = projects.find((p) => p.id === activeId) ?? projects[0];
-  const mobileActiveProject = projects.find((p) => p.id === mobileActiveId) ?? projects[0];
+  const mobileActiveProject =
+    projects.find((p) => p.id === mobileActiveId) ?? projects[0];
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
@@ -32,11 +33,7 @@ export function ProjectExplorer() {
 
   return (
     <div className="w-full">
-      {/* ========================================================================= */}
-      {/* DESKTOP LAYOUT (md and up)                                                */}
-      {/* ========================================================================= */}
       <div className="hidden md:grid md:grid-cols-12 md:gap-6 lg:gap-8 items-stretch lg:pr-6 xl:pr-4">
-        {/* Left Navigation Selector (~38%) */}
         <div
           role="tablist"
           aria-label={lang({ en: "Project list", vi: "Danh sách dự án" })}
@@ -62,7 +59,6 @@ export function ProjectExplorer() {
                     : "border-transparent bg-transparent opacity-65 hover:opacity-100 hover:bg-slate-100/50 dark:hover:bg-slate-900/30",
                 )}
               >
-                {/* Top Category / Index */}
                 <div className="flex items-center gap-2 mb-1.5 font-mono text-xs">
                   <span
                     className={cn(
@@ -92,7 +88,6 @@ export function ProjectExplorer() {
                   </span>
                 </div>
 
-                {/* Project Title */}
                 <h3
                   className={cn(
                     "text-lg lg:text-xl font-bold transition-all duration-200 leading-snug",
@@ -104,12 +99,13 @@ export function ProjectExplorer() {
                   {lang(project.title)}
                 </h3>
 
-                {/* Bottom Active Line Indicator */}
                 <div className="mt-3 h-0.5 w-full bg-slate-200/60 dark:bg-slate-800/80 overflow-hidden rounded-full">
                   <div
                     className={cn(
                       "h-full bg-teal-500 transition-all duration-200 ease-out origin-left",
-                      isActive ? "w-full scale-x-100 opacity-100" : "w-0 scale-x-0 opacity-0",
+                      isActive
+                        ? "w-full scale-x-100 opacity-100"
+                        : "w-0 scale-x-0 opacity-0",
                     )}
                   />
                 </div>
@@ -118,17 +114,12 @@ export function ProjectExplorer() {
           })}
         </div>
 
-        {/* Right Stage Showcase (~62%) */}
         <div className="col-span-7">
           <ProjectStage project={activeProject} />
         </div>
       </div>
 
-      {/* ========================================================================= */}
-      {/* MOBILE / TABLET LAYOUT (under md breakpoint)                             */}
-      {/* ========================================================================= */}
       <div className="block md:hidden space-y-4">
-        {/* Top Tab Selector */}
         <div className="flex items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
           {projects.map((project) => {
             const isActive = mobileActiveId === project.id;
@@ -149,11 +140,12 @@ export function ProjectExplorer() {
           })}
         </div>
 
-        {/* Mobile Stage Panel */}
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-950/60 p-5 space-y-4 shadow-xs">
           <div>
             <div className="flex items-center justify-between font-mono text-[10px] uppercase text-teal-600 dark:text-teal-400 font-bold mb-1">
-              <span>0{mobileActiveProject.id} / {lang(mobileActiveProject.category)}</span>
+              <span>
+                0{mobileActiveProject.id} / {lang(mobileActiveProject.category)}
+              </span>
               <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
                 {lang(mobileActiveProject.status)}
@@ -167,12 +159,10 @@ export function ProjectExplorer() {
             </p>
           </div>
 
-          {/* Visual Presentation */}
           <div className="min-h-[140px] w-full flex items-center justify-center py-2">
             <ProjectVisual presentation={mobileActiveProject.presentation} />
           </div>
 
-          {/* Tech Stack & Impact */}
           <div className="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-3">
             <div className="flex items-center justify-between">
               <div>
@@ -187,7 +177,6 @@ export function ProjectExplorer() {
                 </div>
               </div>
 
-              {/* Mobile CTA */}
               <ProjectCTA links={mobileActiveProject.links} />
             </div>
 
