@@ -1,6 +1,6 @@
 # Portfolio
 
-A bilingual, interactive portfolio for showcasing projects, technical skills, and long-form writing. Built with Next.js and TypeScript, with smooth motion, theme switching, MDX articles, and optional password-protected blog content.
+Source code for my personal website. A bilingual, interactive portfolio for showcasing projects, technical skills, and long-form writing.
 
 ## Features
 
