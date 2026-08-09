@@ -1,7 +1,7 @@
 export type ProjectPresentation =
   | {
       type: "diagram";
-      variant: "datacenter" | "multicloud";
+      variant: "portfolio" | "malware-scanner" | "sdn-ids";
     }
   | {
       type: "terminal";
@@ -66,110 +66,103 @@ export const projects: Project[] = [
   {
     id: 1,
     category: {
-      en: "Network Architecture",
-      vi: "Kiến Trúc Mạng",
+      en: "Web Development",
+      vi: "Phát Triển Web",
     },
     status: {
-      en: "Completed",
-      vi: "Hoàn Thành",
+      en: "Active",
+      vi: "Đang Phát Triển",
     },
     title: {
-      en: "Enterprise Datacenter Migration",
-      vi: "Di Dời Trung Tâm Dữ Liệu Doanh Nghiệp",
+      en: "Personal Portfolio",
+      vi: "Portfolio Cá Nhân",
     },
     description: {
-      en: "Migrated legacy datacenter infrastructure into a high-throughput, resilient spine-leaf fabric.",
-      vi: "Di dời hạ tầng mạng trung tâm dữ liệu cũ sang kiến trúc spine-leaf hiện đại, hiệu năng và độ tin cậy cao.",
+      en: "A bilingual, responsive portfolio featuring interactive project showcases, a terminal experience, and an MDX blog with protected content.",
+      vi: "Portfolio song ngữ, responsive với khu trưng bày dự án tương tác, trải nghiệm terminal và blog MDX hỗ trợ nội dung được bảo vệ.",
     },
-    techStack: ["Cisco Nexus", "BGP", "VXLAN", "Python"],
+    techStack: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS"],
     metric: {
-      value: "+40%",
+      value: "2 LANGUAGES",
       label: {
-        en: "Throughput",
-        vi: "Thông lượng",
+        en: "English & Vietnamese",
+        vi: "Tiếng Anh & Tiếng Việt",
       },
     },
     presentation: {
       type: "diagram",
-      variant: "datacenter",
+      variant: "portfolio",
     },
     links: {
-      caseStudy: "#",
+      source: "https://github.com/nguyen-nbtk05/portfolio",
     },
   },
   {
     id: 2,
     category: {
-      en: "Network Automation",
-      vi: "Tự Động Hóa Mạng",
+      en: "Malware Analysis",
+      vi: "Phân Tích Mã Độc",
     },
     status: {
       en: "Completed",
       vi: "Hoàn Thành",
     },
     title: {
-      en: "Automated Device Provisioning",
-      vi: "Cấp Phát Thiết Bị Tự Động",
+      en: "YARA Malware Scanner",
+      vi: "Trình Quét Mã Độc YARA",
     },
     description: {
-      en: "Automating branch router configuration and deployment workflows using Python scripts and Ansible.",
-      vi: "Tự động hóa quy trình cấu hình và triển khai router chi nhánh bằng mã Python và Ansible.",
+      en: "A cross-platform desktop scanner combining YARA rules and multi-algorithm hash matching, with scan history, reports, and MalwareBazaar signature sync.",
+      vi: "Ứng dụng desktop đa nền tảng kết hợp luật YARA và đối chiếu nhiều loại mã băm, có lịch sử quét, xuất báo cáo và đồng bộ chữ ký MalwareBazaar.",
     },
-    techStack: ["Python", "Netmiko", "Ansible", "Jinja2"],
+    techStack: ["Python", "YARA"],
     metric: {
-      value: "HOURS → MINS",
+      value: "2 LAYERS",
       label: {
-        en: "Deployment Time",
-        vi: "Thời gian triển khai",
+        en: "Detection Engine",
+        vi: "Lớp Phát Hiện",
       },
     },
     presentation: {
-      type: "terminal",
-      command: "$ provision branch-hcm-01",
-      lines: [
-        "Loading device inventory...",
-        "✓ ROUTER-01 configured",
-        "✓ ROUTER-02 configured",
-        "✓ ROUTER-03 configured",
-        "Deployment complete (3/3).",
-      ],
+      type: "diagram",
+      variant: "malware-scanner",
     },
     links: {
-      source: "https://github.com",
+      source: "https://github.com/nguyen-nbtk05/YARA-Malware_Scanner",
     },
   },
   {
     id: 3,
     category: {
-      en: "Cloud Security",
-      vi: "Bảo Mật Đám Mây",
+      en: "Network Security",
+      vi: "An Ninh Mạng",
     },
     status: {
-      en: "Maintained",
-      vi: "Duy Trì",
+      en: "Completed",
+      vi: "Hoàn Thành",
     },
     title: {
-      en: "Multi-Cloud Secure Connect",
-      vi: "Kết Nối Đa Đám Mây An Toàn",
+      en: "SDN Intrusion Detection System",
+      vi: "Hệ Thống Phát Hiện Xâm Nhập SDN",
     },
     description: {
-      en: "High-availability site-to-site IPsec VPN connecting on-premise infrastructure to AWS and Azure datacenters.",
-      vi: "Hệ thống IPsec VPN sẵn sàng cao kết nối hạ tầng on-premise với trung tâm dữ liệu AWS và Azure.",
+      en: "A Mininet security lab where Ryu analyzes OpenFlow statistics with an entropy window, detects DDoS, port scans, and ARP spoofing, then blocks attackers using timed Flow-Mod rules.",
+      vi: "Mô hình an ninh Mininet, trong đó Ryu phân tích thống kê OpenFlow bằng cửa sổ Entropy, phát hiện DDoS, quét cổng và giả mạo ARP, rồi chặn nguồn tấn công bằng luật Flow-Mod có thời hạn.",
     },
-    techStack: ["AWS VPC", "IPsec", "Palo Alto", "Terraform"],
+    techStack: ["Ryu", "Mininet", "OpenFlow", "Python", "Shannon Entropy"],
     metric: {
-      value: "99.99%",
+      value: "16 HOSTS",
       label: {
-        en: "Availability",
-        vi: "Độ sẵn sàng",
+        en: "Mininet Testbed",
+        vi: "Mô Hình Mininet",
       },
     },
     presentation: {
       type: "diagram",
-      variant: "multicloud",
+      variant: "sdn-ids",
     },
     links: {
-      caseStudy: "#",
+      source: "https://github.com/nguyen-nbtk05/SDN-Intrusion-Detection-System",
     },
   },
 ];

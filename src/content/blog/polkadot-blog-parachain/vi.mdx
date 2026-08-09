@@ -1,0 +1,107 @@
+# Xây Dựng Và Triển Khai Blog Parachain Với Rust Và Polkadot SDK
+
+Học phát triển blockchain ở cấp runtime khác với viết smart contract. Thay vì triển khai một chương trình độc lập, dự án này định nghĩa một phần logic chuyển trạng thái của blockchain, biên dịch nó sang WebAssembly, khởi chạy collator và kết nối parachain với relay chain Paseo.
+
+Miền ứng dụng là một blog phi tập trung. Người dùng có thể tạo bài viết và bình luận, thêm tag, like nội dung, bookmark bài viết và follow tác giả. Điểm đáng chú ý không nằm ở danh sách tính năng mạng xã hội quen thuộc, mà ở cách các thao tác đó trở thành thay đổi FRAME storage có tính xác định và extrinsic được ký.
+
+## Kiến trúc workspace
+
+Rust workspace được chia thành ba lớp chính:
+
+| Lớp | Trách nhiệm | Tệp quan trọng |
+| --- | --- | --- |
+| Node | CLI, RPC, networking, khởi tạo dịch vụ và chạy collator | `node/src/` |
+| Runtime | Kết hợp pallet, runtime API, cấu hình XCM, genesis preset và block weight | `runtime/src/` |
+| Blog pallet | Storage, event, error, extrinsic, benchmark, test và migration của nghiệp vụ | `pallets/blog-pallet/` |
+
+Sự tách biệt này là nền tảng của Polkadot SDK. Native node xử lý networking và hạ tầng thực thi, còn runtime định nghĩa các quy tắc mà mọi thành viên phải đánh giá giống nhau. Runtime được biên dịch sang Wasm để logic chuỗi có thể nâng cấp độc lập với host binary.
+
+## Mô hình hóa blog phi tập trung bằng FRAME pallet
+
+Pallet lưu bài viết và bình luận theo ID tự tăng. Các map bổ sung lập chỉ mục bài theo tác giả, bình luận theo bài viết, lượt like theo tài khoản, bookmark theo người dùng và quan hệ follower giữa các tài khoản.
+
+Giao diện public của pallet gồm mười một extrinsic:
+
+- tạo, cập nhật và soft-delete bài viết;
+- tạo, cập nhật và soft-delete bình luận;
+- bật hoặc tắt like cho bài viết và bình luận;
+- gắn tag;
+- bật hoặc tắt bookmark;
+- follow hoặc unfollow tác giả.
+
+Mỗi thao tác ghi bắt đầu bằng signed origin. Kiểm tra quyền sở hữu đảm bảo chỉ tác giả mới được chỉnh sửa hoặc xóa bài viết, bình luận của chính mình. Các thao tác toggle duy trì cả bộ đếm và trạng thái theo tài khoản, ngăn một tài khoản tăng lượt like lặp lại.
+
+Một dispatchable rút gọn thể hiện mẫu xử lý:
+
+```rust
+#[pallet::call_index(0)]
+#[pallet::weight(T::WeightInfo::create_post())]
+pub fn create_post(
+    origin: OriginFor<T>,
+    title: Vec<u8>,
+    content: Vec<u8>,
+) -> DispatchResult {
+    let author = ensure_signed(origin)?;
+    ensure!(title.len() <= T::MaxTitleLength::get() as usize, Error::<T>::TitleTooLong);
+    // Thu phí, ghi storage, sau đó phát PostCreated.
+    Ok(())
+}
+```
+
+Đoạn code được rút ngắn để làm rõ luồng điều khiển. Bản triển khai còn cấp ID, ghi block number, cập nhật chỉ mục tác giả, thu phí cấu hình và phát event.
+
+## Giới hạn, phí và khả năng dự đoán tài nguyên
+
+Cấu trúc dữ liệu không giới hạn rất nguy hiểm trong blockchain runtime vì mọi thao tác phải nằm trong giới hạn tài nguyên của block. Runtime vì vậy cấu hình các mức giới hạn rõ ràng:
+
+| Giá trị | Giới hạn runtime |
+| --- | ---: |
+| Tiêu đề bài viết | 200 byte |
+| Nội dung bài viết | 10.000 byte |
+| Bình luận | 1.000 byte |
+| Bình luận mỗi bài | 100 |
+| Tag mỗi bài | 10 |
+| Độ dài tag | 50 byte |
+
+Tạo bài viết tốn 10 micro-unit và tạo bình luận tốn 1 micro-unit. Đây là khoản phí cấp ứng dụng bên cạnh transaction cost thông thường. Cơ chế này minh họa cách pallet hạn chế spam storage thông qua currency và pallet account được cấu hình.
+
+`BoundedVec` được sử dụng ở những nơi kích thước collection phải được kiểm soát. Phép toán dùng checked operation, còn domain error phân biệt nội dung không tồn tại, chỉnh sửa trái quyền, thao tác xã hội trùng lặp, thiếu số dư và vi phạm độ dài.
+
+## Event, kiểm thử, benchmark và migration
+
+Các call thành công phát event như `PostCreated`, `CommentDeleted`, `PostLiked` và `AuthorFollowed`. Event cung cấp bản ghi dễ lập chỉ mục cho client mà không cần liên tục quét toàn bộ storage.
+
+Pallet có mock runtime và unit test cho vòng đời chính cùng các nhánh lỗi: tạo, cập nhật, soft delete, bình luận, quyền tác giả, bài viết không tồn tại và nội dung vượt giới hạn. FRAME benchmark chạy cả mười một extrinsic và sinh weight function dựa trên database weight của runtime.
+
+Mã nguồn cũng khai báo storage version 1 và migration V0-to-V1. Migration chuyển bản ghi bài viết cũ sang cấu trúc mới, giữ nguyên số lượng bài và tính chi phí đọc/ghi cơ sở dữ liệu. Điều này quan trọng vì runtime upgrade không thể tùy ý diễn giải byte on-chain cũ theo một Rust struct đã thay đổi.
+
+## Từ runtime Wasm đến parachain trên Paseo
+
+Build bản release đồng thời tạo Wasm runtime đã nén. Quy trình triển khai tiếp tục qua chain specification:
+
+1. Đăng ký hoặc chọn Para ID.
+2. Sinh plain chain spec dễ đọc cho relay chain Paseo.
+3. Cấu hình balance, sudo, parachain ID, tài khoản collator và Aura session key.
+4. Chuyển plain specification thành raw chain spec.
+5. Xuất genesis Wasm và genesis state.
+6. Đăng ký parathread và chạy collator bằng Polkadot Omni Node.
+7. Chèn Aura session key qua authoring RPC cục bộ.
+8. Mua on-demand coretime để parachain có thể sản xuất và hoàn tất block.
+
+Polkadot.js Apps được dùng trên hai endpoint: relay chain Paseo để thao tác coretime và RPC của parachain để gọi extrinsic Blog pallet. Giao dịch blog đã submit sẽ chờ cho đến khi parachain nhận execution time và tạo block.
+
+> Tài khoản phát triển, seed phrase và node key chỉ là dữ liệu dùng một lần trong lab. Secret production không được commit, đưa vào tài liệu hoặc tái sử dụng giữa các môi trường.
+
+## Build có thể tái lập với Docker
+
+Build Polkadot SDK nhạy với phiên bản Rust, LLVM, protobuf, RocksDB và Wasm toolchain. Repository cung cấp Dockerfile, Compose và script hỗ trợ build, test, sinh chain spec, xuất genesis artifact, chạy collator và xem log.
+
+Docker không loại bỏ thời gian biên dịch dài, nhưng giúp môi trường nhất quán giữa Linux, WSL và macOS. Dự án cố định Rust 1.86.0 cho quy trình native và khuyến nghị Docker khi dependency RocksDB trên máy host gây lỗi.
+
+## Những điều tôi học được
+
+Thay đổi tư duy lớn nhất là xem logic ứng dụng như hạ tầng ảnh hưởng trực tiếp đến đồng thuận. Một phép kiểm tra độ dài, layout storage, cách tính phí hoặc migration không còn chỉ là chi tiết backend—nó tác động đến mọi node xác thực và các lần runtime upgrade sau này.
+
+Trong phiên bản hướng production, tôi sẽ lưu nội dung bài viết lớn ngoài chuỗi và chỉ neo content hash on-chain, mở rộng negative test cho mọi social toggle, tự động hóa kiểm tra migration bằng try-runtime, loại bỏ toàn bộ secret mẫu khỏi version control và bổ sung giám sát sức khỏe collator cùng lượng coretime tiêu thụ.
+
+Runtime, Blog pallet, script triển khai, chain specification và tài liệu đầy đủ được công khai tại [repository DoAnCoSo Polkadot](https://github.com/2312702-NBTKNguyen/DoAnCoSo_Polkadot).

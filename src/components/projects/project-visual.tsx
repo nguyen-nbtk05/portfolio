@@ -14,10 +14,13 @@ export function ProjectVisual({ presentation }: ProjectVisualProps) {
   const reduceMotion = !!shouldReduceMotion;
 
   if (presentation.type === "diagram") {
-    if (presentation.variant === "datacenter") {
-      return <DatacenterVisual reduceMotion={reduceMotion} />;
+    if (presentation.variant === "portfolio") {
+      return <PortfolioVisual reduceMotion={reduceMotion} />;
     }
-    return <MultiCloudVisual reduceMotion={reduceMotion} />;
+    if (presentation.variant === "malware-scanner") {
+      return <YaraScannerVisual reduceMotion={reduceMotion} />;
+    }
+    return <SdnIdsVisual reduceMotion={reduceMotion} />;
   }
 
   if (presentation.type === "terminal") {
@@ -62,142 +65,140 @@ export function ProjectVisual({ presentation }: ProjectVisualProps) {
   return null;
 }
 
-function DatacenterVisual({ reduceMotion }: { reduceMotion: boolean }) {
-  const spines = [
-    { id: "s1", x: 120, y: 30, label: "SPINE-01" },
-    { id: "s2", x: 230, y: 30, label: "SPINE-02" },
-  ];
-
-  const leaves = [
-    { id: "l1", x: 55, y: 105, label: "LEAF-01" },
-    { id: "l2", x: 125, y: 105, label: "LEAF-02" },
-    { id: "l3", x: 225, y: 105, label: "LEAF-03" },
-    { id: "l4", x: 295, y: 105, label: "LEAF-04" },
-  ];
-
-  const lineVariants: Variants = {
-    hidden: { pathLength: 0, opacity: 0.2 },
-    visible: (i: number) => ({
-      pathLength: 1,
-      opacity: 0.5,
-      transition: reduceMotion
-        ? { duration: 0 }
-        : { duration: 0.4, delay: i * 0.04, ease: "easeOut" as const },
-    }),
-  };
-
-  const nodeVariants: Variants = {
-    hidden: { scale: 0.85, opacity: 0 },
-    visible: (delay: number) => ({
-      scale: 1,
-      opacity: 1,
-      transition: reduceMotion
-        ? { duration: 0 }
-        : { duration: 0.3, delay: typeof delay === "number" ? delay : 0, ease: "easeOut" as const },
-    }),
-  };
-
-  let lineCount = 0;
-
+function PortfolioVisual({ reduceMotion }: { reduceMotion: boolean }) {
   return (
-    <div className="relative flex h-full w-full items-center justify-center">
-      <svg
-        viewBox="0 0 350 140"
-        className="h-full w-full max-w-[350px] overflow-visible"
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient id="dc-line-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="rgb(20 184 166)" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="currentColor" stopOpacity="0.3" />
-          </linearGradient>
-        </defs>
-
-        {spines.map((s) =>
-          leaves.map((l) => {
-            const index = lineCount++;
-            return (
-              <motion.line
-                key={`${s.id}-${l.id}`}
-                x1={s.x}
-                y1={s.y}
-                x2={l.x}
-                y2={l.y}
-                stroke="url(#dc-line-grad)"
-                strokeWidth="1.2"
-                strokeDasharray="3 3"
-                custom={index}
-                initial={reduceMotion ? "visible" : "hidden"}
-                animate="visible"
-                variants={lineVariants}
-              />
-            );
-          }),
-        )}
-
-        {spines.map((s, idx) => (
-          <motion.g
-            key={s.id}
-            custom={idx * 0.08}
-            initial={reduceMotion ? "visible" : "hidden"}
-            animate="visible"
-            variants={nodeVariants}
-          >
-            <rect
-              x={s.x - 32}
-              y={s.y - 12}
-              width="64"
-              height="24"
-              rx="4"
-              className="fill-white stroke-teal-500/80 dark:fill-slate-900 dark:stroke-teal-400/80"
-              strokeWidth="1.2"
-            />
-            <circle cx={s.x - 20} cy={s.y} r="2.5" className="fill-teal-500" />
-            <text
-              x={s.x + 6}
-              y={s.y + 3.5}
-              textAnchor="middle"
-              className="fill-slate-700 font-mono text-[8.5px] font-semibold tracking-wider dark:fill-slate-200"
+    <motion.div
+      initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="w-full max-w-[350px] overflow-hidden rounded-lg border border-slate-300 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-950"
+      aria-hidden="true"
+    >
+      <div className="flex items-center gap-1.5 border-b border-slate-200 px-3 py-2 dark:border-slate-800">
+        <span className="h-2 w-2 rounded-full bg-rose-400" />
+        <span className="h-2 w-2 rounded-full bg-amber-400" />
+        <span className="h-2 w-2 rounded-full bg-emerald-400" />
+        <span className="ml-2 h-2 flex-1 rounded-full bg-slate-100 dark:bg-slate-800" />
+      </div>
+      <div className="grid grid-cols-[82px_1fr] gap-3 p-3">
+        <div className="space-y-2 border-r border-slate-200 pr-3 dark:border-slate-800">
+          {["ABOUT", "PROJECTS", "BLOG"].map((item, index) => (
+            <div
+              key={item}
+              className={index === 1 ? "font-mono text-[7px] font-bold text-teal-500" : "font-mono text-[7px] text-slate-400"}
             >
-              {s.label}
-            </text>
-          </motion.g>
-        ))}
-
-        {leaves.map((l, idx) => (
-          <motion.g
-            key={l.id}
-            custom={0.15 + idx * 0.06}
-            initial={reduceMotion ? "visible" : "hidden"}
-            animate="visible"
-            variants={nodeVariants}
-          >
-            <rect
-              x={l.x - 26}
-              y={l.y - 10}
-              width="52"
-              height="20"
-              rx="3"
-              className="fill-slate-50 stroke-slate-300 dark:fill-slate-950 dark:stroke-slate-700"
-              strokeWidth="1.2"
-            />
-            <circle cx={l.x - 16} cy={l.y} r="2" className="fill-teal-500" />
-            <text
-              x={l.x + 4}
-              y={l.y + 3}
-              textAnchor="middle"
-              className="fill-slate-600 font-mono text-[7.5px] font-medium dark:fill-slate-400"
-            >
-              {l.label}
-            </text>
-          </motion.g>
-        ))}
-      </svg>
-    </div>
+              {item}
+            </div>
+          ))}
+        </div>
+        <div className="space-y-2">
+          <div className="font-mono text-[7px] font-bold tracking-wider text-teal-500">HELLO, WORLD_</div>
+          <div className="h-2 w-4/5 rounded bg-slate-800 dark:bg-slate-200" />
+          <div className="h-1.5 w-full rounded bg-slate-200 dark:bg-slate-800" />
+          <div className="h-1.5 w-3/4 rounded bg-slate-200 dark:bg-slate-800" />
+          <div className="grid grid-cols-3 gap-1.5 pt-1">
+            {["WEB", "LAB", "MDX"].map((item) => (
+              <div key={item} className="rounded border border-teal-500/30 bg-teal-500/5 py-2 text-center font-mono text-[6px] font-semibold text-teal-600 dark:text-teal-400">
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
-function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
+function YaraScannerVisual({ reduceMotion }: { reduceMotion: boolean }) {
+  return (
+    <motion.div
+      initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="w-full max-w-[350px] overflow-hidden rounded-lg border border-slate-700 bg-slate-950 font-mono text-slate-200 shadow-sm"
+      aria-hidden="true"
+    >
+      <div className="flex items-center border-b border-slate-800 px-3 py-2">
+        <div className="flex gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-rose-500/80" />
+          <span className="h-2 w-2 rounded-full bg-amber-500/80" />
+          <span className="h-2 w-2 rounded-full bg-emerald-500/80" />
+        </div>
+        <span className="ml-3 text-[7px] font-bold tracking-[0.18em] text-slate-400">
+          YARA MALWARE SCANNER
+        </span>
+        <span className="ml-auto h-1.5 w-1.5 rounded-full bg-teal-400 shadow-[0_0_6px_rgb(45_212_191)]" />
+      </div>
+
+      <div className="grid grid-cols-[1fr_104px] gap-2.5 p-3">
+        <div className="space-y-2">
+          <div className="rounded border border-slate-800 bg-slate-900/80 px-2.5 py-2">
+            <div className="flex items-center justify-between text-[6px] uppercase tracking-wider text-slate-500">
+              <span>Selected file</span>
+              <span>1.8 MB</span>
+            </div>
+            <div className="mt-1 flex items-center gap-1.5 text-[8px] font-semibold text-slate-200">
+              <span className="text-teal-400">▸</span>
+              sample.exe
+            </div>
+          </div>
+
+          <div>
+            <div className="mb-1 flex justify-between text-[6px] uppercase tracking-wider text-slate-500">
+              <span>Scan complete</span>
+              <span className="text-teal-400">100%</span>
+            </div>
+            <div className="h-1 overflow-hidden rounded-full bg-slate-800">
+              <motion.div
+                initial={reduceMotion ? { width: "100%" } : { width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: reduceMotion ? 0 : 0.55, delay: 0.12 }}
+                className="h-full rounded-full bg-teal-400"
+              />
+            </div>
+          </div>
+
+          <motion.div
+            initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: reduceMotion ? 0 : 0.45 }}
+            className="flex items-center gap-2 rounded border border-rose-500/30 bg-rose-500/10 px-2.5 py-1.5"
+          >
+            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-rose-500/20 text-[8px] font-bold text-rose-400">!</span>
+            <div>
+              <div className="text-[7px] font-bold tracking-wider text-rose-400">THREAT DETECTED</div>
+              <div className="text-[6px] text-slate-500">2 detection engines matched</div>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="space-y-2 border-l border-slate-800 pl-2.5">
+          <div className="text-[6px] uppercase tracking-[0.16em] text-slate-500">Detection</div>
+          {[
+            { engine: "HASH", result: "SHA-256 MATCH" },
+            { engine: "YARA", result: "AGENT TESLA" },
+          ].map((item, index) => (
+            <motion.div
+              key={item.engine}
+              initial={reduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 5 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: reduceMotion ? 0 : 0.25 + index * 0.12 }}
+              className="rounded border border-teal-500/25 bg-teal-500/5 px-2 py-2"
+            >
+              <div className="flex items-center gap-1 text-[7px] font-bold text-teal-400">
+                <span>✓</span>
+                {item.engine}
+              </div>
+              <div className="mt-1 text-[5.5px] leading-tight text-slate-500">{item.result}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
   const lineVariants: Variants = {
     hidden: { pathLength: 0 },
     visible: (delay: number) => ({
@@ -216,7 +217,7 @@ function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
         aria-hidden="true"
       >
         <motion.path
-          d="M 85 70 H 165"
+          d="M 95 76 H 125"
           stroke="currentColor"
           strokeWidth="1.2"
           className="text-teal-500"
@@ -227,7 +228,7 @@ function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
           variants={lineVariants}
         />
         <motion.path
-          d="M 165 70 L 265 35"
+          d="M 170 55 V 37"
           stroke="currentColor"
           strokeWidth="1.2"
           className="text-teal-500/80 dark:text-teal-400/80"
@@ -238,12 +239,22 @@ function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
           variants={lineVariants}
         />
         <motion.path
-          d="M 165 70 L 265 105"
+          d="M 215 76 H 255"
           stroke="currentColor"
           strokeWidth="1.2"
           className="text-teal-500/80 dark:text-teal-400/80"
           strokeDasharray="4 2"
           custom={0.24}
+          initial={reduceMotion ? "visible" : "hidden"}
+          animate="visible"
+          variants={lineVariants}
+        />
+        <motion.path
+          d="M 95 124 L 140 96"
+          stroke="currentColor"
+          strokeWidth="1.1"
+          className="text-slate-400 dark:text-slate-600"
+          custom={0.3}
           initial={reduceMotion ? "visible" : "hidden"}
           animate="visible"
           variants={lineVariants}
@@ -255,29 +266,29 @@ function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
           transition={{ duration: 0.3 }}
         >
           <rect
-            x="15"
-            y="48"
-            width="70"
-            height="44"
+            x="5"
+            y="55"
+            width="90"
+            height="43"
             rx="5"
             className="fill-slate-50 stroke-slate-300 dark:fill-slate-950 dark:stroke-slate-700"
             strokeWidth="1.2"
           />
           <text
             x="50"
-            y="68"
+            y="71"
             textAnchor="middle"
-            className="fill-slate-700 font-mono text-[8.5px] font-bold dark:fill-slate-200"
+            className="fill-slate-700 font-mono text-[8px] font-bold dark:fill-slate-200"
           >
-            ON-PREM
+            10 ATTACKERS
           </text>
           <text
             x="50"
-            y="80"
+            y="89"
             textAnchor="middle"
-            className="fill-slate-400 font-mono text-[7px] uppercase tracking-wider dark:fill-slate-500"
+            className="fill-slate-400 font-mono text-[6px] uppercase tracking-wider dark:fill-slate-500"
           >
-            DATACENTER
+            DDoS · SCAN · ARP
           </text>
         </motion.g>
 
@@ -287,29 +298,29 @@ function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
           transition={{ duration: 0.3, delay: 0.12 }}
         >
           <rect
-            x="130"
-            y="46"
-            width="65"
-            height="48"
+            x="125"
+            y="55"
+            width="90"
+            height="42"
             rx="5"
             className="fill-white stroke-teal-500 dark:fill-slate-900 dark:stroke-teal-400"
             strokeWidth="1.5"
           />
           <text
-            x="162.5"
-            y="65"
+            x="170"
+            y="71"
             textAnchor="middle"
             className="fill-teal-600 font-mono text-[8.5px] font-bold dark:fill-teal-400"
           >
-            IPsec VPN
+            OVS S1
           </text>
           <text
-            x="162.5"
-            y="78"
+            x="170"
+            y="85"
             textAnchor="middle"
             className="fill-slate-500 font-mono text-[7px] font-semibold dark:fill-slate-400"
           >
-            PALO ALTO
+            OPENFLOW 1.3
           </text>
         </motion.g>
 
@@ -319,62 +330,94 @@ function MultiCloudVisual({ reduceMotion }: { reduceMotion: boolean }) {
           transition={{ duration: 0.3, delay: 0.2 }}
         >
           <rect
-            x="265"
-            y="18"
-            width="70"
-            height="34"
+            x="125"
+            y="5"
+            width="90"
+            height="32"
             rx="4"
             className="fill-slate-50 stroke-slate-300 dark:fill-slate-950 dark:stroke-slate-700"
             strokeWidth="1.2"
           />
           <text
-            x="300"
-            y="34"
+            x="170"
+            y="18"
             textAnchor="middle"
             className="fill-slate-700 font-mono text-[8.5px] font-bold dark:fill-slate-200"
           >
-            AWS VPC
+            RYU IDS · C0
           </text>
           <text
-            x="300"
-            y="44"
+            x="170"
+            y="29"
             textAnchor="middle"
-            className="fill-teal-600 font-mono text-[7px] font-semibold dark:fill-teal-400"
+            className="fill-teal-600 font-mono text-[6px] font-semibold dark:fill-teal-400"
           >
-            ACTIVE ●
+            STATS 5s · ENTROPY 20s
           </text>
         </motion.g>
 
-        {/* Azure */}
         <motion.g
           initial={reduceMotion ? { opacity: 1 } : { opacity: 0, x: 8 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3, delay: 0.25 }}
         >
           <rect
-            x="265"
-            y="88"
-            width="70"
-            height="34"
+            x="255"
+            y="55"
+            width="90"
+            height="43"
             rx="4"
             className="fill-slate-50 stroke-slate-300 dark:fill-slate-950 dark:stroke-slate-700"
             strokeWidth="1.2"
           />
           <text
             x="300"
-            y="104"
+            y="71"
             textAnchor="middle"
             className="fill-slate-700 font-mono text-[8.5px] font-bold dark:fill-slate-200"
           >
-            AZURE
+            VICTIM · H1
           </text>
           <text
             x="300"
-            y="114"
+            y="85"
             textAnchor="middle"
-            className="fill-teal-600 font-mono text-[7px] font-semibold dark:fill-teal-400"
+            className="fill-teal-600 font-mono text-[6px] font-semibold dark:fill-teal-400"
           >
-            ACTIVE ●
+            FLOW DROP · 300s
+          </text>
+        </motion.g>
+
+        <motion.g
+          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+        >
+          <rect
+            x="5"
+            y="111"
+            width="90"
+            height="26"
+            rx="4"
+            className="fill-slate-50 stroke-slate-300 dark:fill-slate-950 dark:stroke-slate-700"
+            strokeWidth="1.1"
+          />
+          {[0, 1, 2, 3, 4].map((host) => (
+            <circle
+              key={host}
+              cx={23 + host * 13.5}
+              cy="120"
+              r="2.4"
+              className="fill-slate-400 dark:fill-slate-600"
+            />
+          ))}
+          <text
+            x="50"
+            y="132"
+            textAnchor="middle"
+            className="fill-slate-500 font-mono text-[5.5px] font-semibold dark:fill-slate-400"
+          >
+            5 BENIGN HOSTS
           </text>
         </motion.g>
       </svg>

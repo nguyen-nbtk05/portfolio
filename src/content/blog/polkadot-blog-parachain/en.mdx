@@ -1,0 +1,107 @@
+# Building and Deploying a Blog Parachain with Rust and Polkadot SDK
+
+Learning blockchain development at the runtime level is different from writing a smart contract. Instead of deploying one isolated program, this project defines part of the chain’s state transition logic, compiles it to WebAssembly, starts a collator, and connects the resulting parachain to the Paseo relay chain.
+
+The application domain is a decentralized blog. Users can create posts and comments, attach tags, like content, bookmark posts, and follow authors. The interesting part is not the familiar social feature list; it is how those operations become deterministic FRAME storage changes and signed extrinsics.
+
+## Workspace architecture
+
+The Rust workspace is divided into three major layers:
+
+| Layer | Responsibility | Important files |
+| --- | --- | --- |
+| Node | CLI, RPC, networking, service initialization, and collator startup | `node/src/` |
+| Runtime | Pallet composition, runtime APIs, XCM configuration, genesis presets, and block weights | `runtime/src/` |
+| Blog pallet | Domain storage, events, errors, extrinsics, benchmarks, tests, and migration | `pallets/blog-pallet/` |
+
+This separation is fundamental in the Polkadot SDK. The native node handles networking and execution infrastructure, while the runtime defines the rules every participant must evaluate identically. The runtime is compiled to Wasm so the chain logic can be upgraded independently of the host binary.
+
+## Modeling a decentralized blog as a FRAME pallet
+
+The pallet stores posts and comments by auto-incrementing identifiers. Additional maps index posts by author, comments by post, likes by account, bookmarks by user, and follower relationships between accounts.
+
+The public call interface contains eleven extrinsics:
+
+- create, update, and soft-delete posts;
+- create, update, and soft-delete comments;
+- toggle likes for posts and comments;
+- attach tags;
+- toggle bookmarks;
+- follow or unfollow an author.
+
+Each write begins with a signed origin. Ownership checks ensure that only an author can edit or delete their own post or comment. Toggle operations maintain both a counter and per-account state, preventing the same account from incrementing a like repeatedly.
+
+A simplified dispatchable illustrates the pattern:
+
+```rust
+#[pallet::call_index(0)]
+#[pallet::weight(T::WeightInfo::create_post())]
+pub fn create_post(
+    origin: OriginFor<T>,
+    title: Vec<u8>,
+    content: Vec<u8>,
+) -> DispatchResult {
+    let author = ensure_signed(origin)?;
+    ensure!(title.len() <= T::MaxTitleLength::get() as usize, Error::<T>::TitleTooLong);
+    // Charge the configured fee, write storage, then emit PostCreated.
+    Ok(())
+}
+```
+
+The snippet is shortened to show the control flow. The implementation also allocates an ID, records block numbers, updates the author index, charges the configured fee, and emits an event.
+
+## Bounds, fees, and predictable execution
+
+Unbounded data structures are dangerous inside a blockchain runtime because every operation must fit within block resource limits. The runtime therefore configures explicit bounds:
+
+| Value | Runtime limit |
+| --- | ---: |
+| Post title | 200 bytes |
+| Post content | 10,000 bytes |
+| Comment | 1,000 bytes |
+| Comments per post | 100 |
+| Tags per post | 10 |
+| Tag length | 50 bytes |
+
+Creating a post costs 10 micro-units and creating a comment costs 1 micro-unit. These are application-level charges in addition to normal transaction costs. They demonstrate how a pallet can discourage storage spam while routing fees through its configured currency and pallet account.
+
+`BoundedVec` is used where collection size must remain controlled. Arithmetic uses checked operations, and domain errors distinguish missing content, unauthorized edits, duplicate social actions, insufficient balance, and length violations.
+
+## Events, tests, benchmarks, and migration
+
+Successful calls emit events such as `PostCreated`, `CommentDeleted`, `PostLiked`, and `AuthorFollowed`. Events give clients an indexable record without requiring them to repeatedly scan all storage.
+
+The pallet includes a mock runtime and unit tests for the main lifecycle and failure paths: creation, updates, soft deletion, comments, ownership rules, missing posts, and oversized content. FRAME benchmarks exercise all eleven extrinsics and produce runtime weight functions backed by the configured database weights.
+
+The code also declares storage version 1 and a V0-to-V1 runtime migration. The migration translates existing post records to the newer structure, preserves post count, and accounts for database reads and writes. This matters because runtime upgrades cannot simply reinterpret old on-chain bytes as a changed Rust struct.
+
+## From runtime Wasm to a Paseo parachain
+
+Building the release binary also produces the compressed Wasm runtime. Deployment then moves through a chain-specification workflow:
+
+1. Reserve or select a Para ID.
+2. Generate a readable plain chain spec for the Paseo relay chain.
+3. Configure balances, sudo, parachain ID, collator account, and Aura session key.
+4. Convert the plain specification into a raw chain spec.
+5. Export the genesis Wasm and genesis state.
+6. Register the parathread and start the collator with Polkadot Omni Node.
+7. Insert the Aura session key through the local authoring RPC.
+8. Acquire on-demand coretime so the parachain can produce and finalize blocks.
+
+Polkadot.js Apps is used on two endpoints: the Paseo relay chain for coretime operations and the parachain RPC for Blog pallet extrinsics. A submitted blog transaction remains pending until the parachain receives execution time and produces a block.
+
+> Development accounts, seed phrases, and node keys are disposable lab material. Production secrets must never be committed, shared in documentation, or reused across environments.
+
+## Reproducible builds with Docker
+
+Polkadot SDK builds are sensitive to Rust, LLVM, protobuf, RocksDB, and Wasm toolchain versions. The repository provides Dockerfiles, Compose configuration, and a helper script for building, testing, generating specifications, exporting genesis artifacts, starting the collator, and inspecting logs.
+
+Docker does not eliminate the long compile time, but it makes the environment repeatable across Linux, WSL, and macOS. The project pins Rust 1.86.0 for the native workflow and documents Docker as the recommended path when native RocksDB dependencies become problematic.
+
+## What I learned
+
+The biggest shift was treating application logic as consensus-critical infrastructure. A length check, storage layout, fee calculation, or migration is no longer only a backend implementation detail—it affects every validating participant and future runtime upgrade.
+
+For a production-oriented iteration, I would keep large article bodies off-chain and anchor content hashes on-chain, extend negative tests around every social toggle, automate try-runtime migration checks, remove all example secrets from version control, and add monitoring for collator health and coretime consumption.
+
+The complete runtime, Blog pallet, deployment scripts, chain specifications, and documentation are available in the [DoAnCoSo Polkadot repository](https://github.com/2312702-NBTKNguyen/DoAnCoSo_Polkadot).

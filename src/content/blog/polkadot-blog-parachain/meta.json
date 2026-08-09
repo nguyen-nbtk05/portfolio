@@ -1,0 +1,15 @@
+{
+  "title": {
+    "en": "Building and Deploying a Blog Parachain with Rust and Polkadot SDK",
+    "vi": "Xây Dựng Và Triển Khai Blog Parachain Với Rust Và Polkadot SDK"
+  },
+  "excerpt": {
+    "en": "From a custom FRAME blog pallet to a Wasm runtime, chain specification, Aura collator, and deployment workflow on the Paseo test network.",
+    "vi": "Từ custom FRAME blog pallet đến Wasm runtime, chain specification, Aura collator và quy trình triển khai trên mạng thử nghiệm Paseo."
+  },
+  "publishedAt": "2026-08-07",
+  "tags": ["Polkadot", "Rust", "Blockchain"],
+  "featured": false,
+  "status": "published",
+  "access": "public"
+}

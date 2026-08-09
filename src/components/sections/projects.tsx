@@ -12,8 +12,8 @@ export function ProjectsSection() {
       id="projects"
       title={lang({ en: "Projects & Labs", vi: "Dự Án & Thực Hành" })}
       subtitle={lang({
-        en: "Highlighting architectural designs and automation scripts.",
-        vi: "Những điểm nổi bật trong thiết kế kiến trúc mạng và phần mềm tự động hóa của tôi.",
+        en: "Selected work across web development, malware analysis, and software-defined network security.",
+        vi: "Các dự án tiêu biểu về phát triển web, phân tích mã độc và bảo mật mạng định nghĩa bằng phần mềm.",
       })}
       headerClassName="mb-6 lg:mb-8"
       subtitleClassName="max-w-4xl lg:max-w-5xl"
