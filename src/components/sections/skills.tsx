@@ -1,15 +1,25 @@
 "use client";
 
-import type { ElementType } from "react";
 import {
+  type ElementType,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
+import {
+  BookOpen,
   Network,
   PanelsTopLeft,
   RadioTower,
   Route,
+  Sparkles,
   Waypoints,
   Workflow,
+  X,
 } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   SiArchlinux,
   SiCisco,
@@ -28,8 +38,10 @@ import { TbTopologyStar3 } from "react-icons/tb";
 import { Section } from "../ui/section";
 import {
   skills,
+  type LocalizedSkillText,
   type SkillGroupTone,
   type SkillIconKey,
+  type SkillItem,
   type SkillTone,
 } from "@/data/skills";
 import { useLanguage } from "@/hooks/use-language";
@@ -152,10 +164,276 @@ const skillToneStyles: Record<SkillTone, { chip: string; icon: string }> = {
   },
 };
 
+type ActiveSkill = {
+  item: SkillItem;
+  category: LocalizedSkillText;
+};
+
+interface SkillDetailDialogProps {
+  activeSkill: ActiveSkill | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onExitComplete: () => void;
+}
+
+function SkillDetailDialog({
+  activeSkill,
+  isOpen,
+  onClose,
+  onExitComplete,
+}: SkillDetailDialogProps) {
+  const { lang } = useLanguage();
+  const reduceMotion = useReducedMotion();
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!activeSkill) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const overlay = overlayRef.current;
+    const backgroundElements = Array.from(document.body.children).filter(
+      (element): element is HTMLElement =>
+        element instanceof HTMLElement &&
+        element !== overlay &&
+        element.tagName !== "SCRIPT" &&
+        element.tagName !== "STYLE",
+    );
+    const backgroundState = backgroundElements.map((element) => ({
+      element,
+      inert: element.hasAttribute("inert"),
+      ariaHidden: element.getAttribute("aria-hidden"),
+    }));
+
+    backgroundElements.forEach((element) => {
+      element.setAttribute("inert", "");
+      element.setAttribute("aria-hidden", "true");
+    });
+
+    const focusFrame = window.requestAnimationFrame(() => {
+      closeButtonRef.current?.focus();
+    });
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const panel = panelRef.current;
+      if (!panel) {
+        return;
+      }
+
+      const focusableElements = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      const focusedElement = document.activeElement;
+
+      if (event.shiftKey && focusedElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && focusedElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      } else if (!panel.contains(focusedElement)) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+
+      backgroundState.forEach(({ element, inert, ariaHidden }) => {
+        if (!inert) {
+          element.removeAttribute("inert");
+        }
+
+        if (ariaHidden === null) {
+          element.removeAttribute("aria-hidden");
+        } else {
+          element.setAttribute("aria-hidden", ariaHidden);
+        }
+      });
+    };
+  }, [activeSkill, onClose]);
+
+  const ActiveIcon = activeSkill ? skillIconMap[activeSkill.item.icon] : null;
+  const activeTone = activeSkill
+    ? skillToneStyles[activeSkill.item.tone]
+    : null;
+
+  if (
+    !activeSkill ||
+    !ActiveIcon ||
+    !activeTone ||
+    typeof document === "undefined"
+  ) {
+    return null;
+  }
+
+  return createPortal(
+    <AnimatePresence onExitComplete={onExitComplete}>
+      {isOpen ? (
+        <motion.div
+          key="skill-dialog-overlay"
+          ref={overlayRef}
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.2 }}
+          className="fixed inset-0 z-[1000] flex items-center justify-center overflow-hidden bg-slate-950/55 p-4 backdrop-blur-sm"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              onClose();
+            }
+          }}
+        >
+        <motion.div
+          ref={panelRef}
+          role="dialog"
+          aria-modal="true"
+          id="skill-detail-dialog"
+          aria-labelledby="skill-detail-title"
+          aria-describedby="skill-detail-overview skill-detail-description"
+          initial={
+            reduceMotion ? false : { opacity: 0, y: 18, scale: 0.97 }
+          }
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={
+            reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.98 }
+          }
+          transition={{
+            duration: reduceMotion ? 0 : 0.22,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="relative max-h-[calc(100dvh-2rem)] w-full max-w-[960px] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[1.6rem] border border-slate-200/90 bg-white/95 text-left text-slate-900 shadow-2xl shadow-slate-950/25 backdrop-blur-xl outline-none dark:border-white/10 dark:bg-[#0b0d0e]/95 dark:text-slate-100 dark:shadow-black/60"
+        >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-cyan-400/15 blur-3xl dark:bg-cyan-400/10"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-24 top-10 h-52 w-52 rounded-full bg-violet-400/15 blur-3xl dark:bg-violet-400/10"
+          />
+
+          <button
+            ref={closeButtonRef}
+            type="button"
+            onClick={onClose}
+            aria-label={lang({ en: "Close skill details", vi: "Đóng chi tiết kỹ năng" })}
+            data-cursor="pointer"
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-slate-200/90 bg-white/85 text-slate-500 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 sm:right-5 sm:top-5 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+          >
+            <X className="h-5 w-5" aria-hidden="true" />
+          </button>
+
+          <header className="relative border-b border-slate-200/80 px-5 pb-6 pt-6 pr-20 sm:px-8 sm:pb-7 sm:pt-8 sm:pr-24 dark:border-white/10">
+            <div className="flex items-center gap-4 sm:gap-5">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-slate-200/90 bg-slate-100/85 shadow-lg shadow-slate-200/45 dark:border-white/10 dark:bg-white/[0.06] dark:shadow-black/35">
+                <ActiveIcon
+                  className={cn("h-8 w-8 sm:h-9 sm:w-9", activeTone.icon)}
+                  aria-hidden="true"
+                />
+              </div>
+              <div className="min-w-0">
+                <h3
+                  id="skill-detail-title"
+                  className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl dark:text-slate-50"
+                >
+                  {activeSkill.item.label}
+                </h3>
+                <span className="mt-2 inline-flex max-w-full rounded-full bg-teal-500/10 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-teal-700 sm:text-xs dark:bg-teal-400/10 dark:text-teal-300">
+                  {lang(activeSkill.category)}
+                </span>
+              </div>
+            </div>
+          </header>
+
+          <div className="relative grid md:grid-cols-2">
+            <section className="px-5 py-6 sm:px-8 sm:py-8 md:min-h-[250px] md:pr-9">
+              <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                <BookOpen className="h-4 w-4 text-teal-500" aria-hidden="true" />
+                <span>
+                  {lang({ en: "About the technology", vi: "Về công nghệ" })}
+                </span>
+              </div>
+              <p
+                id="skill-detail-overview"
+                className="text-[0.98rem] leading-7 text-slate-600 sm:text-base sm:leading-8 dark:text-slate-300"
+              >
+                {lang(activeSkill.item.overview)}
+              </p>
+            </section>
+
+            <section className="border-t border-slate-200/80 px-5 py-6 sm:px-8 sm:py-8 md:min-h-[250px] md:border-l md:border-t-0 md:pl-9 dark:border-white/10">
+              <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                <Sparkles className="h-4 w-4 text-teal-500" aria-hidden="true" />
+                <span>
+                  {lang({ en: "Usage & Experience", vi: "Ứng dụng & kinh nghiệm" })}
+                </span>
+              </div>
+              <p
+                id="skill-detail-description"
+                className="text-[0.98rem] leading-7 text-slate-600 sm:text-base sm:leading-8 dark:text-slate-300"
+              >
+                {lang(activeSkill.item.description)}
+              </p>
+            </section>
+          </div>
+        </motion.div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>,
+    document.body,
+  );
+}
+
 export function SkillsSection() {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
   const initial = reduceMotion ? false : "hidden";
+  const [activeSkill, setActiveSkill] = useState<ActiveSkill | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
+
+  const handleDialogClose = useCallback(() => {
+    setIsDialogOpen(false);
+  }, []);
+
+  const handleDialogExitComplete = useCallback(() => {
+    setActiveSkill(null);
+
+    window.requestAnimationFrame(() => {
+      lastTriggerRef.current?.focus();
+    });
+  }, []);
 
   return (
     <Section
@@ -231,13 +509,30 @@ export function SkillsSection() {
                   const itemStyle = skillToneStyles[item.tone];
 
                   return (
-                    <motion.span
+                    <motion.button
+                      type="button"
                       key={item.id}
                       variants={skillChipVariants}
                       whileHover={reduceMotion ? undefined : { y: -2 }}
                       transition={{ type: "spring", stiffness: 340, damping: 24 }}
+                      aria-haspopup="dialog"
+                      aria-controls="skill-detail-dialog"
+                      aria-expanded={activeSkill?.item.id === item.id}
+                      aria-label={lang({
+                        en: `View details about ${item.label}`,
+                        vi: `Xem chi tiết về ${item.label}`,
+                      })}
+                      data-cursor="pointer"
+                      onClick={(event) => {
+                        lastTriggerRef.current = event.currentTarget;
+                        setActiveSkill({
+                          item,
+                          category: skillGroup.category,
+                        });
+                        setIsDialogOpen(true);
+                      }}
                       className={cn(
-                        "group/skill inline-flex h-12 items-center gap-2.5 rounded-lg border border-slate-200/80 bg-slate-100/85 px-4 text-sm font-semibold text-slate-700 shadow-sm transition-[border-color,background-color,box-shadow] duration-200 hover:shadow-md sm:text-base dark:border-white/8 dark:bg-white/[0.055] dark:text-slate-200",
+                        "group/skill inline-flex h-12 cursor-pointer appearance-none items-center gap-2.5 rounded-lg border border-slate-200/80 bg-slate-100/85 px-4 text-left text-sm font-semibold text-slate-700 shadow-sm transition-[border-color,background-color,box-shadow] duration-200 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 sm:text-base dark:border-white/8 dark:bg-white/[0.055] dark:text-slate-200",
                         itemStyle.chip,
                       )}
                     >
@@ -251,7 +546,7 @@ export function SkillsSection() {
                         <ItemIcon className="h-5 w-5" />
                       </span>
                       <span className="whitespace-nowrap">{item.label}</span>
-                    </motion.span>
+                    </motion.button>
                   );
                 })}
               </motion.div>
@@ -259,6 +554,12 @@ export function SkillsSection() {
           );
         })}
       </motion.div>
+      <SkillDetailDialog
+        activeSkill={activeSkill}
+        isOpen={isDialogOpen}
+        onClose={handleDialogClose}
+        onExitComplete={handleDialogExitComplete}
+      />
     </Section>
   );
 }
