@@ -29,6 +29,36 @@ interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"butt
   onThemeChange?: (theme: "light" | "dark") => void
 }
 
+interface ActiveThemeTransition {
+  animation: Animation | null
+  cleanedUp: boolean
+  transition: ViewTransition | null
+}
+
+function waitForCompositorCleanup(frameCount = 2): Promise<void> {
+  return new Promise((resolve) => {
+    let remainingFrames = frameCount
+    let settled = false
+
+    const finish = () => {
+      if (settled) return
+      settled = true
+      window.clearTimeout(timeoutId)
+      resolve()
+    }
+    const nextFrame = () => {
+      remainingFrames -= 1
+      if (remainingFrames <= 0) {
+        finish()
+        return
+      }
+      window.requestAnimationFrame(nextFrame)
+    }
+    const timeoutId = window.setTimeout(finish, 100)
+    window.requestAnimationFrame(nextFrame)
+  })
+}
+
 function polygonCollapsed(point: string, vertexCount: number): string {
   const pairs = Array.from({ length: vertexCount }, () => point).join(", ")
   return `polygon(${pairs})`
@@ -157,14 +187,61 @@ export const AnimatedThemeToggler = ({
   fromCenter = false,
   theme,
   onThemeChange,
+  disabled,
   ...props
 }: AnimatedThemeTogglerProps) => {
   const shape = variant ?? "circle"
   const isControlled = theme !== undefined
   const [internalIsDark, setInternalIsDark] = useState(false)
+  const [isTransitioning, setIsTransitioning] = useState(false)
   const isDark = isControlled ? theme === "dark" : internalIsDark
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const activeTransitionRef = useRef<ActiveThemeTransition | null>(null)
+  const mountedRef = useRef(true)
   const isTransitioningRef = useRef(false)
+
+  const cleanupTransition = useCallback((
+    session: ActiveThemeTransition,
+    skipTransition = false
+  ) => {
+    if (session.cleanedUp) return
+    session.cleanedUp = true
+
+    if (skipTransition) {
+      try {
+        session.transition?.skipTransition()
+      } catch {
+        // The View Transition may already have finished or been skipped.
+      }
+    }
+
+    try {
+      session.animation?.cancel()
+    } catch {
+      // Its generated pseudo-element may already have been removed.
+    }
+
+    if (activeTransitionRef.current !== session) return
+
+    activeTransitionRef.current = null
+    isTransitioningRef.current = false
+    const root = document.documentElement
+    delete root.dataset.magicuiThemeVt
+    root.style.removeProperty("--magicui-theme-toggle-vt-duration")
+    root.style.removeProperty("--magicui-theme-vt-clip-from")
+
+    if (mountedRef.current) setIsTransitioning(false)
+  }, [])
+
+  useEffect(() => {
+    mountedRef.current = true
+
+    return () => {
+      mountedRef.current = false
+      const session = activeTransitionRef.current
+      if (session) cleanupTransition(session, true)
+    }
+  }, [cleanupTransition])
 
   useEffect(() => {
     if (isControlled) return
@@ -242,6 +319,14 @@ export const AnimatedThemeToggler = ({
     )
 
     const root = document.documentElement
+    const session: ActiveThemeTransition = {
+      animation: null,
+      cleanedUp: false,
+      transition: null,
+    }
+    activeTransitionRef.current = session
+    isTransitioningRef.current = true
+    setIsTransitioning(true)
     root.dataset.magicuiThemeVt = "active"
     root.style.setProperty(
       "--magicui-theme-toggle-vt-duration",
@@ -250,49 +335,72 @@ export const AnimatedThemeToggler = ({
     // Pin the collapsed clip-path via CSS so Firefox does not paint the new
     // theme unclipped between snapshot and the ready.then() JS animation.
     root.style.setProperty("--magicui-theme-vt-clip-from", clipPath[0])
-    const cleanup = () => {
-      isTransitioningRef.current = false
-      delete root.dataset.magicuiThemeVt
-      root.style.removeProperty("--magicui-theme-toggle-vt-duration")
-      root.style.removeProperty("--magicui-theme-vt-clip-from")
-    }
 
-    isTransitioningRef.current = true
-    const transition = document.startViewTransition(() => {
-      flushSync(applyTheme)
-    })
-    if (typeof transition?.finished?.finally === "function") {
-      transition.finished.finally(cleanup).catch(() => {})
-    } else {
-      cleanup()
-    }
+    const runTransition = async () => {
+      let themeApplied = false
 
-    const ready = transition?.ready
-    if (ready && typeof ready.then === "function") {
-      ready
-        .then(() => {
-          document.documentElement.animate(
-            {
-              clipPath,
-            },
-            {
-              duration,
-              // Star: linear avoids easing overshoot that fights polygon interpolation at t→1; VT group duration is synced above.
-              easing: shape === "star" ? "linear" : "ease-in-out",
-              fill: "forwards",
-              pseudoElement: "::view-transition-new(root)",
-            }
-          )
+      try {
+        session.transition = document.startViewTransition(() => {
+          flushSync(() => {
+            applyTheme()
+            themeApplied = true
+          })
         })
-        .catch(() => {})
+
+        // Attach a rejection handler immediately; Chrome can reject `finished`
+        // while `ready` is still pending when a transition is interrupted.
+        const transitionFinished = session.transition.finished.catch(
+          () => undefined
+        )
+
+        await session.transition.ready
+        if (session.cleanedUp || activeTransitionRef.current !== session) return
+
+        session.animation = document.documentElement.animate(
+          {
+            clipPath,
+          },
+          {
+            duration,
+            // Star: linear avoids easing overshoot that fights polygon interpolation at t -> 1.
+            easing: shape === "star" ? "linear" : "ease-in-out",
+            fill: "forwards",
+            pseudoElement: "::view-transition-new(root)",
+          }
+        )
+
+        await Promise.all([
+          session.animation.finished,
+          transitionFinished,
+        ])
+        await waitForCompositorCleanup()
+      } catch {
+        if (!themeApplied) applyTheme()
+        cleanupTransition(session, true)
+        return
+      }
+
+      cleanupTransition(session)
     }
-  }, [shape, fromCenter, duration, isDark, isControlled, onThemeChange])
+
+    void runTransition()
+  }, [
+    shape,
+    fromCenter,
+    duration,
+    isDark,
+    isControlled,
+    onThemeChange,
+    cleanupTransition,
+  ])
 
   return (
     <button
       type="button"
       ref={buttonRef}
       onClick={toggleTheme}
+      disabled={disabled || isTransitioning}
+      aria-busy={isTransitioning || undefined}
       className={cn(className)}
       {...props}
     >

@@ -68,13 +68,6 @@ body::-webkit-scrollbar {
     z-index: 2;
 }
 
-/* Keep the View Transition snapshots stable while the root theme class changes. */
-html[data-magicui-theme-vt="active"] *,
-html[data-magicui-theme-vt="active"] *::before,
-html[data-magicui-theme-vt="active"] *::after {
-    transition: none !important;
-}
-
 .site-container {
     width: 100%;
     max-width: 1760px;
