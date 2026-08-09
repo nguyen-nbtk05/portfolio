@@ -8,6 +8,7 @@ import {
   useReducedMotion,
 } from "motion/react";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
+import { useTheme } from "@/providers/theme-provider";
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { SettingsDropdown } from "../ui/settings-dropdown";
@@ -82,6 +83,7 @@ const DockTooltip = ({
 
 export function Navbar() {
   const { lang } = useLanguage();
+  const { setTheme } = useTheme();
   const reduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -197,7 +199,13 @@ export function Navbar() {
             })}
           >
             <div>
-              <AnimatedThemeToggler variant="circle" duration={800} />
+              <AnimatedThemeToggler
+                variant="circle"
+                duration={800}
+                theme={isDarkMode ? "dark" : "light"}
+                onThemeChange={setTheme}
+                className="cursor-pointer rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-slate-200 hover:text-teal-500 dark:hover:bg-slate-800"
+              />
             </div>
           </DockTooltip>
 
