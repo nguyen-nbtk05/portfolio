@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { LenisContext } from "@/hooks/use-lenis";
-import { scrollToSection } from "@/lib/scroll-to-section";
+import {
+  getSectionScrollTop,
+  scrollToSection,
+} from "@/lib/scroll-to-section";
 import {
   canonicalizeHomeSectionHash,
   getCanonicalSectionHash,
@@ -14,6 +17,9 @@ import {
 
 const SNAP_SECTION_IDS = HOME_SECTION_IDS;
 const SNAP_SECTION_ID_SET = new Set<string>(SNAP_SECTION_IDS);
+const MAGNETIC_ZONE = 50;
+const SNAP_DURATION = 1.5;
+const SNAP_RESET_DELAY_MS = 1_800;
 
 export default function SmoothScroll({
   children,
@@ -36,30 +42,43 @@ export default function SmoothScroll({
       touchMultiplier: 1.5,
     });
 
-    setTimeout(() => {
+    const publishTimer = window.setTimeout(() => {
       setLenis(instance);
     }, 0);
 
-    let sectionTops: { id: string; top: number }[] = [];
-
-    function computeSectionPositions() {
-      sectionTops = [];
-      for (const id of SNAP_SECTION_IDS) {
-        const el = document.getElementById(id);
-        if (el) {
-          let top = 0;
-          let current: HTMLElement | null = el;
-          while (current) {
-            top += current.offsetTop;
-            current = current.offsetParent as HTMLElement | null;
-          }
-          sectionTops.push({ id, top });
-        }
-      }
+    function raf(time: number) {
+      instance.raf(time);
+      rafId.current = requestAnimationFrame(raf);
     }
 
+    rafId.current = requestAnimationFrame(raf);
+
+    return () => {
+      window.clearTimeout(publishTimer);
+      cancelAnimationFrame(rafId.current);
+      instance.destroy();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!lenis || pathname !== "/") return;
+
+    let sectionTops: number[] = [];
     let recomputeRaf = 0;
+    let snapResetTimer = 0;
+    let isSnapping = false;
+    let isActive = true;
+
+    const computeSectionPositions = () => {
+      sectionTops = SNAP_SECTION_IDS.flatMap((id) => {
+        const element = document.getElementById(id);
+
+        return element ? [getSectionScrollTop(element)] : [];
+      });
+    };
+
     const scheduleRecompute = () => {
+      if (!isActive) return;
       if (recomputeRaf) cancelAnimationFrame(recomputeRaf);
       recomputeRaf = requestAnimationFrame(() => {
         recomputeRaf = 0;
@@ -71,87 +90,70 @@ export default function SmoothScroll({
 
     const sectionSelector = SNAP_SECTION_IDS.map((id) => `#${id}`).join(", ");
     const mutationObserver = new MutationObserver((records) => {
-      for (const record of records) {
-        if (record.type !== "childList") continue;
-        for (const node of record.addedNodes) {
-          if (
+      const hasSectionChange = records.some((record) =>
+        [...record.addedNodes, ...record.removedNodes].some(
+          (node) =>
             node instanceof Element &&
             ((node.id && SNAP_SECTION_ID_SET.has(node.id)) ||
-              node.querySelector(sectionSelector))
-          ) {
-            scheduleRecompute();
-            return;
-          }
-        }
-      }
+              node.querySelector(sectionSelector)),
+        ),
+      );
+
+      if (hasSectionChange) scheduleRecompute();
     });
     mutationObserver.observe(document.body, { childList: true, subtree: true });
 
-    if (document.fonts) {
-      document.fonts.ready.then(scheduleRecompute);
-    }
+    const resizeObserver = new ResizeObserver(scheduleRecompute);
+    resizeObserver.observe(document.body);
 
+    void document.fonts?.ready.then(scheduleRecompute);
     window.addEventListener("resize", scheduleRecompute);
 
-    let isSnapping = false;
-
-    function onScroll() {
-      if (isSnapping) return;
-
-      const velocity = Math.abs(instance.velocity);
-      const scroll = instance.scroll;
-
-      if (velocity > 0.8) return;
+    const onScroll = () => {
+      if (isSnapping || Math.abs(lenis.velocity) > 0.8) return;
 
       let nearestTop = -1;
       let nearestDistance = Infinity;
 
-      for (const section of sectionTops) {
-        const distance = Math.abs(scroll - section.top);
+      for (const sectionTop of sectionTops) {
+        const distance = Math.abs(lenis.scroll - sectionTop);
         if (distance < nearestDistance) {
           nearestDistance = distance;
-          nearestTop = section.top;
+          nearestTop = sectionTop;
         }
       }
 
-      const MAGNETIC_ZONE = 50;
       if (
         nearestTop >= 0 &&
         nearestDistance > 1 &&
         nearestDistance <= MAGNETIC_ZONE
       ) {
         isSnapping = true;
-        instance.scrollTo(nearestTop, {
-          duration: 1.5,
+        lenis.scrollTo(nearestTop, {
+          duration: SNAP_DURATION,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           onComplete: () => {
             isSnapping = false;
           },
         });
-        setTimeout(() => {
+        snapResetTimer = window.setTimeout(() => {
           isSnapping = false;
-        }, 800);
+        }, SNAP_RESET_DELAY_MS);
       }
-    }
+    };
 
-    instance.on("scroll", onScroll);
-
-    function raf(time: number) {
-      instance.raf(time);
-      rafId.current = requestAnimationFrame(raf);
-    }
-
-    rafId.current = requestAnimationFrame(raf);
+    lenis.on("scroll", onScroll);
 
     return () => {
+      isActive = false;
       mutationObserver.disconnect();
+      resizeObserver.disconnect();
       if (recomputeRaf) cancelAnimationFrame(recomputeRaf);
+      if (snapResetTimer) window.clearTimeout(snapResetTimer);
       window.removeEventListener("resize", scheduleRecompute);
-      instance.off("scroll", onScroll);
-      cancelAnimationFrame(rafId.current);
-      instance.destroy();
+      lenis.off("scroll", onScroll);
     };
-  }, []);
+  }, [lenis, pathname]);
 
   useEffect(() => {
     if (!lenis) return;
@@ -174,6 +176,8 @@ export default function SmoothScroll({
 
       return () => cancelAnimationFrame(resetScrollRaf);
     }
+
+    if (pathname !== "/") return;
 
     let hashScrollRaf = 0;
     let handledHashLocation: string | null = null;

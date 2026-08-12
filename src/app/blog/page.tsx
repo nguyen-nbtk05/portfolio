@@ -25,7 +25,7 @@ export default async function BlogPage() {
   const vaultPosts = vaultUnlocked ? await getVaultPosts() : [];
 
   return (
-    <section className="relative isolate min-h-screen overflow-hidden pb-20 pt-10">
+    <section className="relative isolate min-h-screen overflow-hidden pb-20 pt-20">
       <SectionBackground variant="blog" />
       <div className="site-container relative z-10 mx-auto w-full px-[1cm]">
         <BlogArchive

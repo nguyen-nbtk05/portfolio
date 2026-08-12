@@ -130,18 +130,18 @@ export function BlogArchive({
 
   return (
     <div>
-      <header className="mb-5 border-b border-slate-200 pb-4 dark:border-slate-800">
+      <header className="mb-4 border-b border-slate-200 pb-4 dark:border-slate-800">
         <BlogBackLink>
           {lang({ en: "Back to portfolio", vi: "Quay lại portfolio" })}
         </BlogBackLink>
 
         <div className="grid items-end gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-10">
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 dark:text-slate-50 sm:text-4xl">
-            {lang({ en: "Latest Blogs", vi: "Bài viết mới nhất" })}
+            {lang({ en: "All Blogs", vi: "Tất cả bài viết" })}
             <span className="text-teal-500">.</span>
           </h1>
 
-          <div className="flex gap-6 font-mono text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+          <div className="flex gap-6 text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
             <span>
               <strong className="mr-1 text-base text-slate-950 dark:text-slate-50">
                 {String(publishedCount).padStart(2, "0")}
@@ -232,7 +232,7 @@ export function BlogArchive({
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-200/80 pt-3 dark:border-slate-800">
-            <span className="mr-1 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+            <span className="mr-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
               {lang({ en: "Topics", vi: "Chủ đề" })}
             </span>
             <button
@@ -279,7 +279,7 @@ export function BlogArchive({
               ) : (
                 <LockKeyhole aria-hidden="true" className="h-3.5 w-3.5" />
               )}
-              {lang({ en: "Private Vault", vi: "Góc riêng" })}
+              {lang({ en: "Private Vault", vi: "Góc riêng tư" })}
             </button>
             {vaultUnlocked ? (
               <button
@@ -296,7 +296,7 @@ export function BlogArchive({
 
           <div className="mt-3 flex items-center justify-between border-t border-slate-200/80 pt-3 dark:border-slate-800">
             <span
-              className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400"
+              className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400"
               aria-live="polite"
             >
               {isVaultSelected && !vaultUnlocked

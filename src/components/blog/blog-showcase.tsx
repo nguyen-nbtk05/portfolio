@@ -46,7 +46,7 @@ function RouteDecoration({ itemCount, startIndex }: { itemCount: number; startIn
           <span key={index} className="flex items-center justify-center">
             <span className="relative flex h-3 w-3 items-center justify-center rounded-full border border-teal-500/70 bg-slate-50 shadow-[0_0_0_4px_rgba(248,250,252,0.9)] dark:bg-slate-950 dark:shadow-[0_0_0_4px_rgba(2,6,23,0.9)]">
               <span className="h-1 w-1 rounded-full bg-teal-500" />
-              <span className="absolute top-3.5 font-mono text-[9px] tabular-nums text-slate-400 dark:text-slate-600">
+              <span className="absolute top-3.5 text-[9px] tabular-nums text-slate-400 dark:text-slate-600">
                 {String(startIndex + index + 1).padStart(2, "0")}
               </span>
             </span>
@@ -97,7 +97,7 @@ export function BlogShowcase({ posts }: BlogShowcaseProps) {
         </div>
 
         <div className="flex items-center justify-between gap-5 border-t border-slate-200/80 pt-4 lg:min-w-[15rem] lg:justify-end lg:border-l lg:border-t-0 lg:py-1 lg:pl-8 dark:border-slate-800">
-          <div className="flex gap-4 font-mono">
+          <div className="flex gap-4">
             <div>
               <div className="text-xl font-bold tabular-nums text-slate-950 dark:text-slate-50">
                 {String(publishedCount).padStart(2, "0")}

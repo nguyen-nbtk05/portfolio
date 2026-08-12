@@ -7,10 +7,29 @@ type ScrollToSectionOptions = {
 };
 
 function getRootScrollPaddingTop() {
-  const value = window.getComputedStyle(document.documentElement).scrollPaddingTop;
+  const value = window.getComputedStyle(
+    document.documentElement,
+  ).scrollPaddingTop;
   const pixels = Number.parseFloat(value);
 
   return Number.isFinite(pixels) ? pixels : 0;
+}
+
+function getScrollMarginTop(target: HTMLElement) {
+  const value = window.getComputedStyle(target).scrollMarginTop;
+  const pixels = Number.parseFloat(value);
+
+  return Number.isFinite(pixels) ? pixels : 0;
+}
+
+export function getSectionScrollTop(target: HTMLElement) {
+  return Math.max(0, target.getBoundingClientRect().top + window.scrollY);
+}
+
+function getSectionAlignmentOffset(target: HTMLElement) {
+  // Lenis subtracts these values for element targets. Compensate so a
+  // full-page section still aligns exactly with the top of the viewport.
+  return getRootScrollPaddingTop() + getScrollMarginTop(target);
 }
 
 export function scrollToSection(
@@ -21,6 +40,8 @@ export function scrollToSection(
   const { immediate = false } = options;
 
   if (scroller) {
+    const offset = getSectionAlignmentOffset(target);
+
     scroller.resize();
     scroller.scrollTo(
       target,
@@ -28,16 +49,18 @@ export function scrollToSection(
         ? {
             force: true,
             immediate: true,
-            offset: getRootScrollPaddingTop(),
+            offset,
           }
         : {
             duration: SECTION_SCROLL_DURATION,
-            offset: getRootScrollPaddingTop(),
+            offset,
           },
     );
     return;
   }
 
-  const top = target.getBoundingClientRect().top + window.scrollY;
-  window.scrollTo({ top, behavior: immediate ? "auto" : "smooth" });
+  window.scrollTo({
+    top: getSectionScrollTop(target),
+    behavior: immediate ? "auto" : "smooth",
+  });
 }

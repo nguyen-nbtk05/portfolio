@@ -16,6 +16,10 @@ const compileMdx = cache(async (source: string, sourcePath: string) => {
   );
 });
 
+function removeLeadingArticleTitle(source: string) {
+  return source.replace(/^\uFEFF?[ \t]*# [^\r\n]*(?:\r?\n){1,2}/, "");
+}
+
 export async function MdxRenderer({
   source,
   sourcePath,
@@ -23,6 +27,9 @@ export async function MdxRenderer({
   source: string;
   sourcePath: string;
 }) {
-  const { default: MdxContent } = await compileMdx(source, sourcePath);
+  const { default: MdxContent } = await compileMdx(
+    removeLeadingArticleTitle(source),
+    sourcePath,
+  );
   return <MdxContent components={mdxComponents} />;
 }

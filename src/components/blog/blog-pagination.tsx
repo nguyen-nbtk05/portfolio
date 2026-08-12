@@ -40,7 +40,7 @@ export function BlogPagination({
       <div
         aria-live="polite"
         aria-atomic="true"
-        className="min-w-[5.75rem] rounded-full border border-slate-200/80 bg-white/65 px-3 py-2 text-center font-mono text-xs font-semibold tabular-nums tracking-[0.16em] text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/65 dark:text-slate-300"
+        className="min-w-[5.75rem] rounded-full border border-slate-200/80 bg-white/65 px-3 py-2 text-center text-xs font-semibold tabular-nums tracking-[0.16em] text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/65 dark:text-slate-300"
       >
         <span className="sr-only">
           {lang({

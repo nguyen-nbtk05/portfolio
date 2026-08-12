@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
-import { ArrowLeft, ArrowRight, CalendarDays, Clock3 } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarDays,
+  ChevronRight,
+  Clock3,
+  Home,
+} from "lucide-react";
 import { BlogBackLink } from "@/components/blog/blog-back-link";
+import { BlogContactRail } from "@/components/blog/blog-contact-rail";
 import { BlogTableOfContents } from "@/components/blog/blog-table-of-contents";
 import { MdxRenderer } from "@/components/blog/mdx-renderer";
 import { ReadingProgress } from "@/components/blog/reading-progress";
@@ -13,6 +22,7 @@ import { getPostBySlug, getPublishedPostAccess } from "@/lib/blog/get-post";
 import { getAdjacentPosts, getPublishedSlugs } from "@/lib/blog/get-posts";
 import { extractBlogTableOfContents } from "@/lib/blog/heading-slug";
 import { isVaultConfigured, isVaultUnlocked } from "@/lib/blog/vault-auth";
+import { siteConfig } from "@/data/config";
 import {
   DEFAULT_LANGUAGE,
   LANGUAGE_COOKIE_NAME,
@@ -114,6 +124,46 @@ function AdjacentLink({
   );
 }
 
+function ArticleBreadcrumb({
+  title,
+  locale,
+}: {
+  title: string;
+  locale: Language;
+}) {
+  return (
+    <nav
+      aria-label={locale === "vi" ? "Điều hướng bài viết" : "Article navigation"}
+      className="mb-4 flex min-w-0 items-center gap-2 text-sm text-slate-500 dark:text-slate-400"
+    >
+      <Link
+        href="/"
+        aria-label={locale === "vi" ? "Trang chủ" : "Home"}
+        className="shrink-0 rounded-sm p-1 transition-colors hover:text-teal-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:text-teal-400"
+      >
+        <Home aria-hidden="true" className="h-4 w-4" />
+      </Link>
+      <ChevronRight
+        aria-hidden="true"
+        className="h-4 w-4 shrink-0 text-slate-400 dark:text-slate-600"
+      />
+      <Link
+        href="/blog"
+        className="shrink-0 rounded-sm px-1 py-0.5 font-medium transition-colors hover:text-teal-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:text-teal-400"
+      >
+        {locale === "vi" ? "Bài viết" : "Post"}
+      </Link>
+      <ChevronRight
+        aria-hidden="true"
+        className="h-4 w-4 shrink-0 text-slate-400 dark:text-slate-600"
+      />
+      <span className="min-w-0 truncate px-1 text-slate-700 dark:text-slate-200">
+        {title}
+      </span>
+    </nav>
+  );
+}
+
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const [{ slug }, locale] = await Promise.all([params, getRequestLanguage()]);
   const access = await getPublishedPostAccess(slug);
@@ -153,19 +203,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const tableOfContents = extractBlogTableOfContents(post.content);
 
   return (
-    <section lang={locale} className="relative isolate min-h-screen overflow-x-clip pb-20 pt-20">
+    <section lang={locale} className="relative isolate min-h-screen overflow-x-clip pb-20 pt-24">
       <SectionBackground variant="blog" />
       <ReadingProgress targetId="article-body" />
 
       <article className="site-container relative z-10 mx-auto w-full px-[1cm]">
-        <div className="mx-auto grid max-w-7xl gap-10 xl:grid-cols-[minmax(0,1fr)_15rem] xl:items-start xl:gap-10">
-          <div className="min-w-0">
+        <div className="mx-auto grid max-w-[100rem] gap-8 2xl:grid-cols-[minmax(0,1fr)_minmax(0,53rem)_minmax(0,1fr)] 2xl:items-start 2xl:gap-12">
+          <BlogContactRail />
+          <div className="mx-auto w-full max-w-[55rem] min-w-0 2xl:mx-0">
             <header className="border-b border-slate-200 pb-6 dark:border-slate-800">
-              <BlogBackLink>
-                {locale === "vi" ? "Quay lại Blog" : "Back to Blog"}
-              </BlogBackLink>
+              <ArticleBreadcrumb title={post.title[locale]} locale={locale} />
 
-              <div className="mb-4 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
+              <div className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
                 {post.tags.slice(0, 2).join(" · ")}
               </div>
               <h1 className="text-4xl font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-[2.75rem] sm:text-justify dark:text-slate-50">
@@ -176,6 +225,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </p>
 
               <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-500 dark:text-slate-400">
+                <span className="inline-flex items-center gap-2">
+                  <Image
+                    src="/cover.jpg"
+                    alt={locale === "vi" ? `Avatar của ${siteConfig.name}` : `${siteConfig.name}'s avatar`}
+                    width={32}
+                    height={32}
+                    className="h-8 w-8 rounded-full border border-slate-200 object-cover dark:border-slate-700"
+                  />
+                  <span className="font-medium text-slate-700 dark:text-slate-200">
+                    {siteConfig.name}
+                  </span>
+                </span>
                 <span className="inline-flex items-center gap-2">
                   <CalendarDays aria-hidden="true" className="h-4 w-4 text-teal-500" />
                   <time dateTime={post.publishedAt}>{formatDate(post.publishedAt, locale)}</time>
@@ -188,7 +249,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="rounded-md bg-slate-200/70 px-2.5 py-1 font-mono text-xs text-slate-700 dark:bg-slate-900 dark:text-slate-300">
+                  <span key={tag} className="rounded-md bg-slate-200/70 px-2.5 py-1 text-xs text-slate-700 dark:bg-slate-900 dark:text-slate-300">
                     {tag}
                   </span>
                 ))}

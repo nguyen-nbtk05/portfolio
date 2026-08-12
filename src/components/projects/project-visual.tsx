@@ -85,20 +85,20 @@ function PortfolioVisual({ reduceMotion }: { reduceMotion: boolean }) {
           {["ABOUT", "PROJECTS", "BLOG"].map((item, index) => (
             <div
               key={item}
-              className={index === 1 ? "font-mono text-[7px] font-bold text-teal-500" : "font-mono text-[7px] text-slate-400"}
+              className={index === 1 ? "text-[7px] font-bold text-teal-500" : "text-[7px] text-slate-400"}
             >
               {item}
             </div>
           ))}
         </div>
         <div className="space-y-2">
-          <div className="font-mono text-[7px] font-bold tracking-wider text-teal-500">HELLO, WORLD_</div>
+          <div className="text-[7px] font-bold tracking-wider text-teal-500">HELLO, WORLD_</div>
           <div className="h-2 w-4/5 rounded bg-slate-800 dark:bg-slate-200" />
           <div className="h-1.5 w-full rounded bg-slate-200 dark:bg-slate-800" />
           <div className="h-1.5 w-3/4 rounded bg-slate-200 dark:bg-slate-800" />
           <div className="grid grid-cols-3 gap-1.5 pt-1">
             {["WEB", "LAB", "MDX"].map((item) => (
-              <div key={item} className="rounded border border-teal-500/30 bg-teal-500/5 py-2 text-center font-mono text-[6px] font-semibold text-teal-600 dark:text-teal-400">
+              <div key={item} className="rounded border border-teal-500/30 bg-teal-500/5 py-2 text-center text-[6px] font-semibold text-teal-600 dark:text-teal-400">
                 {item}
               </div>
             ))}
@@ -115,7 +115,7 @@ function YaraScannerVisual({ reduceMotion }: { reduceMotion: boolean }) {
       initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="w-full max-w-[350px] overflow-hidden rounded-lg border border-slate-700 bg-slate-950 font-mono text-slate-200 shadow-sm"
+      className="w-full max-w-[350px] overflow-hidden rounded-lg border border-slate-700 bg-slate-950 text-slate-200 shadow-sm"
       aria-hidden="true"
     >
       <div className="flex items-center border-b border-slate-800 px-3 py-2">
@@ -278,7 +278,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="50"
             y="71"
             textAnchor="middle"
-            className="fill-slate-700 font-mono text-[8px] font-bold dark:fill-slate-200"
+            className="fill-slate-700 text-[9px] font-bold dark:fill-slate-200"
           >
             10 ATTACKERS
           </text>
@@ -286,7 +286,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="50"
             y="89"
             textAnchor="middle"
-            className="fill-slate-400 font-mono text-[6px] uppercase tracking-wider dark:fill-slate-500"
+            className="fill-slate-400 text-[6.25px] uppercase tracking-wider dark:fill-slate-500"
           >
             DDoS · SCAN · ARP
           </text>
@@ -310,7 +310,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="170"
             y="71"
             textAnchor="middle"
-            className="fill-teal-600 font-mono text-[8.5px] font-bold dark:fill-teal-400"
+            className="fill-teal-600 text-[9.25px] font-bold dark:fill-teal-400"
           >
             OVS S1
           </text>
@@ -318,7 +318,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="170"
             y="85"
             textAnchor="middle"
-            className="fill-slate-500 font-mono text-[7px] font-semibold dark:fill-slate-400"
+            className="fill-slate-500 text-[7.5px] font-semibold dark:fill-slate-400"
           >
             OPENFLOW 1.3
           </text>
@@ -342,7 +342,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="170"
             y="18"
             textAnchor="middle"
-            className="fill-slate-700 font-mono text-[8.5px] font-bold dark:fill-slate-200"
+            className="fill-slate-700 text-[9.25px] font-bold dark:fill-slate-200"
           >
             RYU IDS · C0
           </text>
@@ -350,7 +350,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="170"
             y="29"
             textAnchor="middle"
-            className="fill-teal-600 font-mono text-[6px] font-semibold dark:fill-teal-400"
+            className="fill-teal-600 text-[6.25px] font-semibold dark:fill-teal-400"
           >
             STATS 5s · ENTROPY 20s
           </text>
@@ -374,7 +374,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="300"
             y="71"
             textAnchor="middle"
-            className="fill-slate-700 font-mono text-[8.5px] font-bold dark:fill-slate-200"
+            className="fill-slate-700 text-[9.25px] font-bold dark:fill-slate-200"
           >
             VICTIM · H1
           </text>
@@ -382,7 +382,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="300"
             y="85"
             textAnchor="middle"
-            className="fill-teal-600 font-mono text-[6px] font-semibold dark:fill-teal-400"
+            className="fill-teal-600 text-[6.25px] font-semibold dark:fill-teal-400"
           >
             FLOW DROP · 300s
           </text>
@@ -415,7 +415,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="50"
             y="132"
             textAnchor="middle"
-            className="fill-slate-500 font-mono text-[5.5px] font-semibold dark:fill-slate-400"
+            className="fill-slate-500 text-[6.25px] font-semibold dark:fill-slate-400"
           >
             5 BENIGN HOSTS
           </text>
@@ -439,7 +439,7 @@ function TerminalVisual({
       initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="w-full rounded-lg border border-slate-300 dark:border-slate-800 bg-slate-900 text-slate-100 p-3 font-mono text-xs shadow-xs"
+      className="w-full rounded-lg border border-slate-300 dark:border-slate-800 bg-slate-900 text-slate-100 p-3 text-xs shadow-xs"
     >
       <div className="flex items-center gap-1.5 border-b border-slate-800 pb-2 mb-2">
         <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80 inline-block" />
@@ -481,7 +481,7 @@ function CodeVisual({
       initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="w-full rounded-lg border border-slate-300 dark:border-slate-800 bg-slate-950 text-slate-200 p-3 font-mono text-xs shadow-xs"
+      className="w-full rounded-lg border border-slate-300 dark:border-slate-800 bg-slate-950 text-slate-200 p-3 text-xs shadow-xs"
     >
       <div className="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2 text-[10px] text-slate-500 uppercase tracking-wider">
         <span>snippet.{language}</span>
@@ -523,10 +523,10 @@ function StatsVisual({
           key={idx}
           className="rounded-lg border border-slate-200/80 dark:border-slate-800/80 bg-white/60 dark:bg-slate-900/60 p-3 text-center"
         >
-          <div className="font-mono text-lg font-bold text-teal-600 dark:text-teal-400">
+          <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
             {stat.value}
           </div>
-          <div className="font-mono text-[10px] uppercase text-slate-500 dark:text-slate-400 mt-0.5">
+          <div className="text-[10px] uppercase text-slate-500 dark:text-slate-400 mt-0.5">
             {lang(stat.label)}
           </div>
         </div>
@@ -545,7 +545,7 @@ function NoVisualOutcome({
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center rounded-lg border border-dashed border-slate-300/70 dark:border-slate-800/70 bg-slate-100/40 dark:bg-slate-900/20">
       <span className="h-2 w-2 rounded-full bg-teal-500 mb-2" />
-      <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 font-mono uppercase tracking-wider mb-1">
+      <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
         {title}
       </h5>
       <p className="text-[11px] text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed">

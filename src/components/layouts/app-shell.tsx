@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+//import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
 import { Navbar } from "@/components/layouts/navbar";
-import { SplashScreen } from "@/components/layouts/splash-screen";
+//import { SplashScreen } from "@/components/layouts/splash-screen";
 import { BackToTopButton } from "@/components/ui/back-to-top-button";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import {
@@ -13,13 +13,13 @@ import {
 } from "@/lib/route-transition";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const [showApp, setShowApp] = useState(false);
+  //const [showApp, setShowApp] = useState(false);
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
 
-  if (!showApp) {
-    return <SplashScreen onComplete={() => setShowApp(true)} />;
-  }
+  /*if (!showApp) {
+    // return <SplashScreen onComplete={() => setShowApp(true)} />;
+  }*/
 
   return (
     <>

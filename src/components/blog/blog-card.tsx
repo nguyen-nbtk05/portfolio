@@ -41,7 +41,7 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
       className="group relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-lg shadow-slate-200/25 backdrop-blur-sm transition-[border-color,box-shadow] duration-300 before:absolute before:inset-x-5 before:top-0 before:h-px before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-teal-400 before:via-cyan-400 before:to-transparent before:transition-transform before:duration-300 hover:border-teal-300/80 hover:shadow-xl hover:shadow-teal-900/10 hover:before:scale-x-100 sm:p-6 dark:border-slate-800 dark:bg-slate-950/90 dark:shadow-black/25 dark:hover:border-teal-700/70 dark:hover:shadow-black/40"
     >
       <div className="mb-4 flex items-center justify-between gap-3">
-        <span className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
+        <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
           {lang({ en: "Article", vi: "Bài viết" })} {String(articleIndex).padStart(2, "0")}
         </span>
         {post.featured ? (
@@ -77,7 +77,7 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
           <span
             key={tag}
             title={tag}
-            className="min-w-0 max-w-[9.5rem] flex-1 truncate rounded-md bg-slate-100 px-2.5 py-1 font-mono text-xs text-slate-700 dark:bg-slate-900 dark:text-slate-300"
+            className="min-w-0 max-w-[9.5rem] flex-1 truncate rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-700 dark:bg-slate-900 dark:text-slate-300"
           >
             {tag}
           </span>
@@ -88,7 +88,7 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
               en: `${hiddenTagCount} more tags`,
               vi: `Thêm ${hiddenTagCount} thẻ`,
             })}
-            className="shrink-0 rounded-md border border-slate-200 px-2 py-1 font-mono text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400"
+            className="shrink-0 rounded-md border border-slate-200 px-2 py-1 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400"
           >
             +{hiddenTagCount}
           </span>

@@ -116,7 +116,7 @@ export const mdxComponents: MDXComponents = {
   code: ({ className, ...props }: ComponentPropsWithoutRef<"code">) => (
     <code
       className={cn(
-        "rounded bg-slate-200/75 px-1.5 py-0.5 font-mono text-[0.9em] text-teal-800 dark:bg-slate-800 dark:text-teal-200",
+        "rounded bg-slate-200/75 px-1.5 py-0.5 text-[0.9em] text-teal-800 dark:bg-slate-800 dark:text-teal-200",
         className,
       )}
       {...props}
@@ -125,7 +125,7 @@ export const mdxComponents: MDXComponents = {
   pre: ({ className, ...props }: ComponentPropsWithoutRef<"pre">) => (
     <pre
       className={cn(
-        "my-8 overflow-x-auto rounded-xl border border-slate-800 bg-slate-950 p-5 text-left font-mono text-sm leading-6 text-slate-100 shadow-lg shadow-slate-950/10 [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit",
+        "my-8 overflow-x-auto rounded-xl border border-slate-800 bg-slate-950 p-5 text-left text-sm leading-6 text-slate-100 shadow-lg shadow-slate-950/10 [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit",
         className,
       )}
       {...props}
