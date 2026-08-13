@@ -217,10 +217,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <div className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
                 {post.tags.slice(0, 2).join(" · ")}
               </div>
-              <h1 className="text-4xl font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-[2.75rem] sm:text-justify dark:text-slate-50">
+              <h1 className="hyphens-auto text-4xl font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-[2.75rem] sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-50">
                 {post.title[locale]}
               </h1>
-              <p className="mt-4 text-lg leading-8 text-slate-600 sm:text-justify dark:text-slate-400">
+              <p className="mt-4 hyphens-auto text-lg leading-8 text-slate-600 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-400">
                 {post.excerpt[locale]}
               </p>
 

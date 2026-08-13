@@ -183,10 +183,12 @@ export function ContactSection() {
               <div className="space-y-3">
                 <motion.div
                   variants={slideInLeft}
+                  whileHover={reduceMotion ? undefined : { y: -4, scale: 1.008 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 24, mass: 0.7 }}
                   onClick={handleCopyEmail}
-                  className="group flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-slate-950/40 border border-slate-100 dark:border-slate-800/40 hover:border-teal-500/40 dark:hover:border-teal-500/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-500/5 transition-[transform,box-shadow,border-color] duration-300 cursor-pointer"
+                  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-teal-500/40 hover:bg-teal-50/35 hover:shadow-xl hover:shadow-teal-500/10 dark:border-slate-800/40 dark:bg-slate-950/40 dark:hover:border-teal-500/30 dark:hover:bg-teal-950/10"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 group-hover:bg-teal-500/10 group-hover:text-teal-500 transition-[background-color,color] duration-300">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-[background-color,color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-teal-500/10 group-hover:text-teal-500 dark:bg-slate-900 dark:text-slate-400">
                     <Mail className="h-5 w-5" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -197,7 +199,10 @@ export function ContactSection() {
                       {siteConfig.email}
                     </p>
                   </div>
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 group-hover:border-teal-500/35 text-slate-400 dark:text-slate-500 group-hover:text-teal-500 transition-[border-color,color] duration-300">
+                  <div
+                    data-cursor="pointer"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition-[border-color,color] duration-300 group-hover:border-teal-500/35 group-hover:text-teal-500 dark:border-slate-800 dark:text-slate-500"
+                  >
                     {copied ? (
                       <Check className="h-4 w-4 text-emerald-500" />
                     ) : (
@@ -208,9 +213,11 @@ export function ContactSection() {
 
                 <motion.div
                   variants={slideInLeft}
-                  className="group flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-slate-950/40 border border-slate-100 dark:border-slate-800/40 hover:border-sky-500/40 dark:hover:border-sky-500/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-sky-500/5 transition-[transform,box-shadow,border-color] duration-300"
+                  whileHover={reduceMotion ? undefined : { y: -4, scale: 1.008 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 24, mass: 0.7 }}
+                  className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-teal-500/40 hover:bg-teal-50/35 hover:shadow-xl hover:shadow-teal-500/10 dark:border-slate-800/40 dark:bg-slate-950/40 dark:hover:border-teal-500/30 dark:hover:bg-teal-950/10"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 group-hover:bg-sky-500/10 group-hover:text-sky-500 transition-[background-color,color] duration-300">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-[background-color,color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-teal-500/10 group-hover:text-teal-500 dark:bg-slate-900 dark:text-slate-400">
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -228,9 +235,11 @@ export function ContactSection() {
 
                 <motion.div
                   variants={slideInLeft}
-                  className="group flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-slate-950/40 border border-slate-100 dark:border-slate-800/40 hover:border-indigo-500/40 dark:hover:border-indigo-500/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/5 transition-[transform,box-shadow,border-color] duration-300"
+                  whileHover={reduceMotion ? undefined : { y: -4, scale: 1.008 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 24, mass: 0.7 }}
+                  className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-teal-500/40 hover:bg-teal-50/35 hover:shadow-xl hover:shadow-teal-500/10 dark:border-slate-800/40 dark:bg-slate-950/40 dark:hover:border-teal-500/30 dark:hover:bg-teal-950/10"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 group-hover:bg-indigo-500/10 group-hover:text-indigo-500 transition-[background-color,color] duration-300">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-[background-color,color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-teal-500/10 group-hover:text-teal-500 dark:bg-slate-900 dark:text-slate-400">
                     <Clock className="h-5 w-5" />
                   </div>
                   <div className="flex-1 min-w-0">

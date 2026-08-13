@@ -52,7 +52,7 @@ function MdxTable({ className, ...props }: ComponentPropsWithoutRef<"table">) {
 }
 
 const headingClassName =
-  "font-bold tracking-tight text-slate-950 sm:text-justify dark:text-slate-50";
+  "hyphens-auto font-bold tracking-tight text-slate-950 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-50";
 
 export const mdxComponents: MDXComponents = {
   h1: ({ className, children, id, ...props }: ComponentPropsWithoutRef<"h1">) => (
@@ -84,20 +84,20 @@ export const mdxComponents: MDXComponents = {
   ),
   p: ({ className, ...props }: ComponentPropsWithoutRef<"p">) => (
     <p
-      className={cn("my-5 leading-8 text-slate-700 sm:text-justify dark:text-slate-300", className)}
+      className={cn("my-5 hyphens-auto leading-8 text-slate-700 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-300", className)}
       {...props}
     />
   ),
   a: MdxLink,
   ul: ({ className, ...props }: ComponentPropsWithoutRef<"ul">) => (
     <ul
-      className={cn("my-5 list-disc space-y-2 pl-6 text-slate-700 marker:text-teal-500 sm:text-justify dark:text-slate-300", className)}
+      className={cn("my-5 list-disc space-y-2 pl-6 hyphens-auto text-slate-700 marker:text-teal-500 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-300", className)}
       {...props}
     />
   ),
   ol: ({ className, ...props }: ComponentPropsWithoutRef<"ol">) => (
     <ol
-      className={cn("my-5 list-decimal space-y-2 pl-6 text-slate-700 marker:font-semibold marker:text-teal-600 sm:text-justify dark:text-slate-300 dark:marker:text-teal-400", className)}
+      className={cn("my-5 list-decimal space-y-2 pl-6 hyphens-auto text-slate-700 marker:font-semibold marker:text-teal-600 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-300 dark:marker:text-teal-400", className)}
       {...props}
     />
   ),
@@ -107,7 +107,7 @@ export const mdxComponents: MDXComponents = {
   blockquote: ({ className, ...props }: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
       className={cn(
-        "my-8 border-l-2 border-teal-500 bg-teal-50/70 px-5 py-3 italic text-slate-700 sm:text-justify dark:bg-teal-500/5 dark:text-slate-300",
+        "my-8 border-l-2 border-teal-500 bg-teal-50/70 px-5 py-3 hyphens-auto italic text-slate-700 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:bg-teal-500/5 dark:text-slate-300",
         className,
       )}
       {...props}

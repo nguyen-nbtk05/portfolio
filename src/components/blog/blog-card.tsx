@@ -64,11 +64,17 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
         ) : null}
       </div>
 
-      <Heading className="mb-3 line-clamp-2 min-h-[3.5rem] break-words text-xl font-bold leading-7 tracking-tight text-slate-950 dark:text-slate-50">
+      <Heading
+        lang={language}
+        className="mb-3 line-clamp-2 min-h-[3.5rem] break-words hyphens-auto text-justify [text-align-last:left] [text-justify:inter-word] text-xl font-bold leading-7 tracking-tight text-slate-950 dark:text-slate-50"
+      >
         {lang(post.title)}
       </Heading>
 
-      <p className="mb-5 line-clamp-3 min-h-[4.5rem] flex-grow break-words text-sm leading-6 text-slate-600 dark:text-slate-400 sm:text-base">
+      <p
+        lang={language}
+        className="mb-5 line-clamp-3 min-h-[4.5rem] flex-grow break-words hyphens-auto text-justify [text-align-last:left] [text-justify:inter-word] text-sm leading-6 text-slate-600 dark:text-slate-400 sm:text-base"
+      >
         {lang(post.excerpt)}
       </p>
 

@@ -88,7 +88,7 @@ export function BlogShowcase({ posts }: BlogShowcaseProps) {
           <h2 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
             Blog<span className="text-teal-500">.</span>
           </h2>
-          <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-400 sm:text-lg">
+          <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600 dark:text-slate-400 sm:text-lg">
             {lang({
               en: "Short notes about networking, automation, and security in real-world systems.",
               vi: "Những ghi chú ngắn về mạng, tự động hóa và bảo mật trong các hệ thống thực tế.",
