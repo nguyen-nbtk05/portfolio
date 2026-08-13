@@ -2,29 +2,48 @@ export const TERMINAL_IDENTITY = {
   username: "visitor",
   host: "portfolio-os",
   cwd: "~",
-  version: "1.0.0",
+  version: "2.0.0",
 } as const;
 
 export const OPEN_TARGETS = ["about", "skills", "projects", "blog", "contact"] as const;
+export const VIRTUAL_FILES = [
+  "about.txt",
+  "skills.json",
+  "projects.md",
+  "contact.cfg",
+] as const;
+export const TERMINAL_THEMES = [
+  "default",
+  "cyber-green",
+  "amber-decay",
+  "monochrome",
+] as const;
 
 export type OpenTarget = (typeof OPEN_TARGETS)[number];
-export type ThemeTarget = "light" | "dark" | "system" | "toggle";
+export type VirtualFile = (typeof VIRTUAL_FILES)[number];
+export type TerminalThemeTarget = (typeof TERMINAL_THEMES)[number];
+export type SiteThemeTarget = "light" | "dark" | "system";
 
 export type TerminalOutput =
   | { type: "help" }
   | { type: "list" }
+  | { type: "file"; file: VirtualFile }
   | { type: "about" }
   | { type: "skills" }
   | { type: "projects" }
   | { type: "contact" }
-  | { type: "theme"; target: ThemeTarget }
+  | { type: "theme-help" }
+  | { type: "theme"; target: TerminalThemeTarget }
+  | { type: "site-theme"; target: SiteThemeTarget }
+  | { type: "exit" }
+  | { type: "assistant"; response: "greeting" | "fallback" }
   | { type: "open"; target: OpenTarget }
-  | { type: "usage"; command: "cat" | "theme" | "open" }
-  | { type: "unknown"; command: string };
+  | { type: "usage"; command: "cat" | "theme" | "site-theme" | "open" };
 
 export type TerminalAction =
   | { type: "clear" }
-  | { type: "theme"; target: ThemeTarget }
+  | { type: "terminal-theme"; target: TerminalThemeTarget }
+  | { type: "site-theme"; target: SiteThemeTarget }
   | { type: "open"; target: OpenTarget };
 
 export interface TerminalCommandResult {
@@ -50,15 +69,17 @@ export const COMMAND_COMPLETIONS = [
   "help",
   "clear",
   "ls",
-  "cat about.txt",
+  ...VIRTUAL_FILES.map((file) => `cat ${file}`),
   "about",
   "skills",
   "projects",
   "contact",
   "theme",
-  "theme light",
-  "theme dark",
-  "theme system",
+  ...TERMINAL_THEMES.map((theme) => `theme ${theme}`),
+  "site-theme light",
+  "site-theme dark",
+  "site-theme system",
+  "exit",
   ...OPEN_TARGETS.map((target) => `open ${target}`),
 ] as const;
 
@@ -77,8 +98,48 @@ function isOpenTarget(value: string): value is OpenTarget {
   return (OPEN_TARGETS as readonly string[]).includes(value);
 }
 
-function isThemeTarget(value: string): value is Exclude<ThemeTarget, "toggle"> {
+function isVirtualFile(value: string): value is VirtualFile {
+  return (VIRTUAL_FILES as readonly string[]).includes(value);
+}
+
+function isTerminalTheme(value: string): value is TerminalThemeTarget {
+  return (TERMINAL_THEMES as readonly string[]).includes(value);
+}
+
+function isSiteTheme(value: string): value is SiteThemeTarget {
   return value === "light" || value === "dark" || value === "system";
+}
+
+function conversationalResponse(rawCommand: string): TerminalCommandResult {
+  const normalized = rawCommand
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (/\b(project|projects|du an|portfolio)\b/.test(normalized)) {
+    return { output: { type: "projects" } };
+  }
+
+  if (/\b(skill|skills|technology|technologies|tech stack|ky nang|cong nghe)\b/.test(normalized)) {
+    return { output: { type: "skills" } };
+  }
+
+  if (/\b(contact|email|reach|message|lien he)\b/.test(normalized)) {
+    return { output: { type: "contact" } };
+  }
+
+  if (/\b(who|name|about|profile|ban la ai|gioi thieu)\b/.test(normalized)) {
+    return { output: { type: "about" } };
+  }
+
+  if (/\b(hello|hi|hey|xin chao|chao)\b/.test(normalized)) {
+    return { output: { type: "assistant", response: "greeting" } };
+  }
+
+  return { output: { type: "assistant", response: "fallback" } };
 }
 
 export function executeTerminalCommand(rawCommand: string): TerminalCommandResult {
@@ -98,8 +159,8 @@ export function executeTerminalCommand(rawCommand: string): TerminalCommandResul
     case "about":
       return { output: { type: "about" } };
     case "cat":
-      return args.length === 1 && args[0] === "about.txt"
-        ? { output: { type: "about" } }
+      return args.length === 1 && isVirtualFile(args[0])
+        ? { output: { type: "file", file: args[0] } }
         : { output: { type: "usage", command: "cat" } };
     case "skills":
       return { output: { type: "skills" } };
@@ -108,22 +169,34 @@ export function executeTerminalCommand(rawCommand: string): TerminalCommandResul
     case "contact":
       return { output: { type: "contact" } };
     case "theme": {
-      if (args.length === 0) {
+      if (args.length === 0) return { output: { type: "theme-help" } };
+
+      if (args.length === 1 && isTerminalTheme(args[0])) {
         return {
-          output: { type: "theme", target: "toggle" },
-          action: { type: "theme", target: "toggle" },
+          output: { type: "theme", target: args[0] },
+          action: { type: "terminal-theme", target: args[0] },
         };
       }
 
-      if (args.length === 1 && isThemeTarget(args[0])) {
+      // Backwards compatibility with the terminal's previous website-theme command.
+      if (args.length === 1 && isSiteTheme(args[0])) {
         return {
-          output: { type: "theme", target: args[0] },
-          action: { type: "theme", target: args[0] },
+          output: { type: "site-theme", target: args[0] },
+          action: { type: "site-theme", target: args[0] },
         };
       }
 
       return { output: { type: "usage", command: "theme" } };
     }
+    case "site-theme":
+      return args.length === 1 && isSiteTheme(args[0])
+        ? {
+            output: { type: "site-theme", target: args[0] },
+            action: { type: "site-theme", target: args[0] },
+          }
+        : { output: { type: "usage", command: "site-theme" } };
+    case "exit":
+      return { output: { type: "exit" } };
     case "open": {
       if (args.length === 1 && isOpenTarget(args[0])) {
         return {
@@ -135,7 +208,7 @@ export function executeTerminalCommand(rawCommand: string): TerminalCommandResul
       return { output: { type: "usage", command: "open" } };
     }
     default:
-      return { output: { type: "unknown", command } };
+      return conversationalResponse(rawCommand);
   }
 }
 

@@ -20,6 +20,141 @@
     font-variant-ligatures: contextual common-ligatures;
 }
 
+.portfolio-terminal {
+    --terminal-bg: rgb(255 255 255 / 0.9);
+    --terminal-fg: rgb(51 65 85);
+    --terminal-heading: rgb(2 6 23);
+    --terminal-border: rgb(15 23 42 / 0.9);
+    --terminal-header-bg: rgb(0 0 0);
+    --terminal-header-fg: rgb(255 255 255);
+    --terminal-quick-bg: rgb(248 250 252 / 0.94);
+    --terminal-quick-fg: rgb(30 41 59);
+    --terminal-quick-border: rgb(203 213 225);
+    --terminal-command-bg: rgb(255 255 255);
+    --terminal-command-fg: rgb(30 41 59);
+    --terminal-command-border: rgb(203 213 225);
+    --terminal-command-hover: rgb(15 118 110);
+    background: var(--terminal-bg);
+    color: var(--terminal-fg);
+    border-color: var(--terminal-border);
+    box-shadow: 0 24px 48px -12px rgb(15 23 42 / 0.2), 0 0 0 1px rgb(0 0 0 / 0.05);
+    transition: background-color 240ms ease, color 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+}
+
+.dark .portfolio-terminal[data-terminal-theme="default"] {
+    --terminal-bg: rgb(2 6 23 / 0.9);
+    --terminal-fg: rgb(226 232 240);
+    --terminal-heading: rgb(255 255 255);
+    --terminal-border: rgb(255 255 255 / 0.9);
+    --terminal-header-bg: rgb(255 255 255);
+    --terminal-header-fg: rgb(0 0 0);
+    --terminal-quick-bg: rgb(255 255 255);
+    --terminal-quick-fg: rgb(30 41 59);
+    --terminal-quick-border: rgb(148 163 184);
+    --terminal-command-bg: rgb(15 23 42);
+    --terminal-command-fg: rgb(226 232 240);
+    --terminal-command-border: rgb(71 85 105);
+    --terminal-command-hover: rgb(94 234 212);
+    box-shadow: 0 24px 48px -12px rgb(0 0 0 / 0.5), 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+
+.portfolio-terminal[data-terminal-theme="cyber-green"] {
+    --terminal-bg: rgb(5 15 5);
+    --terminal-fg: #00ff66;
+    --terminal-heading: #8aff9f;
+    --terminal-border: #00ff66;
+    --terminal-header-bg: rgb(2 10 2);
+    --terminal-header-fg: #00ff66;
+    --terminal-quick-bg: rgb(2 12 2);
+    --terminal-quick-fg: #00ff66;
+    --terminal-quick-border: #00ff66;
+    --terminal-command-bg: rgb(5 15 5);
+    --terminal-command-fg: #00ff66;
+    --terminal-command-border: #00ff66;
+    --terminal-command-hover: #8aff9f;
+    box-shadow: 0 0 24px rgb(0 255 102 / 0.3), inset 0 0 28px rgb(0 255 102 / 0.04);
+}
+
+.portfolio-terminal[data-terminal-theme="amber-decay"] {
+    --terminal-bg: rgb(18 11 0);
+    --terminal-fg: #ffb000;
+    --terminal-heading: #ffd166;
+    --terminal-border: #ffb000;
+    --terminal-header-bg: rgb(12 7 0);
+    --terminal-header-fg: #ffb000;
+    --terminal-quick-bg: rgb(15 9 0);
+    --terminal-quick-fg: #ffb000;
+    --terminal-quick-border: #ffb000;
+    --terminal-command-bg: rgb(18 11 0);
+    --terminal-command-fg: #ffb000;
+    --terminal-command-border: #ffb000;
+    --terminal-command-hover: #ffd166;
+    box-shadow: 0 0 24px rgb(255 176 0 / 0.3), inset 0 0 28px rgb(255 176 0 / 0.04);
+}
+
+.portfolio-terminal[data-terminal-theme="monochrome"] {
+    --terminal-bg: rgb(9 9 11);
+    --terminal-fg: rgb(255 255 255);
+    --terminal-heading: rgb(255 255 255);
+    --terminal-border: rgb(255 255 255);
+    --terminal-header-bg: rgb(255 255 255);
+    --terminal-header-fg: rgb(0 0 0);
+    --terminal-quick-bg: rgb(9 9 11);
+    --terminal-quick-fg: rgb(255 255 255);
+    --terminal-quick-border: rgb(255 255 255);
+    --terminal-command-bg: rgb(9 9 11);
+    --terminal-command-fg: rgb(255 255 255);
+    --terminal-command-border: rgb(255 255 255);
+    --terminal-command-hover: rgb(255 255 255);
+    box-shadow: 5px 5px 0 rgb(255 255 255);
+}
+
+.portfolio-terminal-header {
+    background: var(--terminal-header-bg);
+    color: var(--terminal-header-fg);
+}
+
+.portfolio-terminal-body {
+    color: var(--terminal-fg);
+}
+
+.portfolio-terminal-heading {
+    color: var(--terminal-heading);
+}
+
+.portfolio-terminal-quickbar {
+    background: var(--terminal-quick-bg);
+    color: var(--terminal-quick-fg);
+    border-color: var(--terminal-quick-border);
+}
+
+.portfolio-terminal-command {
+    background: var(--terminal-command-bg);
+    color: var(--terminal-command-fg);
+    border-color: var(--terminal-command-border);
+}
+
+.portfolio-terminal-command:hover {
+    color: var(--terminal-command-hover);
+    border-color: var(--terminal-command-hover);
+}
+
+.terminal-file-item,
+.terminal-output-card {
+    background: color-mix(in srgb, var(--terminal-bg) 90%, var(--terminal-fg) 10%);
+    border-color: color-mix(in srgb, var(--terminal-border) 62%, transparent);
+}
+
+.portfolio-terminal[data-terminal-theme="cyber-green"] .portfolio-terminal-body *,
+.portfolio-terminal[data-terminal-theme="amber-decay"] .portfolio-terminal-body *,
+.portfolio-terminal[data-terminal-theme="monochrome"] .portfolio-terminal-body *,
+.portfolio-terminal[data-terminal-theme="cyber-green"] .portfolio-terminal-quickbar *,
+.portfolio-terminal[data-terminal-theme="amber-decay"] .portfolio-terminal-quickbar *,
+.portfolio-terminal[data-terminal-theme="monochrome"] .portfolio-terminal-quickbar * {
+    color: inherit !important;
+    border-color: var(--terminal-quick-border);
+}
+
 .theme-font-sans {
     font-family: ui-sans-serif, system-ui, sans-serif !important;
 }

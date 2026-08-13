@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { projects } from "@/data/projects";
 import { ProjectStage, ProjectCTA } from "./project-stage";
 import { ProjectVisual } from "./project-visual";
 import { useLanguage } from "@/hooks/use-language";
 import { cn } from "@/lib/utils";
+import {
+  PROJECT_SELECTION_EVENT,
+  type ProjectSelectionDetail,
+} from "@/lib/project-navigation";
 
 export function ProjectExplorer() {
   const { lang } = useLanguage();
@@ -15,6 +19,19 @@ export function ProjectExplorer() {
   const activeProject = projects.find((p) => p.id === activeId) ?? projects[0];
   const mobileActiveProject =
     projects.find((p) => p.id === mobileActiveId) ?? projects[0];
+
+  useEffect(() => {
+    const handleProjectSelection = (event: Event) => {
+      const { projectId } = (event as CustomEvent<ProjectSelectionDetail>).detail;
+      if (!projects.some((project) => project.id === projectId)) return;
+
+      setActiveId(projectId);
+      setMobileActiveId(projectId);
+    };
+
+    window.addEventListener(PROJECT_SELECTION_EVENT, handleProjectSelection);
+    return () => window.removeEventListener(PROJECT_SELECTION_EVENT, handleProjectSelection);
+  }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {

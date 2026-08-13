@@ -11,7 +11,7 @@ import {
   type MouseEvent,
 } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Volume2, VolumeX } from "lucide-react";
+import { ChevronRight, FileText, Volume2, VolumeX } from "lucide-react";
 import { useTheme } from "@/providers/theme-provider";
 import { useLanguage } from "@/hooks/use-language";
 import { useLenis } from "@/hooks/use-lenis";
@@ -22,18 +22,30 @@ import {
 import { siteConfig } from "@/data/config";
 import { skills } from "@/data/skills";
 import { projects } from "@/data/projects";
+import { requestProjectSelection } from "@/lib/project-navigation";
 import { AnimatedTerminalIcon } from "@/components/ui/animated-terminal-icon";
 import {
   QUICK_COMMANDS,
   TERMINAL_IDENTITY,
+  VIRTUAL_FILES,
   executeTerminalCommand,
   getTerminalCompletion,
+  type OpenTarget,
   type TerminalEntry,
   type TerminalOutput,
-  type ThemeTarget,
+  type TerminalThemeTarget,
+  type VirtualFile,
 } from "@/components/sections/terminal-engine";
 
 const SOUND_STORAGE_KEY = "portfolio-terminal-muted";
+const TERMINAL_THEME_STORAGE_KEY = "portfolio-terminal-theme";
+
+const FILE_SECTION_TARGETS: Record<VirtualFile, OpenTarget> = {
+  "about.txt": "about",
+  "skills.json": "skills",
+  "projects.md": "projects",
+  "contact.cfg": "contact",
+};
 
 type SoundKind = "type" | "action" | "error";
 
@@ -135,8 +147,20 @@ function Prompt() {
   );
 }
 
-function TerminalOutputView({ output }: { output: TerminalOutput }) {
-  const { lang } = useLanguage();
+interface TerminalOutputViewProps {
+  output: TerminalOutput;
+  onCommand: (command: string) => void;
+  onNavigate: (target: OpenTarget) => void;
+  onProjectSelect: (projectId: number) => void;
+}
+
+function TerminalOutputView({
+  output,
+  onCommand,
+  onNavigate,
+  onProjectSelect,
+}: TerminalOutputViewProps) {
+  const { lang, language } = useLanguage();
 
   if (output.type === "help") {
     const commands = [
@@ -144,8 +168,10 @@ function TerminalOutputView({ output }: { output: TerminalOutput }) {
       ["ls", lang({ en: "list virtual portfolio files", vi: "liệt kê tệp portfolio ảo" })],
       ["cat about.txt | about", lang({ en: "read the short profile", vi: "đọc phần giới thiệu ngắn" })],
       ["skills | projects | contact", lang({ en: "print portfolio information", vi: "in thông tin portfolio" })],
-      ["theme [light|dark|system]", lang({ en: "change the website theme", vi: "đổi giao diện website" })],
+      ["theme [name]", lang({ en: "customize the terminal palette", vi: "đổi bảng màu terminal" })],
+      ["site-theme [light|dark|system]", lang({ en: "change the website theme", vi: "đổi giao diện website" })],
       ["open <section>", lang({ en: "navigate to a portfolio section", vi: "đi tới một phần của portfolio" })],
+      ["exit", lang({ en: "close the terminal session", vi: "đóng phiên terminal" })],
       ["clear", lang({ en: "clear the terminal", vi: "xóa nội dung terminal" })],
     ];
 
@@ -172,17 +198,115 @@ function TerminalOutputView({ output }: { output: TerminalOutput }) {
 
   if (output.type === "list") {
     return (
-      <div className="flex flex-wrap gap-x-4 gap-y-1 font-semibold">
-        <span className="text-slate-700 dark:text-slate-200">about.txt</span>
-        <span className="text-cyan-700 dark:text-cyan-300">skills/</span>
-        <span className="text-cyan-700 dark:text-cyan-300">projects/</span>
-        <span className="text-slate-700 dark:text-slate-200">contact.txt</span>
+      <div className="space-y-3">
+        <div className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+          {lang({ en: "Portfolio file index", vi: "Danh mục tệp portfolio" })}
+          <span className="ml-2 normal-case tracking-normal text-slate-400 dark:text-slate-500">
+            ~/{TERMINAL_IDENTITY.host}
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {VIRTUAL_FILES.map((file) => (
+            <button
+              key={file}
+              type="button"
+              data-terminal-file={file}
+              onClick={() => onNavigate(FILE_SECTION_TARGETS[file])}
+              className="terminal-file-item group flex min-w-0 items-center gap-2 rounded-lg border px-2.5 py-2 text-left transition-all hover:-translate-y-0.5 hover:border-teal-400 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
+              aria-label={lang({
+                en: `Open ${FILE_SECTION_TARGETS[file]} section`,
+                vi: `Mở phần ${FILE_SECTION_TARGETS[file]}`,
+              })}
+            >
+              <FileText className="h-4 w-4 shrink-0 text-teal-500" aria-hidden="true" />
+              <span className="min-w-0 flex-1 truncate font-semibold text-teal-700 dark:text-teal-300">{file}</span>
+              <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-teal-500" aria-hidden="true" />
+            </button>
+          ))}
+        </div>
+        <p className="text-[0.9em] text-slate-500 dark:text-slate-400">
+          {lang({ en: "Select a file to jump to its section, or read it with", vi: "Chọn tệp để tới section tương ứng, hoặc đọc bằng lệnh" })}{" "}
+          <code className="font-semibold text-slate-700 dark:text-slate-200">cat &lt;filename&gt;</code>
+        </p>
+      </div>
+    );
+  }
+
+  if (output.type === "file") {
+    if (output.file === "about.txt") {
+      return (
+        <div className="terminal-output-card overflow-hidden rounded-xl border">
+          <div className="flex items-start gap-3 px-4 py-3">
+            <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-500/10 text-teal-600 dark:text-teal-300">
+              <FileText className="h-4 w-4" aria-hidden="true" />
+            </div>
+            <div>
+              <div className="font-bold text-slate-950 dark:text-white">{siteConfig.name}</div>
+              <div className="mt-0.5 text-[0.9em] font-semibold text-teal-700 dark:text-teal-300">
+                {lang({ en: "Computer Networks & Data Communications", vi: "Mạng máy tính & Truyền thông dữ liệu" })}
+              </div>
+            </div>
+          </div>
+          <p
+            lang={language}
+            className="hyphens-auto border-t border-inherit px-4 py-3 text-justify leading-relaxed text-slate-600 [text-align-last:left] [text-justify:inter-word] dark:text-slate-300"
+          >
+            {lang(siteConfig.about)}
+          </p>
+        </div>
+      );
+    }
+
+    if (output.file === "skills.json") {
+      const skillRegistry = Object.fromEntries(
+        skills.map((group) => [lang(group.category), group.items.map((item) => item.label)]),
+      );
+
+      return (
+        <div className="space-y-2">
+          <div className="font-semibold text-teal-700 dark:text-teal-300">[ Technical Skills ]</div>
+          <pre className="overflow-x-auto whitespace-pre-wrap text-[0.92em] leading-relaxed">
+            {JSON.stringify(skillRegistry, null, 2)}
+          </pre>
+        </div>
+      );
+    }
+
+    if (output.file === "projects.md") {
+      return (
+        <div className="space-y-4">
+          {projects.map((project) => (
+            <button
+              key={project.id}
+              type="button"
+              data-terminal-project={project.id}
+              onClick={() => onProjectSelect(project.id)}
+              className="group block w-full rounded-lg border border-transparent px-2.5 py-2 text-left transition-colors hover:border-teal-400/60 hover:bg-teal-500/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
+            >
+              <div className="flex items-center justify-between gap-3 font-bold uppercase text-teal-700 dark:text-teal-300">
+                <span>## {lang(project.title)}</span>
+                <ChevronRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </div>
+              <p className="mt-1 leading-relaxed">{lang(project.description)}</p>
+              <div className="mt-1 text-slate-500 dark:text-slate-400">Stack: {project.techStack.join(" / ")}</div>
+            </button>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-1">
+        <div className="font-semibold text-teal-700 dark:text-teal-300">[ Connection Matrix Configuration ]</div>
+        <div>EMAIL = {siteConfig.email}</div>
+        <div>GITHUB = {siteConfig.github}</div>
+        <div>TELEGRAM = {siteConfig.telegram}</div>
       </div>
     );
   }
 
   if (output.type === "about") {
-    return <p className="max-w-3xl leading-relaxed">{lang(siteConfig.description)}</p>;
+    return <p className="max-w-3xl leading-relaxed">{lang(siteConfig.about)}</p>;
   }
 
   if (output.type === "skills") {
@@ -204,14 +328,21 @@ function TerminalOutputView({ output }: { output: TerminalOutput }) {
     return (
       <div className="space-y-2">
         {projects.map((project, index) => (
-          <div key={project.id}>
+          <button
+            key={project.id}
+            type="button"
+            data-terminal-project={project.id}
+            onClick={() => onProjectSelect(project.id)}
+            className="group flex w-full items-center gap-2 rounded-lg border border-transparent px-2.5 py-2 text-left transition-colors hover:border-teal-400/60 hover:bg-teal-500/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
+          >
             <span className="font-semibold text-teal-700 dark:text-teal-300">
               {String(index + 1).padStart(2, "0")}. {lang(project.title)}
             </span>
-            <span className="text-slate-500 dark:text-slate-400">
-              {" "}— {project.techStack.join(" / ")}
+            <span className="min-w-0 flex-1 truncate text-slate-500 dark:text-slate-400">
+              — {project.techStack.join(" / ")}
             </span>
-          </div>
+            <ChevronRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-teal-500" aria-hidden="true" />
+          </button>
         ))}
       </div>
     );
@@ -236,14 +367,70 @@ function TerminalOutputView({ output }: { output: TerminalOutput }) {
     );
   }
 
+  if (output.type === "theme-help") {
+    const themes = [
+      ["default", lang({ en: "portfolio default", vi: "mặc định của portfolio" })],
+      ["cyber-green", lang({ en: "lime phosphor screen", vi: "màn hình phosphor xanh" })],
+      ["amber-decay", lang({ en: "amber CRT glow", vi: "ánh CRT màu hổ phách" })],
+      ["monochrome", lang({ en: "high-contrast black and white", vi: "đen trắng tương phản cao" })],
+    ];
+
+    return (
+      <div className="space-y-2">
+        <div className="font-bold text-teal-700 dark:text-teal-300">[ RETRO THEME COMMAND PANEL ]</div>
+        <p>{lang({ en: "Type theme <name> to customize this terminal:", vi: "Gõ theme <tên> để tùy chỉnh terminal:" })}</p>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {themes.map(([name, description]) => (
+            <button
+              key={name}
+              type="button"
+              data-terminal-theme-option={name}
+              onClick={() => onCommand(`theme ${name}`)}
+              className="group flex items-center justify-between gap-3 rounded-lg border border-slate-300/70 px-2.5 py-2 text-left transition-all hover:-translate-y-0.5 hover:border-teal-400 hover:bg-teal-500/5 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 dark:border-slate-700"
+            >
+              <span className="min-w-0">
+                <span className="block font-semibold text-cyan-700 dark:text-cyan-300">theme {name}</span>
+                <span className="block truncate text-[0.85em] text-slate-500 dark:text-slate-400">{description}</span>
+              </span>
+              <ChevronRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-teal-500" aria-hidden="true" />
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (output.type === "theme") {
-    const targetLabel = output.target === "system"
-      ? lang({ en: "system", vi: "hệ thống" })
-      : output.target;
+    return (
+      <div className="space-y-1 text-emerald-700 dark:text-emerald-300">
+        <p>⚡ {lang({ en: `Terminal palette recalibrated to: ${output.target.toUpperCase()}`, vi: `Bảng màu terminal đã chuyển sang: ${output.target.toUpperCase()}` })}</p>
+        <p>{lang({ en: "Spectrum filters updated for the terminal frame.", vi: "Bộ lọc quang phổ đã được cập nhật cho khung terminal." })}</p>
+      </div>
+    );
+  }
+
+  if (output.type === "site-theme") {
     return (
       <p className="text-emerald-700 dark:text-emerald-300">
-        {lang({ en: `Theme changed to ${targetLabel}.`, vi: `Đã chuyển giao diện sang ${targetLabel}.` })}
+        {lang({ en: `Website theme changed to ${output.target}.`, vi: `Giao diện website đã chuyển sang ${output.target}.` })}
       </p>
+    );
+  }
+
+  if (output.type === "exit") {
+    return (
+      <p>{lang({ en: "Connection closed. Thank you for visiting! Type help to start a new session.", vi: "Kết nối đã đóng. Cảm ơn bạn đã ghé thăm! Gõ help để bắt đầu phiên mới." })}</p>
+    );
+  }
+
+  if (output.type === "assistant") {
+    return output.response === "greeting" ? (
+      <div className="space-y-1">
+        <p>{lang({ en: `Hello! I'm ${siteConfig.name}'s virtual assistant. How can I help?`, vi: `Xin chào! Tôi là trợ lý ảo của ${siteConfig.name}. Tôi có thể giúp gì cho bạn?` })}</p>
+        <p className="text-slate-500 dark:text-slate-400">{lang({ en: "Ask about skills, projects, or contact information.", vi: "Hãy hỏi về kỹ năng, dự án hoặc thông tin liên hệ." })}</p>
+      </div>
+    ) : (
+      <p>{lang({ en: "I'm ready to present this portfolio. Ask about 'skills', 'projects', or 'contact', or type 'help' to see every command.", vi: "Tôi sẵn sàng giới thiệu portfolio này. Hãy hỏi về 'skills', 'projects', 'contact', hoặc gõ 'help' để xem toàn bộ lệnh." })}</p>
     );
   }
 
@@ -257,24 +444,21 @@ function TerminalOutputView({ output }: { output: TerminalOutput }) {
 
   if (output.type === "usage") {
     const usage = {
-      cat: "cat about.txt",
-      theme: "theme [light|dark|system]",
+      cat: "cat <about.txt|skills.json|projects.md|contact.cfg>",
+      theme: "theme <default|cyber-green|amber-decay|monochrome>",
+      "site-theme": "site-theme <light|dark|system>",
       open: "open <about|skills|projects|blog|contact>",
     }[output.command];
 
     return <p className="text-amber-700 dark:text-amber-300">usage: {usage}</p>;
   }
 
-  return (
-    <p className="text-rose-700 dark:text-rose-300">
-      {output.command}: {lang({ en: "command not found. Type 'help'.", vi: "không tìm thấy lệnh. Gõ 'help'." })}
-    </p>
-  );
+  return null;
 }
 
 export function PortfolioTerminal() {
   const { lang } = useLanguage();
-  const { resolvedTheme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const lenis = useLenis();
   const reduceMotion = useReducedMotion();
   const { muted, play, toggle, unlock } = useTerminalAudio();
@@ -283,10 +467,31 @@ export function PortfolioTerminal() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number | null>(null);
   const [typing, setTyping] = useState<{ command: string; index: number } | null>(null);
+  const [terminalTheme, setTerminalTheme] = useState<TerminalThemeTarget>("default");
   const entryIdRef = useRef(0);
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.resolve().then(() => {
+      if (cancelled) return;
+      const savedTheme = window.localStorage.getItem(TERMINAL_THEME_STORAGE_KEY);
+      if (
+        savedTheme === "default" ||
+        savedTheme === "cyber-green" ||
+        savedTheme === "amber-decay" ||
+        savedTheme === "monochrome"
+      ) {
+        setTerminalTheme(savedTheme);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const appendEntries = useCallback((command: string, output?: TerminalOutput) => {
     const nextEntries: TerminalEntry[] = [
@@ -319,6 +524,14 @@ export function PortfolioTerminal() {
     [lenis, reduceMotion],
   );
 
+  const navigateToProject = useCallback(
+    (projectId: number) => {
+      requestProjectSelection(projectId);
+      navigateToSection("projects");
+    },
+    [navigateToSection],
+  );
+
   const runCommand = useCallback(
     (rawCommand: string) => {
       const command = rawCommand.trim();
@@ -335,14 +548,15 @@ export function PortfolioTerminal() {
         return;
       }
 
-      let output = result.output;
+      const output = result.output;
 
-      if (result.action?.type === "theme") {
-        const target: ThemeTarget = result.action.target === "toggle"
-          ? resolvedTheme === "dark" ? "light" : "dark"
-          : result.action.target;
-        setTheme(target);
-        output = { type: "theme", target };
+      if (result.action?.type === "terminal-theme") {
+        setTerminalTheme(result.action.target);
+        window.localStorage.setItem(TERMINAL_THEME_STORAGE_KEY, result.action.target);
+      }
+
+      if (result.action?.type === "site-theme") {
+        setTheme(result.action.target);
       }
 
       if (result.action?.type === "open") {
@@ -350,9 +564,9 @@ export function PortfolioTerminal() {
       }
 
       appendEntries(command, output);
-      play(output?.type === "unknown" || output?.type === "usage" ? "error" : "action");
+      play(output?.type === "usage" ? "error" : "action");
     },
-    [appendEntries, navigateToSection, play, resolvedTheme, setTheme],
+    [appendEntries, navigateToSection, play, setTheme],
   );
 
   useEffect(() => {
@@ -581,12 +795,13 @@ export function PortfolioTerminal() {
     >
       <div
         ref={terminalRef}
+        data-terminal-theme={terminalTheme}
         role="region"
         aria-label={lang({ en: "Interactive portfolio terminal", vi: "Terminal portfolio tương tác" })}
         onClick={handleTerminalClick}
-        className="terminal-maple-mono flex h-[430px] min-h-0 flex-col overflow-hidden rounded-2xl border-2 border-slate-900/90 bg-white/90 text-xs shadow-2xl shadow-slate-900/15 ring-1 ring-black/5 backdrop-blur-xl sm:h-[470px] sm:text-[13px] lg:h-[clamp(430px,58vh,610px)] lg:text-sm dark:border-white/90 dark:bg-slate-950/90 dark:shadow-black/45 dark:ring-white/10"
+        className="portfolio-terminal terminal-maple-mono flex h-[430px] min-h-0 flex-col overflow-hidden rounded-2xl border-2 text-xs backdrop-blur-xl sm:h-[470px] sm:text-[13px] lg:h-[clamp(430px,58vh,610px)] lg:text-sm"
       >
-        <div className="flex min-h-11 items-center gap-3 bg-black px-4 text-white dark:bg-white dark:text-black">
+        <div className="portfolio-terminal-header flex min-h-11 items-center gap-3 px-4">
           <div className="flex min-w-0 flex-1 items-center gap-2">
             <AnimatedTerminalIcon
               reduceMotion={reduceMotion}
@@ -619,10 +834,10 @@ export function PortfolioTerminal() {
         <div
           ref={scrollRef}
           data-testid="terminal-output"
-          className="min-h-0 flex-1 overflow-y-auto px-4 py-5 text-slate-700 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-5 dark:text-slate-200"
+          className="portfolio-terminal-body min-h-0 flex-1 overflow-y-auto px-4 py-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-5"
         >
           <div className="space-y-2 leading-relaxed">
-            <p className="text-[17px] font-bold text-slate-950 sm:text-[19px] dark:text-white">
+            <p className="portfolio-terminal-heading text-[17px] font-bold sm:text-[19px]">
               Welcome to {siteConfig.name}&apos;s Portfolio Terminal v{TERMINAL_IDENTITY.version}
             </p>
             <p className="max-w-3xl">
@@ -655,7 +870,12 @@ export function PortfolioTerminal() {
                     </span>
                   </div>
                 ) : (
-                  <TerminalOutputView output={entry.output} />
+                  <TerminalOutputView
+                    output={entry.output}
+                    onCommand={handleQuickCommand}
+                    onNavigate={navigateToSection}
+                    onProjectSelect={navigateToProject}
+                  />
                 )}
               </div>
             ))}
@@ -693,7 +913,7 @@ export function PortfolioTerminal() {
           </div>
         </div>
 
-        <div className="border-t border-slate-200 bg-slate-50/90 px-4 py-3 dark:border-slate-200 dark:bg-white">
+        <div className="portfolio-terminal-quickbar border-t px-4 py-3">
           <div className="flex items-start gap-3">
             <span className="shrink-0 pt-1 text-[9px] font-bold uppercase tracking-wider text-slate-500 sm:text-[10px] dark:text-slate-600">
               {lang({ en: "Quick commands", vi: "Lệnh nhanh" })}:
@@ -705,7 +925,7 @@ export function PortfolioTerminal() {
                     key={command}
                     type="button"
                     onClick={() => handleQuickCommand(command)}
-                    className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-[10px] font-bold text-slate-800 transition-all hover:-translate-y-0.5 hover:border-teal-400 hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 sm:text-[11px] dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-teal-500 dark:hover:text-teal-300"
+                    className="portfolio-terminal-command rounded-md border px-2.5 py-1 text-[10px] font-bold transition-all hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 sm:text-[11px]"
                   >
                     {command}
                   </button>

@@ -24,11 +24,6 @@ import { DiscordIcon, FacebookIcon, Github, TelegramIcon, XIcon } from "@/compon
 import { siteConfig } from "@/data/config";
 import { SmartIconButton } from "@/components/layouts/footer";
 
-const aboutIntro = {
-  en: "A technology-focused learner with a strong interest in cybersecurity, Linux systems, networking, and modern IT infrastructure. Through academic learning and hands-on projects, I am developing practical skills in Linux administration, network security, infrastructure automation, and system hardening while exploring how secure and reliable systems are configured, monitored, and maintained. Driven by curiosity and continuous learning, I enjoy taking on technical challenges, expanding my knowledge, and turning what I learn into practical experience.",
-  vi: "Một người học công nghệ với sự quan tâm đặc biệt đến an ninh mạng, hệ thống Linux, mạng máy tính và hạ tầng CNTT hiện đại. Thông qua quá trình học tập và các dự án thực hành, tôi đang từng bước phát triển kỹ năng về quản trị Linux, bảo mật mạng, tự động hóa hạ tầng và gia cố hệ thống, đồng thời tìm hiểu cách các hệ thống an toàn và đáng tin cậy được cấu hình, giám sát và duy trì. Với tinh thần tò mò và không ngừng học hỏi, tôi luôn hứng thú với những thử thách kỹ thuật, mở rộng kiến thức và biến những điều đã học thành kinh nghiệm thực tế.",
-};
-
 const getHudTiles = (lang: (dict: { en: string; vi: string }) => string) => [
   {
     id: "role",
@@ -133,7 +128,7 @@ const socialDockItems: Array<{
 ];
 
 export function AboutSection() {
-  const { lang } = useLanguage();
+  const { lang, language } = useLanguage();
   const reduceMotion = useReducedMotion();
   const initial = reduceMotion ? false : "hidden";
   const hudTiles = getHudTiles(lang);
@@ -196,10 +191,14 @@ export function AboutSection() {
             <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base sm:text-lg">
               {lang({ en: "Who am I?", vi: "Tôi là ai?" })}
             </h3>
-            {lang(aboutIntro)
+            {lang(siteConfig.about)
               .split(/\n+/)
               .map((paragraph) => (
-                <p key={paragraph} className="text-justify">
+                <p
+                  key={paragraph}
+                  lang={language}
+                  className="hyphens-auto text-justify [text-align-last:left] [text-justify:inter-word]"
+                >
                   {paragraph.trim()}
                 </p>
               ))}
