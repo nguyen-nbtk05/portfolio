@@ -172,9 +172,15 @@
 html {
     color-scheme: light;
     scroll-behavior: smooth;
-    scroll-padding-top: 100px;
+    scroll-padding-top: 0;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
+}
+
+@media (min-width: 1024px) {
+    html {
+        scroll-padding-top: 100px;
+    }
 }
 
 html.dark {
@@ -332,6 +338,43 @@ body::-webkit-scrollbar {
     82% {
         opacity: 0;
         transform: translate3d(68vw, -10vh, 0) scale(0.75);
+    }
+}
+
+@media (max-width: 1023px) {
+    .network-packet {
+        animation-name: packet-travel-mobile;
+    }
+
+    .network-packet:nth-child(n + 13) {
+        display: none;
+    }
+
+    .skills-ambient-glow {
+        animation: none;
+        transform: none;
+    }
+}
+
+@keyframes packet-travel-mobile {
+    0%,
+    100% {
+        opacity: 0;
+        transform: translate3d(-6px, 6px, 0) scale(0.8);
+    }
+
+    20%,
+    68% {
+        opacity: 0.72;
+    }
+
+    50% {
+        transform: translate3d(12vw, -6vh, 0) scale(1);
+    }
+
+    82% {
+        opacity: 0;
+        transform: translate3d(18vw, -4vh, 0) scale(0.78);
     }
 }
 

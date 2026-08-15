@@ -791,7 +791,7 @@ export function PortfolioTerminal() {
       initial={reduceMotion ? false : { opacity: 0, x: 28, scale: 0.98 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ duration: 0.62, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto w-full max-w-[690px] select-text"
+      className="mx-auto min-w-0 w-full max-w-[690px] select-text"
     >
       <div
         ref={terminalRef}
@@ -799,7 +799,7 @@ export function PortfolioTerminal() {
         role="region"
         aria-label={lang({ en: "Interactive portfolio terminal", vi: "Terminal portfolio tương tác" })}
         onClick={handleTerminalClick}
-        className="portfolio-terminal terminal-maple-mono flex h-[430px] min-h-0 flex-col overflow-hidden rounded-2xl border-2 text-xs backdrop-blur-xl sm:h-[470px] sm:text-[13px] lg:h-[clamp(430px,58vh,610px)] lg:text-sm"
+        className="portfolio-terminal terminal-maple-mono flex h-[clamp(320px,52svh,390px)] min-h-0 flex-col overflow-hidden rounded-2xl border-2 text-xs backdrop-blur-xl sm:h-[min(470px,58svh)] sm:text-[13px] lg:h-[clamp(430px,58vh,610px)] lg:text-sm"
       >
         <div className="portfolio-terminal-header flex min-h-11 items-center gap-3 px-4">
           <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -914,11 +914,11 @@ export function PortfolioTerminal() {
         </div>
 
         <div className="portfolio-terminal-quickbar border-t px-4 py-3">
-          <div className="flex items-start gap-3">
+          <div className="flex items-start gap-3 max-sm:flex-col max-sm:gap-2">
             <span className="shrink-0 pt-1 text-[9px] font-bold uppercase tracking-wider text-slate-500 sm:text-[10px] dark:text-slate-600">
               {lang({ en: "Quick commands", vi: "Lệnh nhanh" })}:
             </span>
-            <div className="flex min-w-0 flex-1 items-start gap-2">
+            <div className="flex min-w-0 flex-1 items-start gap-2 max-sm:w-full">
               <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
                 {QUICK_COMMANDS.filter((command) => command !== "clear").map((command) => (
                   <button

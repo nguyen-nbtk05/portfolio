@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { useTypewriter } from "@/hooks/use-typewriter";
 
@@ -37,16 +38,24 @@ export function TypewriterText({
 
   return (
     <span
-      className={cn("inline-flex max-w-full items-center whitespace-nowrap", className)}
-      style={{ minWidth: `${longestWordLength}ch`, minHeight: "1em" }}
+      className={cn(
+        "flex w-full max-w-full min-w-0 items-center justify-center whitespace-normal lg:inline-flex lg:w-auto lg:min-w-[var(--typewriter-min-width)] lg:flex-nowrap lg:justify-start lg:whitespace-nowrap",
+        className,
+      )}
+      style={
+        {
+          "--typewriter-min-width": `${longestWordLength}ch`,
+          minHeight: "1em",
+        } as CSSProperties
+      }
       aria-live="polite"
     >
-      <span>{displayedText}</span>
+      <span className="min-w-0 break-words">{displayedText}</span>
       {hasCursor && (
         <span
           aria-hidden="true"
           className={cn(
-            "ml-1 inline-block h-[0.88em] w-[0.08em] animate-pulse rounded-sm bg-teal-400 align-[-0.05em] dark:bg-teal-300",
+            "ml-1 inline-block h-[0.88em] w-[0.08em] shrink-0 self-center animate-pulse rounded-sm bg-teal-400 dark:bg-teal-300",
             cursorClassName
           )}
         />

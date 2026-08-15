@@ -27,11 +27,30 @@ export default function SmoothScroll({
   children: React.ReactNode;
 }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
+  const [useNativeScroll, setUseNativeScroll] = useState<boolean | null>(null);
   const rafId = useRef<number>(0);
   const pathname = usePathname();
   const previousPathnameRef = useRef(pathname);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia(
+      "(max-width: 1023px), (pointer: coarse), (prefers-reduced-motion: reduce)",
+    );
+    const syncScrollMode = () => {
+      if (mediaQuery.matches) setLenis(null);
+      setUseNativeScroll(mediaQuery.matches);
+    };
+
+    syncScrollMode();
+    mediaQuery.addEventListener("change", syncScrollMode);
+    return () => mediaQuery.removeEventListener("change", syncScrollMode);
+  }, []);
+
+  useEffect(() => {
+    if (useNativeScroll !== false) {
+      return;
+    }
+
     const instance = new Lenis({
       duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -58,7 +77,7 @@ export default function SmoothScroll({
       cancelAnimationFrame(rafId.current);
       instance.destroy();
     };
-  }, []);
+  }, [useNativeScroll]);
 
   useEffect(() => {
     if (!lenis || pathname !== "/") return;

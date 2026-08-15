@@ -9,7 +9,7 @@ export async function BlogSection() {
     <Section
       id="blog"
       backgroundVariant="blog"
-      className="min-h-[100svh] py-8 sm:py-10 lg:py-12"
+      className="min-h-0 pb-12 pt-12 sm:pb-16 sm:pt-16 lg:min-h-[100vh] lg:py-12"
       data-cursor="default"
     >
       <BlogShowcase posts={posts} />

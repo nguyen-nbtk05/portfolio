@@ -180,7 +180,7 @@ export function BlogArchive({
                   en: "Search by title, keyword, or topic...",
                   vi: "Tìm theo tiêu đề, từ khóa hoặc chủ đề...",
                 })}
-                className="h-11 w-full rounded-xl border border-slate-200 bg-white/80 pl-10 pr-4 text-sm text-slate-900 outline-none transition-[border-color,box-shadow] placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-100 dark:placeholder:text-slate-500"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-white/80 pl-10 pr-4 text-base text-slate-900 outline-none transition-[border-color,box-shadow] placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-100 dark:placeholder:text-slate-500"
               />
             </label>
 
@@ -196,7 +196,7 @@ export function BlogArchive({
                 value={sortOrder}
                 onChange={(event) => setSortOrder(event.target.value as SortOrder)}
                 disabled={isVaultSelected && !vaultUnlocked}
-                className="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white/80 pl-10 pr-9 text-sm text-slate-700 outline-none transition-[border-color,box-shadow] focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-300"
+                className="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white/80 pl-10 pr-9 text-base text-slate-700 outline-none transition-[border-color,box-shadow] focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-300"
               >
                 <option value="newest">
                   {lang({ en: "Newest first", vi: "Mới nhất trước" })}
@@ -239,7 +239,7 @@ export function BlogArchive({
               type="button"
               onClick={() => setSelectedTopic(ALL_TOPICS)}
               aria-pressed={selectedTopic === ALL_TOPICS}
-              className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
+              className={`min-h-11 rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 lg:min-h-0 ${
                 selectedTopic === ALL_TOPICS
                   ? "border-teal-500 bg-teal-500 text-white shadow-sm shadow-teal-500/20"
                   : "border-slate-200 bg-white/80 text-slate-600 hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700 dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-400 dark:hover:border-teal-700 dark:hover:bg-teal-950/40 dark:hover:text-teal-300"
@@ -253,7 +253,7 @@ export function BlogArchive({
                 type="button"
                 onClick={() => setSelectedTopic(topic)}
                 aria-pressed={selectedTopic === topic}
-                className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
+                className={`min-h-11 rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 lg:min-h-0 ${
                   selectedTopic === topic
                     ? "border-teal-500 bg-teal-500 text-white shadow-sm shadow-teal-500/20"
                     : "border-slate-200 bg-white/80 text-slate-600 hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700 dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-400 dark:hover:border-teal-700 dark:hover:bg-teal-950/40 dark:hover:text-teal-300"
@@ -268,7 +268,7 @@ export function BlogArchive({
               type="button"
               onClick={selectVault}
               aria-pressed={isVaultSelected}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 ${
+              className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 lg:min-h-0 ${
                 isVaultSelected
                   ? "border-violet-500 bg-violet-500 text-white shadow-sm shadow-violet-500/20"
                   : "border-violet-200 bg-violet-50/80 text-violet-700 hover:border-violet-300 hover:bg-violet-100 dark:border-violet-900 dark:bg-violet-950/40 dark:text-violet-300 dark:hover:border-violet-700 dark:hover:bg-violet-950/70"

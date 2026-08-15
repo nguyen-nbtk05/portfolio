@@ -137,7 +137,7 @@ export default function CustomCursor() {
   return (
     <div
       ref={cursorRef}
-      className={`pointer-events-none fixed left-0 top-0 z-[9999] h-6 w-6 will-change-transform ${isVisible ? "opacity-100" : "opacity-0"} transition-opacity duration-150`}
+      className={`pointer-events-none fixed left-0 top-0 z-[9999] hidden h-6 w-6 will-change-transform lg:block ${isVisible ? "opacity-100" : "opacity-0"} transition-opacity duration-150`}
       style={{ transform: "translateZ(0)" }}
       aria-hidden
     >

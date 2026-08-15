@@ -64,7 +64,7 @@ export function BackToTopButton() {
           transition={{ duration: reduceMotion ? 0 : 0.22 }}
           aria-label={label}
           title={label}
-          className="group fixed bottom-5 right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-teal-400/50 bg-white/85 text-teal-700 shadow-lg shadow-slate-900/15 backdrop-blur-xl transition-colors hover:border-teal-500 hover:bg-teal-600 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 sm:bottom-7 sm:right-7 sm:h-12 sm:w-12 dark:border-teal-400/40 dark:bg-slate-950/85 dark:text-teal-300 dark:shadow-black/35 dark:hover:bg-teal-500 dark:hover:text-slate-950"
+          className="group fixed bottom-[calc(5.25rem+env(safe-area-inset-bottom))] right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-teal-400/50 bg-white/85 text-teal-700 shadow-lg shadow-slate-900/15 backdrop-blur-xl transition-colors hover:border-teal-500 hover:bg-teal-600 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 sm:bottom-[calc(6rem+env(safe-area-inset-bottom))] sm:right-7 sm:h-12 sm:w-12 lg:bottom-7 dark:border-teal-400/40 dark:bg-slate-950/85 dark:text-teal-300 dark:shadow-black/35 dark:hover:bg-teal-500 dark:hover:text-slate-950"
         >
           <ArrowUp className="h-5 w-5 transition-transform duration-200 group-hover:-translate-y-0.5" />
         </motion.button>

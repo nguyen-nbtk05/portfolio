@@ -199,6 +199,7 @@ export function Navbar() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [activeSection, setActiveSection] = useState<HomeSectionId>("hero");
   const [localClock, setLocalClock] = useState({
     date: "--/--/----",
@@ -315,6 +316,15 @@ export function Navbar() {
       window.removeEventListener("scroll", scheduleUpdate);
       if (frameId) window.cancelAnimationFrame(frameId);
     };
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px)");
+    const updateViewportMode = () => setIsMobileViewport(mediaQuery.matches);
+
+    updateViewportMode();
+    mediaQuery.addEventListener("change", updateViewportMode);
+    return () => mediaQuery.removeEventListener("change", updateViewportMode);
   }, []);
 
   useEffect(() => {
@@ -448,10 +458,38 @@ export function Navbar() {
     );
   };
 
+  const renderMobileNavItem = (item: NavItem) => {
+    const Icon = item.icon;
+    const isActive = isItemActive(item);
+    const label = lang(item.label);
+
+    return (
+      <Link
+        key={`mobile-${item.href}`}
+        href={item.href === "/" ? "/" : `/${item.href}`}
+        scroll={item.href === "/"}
+        onClick={(event) => handleAnchorClick(event, item.href)}
+        aria-label={label}
+        aria-current={isActive ? "location" : undefined}
+        className={`relative isolate flex min-h-11 min-w-0 items-center justify-center rounded-xl transition-colors duration-150 ${
+          isActive
+            ? "text-teal-700 dark:text-teal-300"
+            : "text-slate-600 active:bg-slate-100 active:text-teal-600 dark:text-slate-300 dark:active:bg-slate-800/70 dark:active:text-teal-400"
+        }`}
+      >
+        {isActive ? (
+          <span className="absolute inset-0 z-[1] rounded-xl border border-teal-300/70 bg-teal-50 shadow-sm shadow-teal-500/10 dark:border-teal-500/35 dark:bg-teal-500/10" />
+        ) : null}
+        <Icon className="relative z-10 h-5 w-5 shrink-0" aria-hidden="true" />
+        <span className="sr-only">{label}</span>
+      </Link>
+    );
+  };
+
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-3 z-50 w-full px-2 sm:top-5 sm:px-4 lg:px-6">
+    <div className="pointer-events-none fixed inset-x-0 bottom-[max(0.75rem,env(safe-area-inset-bottom))] top-auto z-50 w-full px-2 sm:px-4 lg:bottom-auto lg:top-5 lg:px-6">
       <motion.div
-        animate={{ y: isScrolled ? -12 : 0 }}
+        animate={{ y: isScrolled ? (isMobileViewport ? 12 : -12) : 0 }}
         transition={{
           duration: reduceMotion ? 0 : 0.28,
           ease: [0.22, 1, 0.36, 1],
@@ -470,7 +508,7 @@ export function Navbar() {
           initial={reduceMotion ? false : { opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto flex h-14 max-w-full items-center rounded-2xl border border-slate-200/80 bg-white/90 px-1.5 text-slate-900 shadow-lg shadow-slate-200/50 backdrop-blur-xl sm:px-2 dark:border-slate-800/80 dark:bg-slate-900/80 dark:text-slate-100 dark:shadow-slate-950/50"
+          className="pointer-events-auto hidden h-14 max-w-full items-center rounded-2xl border border-slate-200/80 bg-white/90 px-1.5 text-slate-900 shadow-lg shadow-slate-200/50 backdrop-blur-xl sm:px-2 lg:flex dark:border-slate-800/80 dark:bg-slate-900/80 dark:text-slate-100 dark:shadow-slate-950/50"
         >
           <motion.nav
             aria-label={lang({ en: "Section navigation", vi: "Điều hướng nội dung" })}
@@ -526,7 +564,60 @@ export function Navbar() {
           </div>
         </motion.header>
 
-        <div className="mt-2 flex w-full items-center justify-between gap-2 px-1 xl:hidden">
+        <motion.header
+          initial={reduceMotion ? false : { opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-auto flex w-full items-center rounded-2xl border border-slate-200/80 bg-white/90 p-1.5 text-slate-900 shadow-lg shadow-slate-200/50 backdrop-blur-xl lg:hidden dark:border-slate-800/80 dark:bg-slate-900/80 dark:text-slate-100 dark:shadow-slate-950/50"
+        >
+          <div className="grid w-full grid-cols-[minmax(0,1fr)_1px_repeat(5,minmax(0,1fr))_1px_repeat(2,minmax(0,1fr))] items-center gap-0.5">
+            <motion.nav
+              aria-label={lang({ en: "Section navigation", vi: "Điều hướng nội dung" })}
+              className="contents"
+              initial={reduceMotion ? false : "hidden"}
+              animate="visible"
+              variants={staggerContainer(0.035, 0.08)}
+            >
+              {renderMobileNavItem(navItems[0])}
+              <span
+                aria-hidden="true"
+                className="h-6 w-px bg-slate-200 dark:bg-slate-700/80"
+              />
+              {navItems.slice(1).map(renderMobileNavItem)}
+            </motion.nav>
+
+            <span
+              aria-hidden="true"
+              className="h-6 w-px bg-slate-200 dark:bg-slate-700/80"
+            />
+
+            <AnimatedThemeToggler
+              variant="circle"
+              duration={800}
+              theme={isDarkMode ? "dark" : "light"}
+              onThemeChange={setTheme}
+              aria-label={lang({
+                en: !mounted
+                  ? "Theme"
+                  : isDarkMode
+                    ? "Switch to light mode"
+                    : "Switch to dark mode",
+                vi: !mounted
+                  ? "Giao diện"
+                  : isDarkMode
+                    ? "Chuyển sang nền sáng"
+                    : "Chuyển sang nền tối",
+              })}
+              className="flex min-h-11 w-full min-w-0 cursor-pointer items-center justify-center rounded-xl text-slate-600 transition-colors active:bg-slate-100 active:text-teal-600 disabled:opacity-60 [&_svg]:!h-5 [&_svg]:!w-5 dark:text-slate-300 dark:active:bg-slate-800/70 dark:active:text-teal-400"
+            />
+
+            <div className="min-w-0 [&>div]:w-full [&>div>button]:h-11 [&>div>button]:w-full [&>div>button]:rounded-xl [&>div>button]:p-0 [&>div>button>svg]:!h-5 [&>div>button>svg]:!w-5">
+              <SettingsDropdown mobile onOpenChange={setIsSettingsOpen} />
+            </div>
+          </div>
+        </motion.header>
+
+        <div className="mt-2 hidden w-full items-center justify-between gap-2 px-1 lg:flex xl:hidden">
           <LocationBadge location={locationLabel} />
           <ClockBadge date={localClock.date} time={localClock.time} compact />
         </div>

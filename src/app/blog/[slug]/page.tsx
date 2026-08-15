@@ -176,10 +176,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     return (
       <section
         lang={locale}
-        className="relative isolate min-h-screen overflow-hidden pb-20 pt-20"
+        className="relative isolate min-h-[100svh] overflow-x-clip pb-20 pt-20 lg:min-h-screen lg:overflow-hidden"
       >
         <SectionBackground variant="blog" />
-        <div className="site-container relative z-10 mx-auto w-full px-[1cm]">
+        <div className="site-container relative z-10 mx-auto w-full px-4 sm:px-6 lg:px-[1cm]">
           <BlogBackLink>
             {locale === "vi" ? "Quay lại Blog" : "Back to Blog"}
           </BlogBackLink>
@@ -207,7 +207,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <SectionBackground variant="blog" />
       <ReadingProgress targetId="article-body" />
 
-      <article className="site-container relative z-10 mx-auto w-full px-[1cm]">
+      <article className="site-container relative z-10 mx-auto w-full px-4 sm:px-6 lg:px-[1cm]">
         <div className="mx-auto grid max-w-[100rem] gap-8 2xl:grid-cols-[minmax(0,1fr)_minmax(0,53rem)_minmax(0,1fr)] 2xl:items-start 2xl:gap-12">
           <BlogContactRail />
           <div className="mx-auto w-full max-w-[55rem] min-w-0 2xl:mx-0">
@@ -217,7 +217,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <div className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
                 {post.tags.slice(0, 2).join(" · ")}
               </div>
-              <h1 className="hyphens-auto text-4xl font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-[2.75rem] sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-50">
+              <h1 className="hyphens-auto text-[clamp(2rem,10vw,2.25rem)] font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-[2.75rem] sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-50">
                 {post.title[locale]}
               </h1>
               <p className="mt-4 hyphens-auto text-lg leading-8 text-slate-600 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-400">

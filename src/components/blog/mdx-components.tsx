@@ -116,7 +116,7 @@ export const mdxComponents: MDXComponents = {
   code: ({ className, ...props }: ComponentPropsWithoutRef<"code">) => (
     <code
       className={cn(
-        "rounded bg-slate-200/75 px-1.5 py-0.5 text-[0.9em] text-teal-800 dark:bg-slate-800 dark:text-teal-200",
+        "break-words rounded bg-slate-200/75 px-1.5 py-0.5 text-[0.9em] text-teal-800 dark:bg-slate-800 dark:text-teal-200",
         className,
       )}
       {...props}

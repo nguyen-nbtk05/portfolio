@@ -11,7 +11,13 @@ const ActiveBadge = () => (
   </span>
 );
 
-export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boolean) => void }) {
+export function SettingsDropdown({
+  onOpenChange,
+  mobile = false,
+}: {
+  onOpenChange?: (isOpen: boolean) => void;
+  mobile?: boolean;
+}) {
   const { language, setLanguage } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -44,6 +50,19 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setIsOpen(false);
+      setActiveSubMenu(null);
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen]);
+
   const handleFontChange = (font: string) => {
     setCurrentFont(font);
     document.body.classList.remove(
@@ -54,11 +73,16 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
     document.body.classList.add(`theme-font-${font}`);
   };
 
-  if (!mounted) return <div className="w-9 h-9" />;
+  if (!mounted) {
+    return <div className={mobile ? "h-11 w-11" : "h-9 w-9"} />;
+  }
 
   return (
     <div className="relative" ref={dropdownRef}>
       <button
+        type="button"
+        aria-expanded={isOpen}
+        aria-haspopup="true"
         onClick={() => {
           setIsOpen(!isOpen);
           setActiveSubMenu(null);
@@ -85,14 +109,27 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
               transition: { duration: 0.15 },
             }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            onMouseLeave={() => setActiveSubMenu(null)}
-            className="absolute left-1/2 -translate-x-1/2 top-full mt-4 w-48 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 backdrop-blur-xl shadow-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
+            onMouseLeave={mobile ? undefined : () => setActiveSubMenu(null)}
+            className={
+              mobile
+                ? "absolute bottom-full right-0 z-50 mb-2 max-h-[calc(100dvh-5rem)] w-[min(18rem,calc(100vw-2rem))] overflow-y-auto overscroll-contain rounded-xl border border-slate-200/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
+                : "absolute left-1/2 top-full z-50 mt-4 w-48 -translate-x-1/2 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
+            }
           >
             <div
               className="relative"
-              onMouseEnter={() => setActiveSubMenu("language")}
+              onMouseEnter={mobile ? undefined : () => setActiveSubMenu("language")}
             >
-              <button className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+              <button
+                type="button"
+                aria-expanded={activeSubMenu === "language"}
+                onClick={() =>
+                  setActiveSubMenu((current) =>
+                    current === "language" ? null : "language",
+                  )
+                }
+                className="flex min-h-11 w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-100 lg:min-h-0 dark:hover:bg-slate-800"
+              >
                 <div className="flex items-center gap-2">
                   <Languages size={16} className="text-slate-500" />
                   <span>Language</span>
@@ -107,11 +144,15 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-full top-0 ml-2 w-52 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 backdrop-blur-xl shadow-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none before:absolute before:-left-3 before:top-0 before:bottom-0 before:w-3"
+                    className={
+                      mobile
+                        ? "relative mt-1 w-full rounded-xl border border-slate-200/80 bg-slate-50/95 p-1.5 shadow-inner dark:border-white/10 dark:bg-slate-950/70"
+                        : "absolute left-full top-0 ml-2 w-52 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl before:absolute before:-left-3 before:bottom-0 before:top-0 before:w-3 dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
+                    }
                   >
                     <button
                       onClick={() => setLanguage("vi")}
-                      className="flex w-full items-center rounded-lg px-3 py-2 text-sm transition-colors hover:bg-slate-100 dark:hover:bg-slate-800"
+                      className="flex min-h-11 w-full items-center rounded-lg px-3 py-2 text-sm transition-colors hover:bg-slate-100 lg:min-h-0 dark:hover:bg-slate-800"
                     >
                       <div className="flex items-center gap-2">
                         <svg
@@ -141,7 +182,7 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
                     </button>
                     <button
                       onClick={() => setLanguage("en")}
-                      className="flex w-full items-center rounded-lg px-3 py-2 text-sm transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 mt-0.5"
+                      className="mt-0.5 flex min-h-11 w-full items-center rounded-lg px-3 py-2 text-sm transition-colors hover:bg-slate-100 lg:min-h-0 dark:hover:bg-slate-800"
                     >
                       <div className="flex items-center gap-2">
                         <svg
@@ -179,9 +220,18 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
 
             <div
               className="relative"
-              onMouseEnter={() => setActiveSubMenu("font")}
+              onMouseEnter={mobile ? undefined : () => setActiveSubMenu("font")}
             >
-              <button className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+              <button
+                type="button"
+                aria-expanded={activeSubMenu === "font"}
+                onClick={() =>
+                  setActiveSubMenu((current) =>
+                    current === "font" ? null : "font",
+                  )
+                }
+                className="flex min-h-11 w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-100 lg:min-h-0 dark:hover:bg-slate-800"
+              >
                 <div className="flex items-center gap-2">
                   <Type size={16} className="text-slate-500" />
                   <span>Typography</span>
@@ -196,25 +246,29 @@ export function SettingsDropdown({ onOpenChange }: { onOpenChange?: (isOpen: boo
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-full top-0 ml-2 w-52 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 backdrop-blur-xl shadow-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none before:absolute before:-left-3 before:top-0 before:bottom-0 before:w-3"
+                    className={
+                      mobile
+                        ? "relative mt-1 w-full rounded-xl border border-slate-200/80 bg-slate-50/95 p-1.5 shadow-inner dark:border-white/10 dark:bg-slate-950/70"
+                        : "absolute left-full top-0 ml-2 w-52 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl before:absolute before:-left-3 before:bottom-0 before:top-0 before:w-3 dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
+                    }
                   >
                     <button
                       onClick={() => handleFontChange("sans")}
-                      className="flex w-full items-center rounded-lg px-3 py-2 text-sm theme-font-sans transition-colors hover:bg-slate-100 dark:hover:bg-slate-800"
+                      className="theme-font-sans flex min-h-11 w-full items-center rounded-lg px-3 py-2 text-sm transition-colors hover:bg-slate-100 lg:min-h-0 dark:hover:bg-slate-800"
                     >
                       System Font
                       {currentFont === "sans" && <ActiveBadge />}
                     </button>
                     <button
                       onClick={() => handleFontChange("serif")}
-                      className="flex w-full items-center rounded-lg px-3 py-2 text-sm theme-font-serif transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 mt-0.5"
+                      className="theme-font-serif mt-0.5 flex min-h-11 w-full items-center rounded-lg px-3 py-2 text-sm transition-colors hover:bg-slate-100 lg:min-h-0 dark:hover:bg-slate-800"
                     >
                       Playfair Serif
                       {currentFont === "serif" && <ActiveBadge />}
                     </button>
                     <button
                       onClick={() => handleFontChange("mono")}
-                      className="flex w-full items-center rounded-lg px-3 py-2 text-sm theme-font-mono transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 mt-0.5"
+                      className="theme-font-mono mt-0.5 flex min-h-11 w-full items-center rounded-lg px-3 py-2 text-sm transition-colors hover:bg-slate-100 lg:min-h-0 dark:hover:bg-slate-800"
                     >
                       Maple Mono NF
                       {currentFont === "mono" && <ActiveBadge />}

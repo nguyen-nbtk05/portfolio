@@ -17,7 +17,7 @@ export function ProjectsSection() {
       })}
       headerClassName="mb-6 lg:mb-8"
       subtitleClassName="max-w-4xl lg:max-w-5xl"
-      className="py-4 sm:py-6 lg:py-8"
+      className="min-h-0 pb-12 pt-12 sm:pb-16 sm:pt-16 lg:min-h-[100vh] lg:py-8"
     >
       <ProjectExplorer />
     </Section>

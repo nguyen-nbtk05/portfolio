@@ -60,7 +60,10 @@ export function scrollToSection(
   }
 
   window.scrollTo({
-    top: getSectionScrollTop(target),
+    top: Math.max(
+      0,
+      getSectionScrollTop(target) - getSectionAlignmentOffset(target),
+    ),
     behavior: immediate ? "auto" : "smooth",
   });
 }

@@ -307,7 +307,7 @@ function SkillDetailDialog({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: reduceMotion ? 0 : 0.2 }}
-          className="fixed inset-0 z-[1000] flex items-center justify-center overflow-hidden bg-slate-950/55 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[1000] flex items-end justify-center overflow-hidden bg-slate-950/55 p-0 backdrop-blur-sm sm:items-center sm:p-4"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
               onClose();
@@ -332,7 +332,7 @@ function SkillDetailDialog({
             duration: reduceMotion ? 0 : 0.22,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="relative max-h-[calc(100dvh-2rem)] w-full max-w-[960px] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[1.6rem] border border-slate-200/90 bg-white/95 text-left text-slate-900 shadow-2xl shadow-slate-950/25 backdrop-blur-xl outline-none dark:border-white/10 dark:bg-[#0b0d0e]/95 dark:text-slate-100 dark:shadow-black/60"
+          className="relative max-h-[calc(100dvh-1rem)] w-full max-w-[960px] overflow-x-hidden overflow-y-auto overscroll-contain rounded-t-[1.6rem] border border-slate-200/90 bg-white/95 text-left text-slate-900 shadow-2xl shadow-slate-950/25 backdrop-blur-xl outline-none sm:max-h-[calc(100dvh-2rem)] sm:rounded-[1.6rem] dark:border-white/10 dark:bg-[#0b0d0e]/95 dark:text-slate-100 dark:shadow-black/60"
         >
           <div
             aria-hidden="true"
@@ -444,12 +444,12 @@ export function SkillsSection() {
         en: "Core technologies and tools for programming, Linux administration, version control, and network engineering.",
         vi: "Những công nghệ và công cụ cốt lõi cho lập trình, quản trị Linux, quản lý phiên bản và kỹ thuật mạng.",
       })}
-      className="pt-20 sm:pt-28 lg:pt-20 pb-12"
+      className="pb-12 pt-12 sm:pb-16 sm:pt-16 lg:pb-12 lg:pt-20"
       headerClassName="mb-8 md:mb-10 xl:px-4 2xl:px-6"
       subtitleClassName="xl:max-w-none xl:whitespace-nowrap"
     >
       <motion.div
-        className="mt-5 grid items-stretch gap-6 md:grid-cols-2 xl:grid-cols-4 xl:px-4 2xl:gap-8 2xl:px-6"
+        className="grid items-stretch gap-6 lg:mt-5 md:grid-cols-2 xl:grid-cols-4 xl:px-4 2xl:gap-8 2xl:px-6"
         initial={initial}
         whileInView="visible"
         viewport={viewportOnce}
@@ -466,13 +466,13 @@ export function SkillsSection() {
               whileHover={reduceMotion ? undefined : { y: -6, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 260, damping: 22 }}
               className={cn(
-                "group/card flex h-full min-h-[360px] flex-col overflow-hidden rounded-[1.4rem] border border-slate-200/80 bg-white/80 shadow-xl shadow-slate-200/35 backdrop-blur-xl transition-[border-color,box-shadow] duration-300 hover:shadow-2xl hover:shadow-slate-300/45 xl:min-h-[440px] dark:border-white/10 dark:bg-[#0b0d0e]/90 dark:shadow-black/35 dark:hover:shadow-black/55",
+                "group/card flex h-full min-h-0 flex-col overflow-hidden rounded-[1.4rem] border border-slate-200/80 bg-white/80 shadow-xl shadow-slate-200/35 backdrop-blur-xl transition-[border-color,box-shadow] duration-300 hover:shadow-2xl hover:shadow-slate-300/45 lg:min-h-[360px] xl:min-h-[440px] dark:border-white/10 dark:bg-[#0b0d0e]/90 dark:shadow-black/35 dark:hover:shadow-black/55",
                 groupStyle.card,
               )}
             >
               <div
                 className={cn(
-                  "relative flex h-[142px] shrink-0 items-center overflow-hidden border-b border-slate-200/80 bg-gradient-to-br px-7 py-6 transition-[filter] duration-300 group-hover/card:brightness-105 xl:h-[168px] 2xl:h-[142px] dark:border-white/10",
+                  "relative flex h-[116px] shrink-0 items-center overflow-hidden border-b border-slate-200/80 bg-gradient-to-br px-5 py-5 transition-[filter] duration-300 group-hover/card:brightness-105 sm:h-[128px] sm:px-6 lg:h-[142px] lg:px-7 lg:py-6 xl:h-[168px] 2xl:h-[142px] dark:border-white/10",
                   groupStyle.header,
                 )}
               >
@@ -501,7 +501,7 @@ export function SkillsSection() {
               </div>
 
               <motion.div
-                className="flex flex-1 flex-wrap content-start gap-x-4 gap-y-4 p-7"
+                className="flex flex-1 flex-wrap content-start gap-x-3 gap-y-3 p-5 sm:p-6 lg:gap-x-4 lg:gap-y-4 lg:p-7"
                 variants={staggerContainer(0.035, 0.12)}
               >
                 {skillGroup.items.map((item) => {
@@ -532,7 +532,7 @@ export function SkillsSection() {
                         setIsDialogOpen(true);
                       }}
                       className={cn(
-                        "group/skill inline-flex h-12 cursor-pointer appearance-none items-center gap-2.5 rounded-lg border border-slate-200/80 bg-slate-100/85 px-4 text-left text-sm font-semibold text-slate-700 shadow-sm transition-[border-color,background-color,box-shadow] duration-200 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 sm:text-base dark:border-white/8 dark:bg-white/[0.055] dark:text-slate-200",
+                        "group/skill inline-flex h-auto min-h-12 max-w-full cursor-pointer appearance-none items-center gap-2.5 rounded-lg border border-slate-200/80 bg-slate-100/85 px-4 py-2.5 text-left text-sm font-semibold text-slate-700 shadow-sm transition-[border-color,background-color,box-shadow] duration-200 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 sm:text-base lg:h-12 lg:py-0 dark:border-white/8 dark:bg-white/[0.055] dark:text-slate-200",
                         itemStyle.chip,
                       )}
                     >
@@ -545,7 +545,9 @@ export function SkillsSection() {
                       >
                         <ItemIcon className="h-5 w-5" />
                       </span>
-                      <span className="whitespace-nowrap">{item.label}</span>
+                      <span className="min-w-0 break-words lg:whitespace-nowrap">
+                        {item.label}
+                      </span>
                     </motion.button>
                   );
                 })}

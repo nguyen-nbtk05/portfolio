@@ -130,7 +130,7 @@ export function ProjectCTA({ links }: { links: Project["links"] }) {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex items-center gap-2 h-10 px-4 rounded-lg text-xs lg:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-xs group",
+        "inline-flex h-10 min-h-11 items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 cursor-pointer shadow-xs group lg:min-h-0 lg:text-sm",
         "border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100",
         "hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50/40 dark:hover:border-teal-400 dark:hover:text-teal-400 dark:hover:bg-teal-950/20",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500",

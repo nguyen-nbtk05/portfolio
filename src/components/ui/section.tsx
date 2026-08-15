@@ -50,13 +50,15 @@ export function Section({
       id={id}
       data-cursor={dataCursor}
       className={cn(
-        "flex min-h-[100vh] items-center py-6 sm:py-8 lg:py-10",
-        resolvedBackgroundVariant ? "relative isolate overflow-hidden" : null,
+        "flex min-h-[100svh] items-start pb-12 pt-12 sm:pb-16 sm:pt-16 lg:min-h-[100vh] lg:items-center lg:py-10",
+        resolvedBackgroundVariant
+          ? "relative isolate overflow-x-clip lg:overflow-hidden"
+          : null,
         className,
       )}
     >
       {resolvedBackgroundVariant ? <SectionBackground variant={resolvedBackgroundVariant} /> : null}
-      <div className="site-container relative z-10 mx-auto px-[1cm] w-full">
+      <div className="site-container relative z-10 mx-auto w-full px-4 sm:px-6 lg:px-[1cm]">
         {(title || subtitle) && (
           <motion.div
             initial={initial}

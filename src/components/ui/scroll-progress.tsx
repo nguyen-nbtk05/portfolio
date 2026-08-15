@@ -70,7 +70,7 @@ export function ScrollProgress() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-y-0 right-3 z-40 flex items-center sm:right-5 md:right-6"
+      className="pointer-events-none fixed inset-y-0 right-3 z-40 hidden items-center sm:right-5 sm:flex md:right-6"
     >
       <motion.div
         initial={reduceMotion ? false : { opacity: 0, x: 8 }}

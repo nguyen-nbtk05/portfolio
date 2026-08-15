@@ -295,7 +295,7 @@ export function HeroSection() {
       data-cursor="default"
       onMouseMove={reduceMotion ? undefined : handleMouseMove}
       onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
-      className="relative flex min-h-screen select-none items-center justify-center overflow-hidden py-24 sm:py-28 lg:h-full lg:py-10"
+      className="relative flex min-h-0 select-none items-start justify-center overflow-x-clip pb-[calc(5.25rem+env(safe-area-inset-bottom))] pt-16 [@media(max-width:1023px)_and_(max-height:500px)]:pt-3 sm:pt-20 lg:h-full lg:min-h-screen lg:items-center lg:overflow-hidden lg:pb-10 lg:pt-10"
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
 
@@ -320,16 +320,16 @@ export function HeroSection() {
         ))}
       </motion.div>
 
-      <div className="site-container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-[1cm] lg:grid-cols-[42%_58%] lg:gap-8 xl:gap-10">
+      <div className="site-container relative z-10 mx-auto grid min-w-0 grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-[42%_58%] lg:px-[1cm] xl:gap-10">
         <motion.div
-          className="flex max-w-3xl flex-col items-start gap-8"
+          className="flex min-w-0 max-w-3xl flex-col items-center gap-4 text-center [@media(max-width:1023px)_and_(max-height:500px)]:gap-3 sm:gap-5 lg:items-start lg:gap-8 lg:text-left"
           initial={initial}
           animate="visible"
           variants={staggerContainer(0.11)}
         >
           <motion.div
             variants={fadeUp}
-            className="flex select-none items-center gap-2.5 whitespace-nowrap rounded-full border border-slate-200/80 bg-white/80 px-4 py-1.5 text-xs sm:text-sm font-medium text-slate-700 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300"
+            className="flex max-w-full select-none items-center gap-2.5 whitespace-normal rounded-2xl border border-slate-200/80 bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm backdrop-blur sm:whitespace-nowrap sm:rounded-full sm:px-4 sm:text-sm dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300"
           >
             <span className="relative flex h-2.5 w-2.5 items-center justify-center shrink-0">
               <motion.span
@@ -350,7 +350,7 @@ export function HeroSection() {
 
           <motion.h1
             variants={fadeUp}
-            className="text-5xl font-bold leading-none tracking-tighter md:text-7xl"
+            className="flex w-full min-w-0 flex-col gap-4 text-[clamp(2.125rem,8vw,3rem)] font-bold leading-none tracking-tighter sm:gap-5 lg:block lg:text-7xl"
           >
             <span className="block">
               {lang({ en: "Hi, I'm", vi: "Xin chào! Tôi là" })} {siteConfig.name}
@@ -358,7 +358,7 @@ export function HeroSection() {
             </span>
             <motion.span
               variants={fadeIn}
-              className="mt-3 block min-h-[1.18em] w-full text-4xl leading-[1.12] md:text-6xl"
+              className="block min-h-[1.18em] w-full min-w-0 text-[clamp(1.75rem,6.8vw,2.25rem)] leading-[1.12] max-[359px]:min-h-[2.24em] lg:mt-3 lg:text-6xl"
             >
               <TypewriterText
                 key={`Computer Networks | Data Communications`}
@@ -373,20 +373,20 @@ export function HeroSection() {
 
           <motion.p
             variants={fadeUp}
-            className="max-w-2xl text-lg leading-relaxed text-slate-600 md:text-xl dark:text-slate-400"
+            className="mx-auto max-w-2xl text-[0.95rem] leading-6 text-slate-600 sm:text-lg sm:leading-relaxed lg:mx-0 lg:text-xl dark:text-slate-400"
           >
             {lang(siteConfig.description)}
           </motion.p>
 
           <motion.div
             variants={fadeUp}
-            className="mt-4 flex flex-wrap items-center gap-4"
+            className="flex flex-wrap items-center justify-center gap-3 lg:mt-4 lg:justify-start lg:gap-4"
           >
             <a
               href={siteConfig.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center gap-2 rounded-lg bg-teal-600 px-6 py-3 font-medium text-white shadow-lg shadow-teal-500/20 transition-colors hover:bg-teal-700"
+              className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-teal-500/20 transition-colors hover:bg-teal-700 sm:px-6 sm:py-3 sm:text-base"
             >
               <FileText className="h-4 w-4 transition-transform group-hover:scale-110" />
               {lang({ en: "View Resume", vi: "Xem CV" })}

@@ -29,7 +29,7 @@ export function SmartIconButton({
       rel={isExternal ? "noopener noreferrer" : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="flex items-center rounded-full bg-transparent p-2.5 text-slate-500 transition-colors hover:bg-slate-200 hover:text-teal-500 dark:hover:bg-slate-800"
+      className="flex min-h-11 min-w-11 items-center justify-center rounded-full bg-transparent p-2.5 text-slate-500 transition-colors hover:bg-slate-200 hover:text-teal-500 lg:min-h-0 lg:min-w-0 dark:hover:bg-slate-800"
       aria-label={label}
     >
       <motion.div layout className="shrink-0">
@@ -61,7 +61,7 @@ export function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-slate-50 py-8 dark:border-slate-800 dark:bg-slate-950">
       <motion.div
-        className="site-container mx-auto flex flex-col items-center justify-between gap-4 px-[1cm] md:flex-row"
+        className="site-container mx-auto flex flex-col items-center justify-between gap-4 px-4 sm:px-6 md:flex-row lg:px-[1cm]"
         initial={reduceMotion ? false : "hidden"}
         animate="visible"
         variants={staggerContainer(0.08)}

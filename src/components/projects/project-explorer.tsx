@@ -50,7 +50,7 @@ export function ProjectExplorer() {
 
   return (
     <div className="w-full">
-      <div className="hidden md:grid md:grid-cols-12 md:gap-6 lg:gap-8 items-stretch lg:pr-6 xl:pr-4">
+      <div className="hidden items-stretch lg:grid lg:grid-cols-12 lg:gap-8 lg:pr-6 xl:pr-4">
         <div
           role="tablist"
           aria-label={lang({ en: "Project list", vi: "Danh sách dự án" })}
@@ -136,7 +136,7 @@ export function ProjectExplorer() {
         </div>
       </div>
 
-      <div className="block md:hidden space-y-4">
+      <div className="block space-y-4 lg:hidden">
         <div className="flex items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
           {projects.map((project) => {
             const isActive = mobileActiveId === project.id;
@@ -157,7 +157,7 @@ export function ProjectExplorer() {
           })}
         </div>
 
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-950/60 p-5 space-y-4 shadow-xs">
+        <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50/90 p-4 shadow-xs sm:p-5 dark:border-slate-800 dark:bg-slate-950/60">
           <div>
             <div className="flex items-center justify-between text-[10px] uppercase text-teal-600 dark:text-teal-400 font-bold mb-1">
               <span>
@@ -176,12 +176,12 @@ export function ProjectExplorer() {
             </p>
           </div>
 
-          <div className="min-h-[140px] w-full flex items-center justify-center py-2">
+          <div className="flex min-h-[140px] w-full items-center justify-center overflow-hidden rounded-lg py-2">
             <ProjectVisual presentation={mobileActiveProject.presentation} />
           </div>
 
           <div className="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-3">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <div className="text-[10px] uppercase text-slate-400 dark:text-slate-500 tracking-wider">
                   {lang({ en: "IMPACT", vi: "TÁC ĐỘNG" })}
@@ -197,7 +197,7 @@ export function ProjectExplorer() {
               <ProjectCTA links={mobileActiveProject.links} />
             </div>
 
-            <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+            <div className="break-words text-xs uppercase leading-relaxed tracking-wider text-slate-500 dark:text-slate-400">
               {mobileActiveProject.techStack.join("  /  ")}
             </div>
           </div>

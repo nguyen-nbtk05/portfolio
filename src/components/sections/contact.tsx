@@ -152,12 +152,12 @@ export function ContactSection() {
 
   return (
     <Section id="contact" className="pb-0 sm:pb-0 lg:pb-0">
-      <div className="flex flex-col justify-between min-h-[calc(100vh-3rem)] sm:min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] w-full">
+      <div className="flex min-h-[calc(100svh-3rem)] w-full flex-col justify-between sm:min-h-[calc(100svh-4rem)] lg:min-h-[calc(100vh-5rem)]">
         <div className="flex-1" />
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 w-full max-w-7xl mx-auto items-stretch">
           <motion.div
-            className="lg:col-span-5 flex flex-col justify-center space-y-6 bg-slate-50/50 dark:bg-slate-900/10 border border-slate-200/50 dark:border-slate-800/50 rounded-3xl p-6 sm:p-8"
+            className="flex flex-col justify-center space-y-6 rounded-3xl border border-slate-200/50 bg-slate-50/50 p-4 sm:p-6 lg:col-span-5 lg:p-8 dark:border-slate-800/50 dark:bg-slate-900/10"
             initial={initial}
             whileInView="visible"
             viewport={viewportOnce}
@@ -259,7 +259,7 @@ export function ContactSection() {
           </motion.div>
 
           <motion.div
-            className="lg:col-span-7 bg-white/80 dark:bg-slate-900/60 border border-slate-200/50 dark:border-slate-800/50 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/20 dark:shadow-none flex flex-col justify-center relative overflow-hidden transition-[box-shadow,border-color] duration-300 hover:shadow-2xl hover:shadow-slate-200/40 dark:hover:shadow-black/10 hover:border-slate-300 dark:hover:border-slate-700"
+            className="relative flex flex-col justify-center overflow-hidden rounded-3xl border border-slate-200/50 bg-white/80 p-4 pt-5 shadow-xl shadow-slate-100/20 transition-[box-shadow,border-color] duration-300 hover:border-slate-300 hover:shadow-2xl hover:shadow-slate-200/40 sm:p-6 lg:col-span-7 lg:p-8 dark:border-slate-800/50 dark:bg-slate-900/60 dark:shadow-none dark:hover:border-slate-700 dark:hover:shadow-black/10"
             initial={initial}
             whileInView="visible"
             viewport={viewportOnce}
@@ -496,7 +496,7 @@ export function ContactSection() {
 
         <div className="flex-1" />
 
-        <footer className="w-full mt-auto pt-4 pb-0 border-t border-slate-200/50 dark:border-slate-800/50">
+        <footer className="mt-auto w-full border-t border-slate-200/50 pb-[calc(5.25rem+env(safe-area-inset-bottom))] pt-4 lg:pb-0 dark:border-slate-800/50">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row text-sm text-slate-500 dark:text-slate-400">
             <div className="flex flex-wrap items-center justify-center gap-1">
               <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
@@ -531,7 +531,7 @@ export function ContactSection() {
               />
             </div>
 
-            <p>
+            <p className="text-center md:text-left">
               © {new Date().getFullYear()} {siteConfig.name}.{" "}
               {lang({
                 en: "All rights reserved.",

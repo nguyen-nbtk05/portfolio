@@ -147,7 +147,7 @@ export function AboutSection() {
   const avatarY = useTransform(smoothY, [-1, 1], [-8, 8]);
 
   const handleBoardPointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (reduceMotion) return;
+    if (reduceMotion || event.pointerType !== "mouse") return;
 
     const rect = event.currentTarget.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width;
@@ -169,7 +169,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative isolate flex min-h-[100vh] items-center overflow-hidden py-6 sm:py-8 lg:py-10"
+      className="relative isolate flex min-h-[100svh] items-start overflow-x-clip pb-12 pt-12 sm:pb-16 sm:pt-16 lg:min-h-[100vh] lg:items-center lg:overflow-hidden lg:py-10"
     >
       <SectionBackground variant="about" />
 
@@ -178,16 +178,16 @@ export function AboutSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.1)}
-        className="site-container mx-auto grid w-full items-center gap-6 px-[1cm] lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:gap-10 xl:gap-12"
+        className="site-container mx-auto grid w-full min-w-0 items-center gap-4 px-4 sm:gap-6 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:gap-10 lg:px-[1cm] xl:gap-12"
       >
-        <motion.div variants={fadeUp} className="max-w-3xl lg:ml-8 xl:ml-12">
+        <motion.div variants={fadeUp} className="contents lg:block lg:min-w-0 lg:max-w-3xl lg:ml-8 xl:ml-12">
 
-          <h2 className="max-w-2xl text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
+          <h2 className="order-1 max-w-2xl text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
             {lang({ en: "About Me", vi: "Giới Thiệu" })}
             <span className="text-teal-500">.</span>
           </h2>
 
-          <div className="mt-4 w-full space-y-3 rounded-xl border border-slate-200/80 bg-white/65 p-4 text-sm leading-6 text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 sm:text-base sm:leading-7">
+          <div className="order-3 w-full space-y-3 rounded-xl border border-slate-200/80 bg-white/65 p-4 text-sm leading-6 text-slate-600 shadow-sm backdrop-blur lg:mt-4 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 sm:text-base sm:leading-7">
             <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base sm:text-lg">
               {lang({ en: "Who am I?", vi: "Tôi là ai?" })}
             </h3>
@@ -206,7 +206,7 @@ export function AboutSection() {
 
           <motion.div
             variants={staggerContainer(0.08, 0.08)}
-            className="mt-4 grid gap-3 sm:grid-cols-3"
+            className="order-4 grid gap-3 lg:mt-4 sm:grid-cols-3"
           >
             {hudTiles.map((tile) => (
               <motion.div
@@ -231,9 +231,9 @@ export function AboutSection() {
             variants={scaleIn}
             layout
             aria-label="Social dock"
-            className="mt-4 flex w-fit items-center gap-2 rounded-2xl border border-slate-200/80 bg-white/70 p-2 shadow-lg shadow-slate-200/50 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/20"
+            className="order-5 grid w-full grid-cols-6 items-center gap-0.5 rounded-2xl border border-slate-200/80 bg-white/70 p-1 shadow-lg shadow-slate-200/50 backdrop-blur-xl sm:flex sm:w-fit sm:gap-2 sm:p-2 lg:mt-4 dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/20"
           >
-            <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
+            <span className="mr-1 hidden select-none border-r border-slate-200 pl-3 pr-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 sm:block sm:text-xs dark:border-slate-800 dark:text-slate-500">
               {lang({ en: "Follow me", vi: "Theo dõi tôi" })}
             </span>
             {socialDockItems.map((item) => (
@@ -248,12 +248,12 @@ export function AboutSection() {
           </motion.nav>
         </motion.div>
 
-        <motion.div variants={fadeUp} className="mx-auto w-full max-w-[430px]">
+        <motion.div variants={fadeUp} className="order-2 mx-auto w-full min-w-0 max-w-[430px] lg:order-none">
           <motion.div
             onPointerMove={handleBoardPointerMove}
             onPointerLeave={handleBoardPointerLeave}
             style={reduceMotion ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
-            className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/75 p-4 shadow-2xl shadow-slate-200/70 backdrop-blur-xl [--glow-x:50%] [--glow-y:42%] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_var(--glow-x)_var(--glow-y),rgba(20,184,166,0.24),transparent_34%)] before:transition-[background] before:duration-300 dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/30 dark:before:bg-[radial-gradient(circle_at_var(--glow-x)_var(--glow-y),rgba(20,184,166,0.16),transparent_36%)]"
+            className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/75 p-3 shadow-2xl shadow-slate-200/70 backdrop-blur-xl [--glow-x:50%] [--glow-y:42%] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_var(--glow-x)_var(--glow-y),rgba(20,184,166,0.24),transparent_34%)] before:transition-[background] before:duration-300 sm:p-4 dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/30 dark:before:bg-[radial-gradient(circle_at_var(--glow-x)_var(--glow-y),rgba(20,184,166,0.16),transparent_36%)]"
           >
             <div className="relative z-10 flex items-center justify-between gap-3 border-b border-slate-200/80 pb-3 dark:border-slate-800">
               <div>
