@@ -220,7 +220,7 @@ const NETWORK_NODES = [
 ];
 
 export function HeroSection() {
-  const { lang } = useLanguage();
+  const { lang, language } = useLanguage();
   const reduceMotion = useReducedMotion();
   const initial = reduceMotion ? false : "hidden";
 
@@ -295,7 +295,7 @@ export function HeroSection() {
       data-cursor="default"
       onMouseMove={reduceMotion ? undefined : handleMouseMove}
       onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
-      className="relative flex min-h-0 select-none items-start justify-center overflow-x-clip pb-8 pt-[calc(5rem+env(safe-area-inset-top))] [@media(max-width:1023px)_and_(max-height:500px)]:pt-[calc(4rem+env(safe-area-inset-top))] sm:pb-10 sm:pt-[calc(6rem+env(safe-area-inset-top))] lg:h-full lg:min-h-screen lg:items-center lg:overflow-hidden lg:pb-10 lg:pt-10"
+      className="relative flex min-h-0 select-none items-start justify-center overflow-x-clip pb-8 pt-[calc(5.5rem+env(safe-area-inset-top))] [@media(max-width:1023px)_and_(max-height:500px)]:pt-[calc(5rem+env(safe-area-inset-top))] sm:pb-10 sm:pt-[calc(6rem+env(safe-area-inset-top))] lg:h-full lg:min-h-screen lg:items-center lg:overflow-hidden lg:pb-10 lg:pt-10"
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
 
@@ -320,7 +320,7 @@ export function HeroSection() {
         ))}
       </motion.div>
 
-      <div className="site-container relative z-10 mx-auto grid min-w-0 grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-[42%_58%] lg:px-[1cm] xl:gap-10">
+      <div className="site-container relative z-10 mx-auto grid min-w-0 grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-[44%_56%] lg:px-[1cm] xl:gap-10">
         <motion.div
           className="flex min-w-0 max-w-3xl flex-col items-center gap-4 text-center [@media(max-width:1023px)_and_(max-height:500px)]:gap-3 sm:gap-5 lg:items-start lg:gap-8 lg:text-left"
           initial={initial}
@@ -342,8 +342,8 @@ export function HeroSection() {
             </span>
             <span>
               {lang({
-                en: "Computer Networks & Data Communications",
-                vi: "Mạng máy tính & Truyền thông dữ liệu",
+                en: "Networking · Systems · Security",
+                vi: "Mạng · Hệ thống · Bảo mật",
               })}
             </span>
           </motion.div>
@@ -352,8 +352,14 @@ export function HeroSection() {
             variants={fadeUp}
             className="flex w-full min-w-0 flex-col gap-4 text-[clamp(2.125rem,8vw,3rem)] font-bold leading-none tracking-tighter sm:gap-5 lg:block lg:text-7xl"
           >
-            <span className="block">
-              {lang({ en: "Hi, I'm", vi: "Xin chào! Tôi là" })} {siteConfig.name}
+            <span
+              className={`block ${
+                language === "vi"
+                  ? "lg:whitespace-nowrap lg:text-[clamp(2.5rem,3.55vw,4.25rem)] 2xl:text-7xl"
+                  : ""
+              }`}
+            >
+              {lang({ en: "Hi, I'm", vi: "Chào! Mình là" })} {siteConfig.name}
               <span className="text-teal-500">.</span>
             </span>
             <motion.span

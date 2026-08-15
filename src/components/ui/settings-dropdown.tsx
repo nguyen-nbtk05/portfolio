@@ -100,11 +100,11 @@ export function SettingsDropdown({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            initial={{ opacity: 0, y: mobile ? -10 : 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{
               opacity: 0,
-              y: 10,
+              y: mobile ? -10 : 10,
               scale: 0.95,
               transition: { duration: 0.15 },
             }}
@@ -112,7 +112,7 @@ export function SettingsDropdown({
             onMouseLeave={mobile ? undefined : () => setActiveSubMenu(null)}
             className={
               mobile
-                ? "absolute bottom-full right-0 z-50 mb-2 max-h-[calc(100dvh-5rem)] w-[min(18rem,calc(100vw-2rem))] overflow-y-auto overscroll-contain rounded-xl border border-slate-200/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
+                ? "absolute right-0 top-full z-50 mt-2 max-h-[calc(100dvh-5.5rem)] w-[min(18rem,calc(100vw-2rem))] overflow-y-auto overscroll-contain rounded-xl border border-slate-200/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
                 : "absolute left-1/2 top-full z-50 mt-4 w-48 -translate-x-1/2 rounded-xl border border-slate-200/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-none"
             }
           >

@@ -477,7 +477,7 @@ export function Navbar() {
   };
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-[max(0.75rem,env(safe-area-inset-top))] z-50 w-full px-2 sm:top-[max(1.25rem,env(safe-area-inset-top))] sm:px-4 lg:px-6">
+    <div className="pointer-events-none fixed inset-x-0 top-[max(1rem,env(safe-area-inset-top))] z-50 w-full px-2 sm:top-[max(1.25rem,env(safe-area-inset-top))] sm:px-4 lg:px-6">
       <motion.div
         animate={{ y: isScrolled ? -12 : 0 }}
         transition={{
