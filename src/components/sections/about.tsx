@@ -169,7 +169,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative isolate flex min-h-[100svh] items-start overflow-x-clip pb-12 pt-12 sm:pb-16 sm:pt-16 lg:min-h-[100vh] lg:items-center lg:overflow-hidden lg:py-10"
+      className="relative isolate flex min-h-[100svh] items-start overflow-x-clip pb-12 pt-[calc(4rem+env(safe-area-inset-top))] sm:pb-16 sm:pt-[calc(5rem+env(safe-area-inset-top))] lg:min-h-[100vh] lg:items-center lg:overflow-hidden lg:py-10"
     >
       <SectionBackground variant="about" />
 

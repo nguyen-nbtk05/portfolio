@@ -496,7 +496,7 @@ export function ContactSection() {
 
         <div className="flex-1" />
 
-        <footer className="mt-auto w-full border-t border-slate-200/50 pb-[calc(5.25rem+env(safe-area-inset-bottom))] pt-4 lg:pb-0 dark:border-slate-800/50">
+        <footer className="mt-auto w-full border-t border-slate-200/50 pb-0 pt-4 dark:border-slate-800/50">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row text-sm text-slate-500 dark:text-slate-400">
             <div className="flex flex-wrap items-center justify-center gap-1">
               <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">

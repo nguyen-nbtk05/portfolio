@@ -295,7 +295,7 @@ export function HeroSection() {
       data-cursor="default"
       onMouseMove={reduceMotion ? undefined : handleMouseMove}
       onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
-      className="relative flex min-h-0 select-none items-start justify-center overflow-x-clip pb-[calc(5.25rem+env(safe-area-inset-bottom))] pt-16 [@media(max-width:1023px)_and_(max-height:500px)]:pt-3 sm:pt-20 lg:h-full lg:min-h-screen lg:items-center lg:overflow-hidden lg:pb-10 lg:pt-10"
+      className="relative flex min-h-0 select-none items-start justify-center overflow-x-clip pb-8 pt-[calc(5rem+env(safe-area-inset-top))] [@media(max-width:1023px)_and_(max-height:500px)]:pt-[calc(4rem+env(safe-area-inset-top))] sm:pb-10 sm:pt-[calc(6rem+env(safe-area-inset-top))] lg:h-full lg:min-h-screen lg:items-center lg:overflow-hidden lg:pb-10 lg:pt-10"
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-200 via-slate-50 to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950" />
 

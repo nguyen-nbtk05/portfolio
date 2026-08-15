@@ -50,7 +50,7 @@ export function Section({
       id={id}
       data-cursor={dataCursor}
       className={cn(
-        "flex min-h-[100svh] items-start pb-12 pt-12 sm:pb-16 sm:pt-16 lg:min-h-[100vh] lg:items-center lg:py-10",
+        "flex min-h-[100svh] items-start pb-12 pt-[calc(4rem+env(safe-area-inset-top))] sm:pb-16 sm:pt-[calc(5rem+env(safe-area-inset-top))] lg:min-h-[100vh] lg:items-center lg:py-10",
         resolvedBackgroundVariant
           ? "relative isolate overflow-x-clip lg:overflow-hidden"
           : null,

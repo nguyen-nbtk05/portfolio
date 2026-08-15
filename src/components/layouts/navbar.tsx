@@ -199,7 +199,6 @@ export function Navbar() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [activeSection, setActiveSection] = useState<HomeSectionId>("hero");
   const [localClock, setLocalClock] = useState({
     date: "--/--/----",
@@ -316,15 +315,6 @@ export function Navbar() {
       window.removeEventListener("scroll", scheduleUpdate);
       if (frameId) window.cancelAnimationFrame(frameId);
     };
-  }, []);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1023px)");
-    const updateViewportMode = () => setIsMobileViewport(mediaQuery.matches);
-
-    updateViewportMode();
-    mediaQuery.addEventListener("change", updateViewportMode);
-    return () => mediaQuery.removeEventListener("change", updateViewportMode);
   }, []);
 
   useEffect(() => {
@@ -487,9 +477,9 @@ export function Navbar() {
   };
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-[max(0.75rem,env(safe-area-inset-bottom))] top-auto z-50 w-full px-2 sm:px-4 lg:bottom-auto lg:top-5 lg:px-6">
+    <div className="pointer-events-none fixed inset-x-0 top-[max(0.75rem,env(safe-area-inset-top))] z-50 w-full px-2 sm:top-[max(1.25rem,env(safe-area-inset-top))] sm:px-4 lg:px-6">
       <motion.div
-        animate={{ y: isScrolled ? (isMobileViewport ? 12 : -12) : 0 }}
+        animate={{ y: isScrolled ? -12 : 0 }}
         transition={{
           duration: reduceMotion ? 0 : 0.28,
           ease: [0.22, 1, 0.36, 1],
