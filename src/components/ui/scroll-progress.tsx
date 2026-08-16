@@ -18,6 +18,17 @@ function getDocumentProgress() {
   return clampProgress(window.scrollY / scrollLimit);
 }
 
+function getElementProgress(target: HTMLElement) {
+  const targetTop = target.getBoundingClientRect().top + window.scrollY;
+  const targetHeight = target.offsetHeight;
+  const scrollEnd = Math.max(
+    targetTop + targetHeight - window.innerHeight,
+    targetTop + 1,
+  );
+
+  return clampProgress((window.scrollY - targetTop) / (scrollEnd - targetTop));
+}
+
 export function ScrollProgress() {
   const lenis = useLenis();
   const progress = useMotionValue(0);
@@ -26,13 +37,22 @@ export function ScrollProgress() {
   const isBlogArticle = /^\/blog\/[^/]+\/?$/.test(pathname);
 
   useEffect(() => {
-    if (isBlogArticle) return;
+    const articleBody = isBlogArticle
+      ? document.getElementById("article-body")
+      : null;
 
     const updateFromDocument = () => {
-      progress.set(getDocumentProgress());
+      progress.set(
+        articleBody ? getElementProgress(articleBody) : getDocumentProgress(),
+      );
     };
 
     const updateFromLenis = (instance: Lenis) => {
+      if (articleBody) {
+        progress.set(getElementProgress(articleBody));
+        return;
+      }
+
       progress.set(
         instance.limit > 0
           ? clampProgress(instance.progress)
@@ -55,7 +75,7 @@ export function ScrollProgress() {
         ? null
         : new ResizeObserver(updateFromDocument);
 
-    resizeObserver?.observe(document.documentElement);
+    resizeObserver?.observe(articleBody ?? document.documentElement);
 
     return () => {
       unsubscribe?.();
@@ -64,8 +84,6 @@ export function ScrollProgress() {
       resizeObserver?.disconnect();
     };
   }, [isBlogArticle, lenis, progress]);
-
-  if (isBlogArticle) return null;
 
   return (
     <div

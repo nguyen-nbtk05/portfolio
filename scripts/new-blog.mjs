@@ -37,9 +37,11 @@ function isErrorCode(error, code) {
 async function main() {
   const args = process.argv.slice(2);
   const access = args.includes("--vault") ? "vault" : "public";
-  const title = args.filter((arg) => arg !== "--vault").join(" ").trim();
+  const vietnameseOnly = args.includes("--vi-only");
+  const flags = new Set(["--vault", "--vi-only"]);
+  const title = args.filter((arg) => !flags.has(arg)).join(" ").trim();
   if (!title) {
-    throw new Error('Usage: npm run blog:new -- [--vault] "Article title"');
+    throw new Error('Usage: npm run blog:new -- [--vault] [--vi-only] "Article title"');
   }
 
   const slug = slugifyBlogTitle(title);
@@ -61,14 +63,9 @@ async function main() {
   }
 
   const metadata = {
-    title: {
-      en: title,
-      vi: "",
-    },
-    excerpt: {
-      en: "",
-      vi: "",
-    },
+    languages: vietnameseOnly ? ["vi"] : ["en", "vi"],
+    title: vietnameseOnly ? { vi: title } : { en: title, vi: "" },
+    excerpt: vietnameseOnly ? { vi: "" } : { en: "", vi: "" },
     publishedAt: formatLocalDate(),
     tags: [],
     featured: false,
@@ -76,16 +73,18 @@ async function main() {
     access,
   };
 
-  const createdFiles = [
-    path.join(articleDirectory, "meta.json"),
-    path.join(articleDirectory, "en.mdx"),
-    path.join(articleDirectory, "vi.mdx"),
-  ];
+  const metadataPath = path.join(articleDirectory, "meta.json");
+  const bodyFiles = vietnameseOnly
+    ? [[path.join(articleDirectory, "vi.mdx"), VIETNAMESE_TEMPLATE]]
+    : [
+        [path.join(articleDirectory, "en.mdx"), ENGLISH_TEMPLATE],
+        [path.join(articleDirectory, "vi.mdx"), VIETNAMESE_TEMPLATE],
+      ];
+  const createdFiles = [metadataPath, ...bodyFiles.map(([file]) => file)];
 
   await Promise.all([
-    writeFile(createdFiles[0], `${JSON.stringify(metadata, null, 2)}\n`, "utf8"),
-    writeFile(createdFiles[1], ENGLISH_TEMPLATE, "utf8"),
-    writeFile(createdFiles[2], VIETNAMESE_TEMPLATE, "utf8"),
+    writeFile(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`, "utf8"),
+    ...bodyFiles.map(([file, template]) => writeFile(file, template, "utf8")),
   ]);
 
   console.log(`Created draft blog article "${slug}":`);
@@ -94,7 +93,11 @@ async function main() {
   }
 
   console.log("\nNext steps:");
-  console.log("1. Complete both translations and metadata.");
+  console.log(
+    vietnameseOnly
+      ? "1. Complete the Vietnamese article and metadata."
+      : "1. Complete both translations and metadata.",
+  );
   console.log('2. Change status from "draft" to "published" when ready.');
   console.log(`3. Access level: ${access}.`);
   console.log("4. Run npm run blog:check.");

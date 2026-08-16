@@ -39,8 +39,10 @@ export function calculateReadTime(
 export function calculateLocalizedReadTime(
   content: LocalizedText,
 ): BlogReadTime {
-  return {
-    en: calculateReadTime(content.en),
-    vi: calculateReadTime(content.vi),
-  };
+  return Object.fromEntries(
+    Object.entries(content).map(([locale, source]) => [
+      locale,
+      calculateReadTime(source),
+    ]),
+  ) as BlogReadTime;
 }

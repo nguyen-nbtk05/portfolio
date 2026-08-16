@@ -6,7 +6,7 @@ Source code for my personal website. A bilingual, interactive portfolio for show
 
 - English and Vietnamese content with persistent language selection
 - Responsive project showcase and interactive portfolio terminal
-- MDX blog with tags, reading time, table of contents, and pagination
+- MDX blog with per-article languages, tags, reading time, table of contents, and pagination
 - Public, draft, coming-soon, and password-protected blog posts
 - Light and dark themes, smooth scrolling, and reduced-motion support
 - EmailJS-powered contact form
@@ -67,6 +67,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint |
 | `npm run blog:new -- "Article title"` | Create a public draft article |
+| `npm run blog:new -- --vi-only "Tiêu đề bài viết"` | Create a Vietnamese-only public draft |
 | `npm run blog:new -- --vault "Article title"` | Create a vault-protected draft article |
 | `npm run blog:check` | Validate all blog metadata and content |
 
@@ -76,7 +77,7 @@ Open [http://localhost:3000](http://localhost:3000).
 src/
 ├── app/                 # App Router pages and API routes
 ├── components/          # Layout, section, UI, project, and blog components
-├── content/blog/        # Bilingual MDX articles and metadata
+├── content/blog/        # MDX articles and per-language metadata
 ├── data/                # Site, project, and skill configuration
 ├── hooks/               # Shared React hooks
 ├── lib/                 # Navigation, animation, and blog utilities
@@ -99,7 +100,7 @@ Edit `src/data/config.ts` to update the name, description, email address, résum
 
 ### Blog content
 
-Each article lives in `src/content/blog/<slug>/`:
+Each article lives in `src/content/blog/<slug>/`. A bilingual article contains both body files:
 
 ```text
 <slug>/
@@ -108,10 +109,13 @@ Each article lives in `src/content/blog/<slug>/`:
 └── vi.mdx
 ```
 
-`meta.json` defines localized titles and excerpts, publication date, tags, featured state, visibility status, and access level:
+Vietnamese-only articles contain `meta.json` and `vi.mdx`; they do not need an `en.mdx` placeholder.
+
+`meta.json` defines the available content languages, localized titles and excerpts, publication date, tags, featured state, visibility status, and access level:
 
 ```json
 {
+  "languages": ["en", "vi"],
   "title": {
     "en": "Article title",
     "vi": "Tiêu đề bài viết"
@@ -128,7 +132,9 @@ Each article lives in `src/content/blog/<slug>/`:
 }
 ```
 
-Valid `status` values are `published`, `draft`, and `comingSoon`. Valid `access` values are `public` and `vault`.
+For a Vietnamese-only article, use `"languages": ["vi"]` and provide only the `vi` title, excerpt, and body. When the interface is English, the article content falls back to Vietnamese while interface controls remain English.
+
+Valid `languages` values are `en` and `vi`. Valid `status` values are `published`, `draft`, and `comingSoon`. Valid `access` values are `public` and `vault`.
 
 Before publishing or deploying, validate the content and create a production build:
 

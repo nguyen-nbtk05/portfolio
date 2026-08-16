@@ -1,4 +1,5 @@
 {
+  "languages": ["en", "vi"],
   "title": { "en": "Coming soon", "vi": "Sắp ra mắt" },
   "excerpt": { "en": "Preview only", "vi": "Chỉ xem trước" },
   "publishedAt": "2026-07-01",

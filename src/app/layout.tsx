@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body suppressHydrationWarning className={`${inter.className} ${pixelFont.variable} font-sans bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors duration-300`}>
         <ThemeProvider
           attribute="class"

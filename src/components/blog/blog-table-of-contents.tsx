@@ -4,15 +4,18 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { ListTree } from "lucide-react";
 import { useLenis } from "@/hooks/use-lenis";
 import type { BlogTableOfContentsItem } from "@/lib/blog/heading-slug";
+import type { Language } from "@/lib/language";
 
 type BlogTableOfContentsProps = {
   items: BlogTableOfContentsItem[];
-  locale: "en" | "vi";
+  locale: Language;
+  contentLanguage: Language;
 };
 
 export function BlogTableOfContents({
   items,
   locale,
+  contentLanguage,
 }: BlogTableOfContentsProps) {
   const lenis = useLenis();
   const [activeId, setActiveId] = useState<string | null>(items[0]?.id ?? null);
@@ -141,7 +144,7 @@ export function BlogTableOfContents({
   if (items.length === 0) return null;
 
   return (
-    <aside className="hidden 2xl:sticky 2xl:top-24 2xl:block 2xl:w-full 2xl:max-w-80 2xl:justify-self-start">
+    <aside className="hidden 2xl:sticky 2xl:top-24 2xl:block 2xl:w-full 2xl:max-w-[18rem] 2xl:justify-self-start">
       <div className="rounded-2xl border border-slate-200/90 bg-white/75 p-5 shadow-sm shadow-slate-200/20 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/70 dark:shadow-black/10">
         <div className="mb-4 flex items-center gap-2 border-b border-slate-200 pb-4 dark:border-slate-800">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-400">
@@ -174,7 +177,7 @@ export function BlogTableOfContents({
                         : "border-slate-200 text-slate-500 hover:border-teal-300 hover:text-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:border-teal-700 dark:hover:text-slate-100"
                     }`}
                   >
-                    {item.label}
+                    <span lang={contentLanguage}>{item.label}</span>
                   </a>
                 </li>
               );

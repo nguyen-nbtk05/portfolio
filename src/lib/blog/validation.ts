@@ -5,6 +5,7 @@ import {
   type BlogPostMeta,
   type BlogStatus,
 } from "./types";
+import { LANGUAGES, type Language } from "../language";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -40,14 +41,15 @@ export function isBlogAccess(value: unknown): value is BlogAccess {
 function validateLocalizedText(
   value: unknown,
   field: "title" | "excerpt",
+  languages: Language[],
   requireCompleteTranslations: boolean,
 ): string[] {
   if (!isRecord(value)) {
-    return [`${field} must be an object with en and vi strings`];
+    return [`${field} must be an object keyed by a declared language`];
   }
 
   const errors: string[] = [];
-  for (const locale of ["en", "vi"] as const) {
+  for (const locale of languages) {
     if (typeof value[locale] !== "string") {
       errors.push(`${field}.${locale} must be a string`);
       continue;
@@ -58,8 +60,16 @@ function validateLocalizedText(
     }
   }
 
-  if (field === "title" && !isNonEmptyString(value.en)) {
-    errors.push(`${field}.en must not be empty`);
+  const undeclaredLanguages = LANGUAGES.filter(
+    (locale) => locale in value && !languages.includes(locale),
+  );
+  for (const locale of undeclaredLanguages) {
+    errors.push(`${field}.${locale} is present but ${locale} is not declared in languages`);
+  }
+
+  const primaryLanguage = languages[0];
+  if (field === "title" && primaryLanguage && !isNonEmptyString(value[primaryLanguage])) {
+    errors.push(`${field}.${primaryLanguage} must not be empty`);
   }
 
   return [...new Set(errors)];
@@ -71,20 +81,40 @@ export function validateBlogPostMeta(value: unknown): string[] {
   }
 
   const status = value.status;
+  const languages = Array.isArray(value.languages)
+    ? value.languages.filter((locale): locale is Language =>
+        typeof locale === "string" && LANGUAGES.includes(locale as Language),
+      )
+    : [];
   const requireCompleteTranslations =
     status === "published" || status === "comingSoon";
-  const errors = [
+  const errors: string[] = [];
+
+  if (!Array.isArray(value.languages) || value.languages.length === 0) {
+    errors.push("languages must be a non-empty array containing en and/or vi");
+  } else {
+    if (!value.languages.every((locale) => typeof locale === "string" && LANGUAGES.includes(locale as Language))) {
+      errors.push(`languages must contain only: ${LANGUAGES.join(", ")}`);
+    }
+    if (new Set(value.languages).size !== value.languages.length) {
+      errors.push("languages must not contain duplicates");
+    }
+  }
+
+  errors.push(
     ...validateLocalizedText(
       value.title,
       "title",
+      languages,
       requireCompleteTranslations,
     ),
     ...validateLocalizedText(
       value.excerpt,
       "excerpt",
+      languages,
       requireCompleteTranslations,
     ),
-  ];
+  );
 
   for (const derivedField of ["id", "slug", "link", "href", "readTime"] as const) {
     if (derivedField in value) {

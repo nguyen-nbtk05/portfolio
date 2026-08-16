@@ -3,9 +3,9 @@ import "server-only";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
-import type { Language, Localized } from "../language";
+import type { Language } from "../language";
+import type { BlogLanguages, BlogPostMeta, LocalizedText } from "./types";
 import { isValidBlogSlug } from "./slug";
-import type { BlogPostMeta } from "./types";
 import { parseBlogPostMeta } from "./validation";
 
 export interface BlogRepositoryOptions {
@@ -173,24 +173,20 @@ export async function readBlogPostBody(
 
 export async function readRequiredLocalizedBodies(
   slug: string,
+  languages: BlogLanguages,
   options: BlogRepositoryOptions = {},
-): Promise<Localized<string>> {
-  const [en, vi] = await Promise.all([
-    readBlogPostBody(slug, "en", options),
-    readBlogPostBody(slug, "vi", options),
-  ]);
+): Promise<LocalizedText> {
+  const entries = await Promise.all(
+    languages.map(async (locale) => {
+      const body = await readBlogPostBody(slug, locale, options);
+      if (body === null || !hasSubstantiveBlogBody(body)) {
+        throw new BlogContentError(
+          `Published blog post "${slug}" requires substantive ${locale}.mdx content`,
+        );
+      }
+      return [locale, body] as const;
+    }),
+  );
 
-  if (en === null || !hasSubstantiveBlogBody(en)) {
-    throw new BlogContentError(
-      `Published blog post "${slug}" requires substantive en.mdx content`,
-    );
-  }
-
-  if (vi === null || !hasSubstantiveBlogBody(vi)) {
-    throw new BlogContentError(
-      `Published blog post "${slug}" requires substantive vi.mdx content`,
-    );
-  }
-
-  return { en, vi };
+  return Object.fromEntries(entries) as LocalizedText;
 }

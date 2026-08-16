@@ -4,7 +4,7 @@ export const siteConfig = {
   resumeUrl: "/docs/resume.pdf",
   github: "https://github.com/nguyen-nbtk05",
   x: "https://x.com/nguyen_nbtk05 ",
-  facebook: "https://www.facebook.com/bar.ney.5686/",
+  facebook: "https://www.facebook.com/nguyen.nbtk05/",
   telegram: "https://t.me/nguyen_nbtk05",
   discord: "https://discord.gg/jwB4yktV",
   description: {

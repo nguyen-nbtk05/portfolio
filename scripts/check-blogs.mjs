@@ -3,6 +3,7 @@ import path from "node:path";
 
 import {
   BLOG_CONTENT_DIRECTORY,
+  BLOG_LANGUAGES,
   hasSubstantiveBlogBody,
   isValidBlogSlug,
   validateBlogMeta,
@@ -50,24 +51,31 @@ async function validateArticle(slug) {
     errors.push(...validateBlogMeta(metadata));
   }
 
-  const englishPath = path.join(articleDirectory, "en.mdx");
-  const vietnamesePath = path.join(articleDirectory, "vi.mdx");
-  const [english, vietnamese] = await Promise.all([
-    readOptionalFile(englishPath),
-    readOptionalFile(vietnamesePath),
-  ]);
+  const bodies = Object.fromEntries(
+    await Promise.all(
+      BLOG_LANGUAGES.map(async (locale) => [
+        locale,
+        await readOptionalFile(path.join(articleDirectory, `${locale}.mdx`)),
+      ]),
+    ),
+  );
 
-  if (english === null) {
-    errors.push("en.mdx is missing");
-  }
+  const declaredLanguages = Array.isArray(metadata?.languages)
+    ? metadata.languages.filter((locale) => BLOG_LANGUAGES.includes(locale))
+    : [];
 
-  if (metadata?.status === "published") {
-    if (english === null || !hasSubstantiveBlogBody(english)) {
-      errors.push("published post requires substantive en.mdx content (the generated skeleton is not publishable)");
+  for (const locale of BLOG_LANGUAGES) {
+    const isDeclared = declaredLanguages.includes(locale);
+    const body = bodies[locale];
+
+    if (isDeclared && body === null) {
+      errors.push(`${locale}.mdx is missing`);
     }
-
-    if (vietnamese === null || !hasSubstantiveBlogBody(vietnamese)) {
-      errors.push("published post requires substantive vi.mdx content (the generated skeleton is not publishable)");
+    if (!isDeclared && body !== null) {
+      errors.push(`${locale}.mdx exists but ${locale} is not declared in languages`);
+    }
+    if (isDeclared && metadata?.status === "published" && !hasSubstantiveBlogBody(body)) {
+      errors.push(`published post requires substantive ${locale}.mdx content (the generated skeleton is not publishable)`);
     }
   }
 

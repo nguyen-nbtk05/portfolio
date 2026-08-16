@@ -15,7 +15,6 @@ import { BlogBackLink } from "@/components/blog/blog-back-link";
 import { BlogContactRail } from "@/components/blog/blog-contact-rail";
 import { BlogTableOfContents } from "@/components/blog/blog-table-of-contents";
 import { MdxRenderer } from "@/components/blog/mdx-renderer";
-import { ReadingProgress } from "@/components/blog/reading-progress";
 import { VaultAccessPanel } from "@/components/blog/vault-access-panel";
 import { SectionBackground } from "@/components/ui/section-background";
 import { getPostBySlug, getPublishedPostAccess } from "@/lib/blog/get-post";
@@ -29,6 +28,7 @@ import {
   isLanguage,
   type Language,
 } from "@/lib/language";
+import { getBlogContentLanguage, getBlogText } from "@/lib/blog/localization";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -80,14 +80,15 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
   if (!post) notFound();
 
-  const title = post.title[locale];
-  const description = post.excerpt[locale];
+  const title = getBlogText(post.title, post.languages, locale);
+  const description = getBlogText(post.excerpt, post.languages, locale);
 
   return {
     title: `${title} | Blog`,
     description,
     openGraph: {
       type: "article",
+      locale: post.locale === "vi" ? "vi_VN" : "en_US",
       title,
       description,
       publishedTime: post.publishedAt,
@@ -101,11 +102,13 @@ function AdjacentLink({
   label,
   title,
   direction,
+  contentLanguage,
 }: {
   href: string;
   label: string;
   title: string;
   direction: "previous" | "next";
+  contentLanguage: Language;
 }) {
   return (
     <Link
@@ -117,7 +120,7 @@ function AdjacentLink({
         {label}
         {direction === "next" ? <ArrowRight aria-hidden="true" className="h-4 w-4" /> : null}
       </span>
-      <span className="line-clamp-2 font-semibold text-slate-900 group-hover:text-teal-700 dark:text-slate-100 dark:group-hover:text-teal-300">
+      <span lang={contentLanguage} className="line-clamp-2 font-semibold text-slate-900 group-hover:text-teal-700 dark:text-slate-100 dark:group-hover:text-teal-300">
         {title}
       </span>
     </Link>
@@ -127,9 +130,11 @@ function AdjacentLink({
 function ArticleBreadcrumb({
   title,
   locale,
+  contentLanguage,
 }: {
   title: string;
   locale: Language;
+  contentLanguage: Language;
 }) {
   return (
     <nav
@@ -157,7 +162,7 @@ function ArticleBreadcrumb({
         aria-hidden="true"
         className="h-4 w-4 shrink-0 text-slate-400 dark:text-slate-600"
       />
-      <span className="min-w-0 truncate px-1 text-slate-700 dark:text-slate-200">
+      <span lang={contentLanguage} className="min-w-0 truncate px-1 text-slate-700 dark:text-slate-200">
         {title}
       </span>
     </nav>
@@ -199,29 +204,30 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   if (!post) notFound();
 
-  const readMinutes = post.readTime[locale];
+  const contentLanguage = post.locale;
+  const title = getBlogText(post.title, post.languages, locale);
+  const excerpt = getBlogText(post.excerpt, post.languages, locale);
+  const readMinutes = post.readTime[contentLanguage] ?? 0;
   const tableOfContents = extractBlogTableOfContents(post.content);
 
   return (
     <section lang={locale} className="relative isolate min-h-screen overflow-x-clip pb-20 pt-24">
       <SectionBackground variant="blog" />
-      <ReadingProgress targetId="article-body" />
-
       <article className="site-container relative z-10 mx-auto w-full px-4 sm:px-6 lg:px-[1cm]">
         <div className="mx-auto grid max-w-[100rem] gap-8 2xl:grid-cols-[minmax(0,1fr)_minmax(0,53rem)_minmax(0,1fr)] 2xl:items-start 2xl:gap-12">
           <BlogContactRail />
           <div className="mx-auto w-full max-w-[55rem] min-w-0 2xl:mx-0">
             <header className="border-b border-slate-200 pb-6 dark:border-slate-800">
-              <ArticleBreadcrumb title={post.title[locale]} locale={locale} />
+              <ArticleBreadcrumb title={title} locale={locale} contentLanguage={contentLanguage} />
 
               <div className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
                 {post.tags.slice(0, 2).join(" · ")}
               </div>
-              <h1 className="hyphens-auto text-[clamp(2rem,10vw,2.25rem)] font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-[2.75rem] sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-50">
-                {post.title[locale]}
+              <h1 lang={contentLanguage} className="hyphens-auto text-[clamp(2rem,10vw,2.25rem)] font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-[2.75rem] sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-50">
+                {title}
               </h1>
-              <p className="mt-4 hyphens-auto text-lg leading-8 text-slate-600 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-400">
-                {post.excerpt[locale]}
+              <p lang={contentLanguage} className="mt-4 hyphens-auto text-lg leading-8 text-slate-600 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-400">
+                {excerpt}
               </p>
 
               <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-500 dark:text-slate-400">
@@ -258,10 +264,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
             <div
               id="article-body"
+              lang={contentLanguage}
               data-cursor="text"
               className="w-full py-8 text-[1.02rem] [&>:first-child]:mt-0 [&_img]:my-8 [&_img]:h-auto [&_img]:max-w-full [&_img]:rounded-xl [&_img]:border [&_img]:border-slate-200 [&_img]:dark:border-slate-800"
             >
-              <MdxRenderer source={post.content} sourcePath={`${post.slug}/${locale}.mdx`} />
+              <MdxRenderer source={post.content} sourcePath={`${post.slug}/${contentLanguage}.mdx`} />
             </div>
 
             <nav aria-label={locale === "vi" ? "Bài viết liền kề" : "Adjacent articles"} className="grid gap-4 border-t border-slate-200 pt-8 md:grid-cols-2 dark:border-slate-800">
@@ -269,22 +276,28 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <AdjacentLink
                   href={adjacent.previous.href}
                   label={locale === "vi" ? "Bài trước" : "Previous"}
-                  title={adjacent.previous.title[locale]}
+                  title={getBlogText(adjacent.previous.title, adjacent.previous.languages, locale)}
                   direction="previous"
+                  contentLanguage={getBlogContentLanguage(adjacent.previous.languages, locale)}
                 />
               ) : <span aria-hidden="true" />}
               {adjacent.next?.href ? (
                 <AdjacentLink
                   href={adjacent.next.href}
                   label={locale === "vi" ? "Bài tiếp" : "Next"}
-                  title={adjacent.next.title[locale]}
+                  title={getBlogText(adjacent.next.title, adjacent.next.languages, locale)}
                   direction="next"
+                  contentLanguage={getBlogContentLanguage(adjacent.next.languages, locale)}
                 />
               ) : <span aria-hidden="true" />}
             </nav>
           </div>
 
-          <BlogTableOfContents items={tableOfContents} locale={locale} />
+          <BlogTableOfContents
+            items={tableOfContents}
+            locale={locale}
+            contentLanguage={contentLanguage}
+          />
         </div>
       </article>
     </section>

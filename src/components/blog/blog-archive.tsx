@@ -14,6 +14,7 @@ import { BlogCard } from "@/components/blog/blog-card";
 import { VaultAccessPanel } from "@/components/blog/vault-access-panel";
 import { useLanguage } from "@/hooks/use-language";
 import type { BlogPostSummary } from "@/lib/blog/types";
+import { getBlogContentLanguage, getBlogText } from "@/lib/blog/localization";
 
 type BlogArchiveProps = {
   posts: BlogPostSummary[];
@@ -65,10 +66,8 @@ export function BlogArchive({
         selectedTopic === ALL_TOPICS ||
         post.tags.includes(selectedTopic);
       const searchableContent = [
-        post.title.en,
-        post.title.vi,
-        post.excerpt.en,
-        post.excerpt.vi,
+        ...Object.values(post.title),
+        ...Object.values(post.excerpt),
         post.slug,
         ...post.tags,
       ]
@@ -87,9 +86,12 @@ export function BlogArchive({
       }
 
       if (sortOrder === "title-asc" || sortOrder === "title-desc") {
-        const titleOrder = left.title[language].localeCompare(
-          right.title[language],
-          language === "vi" ? "vi" : "en",
+        const leftTitle = getBlogText(left.title, left.languages, language);
+        const rightTitle = getBlogText(right.title, right.languages, language);
+        const collationLanguage = getBlogContentLanguage(left.languages, language);
+        const titleOrder = leftTitle.localeCompare(
+          rightTitle,
+          collationLanguage,
           { sensitivity: "base" },
         );
 

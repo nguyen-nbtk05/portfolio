@@ -22,6 +22,7 @@ export {
   BLOG_STATUSES,
   type AdjacentBlogPosts,
   type BlogAccess,
+  type BlogLanguages,
   type BlogPost,
   type BlogPostMeta,
   type BlogPostSummary,
@@ -29,6 +30,7 @@ export {
   type BlogStatus,
   type LocalizedText,
 } from "./types";
+export { getBlogContentLanguage, getBlogText } from "./localization";
 export {
   isBlogAccess,
   isBlogStatus,

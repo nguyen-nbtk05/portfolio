@@ -5,6 +5,7 @@ import {
   type BlogRepositoryOptions,
 } from "./content";
 import { calculateLocalizedReadTime } from "./read-time";
+import { getBlogContentLanguage } from "./localization";
 import { isValidBlogSlug } from "./slug";
 import type { BlogPost } from "./types";
 
@@ -31,7 +32,8 @@ export async function getPostBySlug(
       return null;
     }
 
-    const bodies = await readRequiredLocalizedBodies(slug, options);
+    const bodies = await readRequiredLocalizedBodies(slug, meta.languages, options);
+    const contentLanguage = getBlogContentLanguage(meta.languages, locale);
     return {
       slug,
       ...meta,
@@ -39,8 +41,8 @@ export async function getPostBySlug(
       tags: [...meta.tags],
       href: `/blog/${slug}`,
       readTime: calculateLocalizedReadTime(bodies),
-      locale,
-      content: bodies[locale],
+      locale: contentLanguage,
+      content: bodies[contentLanguage] ?? "",
     };
   } catch (error) {
     if (process.env.NODE_ENV !== "production") throw error;

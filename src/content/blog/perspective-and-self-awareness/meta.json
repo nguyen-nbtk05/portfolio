@@ -1,0 +1,14 @@
+{
+  "languages": ["vi"],
+  "title": {
+    "vi": "“Ta không nhìn mọi thứ như chúng vốn là, mà nhìn chúng theo cách chính ta đang là.”"
+  },
+  "excerpt": {
+    "vi": "Có những điều ta nhìn thấy rất rõ ở người khác, nhưng lại dễ bỏ qua khi chúng xuất hiện trong chính mình. Đôi khi thứ giới hạn góc nhìn không nằm ở những gì trước mắt, mà ở chính những điều ta đã mang theo từ trước."
+  },
+  "publishedAt": "2026-08-15",
+  "tags": ["Góc nhìn", "Tự nhận thức", "Cuộc sống"],
+  "featured": false,
+  "status": "published",
+  "access": "public"
+}

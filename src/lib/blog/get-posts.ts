@@ -29,7 +29,7 @@ async function createSummary(
     };
   }
 
-  const bodies = await readRequiredLocalizedBodies(slug, options);
+  const bodies = await readRequiredLocalizedBodies(slug, meta.languages, options);
   return {
     slug,
     ...meta,

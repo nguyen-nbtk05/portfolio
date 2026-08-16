@@ -17,6 +17,7 @@ export const BLOG_CONTENT_DIRECTORY = process.env.BLOG_CONTENT_DIRECTORY
 
 export const BLOG_STATUSES = ["published", "draft", "comingSoon"];
 export const BLOG_ACCESS_LEVELS = ["public", "vault"];
+export const BLOG_LANGUAGES = ["en", "vi"];
 export const BLOG_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export function isValidBlogSlug(value) {
@@ -70,13 +71,13 @@ function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function validateLocalizedText(value, field, requireCompleteTranslations) {
+function validateLocalizedText(value, field, languages, requireCompleteTranslations) {
   if (!isRecord(value)) {
-    return [`${field} must be an object with en and vi strings`];
+    return [`${field} must be an object keyed by a declared language`];
   }
 
   const errors = [];
-  for (const locale of ["en", "vi"]) {
+  for (const locale of languages) {
     if (typeof value[locale] !== "string") {
       errors.push(`${field}.${locale} must be a string`);
     } else if (requireCompleteTranslations && !isNonEmptyString(value[locale])) {
@@ -84,8 +85,15 @@ function validateLocalizedText(value, field, requireCompleteTranslations) {
     }
   }
 
-  if (field === "title" && !isNonEmptyString(value.en)) {
-    errors.push(`${field}.en must not be empty`);
+  for (const locale of BLOG_LANGUAGES) {
+    if (locale in value && !languages.includes(locale)) {
+      errors.push(`${field}.${locale} is present but ${locale} is not declared in languages`);
+    }
+  }
+
+  const primaryLanguage = languages[0];
+  if (field === "title" && primaryLanguage && !isNonEmptyString(value[primaryLanguage])) {
+    errors.push(`${field}.${primaryLanguage} must not be empty`);
   }
 
   return [...new Set(errors)];
@@ -98,18 +106,36 @@ export function validateBlogMeta(value) {
 
   const requireCompleteTranslations =
     value.status === "published" || value.status === "comingSoon";
-  const errors = [
+  const languages = Array.isArray(value.languages)
+    ? value.languages.filter((locale) => BLOG_LANGUAGES.includes(locale))
+    : [];
+  const errors = [];
+
+  if (!Array.isArray(value.languages) || value.languages.length === 0) {
+    errors.push("languages must be a non-empty array containing en and/or vi");
+  } else {
+    if (!value.languages.every((locale) => BLOG_LANGUAGES.includes(locale))) {
+      errors.push(`languages must contain only: ${BLOG_LANGUAGES.join(", ")}`);
+    }
+    if (new Set(value.languages).size !== value.languages.length) {
+      errors.push("languages must not contain duplicates");
+    }
+  }
+
+  errors.push(
     ...validateLocalizedText(
       value.title,
       "title",
+      languages,
       requireCompleteTranslations,
     ),
     ...validateLocalizedText(
       value.excerpt,
       "excerpt",
+      languages,
       requireCompleteTranslations,
     ),
-  ];
+  );
 
   for (const derivedField of ["id", "slug", "link", "href", "readTime"]) {
     if (derivedField in value) {

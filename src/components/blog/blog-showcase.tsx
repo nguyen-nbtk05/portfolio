@@ -90,8 +90,8 @@ export function BlogShowcase({ posts }: BlogShowcaseProps) {
           </h2>
           <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600 dark:text-slate-400 sm:text-lg">
             {lang({
-              en: "Short notes about networking, automation, and security in real-world systems.",
-              vi: "Những ghi chú ngắn về mạng, tự động hóa và bảo mật trong các hệ thống thực tế.",
+              en: "Short notes about life, networking, automation, and security in real-world systems.",
+              vi: "Những ghi chú ngắn về cuộc sống, mạng, tự động hóa và bảo mật trong các hệ thống thực tế.",
             })}
           </p>
         </div>

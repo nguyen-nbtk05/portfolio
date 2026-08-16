@@ -1,4 +1,5 @@
 {
+  "languages": ["en", "vi"],
   "title": { "en": "Hidden draft", "vi": "" },
   "excerpt": { "en": "", "vi": "" },
   "publishedAt": "2026-08-01",

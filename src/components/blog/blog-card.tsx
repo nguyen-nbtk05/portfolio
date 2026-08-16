@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, CalendarDays, Clock3 } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import type { BlogPostSummary } from "@/lib/blog/types";
+import { getBlogContentLanguage, getBlogText } from "@/lib/blog/localization";
 
 type BlogCardProps = {
   post: BlogPostSummary;
@@ -31,7 +32,10 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
   const Heading = headingLevel;
   const visibleTags = post.tags.slice(0, 2);
   const hiddenTagCount = Math.max(0, post.tags.length - visibleTags.length);
-  const readTime = post.readTime?.[language] ?? null;
+  const contentLanguage = getBlogContentLanguage(post.languages, language);
+  const title = getBlogText(post.title, post.languages, language);
+  const excerpt = getBlogText(post.excerpt, post.languages, language);
+  const readTime = post.readTime?.[contentLanguage] ?? null;
   const isReadable = post.status === "published" && Boolean(post.href);
 
   return (
@@ -65,17 +69,17 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
       </div>
 
       <Heading
-        lang={language}
+        lang={contentLanguage}
         className="mb-3 line-clamp-2 min-h-[3.5rem] break-words hyphens-auto text-justify [text-align-last:left] [text-justify:inter-word] text-xl font-bold leading-7 tracking-tight text-slate-950 dark:text-slate-50"
       >
-        {lang(post.title)}
+        {title}
       </Heading>
 
       <p
-        lang={language}
+        lang={contentLanguage}
         className="mb-5 line-clamp-3 min-h-[4.5rem] flex-grow break-words hyphens-auto text-justify [text-align-last:left] [text-justify:inter-word] text-sm leading-6 text-slate-600 dark:text-slate-400 sm:text-base"
       >
-        {lang(post.excerpt)}
+        {excerpt}
       </p>
 
       <div className="mb-5 flex min-h-7 items-center gap-2 overflow-hidden">
