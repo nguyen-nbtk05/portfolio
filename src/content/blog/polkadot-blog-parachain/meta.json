@@ -10,7 +10,7 @@
   },
   "publishedAt": "2026-08-16",
   "tags": ["Polkadot", "Rust", "Blockchain"],
-  "featured": false,
+  "featured": true,
   "status": "published",
   "access": "public"
 }
