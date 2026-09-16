@@ -4,10 +4,8 @@ import type { ElementType } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Mail } from "lucide-react";
 import {
-  DiscordIcon,
   FacebookIcon,
   Github,
-  TelegramIcon,
   XIcon,
 } from "@/components/ui/icons";
 import { siteConfig } from "@/data/config";
@@ -27,8 +25,6 @@ const contactLinks: Array<{
   { href: siteConfig.github, icon: Github, label: "GitHub" },
   { href: siteConfig.x, icon: XIcon, label: "X" },
   { href: siteConfig.facebook, icon: FacebookIcon, label: "Facebook" },
-  { href: siteConfig.telegram, icon: TelegramIcon, label: "Telegram" },
-  { href: siteConfig.discord, icon: DiscordIcon, label: "Discord" },
 ];
 
 export function BlogContactRail() {

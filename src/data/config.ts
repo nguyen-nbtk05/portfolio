@@ -6,10 +6,9 @@ export const siteConfig = {
   email: "nguyen.nbtk05@gmail.com",
   resumeUrl: "/docs/resume.pdf",
   github: "https://github.com/nguyen-nbtk05",
+  linkedin: "https://www.linkedin.com/in/nguyen-nbtk05/",
   x: "https://x.com/nguyen_nbtk05 ",
   facebook: "https://www.facebook.com/nguyen.nbtk05/",
-  telegram: "https://t.me/nguyen_nbtk05",
-  discord: "https://discord.gg/jwB4yktV",
   description: {
     en: "Bachelor of Engineering in Information Technology.\nMajor: Computer Networks - Data Communications.",
     vi: "Cử nhân Kỹ thuật Công nghệ Thông tin.\nChuyên ngành: Mạng máy tính - Truyền thông dữ liệu.",

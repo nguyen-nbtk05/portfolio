@@ -300,7 +300,9 @@ function TerminalOutputView({
         <div className="font-semibold text-amber-600 dark:text-amber-300">[ Connection Matrix Configuration ]</div>
         <div>EMAIL = {siteConfig.email}</div>
         <div>GITHUB = {siteConfig.github}</div>
-        <div>TELEGRAM = {siteConfig.telegram}</div>
+        <div>LINKEDIN = {siteConfig.linkedin}</div>
+        <div>X = {siteConfig.x}</div>
+        <div>FACEBOOK = {siteConfig.facebook}</div>
       </div>
     );
   }
@@ -361,6 +363,24 @@ function TerminalOutputView({
           <span className="text-slate-500 dark:text-slate-400">github: </span>
           <a className="text-amber-600 underline-offset-4 hover:underline dark:text-amber-300" href={siteConfig.github} target="_blank" rel="noreferrer">
             {siteConfig.github.replace(/^https?:\/\//, "")}
+          </a>
+        </div>
+        <div>
+          <span className="text-slate-500 dark:text-slate-400">linkedin: </span>
+          <a className="text-amber-600 underline-offset-4 hover:underline dark:text-amber-300" href={siteConfig.linkedin} target="_blank" rel="noreferrer">
+            {siteConfig.linkedin.replace(/^https?:\/\//, "")}
+          </a>
+        </div>
+        <div>
+          <span className="text-slate-500 dark:text-slate-400">x: </span>
+          <a className="text-amber-600 underline-offset-4 hover:underline dark:text-amber-300" href={siteConfig.x} target="_blank" rel="noreferrer">
+            {siteConfig.x.replace(/^https?:\/\//, "")}
+          </a>
+        </div>
+        <div>
+          <span className="text-slate-500 dark:text-slate-400">facebook: </span>
+          <a className="text-amber-600 underline-offset-4 hover:underline dark:text-amber-300" href={siteConfig.facebook} target="_blank" rel="noreferrer">
+            {siteConfig.facebook.replace(/^https?:\/\//, "")}
           </a>
         </div>
       </div>
@@ -838,12 +858,12 @@ export function PortfolioTerminal() {
         >
           <div className="space-y-2 leading-relaxed">
             <p className="portfolio-terminal-heading text-[17px] font-bold sm:text-[19px]">
-              Welcome to {lang(siteConfig.name)}&apos;s Portfolio Terminal v{TERMINAL_IDENTITY.version}
+              Welcome to my Portfolio Terminal
             </p>
             <p className="max-w-3xl">
               {lang({
-                en: "I am a conversational OS assistant. Type ",
-                vi: "Tôi là trợ lý OS tương tác. Gõ ",
+                en: "Type ",
+                vi: "Gõ ",
               })}
               <button
                 type="button"
@@ -853,8 +873,8 @@ export function PortfolioTerminal() {
                 help
               </button>
               {lang({
-                en: " for commands, or choose a quick command below.",
-                vi: " để xem lệnh hoặc chọn một quick command bên dưới.",
+                en: " for commands, choose a quick command below, or type your own.",
+                vi: " để xem lệnh hoặc chọn một quick command bên dưới, hoặc gõ lệnh bất kỳ.",
               })}
             </p>
           </div>
@@ -915,7 +935,7 @@ export function PortfolioTerminal() {
 
         <div className="portfolio-terminal-quickbar border-t px-4 py-3">
           <div className="flex items-start gap-3 max-sm:flex-col max-sm:gap-2">
-            <span className="shrink-0 pt-1 text-[9px] font-bold uppercase tracking-wider text-slate-500 sm:text-[10px] dark:text-slate-600">
+            <span className="shrink-0 pt-2 text-[9px] font-bold uppercase tracking-wider text-slate-500 sm:text-[10px] dark:text-slate-600">
               {lang({ en: "Quick commands", vi: "Lệnh nhanh" })}:
             </span>
             <div className="flex min-w-0 flex-1 items-start gap-2 max-sm:w-full">

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import { Mail } from "lucide-react"; 
 import { siteConfig } from "@/data/config";
-import { Github, XIcon, FacebookIcon, TelegramIcon, DiscordIcon } from "@/components/ui/icons";
+import { Github, XIcon, FacebookIcon } from "@/components/ui/icons";
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 
@@ -74,8 +74,6 @@ export function Footer() {
           <SmartIconButton href={siteConfig.github} icon={Github} label="GitHub" />
           <SmartIconButton href={siteConfig.x} icon={XIcon} label="X" />
           <SmartIconButton href={siteConfig.facebook} icon={FacebookIcon} label="Facebook" />
-          <SmartIconButton href={siteConfig.telegram} icon={TelegramIcon} label="Telegram" />
-          <SmartIconButton href={siteConfig.discord} icon={DiscordIcon} label="Discord" />
         </motion.div>
 
         <motion.p variants={fadeUp} className="text-center text-sm text-slate-500 md:justify-self-center dark:text-slate-400">

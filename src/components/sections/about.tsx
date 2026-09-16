@@ -20,7 +20,7 @@ import {
 import { useLanguage } from "@/hooks/use-language";
 import { fadeUp, scaleIn, staggerContainer, viewportOnce } from "@/lib/motion";
 import { SectionBackground } from "@/components/ui/section-background";
-import { DiscordIcon, FacebookIcon, Github, TelegramIcon, XIcon } from "@/components/ui/icons";
+import { FacebookIcon, Github, LinkedinIcon, XIcon } from "@/components/ui/icons";
 import { siteConfig } from "@/data/config";
 import { SmartIconButton } from "@/components/layouts/footer";
 
@@ -106,6 +106,11 @@ const socialDockItems: Array<{
     label: "GitHub",
   },
   {
+    href: siteConfig.linkedin,
+    icon: LinkedinIcon,
+    label: "LinkedIn",
+  },
+  {
     href: siteConfig.x,
     icon: XIcon,
     label: "X",
@@ -114,17 +119,7 @@ const socialDockItems: Array<{
     href: siteConfig.facebook,
     icon: FacebookIcon,
     label: "Facebook",
-  },
-  {
-    href: siteConfig.telegram,
-    icon: TelegramIcon,
-    label: "Telegram",
-  },
-  {
-    href: siteConfig.discord,
-    icon: DiscordIcon,
-    label: "Discord",
-  },
+  }
 ];
 
 export function AboutSection() {

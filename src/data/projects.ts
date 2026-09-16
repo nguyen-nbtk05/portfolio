@@ -66,35 +66,40 @@ export const projects: Project[] = [
   {
     id: 1,
     category: {
-      en: "Web Development",
-      vi: "Phát Triển Web",
+      en: "Web Security",
+      vi: "Bảo Mật Web",
     },
     status: {
       en: "Active",
       vi: "Đang Phát Triển",
     },
     title: {
-      en: "Personal Portfolio",
-      vi: "Portfolio Cá Nhân",
+      en: "Automated Web Vulnerability Scanner",
+      vi: "Trình Quét Lỗ Hổng Web Tự Động",
     },
     description: {
-      en: "A bilingual, responsive portfolio featuring interactive project showcases, a terminal experience, and an MDX blog with protected content.",
-      vi: "Portfolio song ngữ, responsive với khu trưng bày dự án tương tác, trải nghiệm terminal và blog MDX hỗ trợ nội dung được bảo vệ.",
+      en: "An automated web vulnerability scanner with static and dynamic crawling, modular detection engines, verification with CVSS scoring, and HTML/PDF/SARIF reports via CLI and FastAPI.",
+      vi: "Trình quét lỗ hổng web tự động với crawler tĩnh và động, engine phát hiện dạng module, xác minh kèm chấm điểm CVSS, xuất báo cáo HTML/PDF/SARIF qua CLI và FastAPI.",
     },
-    techStack: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS"],
+    techStack: ["Python", "FastAPI", "Selenium", "Docker", "WeasyPrint"],
     metric: {
-      value: "2 LANGUAGES",
+      value: "E2E PIPELINE",
       label: {
-        en: "English & Vietnamese",
-        vi: "Tiếng Anh & Tiếng Việt",
+        en: "Scan to Report",
+        vi: "Quét Đến Báo Cáo",
       },
     },
     presentation: {
-      type: "diagram",
-      variant: "portfolio",
+      type: "terminal",
+      command: "$ web-scanner scan https://target.local",
+      lines: [
+        "✓ Crawled 48 endpoints",
+        "✓ 3 findings verified",
+        "Report complete: scan.html / scan.pdf",
+      ],
     },
     links: {
-      source: "https://github.com/nguyen-nbtk05/portfolio",
+      source: "https://github.com/Tsuru-chan/Automated-Web-Vulnerability",
     },
   },
   {

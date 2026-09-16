@@ -2,7 +2,6 @@ export const TERMINAL_IDENTITY = {
   username: "visitor",
   host: "portfolio-os",
   cwd: "~",
-  version: "2.0.0",
 } as const;
 
 export const OPEN_TARGETS = ["about", "skills", "projects", "blog", "contact"] as const;
@@ -119,23 +118,23 @@ function conversationalResponse(rawCommand: string): TerminalCommandResult {
     .replace(/\s+/g, " ")
     .trim();
 
-  if (/\b(project|projects|du an|portfolio)\b/.test(normalized)) {
+  if (/\b(project|projects|du an|portfolio|Dự án|dự án)\b/.test(normalized)) {
     return { output: { type: "projects" } };
   }
 
-  if (/\b(skill|skills|technology|technologies|tech stack|ky nang|cong nghe)\b/.test(normalized)) {
+  if (/\b(skill|skills|technology|technologies|tech stack|ky nang|cong nghe|kỹ năng|công nghệ|Kỹ năng|Công nghệ)\b/.test(normalized)) {
     return { output: { type: "skills" } };
   }
 
-  if (/\b(contact|email|reach|message|lien he)\b/.test(normalized)) {
+  if (/\b(contact|email|reach|message|lien he|liên hệ|Liên hệ)\b/.test(normalized)) {
     return { output: { type: "contact" } };
   }
 
-  if (/\b(who|name|about|profile|ban la ai|gioi thieu)\b/.test(normalized)) {
+  if (/\b(who|name|about|profile|ban la ai|gioi thieu|giới thiệu|Giới thiệu|Bạn là ai|bạn là ai)\b/.test(normalized)) {
     return { output: { type: "about" } };
   }
 
-  if (/\b(hello|hi|hey|xin chao|chao)\b/.test(normalized)) {
+  if (/\b(hello|hi|hey|xin chao|chao|chào|Chào|Xin chào|xin chào)\b/.test(normalized)) {
     return { output: { type: "assistant", response: "greeting" } };
   }
 

@@ -45,11 +45,11 @@ const SECTION_BACKGROUND_STYLES: Record<SectionBackgroundVariant, SectionBackgro
   },
   projects: {
     baseClassName:
-      "bg-[linear-gradient(180deg,rgba(248,250,252,0.95)_0%,rgba(241,245,249,0.78)_100%)] dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.9)_0%,rgba(15,23,42,0.76)_100%)]",
+      "bg-[linear-gradient(180deg,rgba(248,250,252,0.95)_0%,rgba(241,245,249,0.78)_100%)] dark:bg-none dark:bg-transparent",
     textureClassName:
-      "bg-[linear-gradient(120deg,rgba(148,163,184,0.14)_0,transparent_46%),linear-gradient(30deg,rgba(148,163,184,0.11)_0,transparent_52%)] dark:bg-[linear-gradient(120deg,rgba(148,163,184,0.12)_0,transparent_52%),linear-gradient(30deg,rgba(71,85,105,0.22)_0,transparent_56%)]",
+      "bg-[linear-gradient(120deg,rgba(148,163,184,0.14)_0,transparent_46%),linear-gradient(30deg,rgba(148,163,184,0.11)_0,transparent_52%)] dark:bg-none",
     accentClassName:
-      "bg-[radial-gradient(circle_at_84%_18%,rgba(245,158,11,0.16),transparent_35%),radial-gradient(circle_at_18%_84%,rgba(148,163,184,0.16),transparent_38%)] dark:bg-[radial-gradient(circle_at_84%_18%,rgba(217,119,6,0.13),transparent_38%),radial-gradient(circle_at_18%_84%,rgba(100,116,139,0.2),transparent_42%)]",
+      "bg-[radial-gradient(circle_at_84%_18%,rgba(245,158,11,0.16),transparent_35%),radial-gradient(circle_at_18%_84%,rgba(148,163,184,0.16),transparent_38%)] dark:bg-[radial-gradient(circle_at_84%_18%,rgba(217,119,6,0.13),transparent_38%)]",
   },
   blog: {
     baseClassName: "bg-slate-50 dark:bg-slate-950",

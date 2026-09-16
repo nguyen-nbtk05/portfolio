@@ -27,10 +27,9 @@ import {
 import { SmartIconButton } from "@/components/layouts/footer";
 import {
   Github,
+  LinkedinIcon,
   XIcon,
   FacebookIcon,
-  TelegramIcon,
-  DiscordIcon,
 } from "@/components/ui/icons";
 
 interface FormData {
@@ -513,21 +512,16 @@ export function ContactSection() {
                 icon={Github}
                 label="GitHub"
               />
+              <SmartIconButton
+                href={siteConfig.linkedin}
+                icon={LinkedinIcon}
+                label="LinkedIn"
+              />
               <SmartIconButton href={siteConfig.x} icon={XIcon} label="X" />
               <SmartIconButton
                 href={siteConfig.facebook}
                 icon={FacebookIcon}
                 label="Facebook"
-              />
-              <SmartIconButton
-                href={siteConfig.telegram}
-                icon={TelegramIcon}
-                label="Telegram"
-              />
-              <SmartIconButton
-                href={siteConfig.discord}
-                icon={DiscordIcon}
-                label="Discord"
               />
             </div>
 
