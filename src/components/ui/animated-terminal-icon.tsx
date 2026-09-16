@@ -10,7 +10,7 @@ interface AnimatedTerminalIconProps {
 
 export function AnimatedTerminalIcon({
   reduceMotion,
-  className = "h-4 w-4 text-teal-500",
+  className = "h-4 w-4 text-amber-500",
 }: AnimatedTerminalIconProps) {
   return (
     <motion.span

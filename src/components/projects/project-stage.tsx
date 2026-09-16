@@ -42,12 +42,12 @@ export function ProjectStage({ project }: ProjectStageProps) {
         >
           <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 pb-3 text-xs">
             <div className="flex items-center gap-2">
-              <span className="text-teal-600 font-bold dark:text-teal-400 tracking-wider">
+              <span className="text-amber-600 font-bold dark:text-amber-400 tracking-wider">
                 0{project.id} / {lang(project.category).toUpperCase()}
               </span>
             </div>
             <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-              <span className="h-2 w-2 rounded-full bg-teal-500 inline-block animate-pulse" />
+              <span className="h-2 w-2 rounded-full bg-amber-500 inline-block animate-pulse" />
               <span className="uppercase tracking-wider font-semibold">
                 {lang(project.status)}
               </span>
@@ -73,7 +73,7 @@ export function ProjectStage({ project }: ProjectStageProps) {
                 <div className="text-[10px] uppercase text-slate-400 dark:text-slate-500 tracking-widest mb-0.5">
                   {lang({ en: "IMPACT", vi: "TÁC ĐỘNG" })}
                 </div>
-                <div className="text-lg lg:text-xl font-bold text-teal-600 dark:text-teal-400">
+                <div className="text-lg lg:text-xl font-bold text-amber-600 dark:text-amber-400">
                   {project.metric.value}
                 </div>
                 <div className="text-[11px] uppercase text-slate-500 dark:text-slate-400 tracking-wider">
@@ -96,7 +96,7 @@ export function ProjectStage({ project }: ProjectStageProps) {
             <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
               {project.techStack.slice(0, 4).join("  /  ")}
               {project.techStack.length > 4 && (
-                <span className="text-[10px] text-teal-600 dark:text-teal-400 font-bold">
+                <span className="text-[10px] text-amber-600 dark:text-amber-400 font-bold">
                   +{project.techStack.length - 4}
                 </span>
               )}
@@ -132,13 +132,13 @@ export function ProjectCTA({ links }: { links: Project["links"] }) {
       className={cn(
         "inline-flex h-10 min-h-11 items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 cursor-pointer shadow-xs group lg:min-h-0 lg:text-sm",
         "border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100",
-        "hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50/40 dark:hover:border-teal-400 dark:hover:text-teal-400 dark:hover:bg-teal-950/20",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500",
+        "hover:border-amber-500 hover:text-amber-600 hover:bg-amber-50/40 dark:hover:border-amber-400 dark:hover:text-amber-400 dark:hover:bg-amber-950/20",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500",
       )}
     >
       {isGithub ? (
         <>
-          <Github className="h-4 w-4 text-slate-600 dark:text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors" />
+          <Github className="h-4 w-4 text-slate-600 dark:text-slate-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors" />
           <span>{lang({ en: "View source", vi: "Xem mã nguồn" })}</span>
           <ExternalLink className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </>

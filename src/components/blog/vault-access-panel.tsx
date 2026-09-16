@@ -62,7 +62,7 @@ export function VaultAccessPanel({
     <div
       className={`rounded-2xl border border-dashed border-slate-300 bg-white/70 px-6 py-10 text-center shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-950/70 ${className}`}
     >
-      <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-teal-200 bg-teal-50 text-teal-600 dark:border-teal-900 dark:bg-teal-950/60 dark:text-teal-300">
+      <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-600 dark:border-amber-900 dark:bg-amber-950/60 dark:text-amber-300">
         <LockKeyhole aria-hidden="true" className="h-5 w-5" />
       </span>
       <h2 className="mt-4 text-xl font-bold text-slate-950 dark:text-slate-50">
@@ -99,7 +99,7 @@ export function VaultAccessPanel({
                 required
                 disabled={submitting}
                 placeholder={lang({ en: "Password", vi: "Mật khẩu" })}
-                className="h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-900 outline-none transition-[border-color,box-shadow] placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 disabled:opacity-60 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-900 outline-none transition-[border-color,box-shadow] placeholder:text-slate-400 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 disabled:opacity-60 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100"
               />
             </span>
           </label>
@@ -111,7 +111,7 @@ export function VaultAccessPanel({
           <button
             type="submit"
             disabled={submitting || password.length === 0}
-            className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-teal-500 px-4 text-sm font-bold text-white transition-colors hover:bg-teal-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus-visible:ring-offset-slate-950"
+            className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 text-sm font-bold text-white transition-colors hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:focus-visible:ring-offset-slate-950"
           >
             {submitting ? (
               <LoaderCircle aria-hidden="true" className="h-4 w-4 animate-spin" />

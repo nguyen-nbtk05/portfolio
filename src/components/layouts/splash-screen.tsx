@@ -96,12 +96,12 @@ function ConstellationCanvas({ isDarkMode }: { isDarkMode: boolean }) {
       ctx.clearRect(0, 0, width, height);
 
       const nodeColor = isDarkMode
-        ? "rgba(20, 184, 166, 0.5)"
-        : "rgba(13, 148, 136, 0.3)";
+        ? "rgba(245, 158, 11, 0.5)"
+        : "rgba(217, 119, 6, 0.3)";
       const glowColor = isDarkMode
-        ? "rgba(20, 184, 166, 0.08)"
-        : "rgba(13, 148, 136, 0.05)";
-      const lineColor = isDarkMode ? "20, 184, 166" : "13, 148, 136";
+        ? "rgba(245, 158, 11, 0.08)"
+        : "rgba(217, 119, 6, 0.05)";
+      const lineColor = isDarkMode ? "245, 158, 11" : "217, 119, 6";
       const connectionDistance = 150;
 
       particles.forEach((p) => {
@@ -158,8 +158,8 @@ function ConstellationCanvas({ isDarkMode }: { isDarkMode: boolean }) {
         ctx.beginPath();
         ctx.arc(mouse.x, mouse.y, 45, 0, Math.PI * 2);
         ctx.fillStyle = isDarkMode
-          ? "rgba(20, 184, 166, 0.06)"
-          : "rgba(13, 148, 136, 0.04)";
+          ? "rgba(245, 158, 11, 0.06)"
+          : "rgba(217, 119, 6, 0.04)";
         ctx.fill();
       }
 
@@ -339,7 +339,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               style={{ contain: "paint" }}
             >
               <motion.div
-                className="absolute w-[420px] h-[420px] rounded-full bg-gradient-to-tr from-cyan-400/22 to-teal-400/18 dark:from-cyan-600/10 dark:to-teal-500/10 blur-[100px] will-change-transform"
+                className="absolute w-[420px] h-[420px] rounded-full bg-gradient-to-tr from-cyan-400/22 to-amber-400/18 dark:from-cyan-600/10 dark:to-amber-500/10 blur-[100px] will-change-transform"
                 animate={{
                   x: [0, 50, -30, 0],
                   y: [0, -70, 50, 0],
@@ -353,7 +353,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                 style={{ top: "8%", left: "6%" }}
               />
               <motion.div
-                className="absolute w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-teal-400/20 to-emerald-400/18 dark:from-teal-600/9 dark:to-emerald-500/9 blur-[110px] will-change-transform"
+                className="absolute w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-amber-400/20 to-emerald-400/18 dark:from-amber-600/9 dark:to-emerald-500/9 blur-[110px] will-change-transform"
                 animate={{
                   x: [0, -60, 40, 0],
                   y: [0, 60, -50, 0],
@@ -387,7 +387,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             BACKGROUND_PARTICLES.map((p, idx) => (
               <motion.span
                 key={idx}
-                className="absolute rounded-full bg-teal-400/35 dark:bg-teal-500/20 pointer-events-none select-none shadow-[0_0_8px_rgba(20,184,166,0.3)] z-0"
+                className="absolute rounded-full bg-amber-400/35 dark:bg-amber-500/20 pointer-events-none select-none shadow-[0_0_8px_rgba(245,158,11,0.3)] z-0"
                 style={{
                   top: p.top,
                   left: p.left,
@@ -408,12 +408,12 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               />
             ))}
 
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(20,184,166,0.03),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(14,165,233,0.03),transparent_40%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(245,158,11,0.03),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(14,165,233,0.03),transparent_40%)]" />
 
           <div className="relative w-full max-w-3xl mx-4 flex items-center justify-center z-10">
             {!reduceMotion && (
               <motion.div
-                className="absolute inset-4 rounded-[2.5rem] bg-gradient-to-tr from-cyan-500/15 via-teal-500/8 to-indigo-500/15 blur-3xl pointer-events-none select-none -z-10 will-change-transform"
+                className="absolute inset-4 rounded-[2.5rem] bg-gradient-to-tr from-cyan-500/15 via-amber-500/8 to-indigo-500/15 blur-3xl pointer-events-none select-none -z-10 will-change-transform"
                 animate={{
                   opacity: [0.55, 0.85, 0.55],
                   scale: [0.97, 1.03, 0.97],
@@ -494,7 +494,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                     className="w-4 h-4 flex items-center justify-center"
                   >
                     <motion.span
-                      className="w-2 h-2 rounded-sm bg-teal-500 dark:bg-teal-400 shadow-[0_0_8px_rgba(20,184,166,0.6)] dark:shadow-[0_0_8px_rgba(45,212,191,0.6)]"
+                      className="w-2 h-2 rounded-sm bg-amber-500 dark:bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.6)] dark:shadow-[0_0_8px_rgba(251,191,36,0.6)]"
                       animate={
                         reduceMotion
                           ? {}
@@ -558,7 +558,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                   >
                     {!reduceMotion && (
                       <motion.div
-                        className="absolute inset-0 rounded-full bg-teal-500/10 dark:bg-teal-400/5 -z-10"
+                        className="absolute inset-0 rounded-full bg-amber-500/10 dark:bg-amber-400/5 -z-10"
                         animate={{
                           scale: [1, 1.28, 1],
                           opacity: [0.35, 0.85, 0.35],
@@ -571,7 +571,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                       />
                     )}
                     <motion.svg
-                      className="w-6 h-6 text-teal-600 dark:text-teal-400"
+                      className="w-6 h-6 text-amber-600 dark:text-amber-400"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -602,13 +602,13 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                         cx="12"
                         cy="12"
                         r="3"
-                        className="fill-teal-500/10"
+                        className="fill-amber-500/10"
                       />
                       <circle
                         cx="12"
                         cy="12"
                         r="1.5"
-                        className="fill-teal-600 dark:fill-teal-400"
+                        className="fill-amber-600 dark:fill-amber-400"
                       />
                       <circle
                         cx="12"
@@ -637,7 +637,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                         : { delay: 0.45, duration: 0.5, ease: ENTRANCE_EASE }
                     }
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
                     <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-slate-400 dark:text-slate-500 uppercase">
                       {lang({ en: "Welcome", vi: "Chào mừng" })}
                     </span>
@@ -647,7 +647,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                     {[
                       {
                         text: lang({ en: "Portfolio", vi: "Hồ sơ" }),
-                        color: "text-teal-600 dark:text-teal-400",
+                        color: "text-amber-600 dark:text-amber-400",
                       },
                       {
                         text: "•",
@@ -655,7 +655,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                       },
                       {
                         text: lang({ en: "Networking", vi: "Kết nối" }),
-                        color: "text-teal-600 dark:text-teal-400",
+                        color: "text-amber-600 dark:text-amber-400",
                       },
                       {
                         text: "•",
@@ -700,7 +700,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                       en: (
                         <>
                           Loading{" "}
-                          <span className="text-teal-600 dark:text-teal-400 font-extrabold">
+                          <span className="text-amber-600 dark:text-amber-400 font-extrabold">
                             Portfolio...
                           </span>
                         </>
@@ -708,7 +708,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                       vi: (
                         <>
                           Đang tải{" "}
-                          <span className="text-teal-600 dark:text-teal-400 font-extrabold">
+                          <span className="text-amber-600 dark:text-amber-400 font-extrabold">
                             Portfolio...
                           </span>{" "}
                         </>
@@ -748,7 +748,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                   <span
                     className={`transition-colors duration-300 ${
                       phase === "loading"
-                        ? "text-teal-600 dark:text-teal-400 font-extrabold animate-pulse"
+                        ? "text-amber-600 dark:text-amber-400 font-extrabold animate-pulse"
                         : "text-slate-400 dark:text-slate-500"
                     }`}
                   >
@@ -757,7 +757,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                   <span
                     className={`transition-colors duration-300 ${
                       phase === "ready"
-                        ? "text-teal-600 dark:text-teal-400 font-extrabold"
+                        ? "text-amber-600 dark:text-amber-400 font-extrabold"
                         : "text-slate-400 dark:text-slate-500"
                     }`}
                   >
@@ -767,7 +767,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
                 <div className="relative h-1.5 w-full bg-slate-200/50 dark:bg-slate-800/40 rounded-full overflow-hidden mt-3 shadow-inner">
                   <motion.div
-                    className="absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-cyan-500 to-teal-500 dark:from-cyan-400 dark:to-teal-400 rounded-full shadow-[0_0_12px_rgba(20,184,166,0.6)]"
+                    className="absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-cyan-500 to-amber-500 dark:from-cyan-400 dark:to-amber-400 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.6)]"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: progress / 100 }}
                     style={{ originX: 0 }}

@@ -44,8 +44,8 @@ function RouteDecoration({ itemCount, startIndex }: { itemCount: number; startIn
       <div className="relative grid w-full grid-flow-col auto-cols-fr items-center">
         {nodes.map((_, index) => (
           <span key={index} className="flex items-center justify-center">
-            <span className="relative flex h-3 w-3 items-center justify-center rounded-full border border-teal-500/70 bg-slate-50 shadow-[0_0_0_4px_rgba(248,250,252,0.9)] dark:bg-slate-950 dark:shadow-[0_0_0_4px_rgba(2,6,23,0.9)]">
-              <span className="h-1 w-1 rounded-full bg-teal-500" />
+            <span className="relative flex h-3 w-3 items-center justify-center rounded-full border border-amber-500/70 bg-slate-50 shadow-[0_0_0_4px_rgba(248,250,252,0.9)] dark:bg-slate-950 dark:shadow-[0_0_0_4px_rgba(2,6,23,0.9)]">
+              <span className="h-1 w-1 rounded-full bg-amber-500" />
               <span className="absolute top-3.5 text-[9px] tabular-nums text-slate-400 dark:text-slate-600">
                 {String(startIndex + index + 1).padStart(2, "0")}
               </span>
@@ -86,7 +86,7 @@ export function BlogShowcase({ posts }: BlogShowcaseProps) {
       <header className="grid items-end gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-10">
         <div>
           <h2 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
-            Blog<span className="text-teal-500">.</span>
+            Blog<span className="text-amber-500">.</span>
           </h2>
           <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600 dark:text-slate-400 sm:text-lg">
             {lang({
@@ -120,7 +120,7 @@ export function BlogShowcase({ posts }: BlogShowcaseProps) {
           <Link
             href="/blog"
             scroll
-            className="inline-flex items-center gap-1.5 rounded-sm text-sm font-semibold text-teal-600 transition-colors hover:text-teal-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-4 dark:text-teal-400 dark:hover:text-teal-300 dark:focus-visible:ring-offset-slate-950"
+            className="inline-flex items-center gap-1.5 rounded-sm text-sm font-semibold text-amber-600 transition-colors hover:text-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-4 dark:text-amber-400 dark:hover:text-amber-300 dark:focus-visible:ring-offset-slate-950"
           >
             {lang({ en: "View all", vi: "Xem tất cả" })}
             <ArrowUpRight aria-hidden="true" className="h-4 w-4" />

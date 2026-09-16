@@ -11,8 +11,8 @@ export const siteConfig = {
   telegram: "https://t.me/nguyen_nbtk05",
   discord: "https://discord.gg/jwB4yktV",
   description: {
-    en: "Learning how networks and systems are built, secured, and maintained through hands-on work.",
-    vi: "Từng bước tìm hiểu cách xây dựng, bảo mật và vận hành mạng máy tính cùng các hệ thống thông qua thực hành thực tế.",
+    en: "Bachelor of Engineering in Information Technology.\nMajor: Computer Networks - Data Communications.",
+    vi: "Cử nhân Kỹ thuật Công nghệ Thông tin.\nChuyên ngành: Mạng máy tính - Truyền thông dữ liệu.",
   },
   about: {
     en: "A technology-focused learner with a strong interest in cybersecurity, Linux systems, networking, and modern IT infrastructure. Through academic learning and hands-on projects, I am developing practical skills in Linux administration, network security, infrastructure automation, and system hardening while exploring how secure and reliable systems are configured, monitored, and maintained. Driven by curiosity and continuous learning, I enjoy taking on technical challenges, expanding my knowledge, and turning what I learn into practical experience.",

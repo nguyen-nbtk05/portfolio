@@ -184,7 +184,7 @@ export function AboutSection() {
 
           <h2 className="order-1 max-w-2xl text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl">
             {lang({ en: "About Me", vi: "Giới Thiệu" })}
-            <span className="text-teal-500">.</span>
+            <span className="text-amber-500">.</span>
           </h2>
 
           <div className="order-3 w-full space-y-3 rounded-xl border border-slate-200/80 bg-white/65 p-4 text-sm leading-6 text-slate-600 shadow-sm backdrop-blur lg:mt-4 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 sm:text-base sm:leading-7">
@@ -215,9 +215,9 @@ export function AboutSection() {
                 whileHover={reduceMotion ? undefined : { y: -4 }}
                 className="group overflow-hidden rounded-xl border border-slate-200/80 bg-white/75 p-4 shadow-md shadow-slate-200/50 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/20"
               >
-                <div className="mb-3 h-0.5 w-10 rounded-full bg-teal-500 transition-all group-hover:w-16" />
+                <div className="mb-3 h-0.5 w-10 rounded-full bg-amber-500 transition-all group-hover:w-16" />
                 <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  <tile.icon className="h-4 w-4 text-teal-500 transition-transform group-hover:scale-110" />
+                  <tile.icon className="h-4 w-4 text-amber-500 transition-transform group-hover:scale-110" />
                   {tile.label}
                 </div>
                 <div className="mt-2 min-h-5 text-xs font-bold text-slate-950 dark:text-slate-50">
@@ -253,7 +253,7 @@ export function AboutSection() {
             onPointerMove={handleBoardPointerMove}
             onPointerLeave={handleBoardPointerLeave}
             style={reduceMotion ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
-            className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/75 p-3 shadow-2xl shadow-slate-200/70 backdrop-blur-xl [--glow-x:50%] [--glow-y:42%] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_var(--glow-x)_var(--glow-y),rgba(20,184,166,0.24),transparent_34%)] before:transition-[background] before:duration-300 sm:p-4 dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/30 dark:before:bg-[radial-gradient(circle_at_var(--glow-x)_var(--glow-y),rgba(20,184,166,0.16),transparent_36%)]"
+            className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/75 p-3 shadow-2xl shadow-slate-200/70 backdrop-blur-xl [--glow-x:50%] [--glow-y:42%] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_var(--glow-x)_var(--glow-y),rgba(245,158,11,0.24),transparent_34%)] before:transition-[background] before:duration-300 sm:p-4 dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/30 dark:before:bg-[radial-gradient(circle_at_var(--glow-x)_var(--glow-y),rgba(245,158,11,0.16),transparent_36%)]"
           >
             <div className="relative z-10 flex items-center justify-between gap-3 border-b border-slate-200/80 pb-3 dark:border-slate-800">
               <div>
@@ -265,7 +265,7 @@ export function AboutSection() {
                 </div>
               </div>
               <motion.div
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-teal-400/40 bg-teal-100 text-teal-700 dark:bg-teal-500/10 dark:text-teal-300"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-amber-400/40 bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300"
                 animate={reduceMotion ? undefined : { scale: [1, 1.08, 1] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               >
@@ -282,9 +282,9 @@ export function AboutSection() {
                     ? undefined
                     : {
                         boxShadow: [
-                          "inset 0 0 0 1px rgba(20,184,166,0.08)",
-                          "inset 0 0 0 1px rgba(20,184,166,0.24)",
-                          "inset 0 0 0 1px rgba(20,184,166,0.08)",
+                          "inset 0 0 0 1px rgba(245,158,11,0.08)",
+                          "inset 0 0 0 1px rgba(245,158,11,0.24)",
+                          "inset 0 0 0 1px rgba(245,158,11,0.08)",
                         ],
                       }
                 }
@@ -295,28 +295,28 @@ export function AboutSection() {
                 className="pointer-events-none absolute inset-3 z-20 rounded-[1rem]"
               >
                 <motion.span
-                  className="absolute left-0 top-0 h-8 w-8 rounded-tl-xl border-l-[3px] border-t-[3px] border-teal-400/60"
+                  className="absolute left-0 top-0 h-8 w-8 rounded-tl-xl border-l-[3px] border-t-[3px] border-amber-400/60"
                   animate={reduceMotion ? undefined : { opacity: [0.45, 1, 0.45] }}
                   transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <motion.span
-                  className="absolute right-0 top-0 h-8 w-8 rounded-tr-xl border-r-[3px] border-t-[3px] border-teal-400/60"
+                  className="absolute right-0 top-0 h-8 w-8 rounded-tr-xl border-r-[3px] border-t-[3px] border-amber-400/60"
                   animate={reduceMotion ? undefined : { opacity: [1, 0.45, 1] }}
                   transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                 />
-                <span className="absolute left-1/2 top-0 h-[2px] w-20 -translate-x-1/2 bg-gradient-to-r from-transparent via-teal-400/70 to-transparent" />
+                <span className="absolute left-1/2 top-0 h-[2px] w-20 -translate-x-1/2 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent" />
               </div>
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-2xl"
               >
                 <motion.span
-                  className="absolute left-0 top-0 h-[2px] w-28 bg-gradient-to-r from-transparent via-teal-400 to-transparent shadow-[0_0_16px_rgba(20,184,166,0.75)]"
+                  className="absolute left-0 top-0 h-[2px] w-28 bg-gradient-to-r from-transparent via-amber-400 to-transparent shadow-[0_0_16px_rgba(245,158,11,0.75)]"
                   animate={reduceMotion ? undefined : { x: ["-8rem", "34rem"] }}
                   transition={{ duration: 3.6, repeat: Infinity, ease: "linear" }}
                 />
                 <motion.span
-                  className="absolute bottom-0 right-0 h-[2px] w-24 bg-gradient-to-r from-transparent via-teal-300 to-transparent shadow-[0_0_16px_rgba(20,184,166,0.6)]"
+                  className="absolute bottom-0 right-0 h-[2px] w-24 bg-gradient-to-r from-transparent via-amber-300 to-transparent shadow-[0_0_16px_rgba(245,158,11,0.6)]"
                   animate={reduceMotion ? undefined : { x: ["8rem", "-34rem"] }}
                   transition={{
                     duration: 4.2,
@@ -357,11 +357,11 @@ export function AboutSection() {
                       whileTap={reduceMotion ? undefined : { scale: 0.96 }}
                       className={`group flex min-h-20 flex-col items-center justify-center gap-2 rounded-xl border p-3 text-center transition-colors ${
                         isActive
-                          ? "border-teal-400/70 bg-teal-100/80 text-slate-950 shadow-md shadow-teal-500/15 dark:bg-teal-500/15 dark:text-slate-50"
-                          : "border-slate-200/80 bg-white/80 text-slate-700 hover:border-teal-300 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300 dark:hover:border-teal-700"
+                          ? "border-amber-400/70 bg-amber-100/80 text-slate-950 shadow-md shadow-amber-500/15 dark:bg-amber-500/15 dark:text-slate-50"
+                          : "border-slate-200/80 bg-white/80 text-slate-700 hover:border-amber-300 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300 dark:hover:border-amber-700"
                       }`}
                     >
-                      <signal.icon className="h-5 w-5 text-teal-500 transition-transform group-hover:scale-110" />
+                      <signal.icon className="h-5 w-5 text-amber-500 transition-transform group-hover:scale-110" />
                       <span className="text-xs font-bold uppercase tracking-wide">
                         {signal.label}
                       </span>
@@ -378,7 +378,7 @@ export function AboutSection() {
               transition={{ duration: 0.24 }}
               className="relative z-10 mt-4 rounded-xl border border-slate-200/80 bg-slate-950 px-4 py-3 text-sm text-slate-100 shadow-lg dark:border-slate-800"
             >
-              <div className="theme-font-mono text-sm font-semibold text-teal-300">
+              <div className="theme-font-mono text-sm font-semibold text-amber-300">
                 {activeSignal.value}
               </div>
               <div className="mt-1.5 leading-relaxed text-slate-300">

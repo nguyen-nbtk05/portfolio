@@ -30,7 +30,7 @@ function MdxLink({ href, className, ...props }: ComponentPropsWithoutRef<"a">) {
     <a
       href={href}
       className={cn(
-        "font-medium text-teal-600 underline decoration-teal-500/35 underline-offset-4 transition-colors hover:text-teal-500 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-400 dark:hover:text-teal-300",
+        "font-medium text-amber-600 underline decoration-amber-500/35 underline-offset-4 transition-colors hover:text-amber-500 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:text-amber-400 dark:hover:text-amber-300",
         className,
       )}
       target={isExternal ? "_blank" : undefined}
@@ -91,13 +91,13 @@ export const mdxComponents: MDXComponents = {
   a: MdxLink,
   ul: ({ className, ...props }: ComponentPropsWithoutRef<"ul">) => (
     <ul
-      className={cn("my-5 list-disc space-y-2 pl-6 hyphens-auto text-slate-700 marker:text-teal-500 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-300", className)}
+      className={cn("my-5 list-disc space-y-2 pl-6 hyphens-auto text-slate-700 marker:text-amber-500 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-300", className)}
       {...props}
     />
   ),
   ol: ({ className, ...props }: ComponentPropsWithoutRef<"ol">) => (
     <ol
-      className={cn("my-5 list-decimal space-y-2 pl-6 hyphens-auto text-slate-700 marker:font-semibold marker:text-teal-600 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-300 dark:marker:text-teal-400", className)}
+      className={cn("my-5 list-decimal space-y-2 pl-6 hyphens-auto text-slate-700 marker:font-semibold marker:text-amber-600 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-300 dark:marker:text-amber-400", className)}
       {...props}
     />
   ),
@@ -107,7 +107,7 @@ export const mdxComponents: MDXComponents = {
   blockquote: ({ className, ...props }: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
       className={cn(
-        "my-8 border-l-2 border-teal-500 bg-teal-50/70 px-5 py-3 hyphens-auto italic text-slate-700 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:bg-teal-500/5 dark:text-slate-300",
+        "my-8 border-l-2 border-amber-500 bg-amber-50/70 px-5 py-3 hyphens-auto italic text-slate-700 sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:bg-amber-500/5 dark:text-slate-300",
         className,
       )}
       {...props}
@@ -116,7 +116,7 @@ export const mdxComponents: MDXComponents = {
   code: ({ className, ...props }: ComponentPropsWithoutRef<"code">) => (
     <code
       className={cn(
-        "break-words rounded bg-slate-200/75 px-1.5 py-0.5 text-[0.9em] text-teal-800 dark:bg-slate-800 dark:text-teal-200",
+        "break-words rounded bg-slate-200/75 px-1.5 py-0.5 text-[0.9em] text-amber-800 dark:bg-slate-800 dark:text-amber-200",
         className,
       )}
       {...props}

@@ -140,7 +140,7 @@ export function BlogArchive({
         <div className="grid items-end gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-10">
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 dark:text-slate-50 sm:text-4xl">
             {lang({ en: "All Blogs", vi: "Tất cả bài viết" })}
-            <span className="text-teal-500">.</span>
+            <span className="text-amber-500">.</span>
           </h1>
 
           <div className="flex gap-6 text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
@@ -182,7 +182,7 @@ export function BlogArchive({
                   en: "Search by title, keyword, or topic...",
                   vi: "Tìm theo tiêu đề, từ khóa hoặc chủ đề...",
                 })}
-                className="h-11 w-full rounded-xl border border-slate-200 bg-white/80 pl-10 pr-4 text-base text-slate-900 outline-none transition-[border-color,box-shadow] placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-100 dark:placeholder:text-slate-500"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-white/80 pl-10 pr-4 text-base text-slate-900 outline-none transition-[border-color,box-shadow] placeholder:text-slate-400 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-100 dark:placeholder:text-slate-500"
               />
             </label>
 
@@ -198,7 +198,7 @@ export function BlogArchive({
                 value={sortOrder}
                 onChange={(event) => setSortOrder(event.target.value as SortOrder)}
                 disabled={isVaultSelected && !vaultUnlocked}
-                className="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white/80 pl-10 pr-9 text-base text-slate-700 outline-none transition-[border-color,box-shadow] focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-300"
+                className="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white/80 pl-10 pr-9 text-base text-slate-700 outline-none transition-[border-color,box-shadow] focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-300"
               >
                 <option value="newest">
                   {lang({ en: "Newest first", vi: "Mới nhất trước" })}
@@ -225,7 +225,7 @@ export function BlogArchive({
               <button
                 type="button"
                 onClick={clearFilters}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 text-sm font-semibold text-slate-600 transition-colors hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-slate-800 dark:text-slate-400 dark:hover:border-teal-700 dark:hover:bg-teal-950/40 dark:hover:text-teal-300"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 text-sm font-semibold text-slate-600 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:border-slate-800 dark:text-slate-400 dark:hover:border-amber-700 dark:hover:bg-amber-950/40 dark:hover:text-amber-300"
               >
                 <X aria-hidden="true" className="h-4 w-4" />
                 {lang({ en: "Clear", vi: "Xóa lọc" })}
@@ -241,10 +241,10 @@ export function BlogArchive({
               type="button"
               onClick={() => setSelectedTopic(ALL_TOPICS)}
               aria-pressed={selectedTopic === ALL_TOPICS}
-              className={`min-h-11 rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 lg:min-h-0 ${
+              className={`min-h-11 rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 lg:min-h-0 ${
                 selectedTopic === ALL_TOPICS
-                  ? "border-teal-500 bg-teal-500 text-white shadow-sm shadow-teal-500/20"
-                  : "border-slate-200 bg-white/80 text-slate-600 hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700 dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-400 dark:hover:border-teal-700 dark:hover:bg-teal-950/40 dark:hover:text-teal-300"
+                  ? "border-amber-500 bg-amber-500 text-white shadow-sm shadow-amber-500/20"
+                  : "border-slate-200 bg-white/80 text-slate-600 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-400 dark:hover:border-amber-700 dark:hover:bg-amber-950/40 dark:hover:text-amber-300"
               }`}
             >
               {lang({ en: "All topics", vi: "Tất cả" })}
@@ -255,10 +255,10 @@ export function BlogArchive({
                 type="button"
                 onClick={() => setSelectedTopic(topic)}
                 aria-pressed={selectedTopic === topic}
-                className={`min-h-11 rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 lg:min-h-0 ${
+                className={`min-h-11 rounded-full border px-3 py-1.5 text-xs font-semibold transition-[background-color,border-color,color,transform] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 lg:min-h-0 ${
                   selectedTopic === topic
-                    ? "border-teal-500 bg-teal-500 text-white shadow-sm shadow-teal-500/20"
-                    : "border-slate-200 bg-white/80 text-slate-600 hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700 dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-400 dark:hover:border-teal-700 dark:hover:bg-teal-950/40 dark:hover:text-teal-300"
+                    ? "border-amber-500 bg-amber-500 text-white shadow-sm shadow-amber-500/20"
+                    : "border-slate-200 bg-white/80 text-slate-600 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-400 dark:hover:border-amber-700 dark:hover:bg-amber-950/40 dark:hover:text-amber-300"
                 }`}
               >
                 {topic}
@@ -313,7 +313,7 @@ export function BlogArchive({
               className={`h-1.5 w-1.5 rounded-full ${
                 isVaultSelected
                   ? "bg-violet-500 shadow-[0_0_12px_rgba(139,92,246,0.55)]"
-                  : "bg-teal-500 shadow-[0_0_12px_rgba(20,184,166,0.55)]"
+                  : "bg-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.55)]"
               }`}
             />
           </div>
@@ -356,7 +356,7 @@ export function BlogArchive({
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="mt-5 inline-flex items-center gap-2 rounded-xl border border-teal-300 bg-teal-50 px-4 py-2 text-sm font-semibold text-teal-700 transition-colors hover:bg-teal-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-teal-800 dark:bg-teal-950/40 dark:text-teal-300 dark:hover:bg-teal-950/70"
+                  className="mt-5 inline-flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700 transition-colors hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-950/70"
                 >
                   <X aria-hidden="true" className="h-4 w-4" />
                   {lang({ en: "Clear filters", vi: "Xóa bộ lọc" })}

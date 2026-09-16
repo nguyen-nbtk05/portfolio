@@ -50,7 +50,7 @@ export function BlogContactRail() {
             whileHover={reduceMotion ? undefined : { scale: 1.1, y: -1 }}
             whileTap={reduceMotion ? undefined : { scale: 0.94 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-slate-500 transition-colors hover:bg-slate-200 hover:text-teal-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-teal-400"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-slate-500 transition-colors hover:bg-slate-200 hover:text-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-amber-400"
           >
             <Icon aria-hidden="true" className="h-5 w-5" />
           </motion.a>

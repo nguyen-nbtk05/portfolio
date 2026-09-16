@@ -163,7 +163,7 @@ const NavbarSeparator = () => (
 function LocationBadge({ location }: { location: string }) {
   return (
     <div className="flex min-w-0 items-center gap-2 rounded-xl border border-slate-200/80 bg-white/80 px-3 py-2 text-slate-600 shadow-sm shadow-slate-200/40 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/70 dark:text-slate-300 dark:shadow-black/20">
-      <MapPin className="h-3.5 w-3.5 shrink-0 text-teal-500" aria-hidden="true" />
+      <MapPin className="h-3.5 w-3.5 shrink-0 text-amber-500" aria-hidden="true" />
       <span className="truncate text-[10px] font-semibold tracking-tight sm:text-xs">
         {location}
       </span>
@@ -182,7 +182,7 @@ function ClockBadge({
 }) {
   return (
     <div className="flex shrink-0 items-center gap-2 rounded-xl border border-slate-200/80 bg-white/80 px-3 py-2 text-slate-600 shadow-sm shadow-slate-200/40 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/70 dark:text-slate-300 dark:shadow-black/20">
-      <Clock3 className="h-3.5 w-3.5 shrink-0 text-teal-500" aria-hidden="true" />
+      <Clock3 className="h-3.5 w-3.5 shrink-0 text-amber-500" aria-hidden="true" />
       <time className="text-[10px] font-semibold tabular-nums tracking-tight sm:text-xs">
         <span className={compact ? "hidden sm:inline" : undefined}>{date} · </span>
         {time}
@@ -422,8 +422,8 @@ export function Navbar() {
             aria-current={isActive ? "location" : undefined}
             className={`relative isolate flex h-9 items-center justify-center gap-2 rounded-lg px-2 transition-colors duration-150 sm:px-2.5 lg:px-3 ${
               isActive
-                ? "text-teal-700 dark:text-teal-300"
-                : "text-slate-600 hover:bg-slate-100 hover:text-teal-600 dark:text-slate-300 dark:hover:bg-slate-800/70 dark:hover:text-teal-400"
+                ? "text-amber-700 dark:text-amber-300"
+                : "text-slate-600 hover:bg-slate-100 hover:text-amber-600 dark:text-slate-300 dark:hover:bg-slate-800/70 dark:hover:text-amber-400"
             }`}
           >
             {isActive ? (
@@ -431,7 +431,7 @@ export function Navbar() {
                 initial={reduceMotion ? false : { opacity: 0.65 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: reduceMotion ? 0 : 0.1, ease: "easeOut" }}
-                className="absolute inset-0 z-[1] rounded-lg border border-teal-300/70 bg-teal-50 shadow-sm shadow-teal-500/10 dark:border-teal-500/35 dark:bg-teal-500/10"
+                className="absolute inset-0 z-[1] rounded-lg border border-amber-300/70 bg-amber-50 shadow-sm shadow-amber-500/10 dark:border-amber-500/35 dark:bg-amber-500/10"
               />
             ) : null}
             <Icon className="relative z-10 h-[18px] w-[18px] shrink-0" aria-hidden="true" />
@@ -463,12 +463,12 @@ export function Navbar() {
         aria-current={isActive ? "location" : undefined}
         className={`relative isolate flex min-h-11 min-w-0 items-center justify-center rounded-xl transition-colors duration-150 ${
           isActive
-            ? "text-teal-700 dark:text-teal-300"
-            : "text-slate-600 active:bg-slate-100 active:text-teal-600 dark:text-slate-300 dark:active:bg-slate-800/70 dark:active:text-teal-400"
+            ? "text-amber-700 dark:text-amber-300"
+            : "text-slate-600 active:bg-slate-100 active:text-amber-600 dark:text-slate-300 dark:active:bg-slate-800/70 dark:active:text-amber-400"
         }`}
       >
         {isActive ? (
-          <span className="absolute inset-0 z-[1] rounded-xl border border-teal-300/70 bg-teal-50 shadow-sm shadow-teal-500/10 dark:border-teal-500/35 dark:bg-teal-500/10" />
+          <span className="absolute inset-0 z-[1] rounded-xl border border-amber-300/70 bg-amber-50 shadow-sm shadow-amber-500/10 dark:border-amber-500/35 dark:bg-amber-500/10" />
         ) : null}
         <Icon className="relative z-10 h-5 w-5 shrink-0" aria-hidden="true" />
         <span className="sr-only">{label}</span>
@@ -535,7 +535,7 @@ export function Navbar() {
                   duration={800}
                   theme={isDarkMode ? "dark" : "light"}
                   onThemeChange={setTheme}
-                  className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-slate-600 transition-colors hover:bg-slate-100 hover:text-teal-600 disabled:opacity-60 [&_svg]:!h-5 [&_svg]:!w-5 dark:text-slate-300 dark:hover:bg-slate-800/70 dark:hover:text-teal-400"
+                  className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-slate-600 transition-colors hover:bg-slate-100 hover:text-amber-600 disabled:opacity-60 [&_svg]:!h-5 [&_svg]:!w-5 dark:text-slate-300 dark:hover:bg-slate-800/70 dark:hover:text-amber-400"
                 />
               </div>
             </DockTooltip>
@@ -598,7 +598,7 @@ export function Navbar() {
                     ? "Chuyển sang nền sáng"
                     : "Chuyển sang nền tối",
               })}
-              className="flex min-h-11 w-full min-w-0 cursor-pointer items-center justify-center rounded-xl text-slate-600 transition-colors active:bg-slate-100 active:text-teal-600 disabled:opacity-60 [&_svg]:!h-5 [&_svg]:!w-5 dark:text-slate-300 dark:active:bg-slate-800/70 dark:active:text-teal-400"
+              className="flex min-h-11 w-full min-w-0 cursor-pointer items-center justify-center rounded-xl text-slate-600 transition-colors active:bg-slate-100 active:text-amber-600 disabled:opacity-60 [&_svg]:!h-5 [&_svg]:!w-5 dark:text-slate-300 dark:active:bg-slate-800/70 dark:active:text-amber-400"
             />
 
             <div className="min-w-0 [&>div]:w-full [&>div>button]:h-11 [&>div>button]:w-full [&>div>button]:rounded-xl [&>div>button]:p-0 [&>div>button>svg]:!h-5 [&>div>button>svg]:!w-5">

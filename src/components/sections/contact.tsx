@@ -165,12 +165,12 @@ export function ContactSection() {
           >
             <div className="space-y-6">
               <motion.div variants={slideInLeft} className="space-y-4">
-                <div className="inline-flex items-center justify-center rounded-2xl bg-teal-100/80 p-3 dark:bg-teal-950/40">
-                  <Mail className="h-6 w-6 text-teal-600 dark:text-teal-400" />
+                <div className="inline-flex items-center justify-center rounded-2xl bg-amber-100/80 p-3 dark:bg-amber-950/40">
+                  <Mail className="h-6 w-6 text-amber-600 dark:text-amber-400" />
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
                   {lang({ en: "Let's connect", vi: "Hãy kết nối" })}
-                  <span className="text-teal-500">.</span>
+                  <span className="text-amber-500">.</span>
                 </h2>
                 <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm sm:text-base text-justify">
                   {lang({
@@ -186,9 +186,9 @@ export function ContactSection() {
                   whileHover={reduceMotion ? undefined : { y: -4, scale: 1.008 }}
                   transition={{ type: "spring", stiffness: 260, damping: 24, mass: 0.7 }}
                   onClick={handleCopyEmail}
-                  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-teal-500/40 hover:bg-teal-50/35 hover:shadow-xl hover:shadow-teal-500/10 dark:border-slate-800/40 dark:bg-slate-950/40 dark:hover:border-teal-500/30 dark:hover:bg-teal-950/10"
+                  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-amber-500/40 hover:bg-amber-50/35 hover:shadow-xl hover:shadow-amber-500/10 dark:border-slate-800/40 dark:bg-slate-950/40 dark:hover:border-amber-500/30 dark:hover:bg-amber-950/10"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-[background-color,color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-teal-500/10 group-hover:text-teal-500 dark:bg-slate-900 dark:text-slate-400">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-[background-color,color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-amber-500/10 group-hover:text-amber-500 dark:bg-slate-900 dark:text-slate-400">
                     <Mail className="h-5 w-5" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -201,7 +201,7 @@ export function ContactSection() {
                   </div>
                   <div
                     data-cursor="pointer"
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition-[border-color,color] duration-300 group-hover:border-teal-500/35 group-hover:text-teal-500 dark:border-slate-800 dark:text-slate-500"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition-[border-color,color] duration-300 group-hover:border-amber-500/35 group-hover:text-amber-500 dark:border-slate-800 dark:text-slate-500"
                   >
                     {copied ? (
                       <Check className="h-4 w-4 text-emerald-500" />
@@ -215,9 +215,9 @@ export function ContactSection() {
                   variants={slideInLeft}
                   whileHover={reduceMotion ? undefined : { y: -4, scale: 1.008 }}
                   transition={{ type: "spring", stiffness: 260, damping: 24, mass: 0.7 }}
-                  className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-teal-500/40 hover:bg-teal-50/35 hover:shadow-xl hover:shadow-teal-500/10 dark:border-slate-800/40 dark:bg-slate-950/40 dark:hover:border-teal-500/30 dark:hover:bg-teal-950/10"
+                  className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-amber-500/40 hover:bg-amber-50/35 hover:shadow-xl hover:shadow-amber-500/10 dark:border-slate-800/40 dark:bg-slate-950/40 dark:hover:border-amber-500/30 dark:hover:bg-amber-950/10"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-[background-color,color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-teal-500/10 group-hover:text-teal-500 dark:bg-slate-900 dark:text-slate-400">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-[background-color,color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-amber-500/10 group-hover:text-amber-500 dark:bg-slate-900 dark:text-slate-400">
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -237,9 +237,9 @@ export function ContactSection() {
                   variants={slideInLeft}
                   whileHover={reduceMotion ? undefined : { y: -4, scale: 1.008 }}
                   transition={{ type: "spring", stiffness: 260, damping: 24, mass: 0.7 }}
-                  className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-teal-500/40 hover:bg-teal-50/35 hover:shadow-xl hover:shadow-teal-500/10 dark:border-slate-800/40 dark:bg-slate-950/40 dark:hover:border-teal-500/30 dark:hover:bg-teal-950/10"
+                  className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-amber-500/40 hover:bg-amber-50/35 hover:shadow-xl hover:shadow-amber-500/10 dark:border-slate-800/40 dark:bg-slate-950/40 dark:hover:border-amber-500/30 dark:hover:bg-amber-950/10"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-[background-color,color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-teal-500/10 group-hover:text-teal-500 dark:bg-slate-900 dark:text-slate-400">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-[background-color,color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-amber-500/10 group-hover:text-amber-500 dark:bg-slate-900 dark:text-slate-400">
                     <Clock className="h-5 w-5" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -318,7 +318,7 @@ export function ContactSection() {
                 <motion.form
                   key="form-state"
                   onSubmit={handleSubmit}
-                  className="space-y-5"
+                  className="space-y-2"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -329,7 +329,7 @@ export function ContactSection() {
                         en: "Send Me a Message",
                         vi: "Gửi Tin Nhắn Cho Tôi",
                       })}
-                      <span className="text-teal-500">.</span>
+                      <span className="text-amber-500">.</span>
                     </h3>
                     <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                       {lang({
@@ -360,7 +360,7 @@ export function ContactSection() {
                         className={`w-full px-4 py-3 rounded-xl border ${
                           errors.name
                             ? "border-rose-500 focus:ring-rose-500/10 focus:border-rose-500"
-                            : "border-slate-200 dark:border-slate-800/80 focus:border-teal-500 dark:focus:border-teal-400 focus:ring-teal-500/10"
+                            : "border-slate-200 dark:border-slate-800/80 focus:border-amber-500 dark:focus:border-amber-400 focus:ring-amber-500/10"
                         } bg-white/50 dark:bg-slate-950/20 text-slate-900 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-700 focus:outline-none focus:ring-4 transition-[border-color,box-shadow] duration-250`}
                       />
                       {errors.name && (
@@ -388,7 +388,7 @@ export function ContactSection() {
                         className={`w-full px-4 py-3 rounded-xl border ${
                           errors.email
                             ? "border-rose-500 focus:ring-rose-500/10 focus:border-rose-500"
-                            : "border-slate-200 dark:border-slate-800/80 focus:border-teal-500 dark:focus:border-teal-400 focus:ring-teal-500/10"
+                            : "border-slate-200 dark:border-slate-800/80 focus:border-amber-500 dark:focus:border-amber-400 focus:ring-amber-500/10"
                         } bg-white/50 dark:bg-slate-950/20 text-slate-900 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-700 focus:outline-none focus:ring-4 transition-[border-color,box-shadow] duration-250`}
                       />
                       {errors.email && (
@@ -417,7 +417,7 @@ export function ContactSection() {
                         en: "How can I help you?",
                         vi: "Tôi có thể giúp gì cho bạn?",
                       })}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800/80 focus:border-teal-500 dark:focus:border-teal-400 focus:ring-teal-500/10 bg-white/50 dark:bg-slate-950/20 text-slate-900 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-700 focus:outline-none focus:ring-4 transition-[border-color,box-shadow] duration-250"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800/80 focus:border-amber-500 dark:focus:border-amber-400 focus:ring-amber-500/10 bg-white/50 dark:bg-slate-950/20 text-slate-900 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-700 focus:outline-none focus:ring-4 transition-[border-color,box-shadow] duration-250"
                     />
                   </div>
 
@@ -442,7 +442,7 @@ export function ContactSection() {
                       className={`w-full px-4 py-3 rounded-xl border ${
                         errors.message
                           ? "border-rose-500 focus:ring-rose-500/10 focus:border-rose-500"
-                          : "border-slate-200 dark:border-slate-800/80 focus:border-teal-500 dark:focus:border-teal-400 focus:ring-teal-500/10"
+                          : "border-slate-200 dark:border-slate-800/80 focus:border-amber-500 dark:focus:border-amber-400 focus:ring-amber-500/10"
                       } bg-white/50 dark:bg-slate-950/20 text-slate-900 dark:text-slate-100 placeholder-slate-300 dark:placeholder-slate-700 focus:outline-none focus:ring-4 transition-[border-color,box-shadow] duration-250 resize-none`}
                     />
                     {errors.message && (
@@ -474,7 +474,7 @@ export function ContactSection() {
                     disabled={status === "submitting"}
                     whileHover={reduceMotion ? undefined : { y: -2 }}
                     whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                    className="w-full group inline-flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-teal-500/20 transition-colors hover:bg-teal-700 active:bg-teal-800 disabled:opacity-75 disabled:pointer-events-none cursor-pointer"
+                    className="w-full group inline-flex items-center justify-center gap-2 rounded-xl bg-amber-600 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-amber-500/20 transition-colors hover:bg-amber-700 active:bg-amber-800 disabled:opacity-75 disabled:pointer-events-none cursor-pointer"
                   >
                     {status === "submitting" ? (
                       <>
@@ -497,8 +497,8 @@ export function ContactSection() {
         <div className="flex-1" />
 
         <footer className="mt-auto w-full border-t border-slate-200/50 pb-0 pt-4 dark:border-slate-800/50">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row text-sm text-slate-500 dark:text-slate-400">
-            <div className="flex flex-wrap items-center justify-center gap-1">
+          <div className="relative grid grid-cols-1 items-center justify-items-center gap-4 text-sm text-slate-500 md:grid-cols-[1fr_auto_1fr] md:justify-items-stretch dark:text-slate-400">
+            <div className="flex flex-wrap items-center justify-center gap-1 md:justify-self-start">
               <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
                 {lang({ en: "Follow me", vi: "Theo dõi tôi" })}
               </span>
@@ -531,13 +531,14 @@ export function ContactSection() {
               />
             </div>
 
-            <p className="text-center md:text-left">
+            <p className="text-center md:justify-self-center">
               © {new Date().getFullYear()} {lang(siteConfig.name)}.{" "}
               {lang({
                 en: "All rights reserved.",
                 vi: "Đã đăng ký bản quyền.",
               })}
             </p>
+            <div aria-hidden className="hidden md:block md:justify-self-end" />
           </div>
         </footer>
       </div>

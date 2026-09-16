@@ -19,8 +19,8 @@ import { PortfolioTerminal } from "@/components/sections/portfolio-terminal";
 const NETWORK_NODES = [
   {
     id: 1,
-    color: "bg-teal-400",
-    shadow: "shadow-[0_0_24px_rgba(20,184,166,0.65)]",
+    color: "bg-amber-400",
+    shadow: "shadow-[0_0_24px_rgba(245,158,11,0.65)]",
     size: "h-2 w-2",
     top: "68%",
     left: "12%",
@@ -89,8 +89,8 @@ const NETWORK_NODES = [
   },
   {
     id: 8,
-    color: "bg-teal-300",
-    shadow: "shadow-[0_0_18px_rgba(45,212,191,0.6)]",
+    color: "bg-amber-300",
+    shadow: "shadow-[0_0_18px_rgba(251,191,36,0.6)]",
     size: "h-1 w-1",
     top: "15%",
     left: "35%",
@@ -109,8 +109,8 @@ const NETWORK_NODES = [
   },
   {
     id: 10,
-    color: "bg-teal-400",
-    shadow: "shadow-[0_0_18px_rgba(45,212,191,0.6)]",
+    color: "bg-amber-400",
+    shadow: "shadow-[0_0_18px_rgba(251,191,36,0.6)]",
     size: "h-1.5 w-1.5",
     top: "45%",
     left: "55%",
@@ -149,8 +149,8 @@ const NETWORK_NODES = [
   },
   {
     id: 14,
-    color: "bg-teal-300",
-    shadow: "shadow-[0_0_16px_rgba(45,212,191,0.55)]",
+    color: "bg-amber-300",
+    shadow: "shadow-[0_0_16px_rgba(251,191,36,0.55)]",
     size: "h-1.5 w-1.5",
     top: "70%",
     left: "72%",
@@ -209,8 +209,8 @@ const NETWORK_NODES = [
   },
   {
     id: 20,
-    color: "bg-teal-300",
-    shadow: "shadow-[0_0_16px_rgba(94,234,212,0.52)]",
+    color: "bg-amber-300",
+    shadow: "shadow-[0_0_16px_rgba(252,211,77,0.52)]",
     size: "h-1.5 w-1.5",
     top: "88%",
     left: "82%",
@@ -336,9 +336,9 @@ export function HeroSection() {
                 aria-hidden="true"
                 animate={reduceMotion ? undefined : { scale: [1, 1.8, 1], opacity: [0.7, 0, 0.7] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                className="absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"
               />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-500" />
             </span>
             <span>
               {lang({
@@ -360,16 +360,16 @@ export function HeroSection() {
               }`}
             >
               {lang({ en: "Hi, I'm", vi: "Chào! Mình là" })} {lang(siteConfig.name)}
-              <span className="text-teal-500">.</span>
+              <span className="text-amber-500">.</span>
             </span>
             <motion.span
               variants={fadeIn}
-              className="block min-h-[1.18em] w-full min-w-0 text-[clamp(1.75rem,6.8vw,2.25rem)] leading-[1.12] max-[359px]:min-h-[2.24em] lg:mt-3 lg:text-6xl"
+              className="block min-h-[1.18em] w-full min-w-0 text-[clamp(1.75rem,6.8vw,2.25rem)] leading-[1.12] max-[359px]:min-h-[2.24em] lg:mt-5 lg:text-6xl"
             >
               <TypewriterText
                 key={`@Nora | Networks`}
                 words={["@Nora", "Networks"]}
-                className="align-top bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400 bg-clip-text leading-[1.12] text-transparent"
+                className="align-top bg-gradient-to-r from-amber-400 via-orange-400 to-red-400 bg-clip-text leading-[1.12] text-transparent"
                 typingSpeed={120}
                 deletingSpeed={50}
                 pauseDuration={1200}
@@ -379,20 +379,20 @@ export function HeroSection() {
 
           <motion.p
             variants={fadeUp}
-            className="mx-auto max-w-2xl text-[0.95rem] leading-6 text-slate-600 sm:text-lg sm:leading-relaxed lg:mx-0 lg:text-xl dark:text-slate-400"
+            className="mx-auto max-w-2xl whitespace-pre-line text-[0.95rem] leading-6 text-slate-600 sm:text-lg sm:leading-relaxed lg:mx-0 lg:text-xl dark:text-slate-400"
           >
             {lang(siteConfig.description)}
           </motion.p>
 
           <motion.div
             variants={fadeUp}
-            className="flex flex-wrap items-center justify-center gap-3 lg:mt-4 lg:justify-start lg:gap-4"
+            className="flex flex-wrap items-center justify-center gap-3 lg:justify-start lg:gap-4"
           >
             <a
               href={siteConfig.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-teal-500/20 transition-colors hover:bg-teal-700 sm:px-6 sm:py-3 sm:text-base"
+              className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-amber-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-amber-500/20 transition-colors hover:bg-amber-700 sm:px-6 sm:py-3 sm:text-base"
             >
               <FileText className="h-4 w-4 transition-transform group-hover:scale-110" />
               {lang({ en: "View Resume", vi: "Xem CV" })}

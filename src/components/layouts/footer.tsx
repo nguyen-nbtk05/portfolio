@@ -29,7 +29,7 @@ export function SmartIconButton({
       rel={isExternal ? "noopener noreferrer" : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="flex min-h-11 min-w-11 items-center justify-center rounded-full bg-transparent p-2.5 text-slate-500 transition-colors hover:bg-slate-200 hover:text-teal-500 lg:min-h-0 lg:min-w-0 dark:hover:bg-slate-800"
+      className="flex min-h-11 min-w-11 items-center justify-center rounded-full bg-transparent p-2.5 text-slate-500 transition-colors hover:bg-slate-200 hover:text-amber-500 lg:min-h-0 lg:min-w-0 dark:hover:bg-slate-800"
       aria-label={label}
     >
       <motion.div layout className="shrink-0">
@@ -61,12 +61,12 @@ export function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-slate-50 py-8 dark:border-slate-800 dark:bg-slate-950">
       <motion.div
-        className="site-container mx-auto flex flex-col items-center justify-between gap-4 px-4 sm:px-6 md:flex-row lg:px-[1cm]"
+        className="site-container relative mx-auto grid grid-cols-1 items-center justify-items-center gap-4 px-4 sm:px-6 md:grid-cols-[1fr_auto_1fr] md:justify-items-stretch lg:px-[1cm]"
         initial={reduceMotion ? false : "hidden"}
         animate="visible"
         variants={staggerContainer(0.08)}
       >
-        <motion.div variants={fadeUp} layout className="flex flex-wrap items-center justify-center gap-1">
+        <motion.div variants={fadeUp} layout className="flex flex-wrap items-center justify-center gap-1 md:justify-self-start">
           <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
             {lang({ en: "Follow me", vi: "Theo dõi tôi" })}
           </span>
@@ -78,10 +78,11 @@ export function Footer() {
           <SmartIconButton href={siteConfig.discord} icon={DiscordIcon} label="Discord" />
         </motion.div>
 
-        <motion.p variants={fadeUp} className="text-sm text-slate-500 dark:text-slate-400">
+        <motion.p variants={fadeUp} className="text-center text-sm text-slate-500 md:justify-self-center dark:text-slate-400">
           © {new Date().getFullYear()} {lang(siteConfig.name)}.{" "}
           {lang({ en: "All rights reserved.", vi: "Đã đăng ký bản quyền." })}
         </motion.p>
+        <div aria-hidden className="hidden md:block md:justify-self-end" />
       </motion.div>
     </footer>
   );

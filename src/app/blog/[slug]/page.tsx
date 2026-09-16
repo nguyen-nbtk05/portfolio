@@ -113,14 +113,14 @@ function AdjacentLink({
   return (
     <Link
       href={href}
-      className={`group rounded-xl border border-slate-200 bg-white/70 p-5 transition-colors hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-teal-700 ${direction === "next" ? "text-right" : "text-left"}`}
+      className={`group rounded-xl border border-slate-200 bg-white/70 p-5 transition-colors hover:border-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-700 ${direction === "next" ? "text-right" : "text-left"}`}
     >
-      <span className={`mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-teal-600 dark:text-teal-400 ${direction === "next" ? "justify-end" : "justify-start"}`}>
+      <span className={`mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-amber-600 dark:text-amber-400 ${direction === "next" ? "justify-end" : "justify-start"}`}>
         {direction === "previous" ? <ArrowLeft aria-hidden="true" className="h-4 w-4" /> : null}
         {label}
         {direction === "next" ? <ArrowRight aria-hidden="true" className="h-4 w-4" /> : null}
       </span>
-      <span lang={contentLanguage} className="line-clamp-2 font-semibold text-slate-900 group-hover:text-teal-700 dark:text-slate-100 dark:group-hover:text-teal-300">
+      <span lang={contentLanguage} className="line-clamp-2 font-semibold text-slate-900 group-hover:text-amber-700 dark:text-slate-100 dark:group-hover:text-amber-300">
         {title}
       </span>
     </Link>
@@ -144,7 +144,7 @@ function ArticleBreadcrumb({
       <Link
         href="/"
         aria-label={locale === "vi" ? "Trang chủ" : "Home"}
-        className="shrink-0 rounded-sm p-1 transition-colors hover:text-teal-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:text-teal-400"
+        className="shrink-0 rounded-sm p-1 transition-colors hover:text-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:hover:text-amber-400"
       >
         <Home aria-hidden="true" className="h-4 w-4" />
       </Link>
@@ -154,7 +154,7 @@ function ArticleBreadcrumb({
       />
       <Link
         href="/blog"
-        className="shrink-0 rounded-sm px-1 py-0.5 font-medium transition-colors hover:text-teal-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:text-teal-400"
+        className="shrink-0 rounded-sm px-1 py-0.5 font-medium transition-colors hover:text-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:hover:text-amber-400"
       >
         {locale === "vi" ? "Bài viết" : "Post"}
       </Link>
@@ -220,7 +220,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <header className="border-b border-slate-200 pb-6 dark:border-slate-800">
               <ArticleBreadcrumb title={title} locale={locale} contentLanguage={contentLanguage} />
 
-              <div className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
+              <div className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-amber-600 dark:text-amber-400">
                 {post.tags.slice(0, 2).join(" · ")}
               </div>
               <h1 lang={contentLanguage} className="hyphens-auto text-[clamp(2rem,10vw,2.25rem)] font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-[2.75rem] sm:text-justify sm:[text-align-last:left] sm:[text-justify:inter-word] dark:text-slate-50">
@@ -244,11 +244,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   </span>
                 </span>
                 <span className="inline-flex items-center gap-2">
-                  <CalendarDays aria-hidden="true" className="h-4 w-4 text-teal-500" />
+                  <CalendarDays aria-hidden="true" className="h-4 w-4 text-amber-500" />
                   <time dateTime={post.publishedAt}>{formatDate(post.publishedAt, locale)}</time>
                 </span>
                 <span className="inline-flex items-center gap-2">
-                  <Clock3 aria-hidden="true" className="h-4 w-4 text-teal-500" />
+                  <Clock3 aria-hidden="true" className="h-4 w-4 text-amber-500" />
                   {locale === "vi" ? `${readMinutes} phút đọc` : `${readMinutes} min read`}
                 </span>
               </div>

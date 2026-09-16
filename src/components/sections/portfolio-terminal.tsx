@@ -139,7 +139,7 @@ function useTerminalAudio() {
 function Prompt() {
   return (
     <span className="shrink-0 font-semibold text-slate-700 dark:text-slate-200">
-      <span className="text-teal-600 dark:text-teal-300">
+      <span className="text-amber-600 dark:text-amber-400">
         {TERMINAL_IDENTITY.username}@{TERMINAL_IDENTITY.host}
       </span>
       <span>:{TERMINAL_IDENTITY.cwd}$</span>
@@ -177,12 +177,12 @@ function TerminalOutputView({
 
     return (
       <div className="space-y-1">
-        <div className="font-semibold text-teal-700 dark:text-teal-300">
+        <div className="font-semibold text-amber-600 dark:text-amber-300">
           {lang({ en: "Available commands", vi: "Các lệnh hiện có" })}
         </div>
         {commands.map(([command, description]) => (
           <div key={command} className="grid gap-0 sm:grid-cols-[13rem_1fr] sm:gap-3">
-            <span className="text-cyan-700 dark:text-cyan-300">{command}</span>
+            <span className="text-amber-600 dark:text-amber-300">{command}</span>
             <span className="text-slate-500 dark:text-slate-400">{description}</span>
           </div>
         ))}
@@ -212,15 +212,15 @@ function TerminalOutputView({
               type="button"
               data-terminal-file={file}
               onClick={() => onNavigate(FILE_SECTION_TARGETS[file])}
-              className="terminal-file-item group flex min-w-0 items-center gap-2 rounded-lg border px-2.5 py-2 text-left transition-all hover:-translate-y-0.5 hover:border-teal-400 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
+              className="terminal-file-item group flex min-w-0 items-center gap-2 rounded-lg border px-2.5 py-2 text-left transition-all hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
               aria-label={lang({
                 en: `Open ${FILE_SECTION_TARGETS[file]} section`,
                 vi: `Mở phần ${FILE_SECTION_TARGETS[file]}`,
               })}
             >
-              <FileText className="h-4 w-4 shrink-0 text-teal-500" aria-hidden="true" />
-              <span className="min-w-0 flex-1 truncate font-semibold text-teal-700 dark:text-teal-300">{file}</span>
-              <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-teal-500" aria-hidden="true" />
+              <FileText className="h-4 w-4 shrink-0 text-amber-500" aria-hidden="true" />
+              <span className="min-w-0 flex-1 truncate font-semibold text-amber-600 dark:text-amber-300">{file}</span>
+              <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-amber-500" aria-hidden="true" />
             </button>
           ))}
         </div>
@@ -237,12 +237,12 @@ function TerminalOutputView({
       return (
         <div className="terminal-output-card overflow-hidden rounded-xl border">
           <div className="flex items-start gap-3 px-4 py-3">
-            <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-500/10 text-teal-600 dark:text-teal-300">
+            <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-300">
               <FileText className="h-4 w-4" aria-hidden="true" />
             </div>
             <div>
               <div className="font-bold text-slate-950 dark:text-white">{lang(siteConfig.name)}</div>
-              <div className="mt-0.5 text-[0.9em] font-semibold text-teal-700 dark:text-teal-300">
+              <div className="mt-0.5 text-[0.9em] font-semibold text-amber-600 dark:text-amber-300">
                 {lang({ en: "Computer Networks & Data Communications", vi: "Mạng máy tính & Truyền thông dữ liệu" })}
               </div>
             </div>
@@ -264,7 +264,7 @@ function TerminalOutputView({
 
       return (
         <div className="space-y-2">
-          <div className="font-semibold text-teal-700 dark:text-teal-300">[ Technical Skills ]</div>
+          <div className="font-semibold text-amber-600 dark:text-amber-300">[ Technical Skills ]</div>
           <pre className="overflow-x-auto whitespace-pre-wrap text-[0.92em] leading-relaxed">
             {JSON.stringify(skillRegistry, null, 2)}
           </pre>
@@ -281,9 +281,9 @@ function TerminalOutputView({
               type="button"
               data-terminal-project={project.id}
               onClick={() => onProjectSelect(project.id)}
-              className="group block w-full rounded-lg border border-transparent px-2.5 py-2 text-left transition-colors hover:border-teal-400/60 hover:bg-teal-500/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
+              className="group block w-full rounded-lg border border-transparent px-2.5 py-2 text-left transition-colors hover:border-amber-400/60 hover:bg-amber-500/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
             >
-              <div className="flex items-center justify-between gap-3 font-bold uppercase text-teal-700 dark:text-teal-300">
+              <div className="flex items-center justify-between gap-3 font-bold uppercase text-amber-600 dark:text-amber-300">
                 <span>## {lang(project.title)}</span>
                 <ChevronRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </div>
@@ -297,7 +297,7 @@ function TerminalOutputView({
 
     return (
       <div className="space-y-1">
-        <div className="font-semibold text-teal-700 dark:text-teal-300">[ Connection Matrix Configuration ]</div>
+        <div className="font-semibold text-amber-600 dark:text-amber-300">[ Connection Matrix Configuration ]</div>
         <div>EMAIL = {siteConfig.email}</div>
         <div>GITHUB = {siteConfig.github}</div>
         <div>TELEGRAM = {siteConfig.telegram}</div>
@@ -314,7 +314,7 @@ function TerminalOutputView({
       <div className="space-y-2">
         {skills.map((group) => (
           <div key={group.category.en}>
-            <span className="font-semibold text-teal-700 dark:text-teal-300">
+            <span className="font-semibold text-amber-600 dark:text-amber-300">
               {lang(group.category)}:
             </span>{" "}
             <span>{group.items.map((item) => item.label).join(" · ")}</span>
@@ -333,15 +333,15 @@ function TerminalOutputView({
             type="button"
             data-terminal-project={project.id}
             onClick={() => onProjectSelect(project.id)}
-            className="group flex w-full items-center gap-2 rounded-lg border border-transparent px-2.5 py-2 text-left transition-colors hover:border-teal-400/60 hover:bg-teal-500/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
+            className="group flex w-full items-center gap-2 rounded-lg border border-transparent px-2.5 py-2 text-left transition-colors hover:border-amber-400/60 hover:bg-amber-500/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
           >
-            <span className="font-semibold text-teal-700 dark:text-teal-300">
+            <span className="font-semibold text-amber-600 dark:text-amber-300">
               {String(index + 1).padStart(2, "0")}. {lang(project.title)}
             </span>
             <span className="min-w-0 flex-1 truncate text-slate-500 dark:text-slate-400">
               — {project.techStack.join(" / ")}
             </span>
-            <ChevronRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-teal-500" aria-hidden="true" />
+            <ChevronRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-amber-500" aria-hidden="true" />
           </button>
         ))}
       </div>
@@ -353,13 +353,13 @@ function TerminalOutputView({
       <div className="space-y-1">
         <div>
           <span className="text-slate-500 dark:text-slate-400">email: </span>
-          <a className="text-teal-700 underline-offset-4 hover:underline dark:text-teal-300" href={`mailto:${siteConfig.email}`}>
+          <a className="text-amber-600 underline-offset-4 hover:underline dark:text-amber-300" href={`mailto:${siteConfig.email}`}>
             {siteConfig.email}
           </a>
         </div>
         <div>
           <span className="text-slate-500 dark:text-slate-400">github: </span>
-          <a className="text-teal-700 underline-offset-4 hover:underline dark:text-teal-300" href={siteConfig.github} target="_blank" rel="noreferrer">
+          <a className="text-amber-600 underline-offset-4 hover:underline dark:text-amber-300" href={siteConfig.github} target="_blank" rel="noreferrer">
             {siteConfig.github.replace(/^https?:\/\//, "")}
           </a>
         </div>
@@ -377,7 +377,7 @@ function TerminalOutputView({
 
     return (
       <div className="space-y-2">
-        <div className="font-bold text-teal-700 dark:text-teal-300">[ RETRO THEME COMMAND PANEL ]</div>
+        <div className="font-bold text-amber-600 dark:text-amber-300">[ RETRO THEME COMMAND PANEL ]</div>
         <p>{lang({ en: "Type theme <name> to customize this terminal:", vi: "Gõ theme <tên> để tùy chỉnh terminal:" })}</p>
         <div className="grid gap-2 sm:grid-cols-2">
           {themes.map(([name, description]) => (
@@ -386,13 +386,13 @@ function TerminalOutputView({
               type="button"
               data-terminal-theme-option={name}
               onClick={() => onCommand(`theme ${name}`)}
-              className="group flex items-center justify-between gap-3 rounded-lg border border-slate-300/70 px-2.5 py-2 text-left transition-all hover:-translate-y-0.5 hover:border-teal-400 hover:bg-teal-500/5 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 dark:border-slate-700"
+              className="group flex items-center justify-between gap-3 rounded-lg border border-slate-300/70 px-2.5 py-2 text-left transition-all hover:-translate-y-0.5 hover:border-amber-400 hover:bg-amber-500/5 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 dark:border-slate-700"
             >
               <span className="min-w-0">
-                <span className="block font-semibold text-cyan-700 dark:text-cyan-300">theme {name}</span>
+                <span className="block font-semibold text-amber-600 dark:text-amber-300">theme {name}</span>
                 <span className="block truncate text-[0.85em] text-slate-500 dark:text-slate-400">{description}</span>
               </span>
-              <ChevronRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-teal-500" aria-hidden="true" />
+              <ChevronRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-amber-500" aria-hidden="true" />
             </button>
           ))}
         </div>
@@ -402,7 +402,7 @@ function TerminalOutputView({
 
   if (output.type === "theme") {
     return (
-      <div className="space-y-1 text-emerald-700 dark:text-emerald-300">
+      <div className="space-y-1 text-amber-600 dark:text-amber-300">
         <p>⚡ {lang({ en: `Terminal palette recalibrated to: ${output.target.toUpperCase()}`, vi: `Bảng màu terminal đã chuyển sang: ${output.target.toUpperCase()}` })}</p>
         <p>{lang({ en: "Spectrum filters updated for the terminal frame.", vi: "Bộ lọc quang phổ đã được cập nhật cho khung terminal." })}</p>
       </div>
@@ -411,7 +411,7 @@ function TerminalOutputView({
 
   if (output.type === "site-theme") {
     return (
-      <p className="text-emerald-700 dark:text-emerald-300">
+      <p className="text-amber-600 dark:text-amber-300">
         {lang({ en: `Website theme changed to ${output.target}.`, vi: `Giao diện website đã chuyển sang ${output.target}.` })}
       </p>
     );
@@ -436,7 +436,7 @@ function TerminalOutputView({
 
   if (output.type === "open") {
     return (
-      <p className="text-emerald-700 dark:text-emerald-300">
+      <p className="text-amber-600 dark:text-amber-300">
         {lang({ en: `Opening #${output.target}…`, vi: `Đang mở #${output.target}…` })}
       </p>
     );
@@ -450,7 +450,7 @@ function TerminalOutputView({
       open: "open <about|skills|projects|blog|contact>",
     }[output.command];
 
-    return <p className="text-amber-700 dark:text-amber-300">usage: {usage}</p>;
+    return <p className="text-amber-600 dark:text-amber-300">usage: {usage}</p>;
   }
 
   return null;
@@ -788,7 +788,7 @@ export function PortfolioTerminal() {
   return (
     <motion.div
       data-cursor="auto"
-      initial={reduceMotion ? false : { opacity: 0, x: 28, scale: 0.98 }}
+      initial={reduceMotion ? false : { opacity: 0 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ duration: 0.62, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
       className="mx-auto min-w-0 w-full max-w-[690px] select-text"
@@ -801,11 +801,11 @@ export function PortfolioTerminal() {
         onClick={handleTerminalClick}
         className="portfolio-terminal terminal-maple-mono flex h-[clamp(320px,52svh,390px)] min-h-0 flex-col overflow-hidden rounded-2xl border-2 text-xs backdrop-blur-xl sm:h-[min(470px,58svh)] sm:text-[13px] lg:h-[clamp(430px,58vh,610px)] lg:text-sm"
       >
-        <div className="portfolio-terminal-header flex min-h-11 items-center gap-3 px-4">
+        <div className="portfolio-terminal-header flex min-h-11 items-center gap-3 pl-4 pr-3">
           <div className="flex min-w-0 flex-1 items-center gap-2">
             <AnimatedTerminalIcon
               reduceMotion={reduceMotion}
-              className="h-4 w-4 text-teal-300 sm:h-[18px] sm:w-[18px] dark:text-teal-600"
+              className="h-4 w-4 text-amber-300 sm:h-[18px] sm:w-[18px] dark:text-amber-600"
             />
             <span className="truncate text-[11px] font-semibold sm:text-xs">
               {TERMINAL_IDENTITY.username}@{TERMINAL_IDENTITY.host}:{TERMINAL_IDENTITY.cwd}
@@ -815,7 +815,7 @@ export function PortfolioTerminal() {
           <button
             type="button"
             onClick={toggle}
-            className="rounded-md p-1 text-slate-400 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300 dark:text-slate-600 dark:hover:bg-black/10 dark:hover:text-black dark:focus-visible:outline-teal-600"
+            className="rounded-md p-1 text-slate-400 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 dark:text-slate-600 dark:hover:bg-black/10 dark:hover:text-black dark:focus-visible:outline-amber-600"
             aria-label={muted
               ? lang({ en: "Enable terminal sounds", vi: "Bật âm thanh terminal" })
               : lang({ en: "Mute terminal sounds", vi: "Tắt âm thanh terminal" })}
@@ -827,7 +827,7 @@ export function PortfolioTerminal() {
           <div className="flex items-center gap-2" aria-hidden="true">
             <span className="h-3 w-3 rounded-full bg-rose-500" />
             <span className="h-3 w-3 rounded-full bg-amber-400" />
-            <span className="h-3 w-3 rounded-full bg-emerald-500" />
+            <span className="h-3 w-3 rounded-full bg-teal-500" />
           </div>
         </div>
 
@@ -848,7 +848,7 @@ export function PortfolioTerminal() {
               <button
                 type="button"
                 onClick={() => handleQuickCommand("help")}
-                className="font-semibold text-emerald-600 underline-offset-4 transition-colors hover:text-emerald-500 hover:underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 dark:text-emerald-300 dark:hover:text-emerald-200"
+                className="font-semibold text-amber-600 underline-offset-4 transition-colors hover:text-amber-500 hover:underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 dark:text-amber-300 dark:hover:text-amber-200"
               >
                 help
               </button>
@@ -865,7 +865,7 @@ export function PortfolioTerminal() {
                 {entry.type === "command" ? (
                   <div className="flex min-w-0 gap-2">
                     <Prompt />
-                    <span className="break-all font-semibold text-cyan-700 dark:text-cyan-300">
+                    <span className="break-all font-semibold text-amber-600 dark:text-amber-300">
                       {entry.command}
                     </span>
                   </div>
@@ -895,7 +895,7 @@ export function PortfolioTerminal() {
                 autoCorrect="off"
                 spellCheck={false}
                 aria-label={lang({ en: "Terminal command input", vi: "Ô nhập lệnh terminal" })}
-                className="relative z-10 w-full border-0 bg-transparent p-0 font-mono font-semibold text-teal-700 caret-teal-500 outline-none dark:text-teal-300"
+                className="relative z-10 w-full border-0 bg-transparent p-0 font-mono font-semibold text-amber-600 caret-amber-500 outline-none dark:text-amber-300"
               />
               {completionRemainder && (
                 <div

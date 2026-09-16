@@ -85,20 +85,20 @@ function PortfolioVisual({ reduceMotion }: { reduceMotion: boolean }) {
           {["ABOUT", "PROJECTS", "BLOG"].map((item, index) => (
             <div
               key={item}
-              className={index === 1 ? "text-[7px] font-bold text-teal-500" : "text-[7px] text-slate-400"}
+              className={index === 1 ? "text-[7px] font-bold text-amber-500" : "text-[7px] text-slate-400"}
             >
               {item}
             </div>
           ))}
         </div>
         <div className="space-y-2">
-          <div className="text-[7px] font-bold tracking-wider text-teal-500">HELLO, WORLD_</div>
+          <div className="text-[7px] font-bold tracking-wider text-amber-500">HELLO, WORLD_</div>
           <div className="h-2 w-4/5 rounded bg-slate-800 dark:bg-slate-200" />
           <div className="h-1.5 w-full rounded bg-slate-200 dark:bg-slate-800" />
           <div className="h-1.5 w-3/4 rounded bg-slate-200 dark:bg-slate-800" />
           <div className="grid grid-cols-3 gap-1.5 pt-1">
             {["WEB", "LAB", "MDX"].map((item) => (
-              <div key={item} className="rounded border border-teal-500/30 bg-teal-500/5 py-2 text-center text-[6px] font-semibold text-teal-600 dark:text-teal-400">
+              <div key={item} className="rounded border border-amber-500/30 bg-amber-500/5 py-2 text-center text-[6px] font-semibold text-amber-600 dark:text-amber-400">
                 {item}
               </div>
             ))}
@@ -127,7 +127,7 @@ function YaraScannerVisual({ reduceMotion }: { reduceMotion: boolean }) {
         <span className="ml-3 text-[7px] font-bold tracking-[0.18em] text-slate-400">
           YARA MALWARE SCANNER
         </span>
-        <span className="ml-auto h-1.5 w-1.5 rounded-full bg-teal-400 shadow-[0_0_6px_rgb(45_212_191)]" />
+        <span className="ml-auto h-1.5 w-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgb(45_212_191)]" />
       </div>
 
       <div className="grid grid-cols-[1fr_104px] gap-2.5 p-3">
@@ -138,7 +138,7 @@ function YaraScannerVisual({ reduceMotion }: { reduceMotion: boolean }) {
               <span>1.8 MB</span>
             </div>
             <div className="mt-1 flex items-center gap-1.5 text-[8px] font-semibold text-slate-200">
-              <span className="text-teal-400">▸</span>
+              <span className="text-amber-400">▸</span>
               sample.exe
             </div>
           </div>
@@ -146,14 +146,14 @@ function YaraScannerVisual({ reduceMotion }: { reduceMotion: boolean }) {
           <div>
             <div className="mb-1 flex justify-between text-[6px] uppercase tracking-wider text-slate-500">
               <span>Scan complete</span>
-              <span className="text-teal-400">100%</span>
+              <span className="text-amber-400">100%</span>
             </div>
             <div className="h-1 overflow-hidden rounded-full bg-slate-800">
               <motion.div
                 initial={reduceMotion ? { width: "100%" } : { width: 0 }}
                 animate={{ width: "100%" }}
                 transition={{ duration: reduceMotion ? 0 : 0.55, delay: 0.12 }}
-                className="h-full rounded-full bg-teal-400"
+                className="h-full rounded-full bg-amber-400"
               />
             </div>
           </div>
@@ -183,9 +183,9 @@ function YaraScannerVisual({ reduceMotion }: { reduceMotion: boolean }) {
               initial={reduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 5 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: reduceMotion ? 0 : 0.25 + index * 0.12 }}
-              className="rounded border border-teal-500/25 bg-teal-500/5 px-2 py-2"
+              className="rounded border border-amber-500/25 bg-amber-500/5 px-2 py-2"
             >
-              <div className="flex items-center gap-1 text-[7px] font-bold text-teal-400">
+              <div className="flex items-center gap-1 text-[7px] font-bold text-amber-400">
                 <span>✓</span>
                 {item.engine}
               </div>
@@ -220,7 +220,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
           d="M 95 76 H 125"
           stroke="currentColor"
           strokeWidth="1.2"
-          className="text-teal-500"
+          className="text-amber-500"
           strokeDasharray="4 2"
           custom={0.1}
           initial={reduceMotion ? "visible" : "hidden"}
@@ -231,7 +231,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
           d="M 170 55 V 37"
           stroke="currentColor"
           strokeWidth="1.2"
-          className="text-teal-500/80 dark:text-teal-400/80"
+          className="text-amber-500/80 dark:text-amber-400/80"
           strokeDasharray="4 2"
           custom={0.18}
           initial={reduceMotion ? "visible" : "hidden"}
@@ -242,7 +242,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
           d="M 215 76 H 255"
           stroke="currentColor"
           strokeWidth="1.2"
-          className="text-teal-500/80 dark:text-teal-400/80"
+          className="text-amber-500/80 dark:text-amber-400/80"
           strokeDasharray="4 2"
           custom={0.24}
           initial={reduceMotion ? "visible" : "hidden"}
@@ -303,14 +303,14 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             width="90"
             height="42"
             rx="5"
-            className="fill-white stroke-teal-500 dark:fill-slate-900 dark:stroke-teal-400"
+            className="fill-white stroke-amber-500 dark:fill-slate-900 dark:stroke-amber-400"
             strokeWidth="1.5"
           />
           <text
             x="170"
             y="71"
             textAnchor="middle"
-            className="fill-teal-600 text-[9.25px] font-bold dark:fill-teal-400"
+            className="fill-amber-600 text-[9.25px] font-bold dark:fill-amber-400"
           >
             OVS S1
           </text>
@@ -350,7 +350,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="170"
             y="29"
             textAnchor="middle"
-            className="fill-teal-600 text-[6.25px] font-semibold dark:fill-teal-400"
+            className="fill-amber-600 text-[6.25px] font-semibold dark:fill-amber-400"
           >
             STATS 5s · ENTROPY 20s
           </text>
@@ -382,7 +382,7 @@ function SdnIdsVisual({ reduceMotion }: { reduceMotion: boolean }) {
             x="300"
             y="85"
             textAnchor="middle"
-            className="fill-teal-600 text-[6.25px] font-semibold dark:fill-teal-400"
+            className="fill-amber-600 text-[6.25px] font-semibold dark:fill-amber-400"
           >
             FLOW DROP · 300s
           </text>
@@ -449,12 +449,12 @@ function TerminalVisual({
           automation.sh
         </span>
       </div>
-      <div className="text-teal-400 font-semibold mb-1.5">{command}</div>
+      <div className="text-amber-400 font-semibold mb-1.5">{command}</div>
       <div className="space-y-1 text-[11px] text-slate-300">
         {lines.map((line, idx) => (
           <div key={idx} className="flex items-center gap-1.5">
             {line.startsWith("✓") ? (
-              <span className="text-teal-400 font-bold">{line}</span>
+              <span className="text-amber-400 font-bold">{line}</span>
             ) : line.includes("complete") ? (
               <span className="text-emerald-400 font-medium">{line}</span>
             ) : (
@@ -485,7 +485,7 @@ function CodeVisual({
     >
       <div className="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2 text-[10px] text-slate-500 uppercase tracking-wider">
         <span>snippet.{language}</span>
-        <span className="text-teal-500 font-semibold">{language}</span>
+        <span className="text-amber-500 font-semibold">{language}</span>
       </div>
       <pre className="overflow-x-auto text-[11px] leading-relaxed">
         <code>
@@ -523,7 +523,7 @@ function StatsVisual({
           key={idx}
           className="rounded-lg border border-slate-200/80 dark:border-slate-800/80 bg-white/60 dark:bg-slate-900/60 p-3 text-center"
         >
-          <div className="text-lg font-bold text-teal-600 dark:text-teal-400">
+          <div className="text-lg font-bold text-amber-600 dark:text-amber-400">
             {stat.value}
           </div>
           <div className="text-[10px] uppercase text-slate-500 dark:text-slate-400 mt-0.5">
@@ -544,7 +544,7 @@ function NoVisualOutcome({
 }) {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center rounded-lg border border-dashed border-slate-300/70 dark:border-slate-800/70 bg-slate-100/40 dark:bg-slate-900/20">
-      <span className="h-2 w-2 rounded-full bg-teal-500 mb-2" />
+      <span className="h-2 w-2 rounded-full bg-amber-500 mb-2" />
       <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
         {title}
       </h5>

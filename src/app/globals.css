@@ -33,7 +33,7 @@
     --terminal-command-bg: rgb(255 255 255);
     --terminal-command-fg: rgb(30 41 59);
     --terminal-command-border: rgb(203 213 225);
-    --terminal-command-hover: rgb(15 118 110);
+    --terminal-command-hover: rgb(180 83 9);
     background: var(--terminal-bg);
     color: var(--terminal-fg);
     border-color: var(--terminal-border);
@@ -54,7 +54,7 @@
     --terminal-command-bg: rgb(15 23 42);
     --terminal-command-fg: rgb(226 232 240);
     --terminal-command-border: rgb(71 85 105);
-    --terminal-command-hover: rgb(94 234 212);
+    --terminal-command-hover: rgb(252 211 77);
     box-shadow: 0 24px 48px -12px rgb(0 0 0 / 0.5), 0 0 0 1px rgb(255 255 255 / 0.1);
 }
 
@@ -380,8 +380,8 @@ body::-webkit-scrollbar {
 
 .splash-v2-noise {
     background-image:
-        radial-gradient(rgba(13, 148, 136, 0.22) 0.65px, transparent 0.65px),
-        radial-gradient(rgba(20, 184, 166, 0.14) 0.7px, transparent 0.7px);
+        radial-gradient(rgba(217, 119, 6, 0.22) 0.65px, transparent 0.65px),
+        radial-gradient(rgba(245, 158, 11, 0.14) 0.7px, transparent 0.7px);
     background-size: 3px 3px, 4px 4px;
     background-position: 0 0, 1px 1px;
     mix-blend-mode: soft-light;
@@ -390,15 +390,15 @@ body::-webkit-scrollbar {
 html.dark .splash-v2-noise {
     background-image:
         radial-gradient(rgba(34, 211, 238, 0.22) 0.62px, transparent 0.62px),
-        radial-gradient(rgba(20, 184, 166, 0.14) 0.7px, transparent 0.7px);
+        radial-gradient(rgba(245, 158, 11, 0.14) 0.7px, transparent 0.7px);
     mix-blend-mode: screen;
 }
 
 .splash-v2-starfield {
     background-image:
-        radial-gradient(circle at 14% 18%, rgba(204, 251, 241, 0.95) 1.1px, transparent 1.1px),
+        radial-gradient(circle at 14% 18%, rgba(254, 243, 199, 0.95) 1.1px, transparent 1.1px),
         radial-gradient(circle at 76% 24%, rgba(207, 250, 254, 0.85) 1px, transparent 1px),
-        radial-gradient(circle at 30% 72%, rgba(45, 212, 191, 0.7) 1px, transparent 1px),
+        radial-gradient(circle at 30% 72%, rgba(251, 191, 36, 0.7) 1px, transparent 1px),
         radial-gradient(circle at 84% 66%, rgba(34, 211, 238, 0.78) 1px, transparent 1px);
     background-size: 180px 180px, 220px 220px, 260px 260px, 200px 200px;
     animation: splash-v2-star-pan 20s linear infinite;
@@ -406,9 +406,9 @@ html.dark .splash-v2-noise {
 
 html.dark .splash-v2-starfield {
     background-image:
-        radial-gradient(circle at 14% 18%, rgba(204, 251, 241, 0.65) 1.1px, transparent 1.1px),
+        radial-gradient(circle at 14% 18%, rgba(254, 243, 199, 0.65) 1.1px, transparent 1.1px),
         radial-gradient(circle at 76% 24%, rgba(207, 250, 254, 0.58) 1px, transparent 1px),
-        radial-gradient(circle at 30% 72%, rgba(45, 212, 191, 0.52) 1px, transparent 1px),
+        radial-gradient(circle at 30% 72%, rgba(251, 191, 36, 0.52) 1px, transparent 1px),
         radial-gradient(circle at 84% 66%, rgba(6, 182, 212, 0.45) 1px, transparent 1px);
 }
 
@@ -417,9 +417,9 @@ html.dark .splash-v2-starfield {
     border-radius: 999px;
     background:
         linear-gradient(112deg,
-            rgba(45, 212, 191, 0.42) 0%,
+            rgba(251, 191, 36, 0.42) 0%,
             rgba(34, 211, 238, 0.26) 40%,
-            rgba(13, 148, 136, 0.1) 100%);
+            rgba(217, 119, 6, 0.1) 100%);
     filter: blur(12px);
     mix-blend-mode: screen;
     opacity: 0.72;
@@ -438,9 +438,9 @@ html.dark .splash-v2-starfield {
 html.dark .splash-v2-beam {
     background:
         linear-gradient(112deg,
-            rgba(45, 212, 191, 0.28) 0%,
+            rgba(251, 191, 36, 0.28) 0%,
             rgba(34, 211, 238, 0.2) 40%,
-            rgba(13, 148, 136, 0.08) 100%);
+            rgba(217, 119, 6, 0.08) 100%);
 }
 
 .splash-v2-orb {
@@ -463,7 +463,7 @@ html.dark .splash-v2-beam {
 }
 
 .splash-v2-orb-a {
-    background: radial-gradient(circle at 34% 34%, rgba(204, 251, 241, 0.92), rgba(45, 212, 191, 0.14) 65%, transparent 100%);
+    background: radial-gradient(circle at 34% 34%, rgba(254, 243, 199, 0.92), rgba(251, 191, 36, 0.14) 65%, transparent 100%);
 }
 
 .splash-v2-orb-b {
@@ -475,7 +475,7 @@ html.dark .splash-v2-beam {
 }
 
 html.dark .splash-v2-orb-a {
-    background: radial-gradient(circle at 34% 34%, rgba(45, 212, 191, 0.52), rgba(45, 212, 191, 0.06) 65%, transparent 100%);
+    background: radial-gradient(circle at 34% 34%, rgba(251, 191, 36, 0.52), rgba(251, 191, 36, 0.06) 65%, transparent 100%);
 }
 
 html.dark .splash-v2-orb-b {
@@ -483,7 +483,7 @@ html.dark .splash-v2-orb-b {
 }
 
 html.dark .splash-v2-orb-c {
-    background: radial-gradient(circle at 46% 46%, rgba(13, 148, 136, 0.42), rgba(13, 148, 136, 0.05) 66%, transparent 100%);
+    background: radial-gradient(circle at 46% 46%, rgba(217, 119, 6, 0.42), rgba(217, 119, 6, 0.05) 66%, transparent 100%);
 }
 
 .splash-v2-node-pulse {
@@ -742,8 +742,8 @@ html.dark .splash-v2-subtitle-pill {
     bottom: -50%;
     transform: rotateX(60deg);
     background-image: 
-        linear-gradient(to right, rgba(13, 148, 136, 0.12) 1.5px, transparent 1.5px),
-        linear-gradient(to bottom, rgba(13, 148, 136, 0.12) 1.5px, transparent 1.5px);
+        linear-gradient(to right, rgba(217, 119, 6, 0.12) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, rgba(217, 119, 6, 0.12) 1.5px, transparent 1.5px);
     background-size: 60px 60px;
     animation: cyber-grid-scroll 24s linear infinite;
     transform-origin: center bottom;
@@ -751,8 +751,8 @@ html.dark .splash-v2-subtitle-pill {
 
 html.dark .cyber-grid-lines {
     background-image: 
-        linear-gradient(to right, rgba(20, 184, 166, 0.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(20, 184, 166, 0.06) 1px, transparent 1px);
+        linear-gradient(to right, rgba(245, 158, 11, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(245, 158, 11, 0.06) 1px, transparent 1px);
 }
 
 @keyframes cyber-grid-scroll {

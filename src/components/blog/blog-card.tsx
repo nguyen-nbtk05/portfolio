@@ -42,14 +42,14 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
     <motion.article
       whileHover={reduceMotion ? undefined : { y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 24 }}
-      className="group relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-lg shadow-slate-200/25 backdrop-blur-sm transition-[border-color,box-shadow] duration-300 before:absolute before:inset-x-5 before:top-0 before:h-px before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-teal-400 before:via-cyan-400 before:to-transparent before:transition-transform before:duration-300 hover:border-teal-300/80 hover:shadow-xl hover:shadow-teal-900/10 hover:before:scale-x-100 sm:p-6 dark:border-slate-800 dark:bg-slate-950/90 dark:shadow-black/25 dark:hover:border-teal-700/70 dark:hover:shadow-black/40"
+      className="group relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-lg shadow-slate-200/25 backdrop-blur-sm transition-[border-color,box-shadow] duration-300 before:absolute before:inset-x-5 before:top-0 before:h-px before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-amber-400 before:via-cyan-400 before:to-transparent before:transition-transform before:duration-300 hover:border-amber-300/80 hover:shadow-xl hover:shadow-amber-900/10 hover:before:scale-x-100 sm:p-6 dark:border-slate-800 dark:bg-slate-950/90 dark:shadow-black/25 dark:hover:border-amber-700/70 dark:hover:shadow-black/40"
     >
       <div className="mb-4 flex items-center justify-between gap-3">
-        <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
+        <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-amber-600 dark:text-amber-400">
           {lang({ en: "Article", vi: "Bài viết" })} {String(articleIndex).padStart(2, "0")}
         </span>
         {post.featured ? (
-          <span className="rounded-full border border-teal-300/70 bg-teal-50 px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide text-teal-700 dark:border-teal-700/70 dark:bg-teal-500/10 dark:text-teal-300">
+          <span className="rounded-full border border-amber-300/70 bg-amber-50 px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide text-amber-700 dark:border-amber-700/70 dark:bg-amber-500/10 dark:text-amber-300">
             {lang({ en: "Featured", vi: "Nổi bật" })}
           </span>
         ) : null}
@@ -57,12 +57,12 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
 
       <div className="mb-4 flex min-h-5 flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
         <span className="inline-flex items-center gap-1.5">
-          <CalendarDays aria-hidden="true" className="h-4 w-4 text-teal-500" />
+          <CalendarDays aria-hidden="true" className="h-4 w-4 text-amber-500" />
           <time dateTime={post.publishedAt}>{formatPublishedDate(post.publishedAt, language)}</time>
         </span>
         {readTime !== null ? (
           <span className="inline-flex items-center gap-1.5">
-            <Clock3 aria-hidden="true" className="h-4 w-4 text-teal-500" />
+            <Clock3 aria-hidden="true" className="h-4 w-4 text-amber-500" />
             {lang({ en: `${readTime} min read`, vi: `${readTime} phút đọc` })}
           </span>
         ) : null}
@@ -109,7 +109,7 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
         {isReadable && post.href ? (
           <Link
             href={post.href}
-            className="inline-flex items-center gap-1.5 rounded-sm text-sm font-semibold text-teal-600 transition-colors hover:text-teal-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-4 dark:text-teal-400 dark:hover:text-teal-300 dark:focus-visible:ring-offset-slate-950"
+            className="inline-flex items-center gap-1.5 rounded-sm text-sm font-semibold text-amber-600 transition-colors hover:text-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-4 dark:text-amber-400 dark:hover:text-amber-300 dark:focus-visible:ring-offset-slate-950"
           >
             {lang({ en: "Read article", vi: "Đọc bài viết" })}
             <ArrowUpRight
@@ -121,7 +121,7 @@ export function BlogCard({ post, articleIndex, headingLevel = "h3" }: BlogCardPr
           <span className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400">
             <span
               aria-hidden="true"
-              className="h-1.5 w-1.5 rounded-full bg-teal-500 shadow-[0_0_10px_rgba(20,184,166,0.55)]"
+              className="h-1.5 w-1.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.55)]"
             />
             {lang({ en: "Coming soon", vi: "Sắp ra mắt" })}
           </span>

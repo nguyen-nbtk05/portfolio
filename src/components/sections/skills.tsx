@@ -349,7 +349,7 @@ function SkillDetailDialog({
             onClick={onClose}
             aria-label={lang({ en: "Close skill details", vi: "Đóng chi tiết kỹ năng" })}
             data-cursor="pointer"
-            className="absolute right-4 top-4 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-slate-200/90 bg-white/85 text-slate-500 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 sm:right-5 sm:top-5 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-slate-200/90 bg-white/85 text-slate-500 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 sm:right-5 sm:top-5 dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
@@ -369,7 +369,7 @@ function SkillDetailDialog({
                 >
                   {activeSkill.item.label}
                 </h3>
-                <span className="mt-2 inline-flex max-w-full rounded-full bg-teal-500/10 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-teal-700 sm:text-xs dark:bg-teal-400/10 dark:text-teal-300">
+                <span className="mt-2 inline-flex max-w-full rounded-full bg-amber-500/10 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-amber-700 sm:text-xs dark:bg-amber-400/10 dark:text-amber-300">
                   {lang(activeSkill.category)}
                 </span>
               </div>
@@ -379,7 +379,7 @@ function SkillDetailDialog({
           <div className="relative grid md:grid-cols-2">
             <section className="px-5 py-6 sm:px-8 sm:py-8 md:min-h-[250px] md:pr-9">
               <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
-                <BookOpen className="h-4 w-4 text-teal-500" aria-hidden="true" />
+                <BookOpen className="h-4 w-4 text-amber-500" aria-hidden="true" />
                 <span>
                   {lang({ en: "About the technology", vi: "Về công nghệ" })}
                 </span>
@@ -394,7 +394,7 @@ function SkillDetailDialog({
 
             <section className="border-t border-slate-200/80 px-5 py-6 sm:px-8 sm:py-8 md:min-h-[250px] md:border-l md:border-t-0 md:pl-9 dark:border-white/10">
               <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
-                <Sparkles className="h-4 w-4 text-teal-500" aria-hidden="true" />
+                <Sparkles className="h-4 w-4 text-amber-500" aria-hidden="true" />
                 <span>
                   {lang({ en: "Usage & Experience", vi: "Ứng dụng & kinh nghiệm" })}
                 </span>
@@ -532,7 +532,7 @@ export function SkillsSection() {
                         setIsDialogOpen(true);
                       }}
                       className={cn(
-                        "group/skill inline-flex h-auto min-h-12 max-w-full cursor-pointer appearance-none items-center gap-2.5 rounded-lg border border-slate-200/80 bg-slate-100/85 px-4 py-2.5 text-left text-sm font-semibold text-slate-700 shadow-sm transition-[border-color,background-color,box-shadow] duration-200 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 sm:text-base lg:h-12 lg:py-0 dark:border-white/8 dark:bg-white/[0.055] dark:text-slate-200",
+                        "group/skill inline-flex h-auto min-h-12 max-w-full cursor-pointer appearance-none items-center gap-2.5 rounded-lg border border-slate-200/80 bg-slate-100/85 px-4 py-2.5 text-left text-sm font-semibold text-slate-700 shadow-sm transition-[border-color,background-color,box-shadow] duration-200 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 sm:text-base lg:h-12 lg:py-0 dark:border-white/8 dark:bg-white/[0.055] dark:text-slate-200",
                         itemStyle.chip,
                       )}
                     >

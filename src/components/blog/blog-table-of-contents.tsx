@@ -147,7 +147,7 @@ export function BlogTableOfContents({
     <aside className="hidden 2xl:sticky 2xl:top-24 2xl:block 2xl:w-full 2xl:max-w-[18rem] 2xl:justify-self-start">
       <div className="rounded-2xl border border-slate-200/90 bg-white/75 p-5 shadow-sm shadow-slate-200/20 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/70 dark:shadow-black/10">
         <div className="mb-4 flex items-center gap-2 border-b border-slate-200 pb-4 dark:border-slate-800">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-400">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
             <ListTree aria-hidden="true" className="h-4 w-4" />
           </span>
           <div>
@@ -171,10 +171,10 @@ export function BlogTableOfContents({
                     href={`#${item.id}`}
                     onClick={(event) => handleItemClick(event, item)}
                     aria-current={isActive ? "location" : undefined}
-                    className={`block border-l-2 py-2 pl-3 text-sm font-medium leading-5 transition-[border-color,color,background-color] focus-visible:rounded-r-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
+                    className={`block border-l-2 py-2 pl-3 text-sm font-medium leading-5 transition-[border-color,color,background-color] focus-visible:rounded-r-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${
                       isActive
-                        ? "border-teal-500 bg-teal-50/70 text-teal-700 dark:bg-teal-500/10 dark:text-teal-300"
-                        : "border-slate-200 text-slate-500 hover:border-teal-300 hover:text-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:border-teal-700 dark:hover:text-slate-100"
+                        ? "border-amber-500 bg-amber-50/70 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300"
+                        : "border-slate-200 text-slate-500 hover:border-amber-300 hover:text-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:border-amber-700 dark:hover:text-slate-100"
                     }`}
                   >
                     <span lang={contentLanguage}>{item.label}</span>

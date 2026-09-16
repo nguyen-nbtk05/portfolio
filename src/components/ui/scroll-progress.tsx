@@ -98,7 +98,7 @@ export function ScrollProgress() {
       >
         <motion.div
           data-scroll-progress-fill
-          className="h-full w-full origin-top rounded-full bg-teal-500 shadow-[0_0_10px_rgba(20,184,166,0.4)] dark:bg-teal-400"
+          className="h-full w-full origin-top rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)] dark:bg-amber-400"
           style={{ scaleY: progress }}
         />
       </motion.div>

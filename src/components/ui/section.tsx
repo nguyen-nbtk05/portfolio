@@ -70,7 +70,7 @@ export function Section({
             {title && (
               <h2 className={cn("text-4xl font-bold tracking-tight text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-6xl mb-4", titleClassName)}>
                 {title}
-                <span className="text-teal-500">.</span>
+                <span className="text-amber-500">.</span>
               </h2>
             )}
             {subtitle && (
