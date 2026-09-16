@@ -874,7 +874,7 @@ export function PortfolioTerminal() {
               </button>
               {lang({
                 en: " for commands, choose a quick command below, or type your own.",
-                vi: " để xem lệnh hoặc chọn một quick command bên dưới, hoặc gõ lệnh bất kỳ.",
+                vi: " để xem lệnh, chọn một quick command bên dưới, hoặc gõ lệnh bất kỳ.",
               })}
             </p>
           </div>

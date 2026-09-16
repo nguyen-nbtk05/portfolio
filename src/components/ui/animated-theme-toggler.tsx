@@ -175,6 +175,7 @@ export const AnimatedThemeToggler = ({
   theme,
   onThemeChange,
   disabled,
+  children,
   ...props
 }: AnimatedThemeTogglerProps) => {
   const shape = variant ?? "circle"
@@ -381,6 +382,7 @@ export const AnimatedThemeToggler = ({
       {...props}
     >
       {isDark ? <Sun /> : <Moon />}
+      {children}
       <span className="sr-only">Toggle theme</span>
     </button>
   )

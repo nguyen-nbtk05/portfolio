@@ -39,7 +39,7 @@ export function TypewriterText({
   return (
     <span
       className={cn(
-        "flex w-full max-w-full min-w-0 items-center justify-center whitespace-normal lg:inline-flex lg:w-auto lg:min-w-[var(--typewriter-min-width)] lg:flex-nowrap lg:justify-start lg:whitespace-nowrap",
+        "flex w-full max-w-full min-w-0 items-center justify-start whitespace-normal lg:inline-flex lg:w-auto lg:min-w-[var(--typewriter-min-width)] lg:flex-nowrap lg:whitespace-nowrap",
         className,
       )}
       style={

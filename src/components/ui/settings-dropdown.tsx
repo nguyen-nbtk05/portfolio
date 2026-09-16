@@ -14,9 +14,11 @@ const ActiveBadge = () => (
 export function SettingsDropdown({
   onOpenChange,
   mobile = false,
+  triggerLabel,
 }: {
   onOpenChange?: (isOpen: boolean) => void;
   mobile?: boolean;
+  triggerLabel?: React.ReactNode;
 }) {
   const { language, setLanguage } = useLanguage();
   const [mounted, setMounted] = useState(false);
@@ -87,7 +89,7 @@ export function SettingsDropdown({
           setIsOpen(!isOpen);
           setActiveSubMenu(null);
         }}
-        className={`p-2 rounded-lg transition-colors duration-200 flex items-center justify-center ${
+        className={`p-2 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 ${
           isOpen
             ? "bg-slate-200 text-amber-500 dark:bg-slate-800"
             : "hover:bg-slate-200 hover:text-amber-500 dark:hover:bg-slate-800"
@@ -95,6 +97,7 @@ export function SettingsDropdown({
         aria-label="Settings"
       >
         <Bolt size={24} className={isOpen ? "animate-spin-slow" : ""} />
+        {triggerLabel}
       </button>
 
       <AnimatePresence>

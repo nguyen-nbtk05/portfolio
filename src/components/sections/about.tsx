@@ -226,7 +226,7 @@ export function AboutSection() {
             variants={scaleIn}
             layout
             aria-label="Social dock"
-            className="order-5 grid w-full grid-cols-6 items-center gap-0.5 rounded-2xl border border-slate-200/80 bg-white/70 p-1 shadow-lg shadow-slate-200/50 backdrop-blur-xl sm:flex sm:w-fit sm:gap-2 sm:p-2 lg:mt-4 dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/20"
+            className="order-5 grid w-full grid-cols-5 items-center gap-0.5 rounded-2xl border border-slate-200/80 bg-white/70 p-1 shadow-lg shadow-slate-200/50 backdrop-blur-xl sm:flex sm:w-fit sm:gap-2 sm:p-2 lg:mt-4 dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-black/20"
           >
             <span className="mr-1 hidden select-none border-r border-slate-200 pl-3 pr-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 sm:block sm:text-xs dark:border-slate-800 dark:text-slate-500">
               {lang({ en: "Follow me", vi: "Theo dõi tôi" })}

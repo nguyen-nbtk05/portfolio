@@ -322,14 +322,14 @@ export function HeroSection() {
 
       <div className="site-container relative z-10 mx-auto grid min-w-0 grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-[44%_56%] lg:px-[1.75cm] xl:gap-10">
         <motion.div
-          className="flex min-w-0 max-w-3xl flex-col items-center gap-4 text-center [@media(max-width:1023px)_and_(max-height:500px)]:gap-3 sm:gap-5 lg:items-start lg:gap-8 lg:text-left"
+          className="flex min-w-0 max-w-3xl flex-col items-start gap-4 text-left [@media(max-width:1023px)_and_(max-height:500px)]:gap-3 sm:gap-5 lg:gap-8"
           initial={initial}
           animate="visible"
           variants={staggerContainer(0.11)}
         >
           <motion.div
             variants={fadeUp}
-            className="flex max-w-full select-none items-center gap-2.5 whitespace-normal rounded-2xl border border-slate-200/80 bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm backdrop-blur sm:whitespace-nowrap sm:rounded-full sm:px-4 sm:text-sm dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300"
+            className="mt-2 flex max-w-full select-none items-center gap-2.5 whitespace-normal rounded-2xl border border-slate-200/80 bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm backdrop-blur sm:mt-3 sm:whitespace-nowrap sm:rounded-full sm:px-4 sm:text-sm lg:mt-0 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300"
           >
             <span className="relative flex h-2.5 w-2.5 items-center justify-center shrink-0">
               <motion.span
@@ -342,7 +342,7 @@ export function HeroSection() {
             </span>
             <span>
               {lang({
-                en: "Bachelor of Engineering in Information Technology",
+                en: "Bachelor of Engineering in IT",
                 vi: "Cử nhân Kỹ thuật Công nghệ Thông tin",
               })}
             </span>
@@ -350,7 +350,7 @@ export function HeroSection() {
 
           <motion.h1
             variants={fadeUp}
-            className="flex w-full min-w-0 flex-col gap-4 text-[clamp(2.125rem,8vw,3rem)] font-bold leading-none tracking-tighter sm:gap-5 lg:block lg:text-7xl"
+            className="mt-1 flex w-full min-w-0 flex-col gap-4 text-[clamp(2.125rem,8vw,3rem)] font-bold leading-none tracking-tighter sm:mt-2 sm:gap-5 lg:mt-0 lg:block lg:text-7xl"
           >
             <span
               className={`block ${
@@ -379,14 +379,14 @@ export function HeroSection() {
 
           <motion.p
             variants={fadeUp}
-            className="text-justify mx-auto max-w-2xl whitespace-pre-line text-[0.95rem] leading-6 text-slate-600 sm:text-lg sm:leading-relaxed lg:mx-0 lg:text-xl dark:text-slate-400"
+            className="text-justify max-w-2xl whitespace-pre-line text-[0.95rem] leading-6 text-slate-600 sm:text-lg sm:leading-relaxed lg:text-xl dark:text-slate-400"
           >
             {lang(siteConfig.description)}
           </motion.p>
 
           <motion.div
             variants={fadeUp}
-            className="flex flex-wrap items-center justify-center gap-3 lg:justify-start lg:gap-4"
+            className="flex flex-wrap items-center justify-start gap-3 lg:gap-4"
           >
             <a
               href={siteConfig.resumeUrl}
