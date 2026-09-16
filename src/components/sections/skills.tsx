@@ -10,10 +10,14 @@ import {
 import { createPortal } from "react-dom";
 import {
   BookOpen,
+  Globe,
+  Layers,
   Network,
   PanelsTopLeft,
   RadioTower,
   Route,
+  ScanSearch,
+  Shield,
   Sparkles,
   Waypoints,
   Workflow,
@@ -24,6 +28,7 @@ import {
   SiArchlinux,
   SiCisco,
   SiDebian,
+  SiDocker,
   SiGit,
   SiGithub,
   SiGnubash,
@@ -33,6 +38,7 @@ import {
   SiRedhat,
   SiRust,
   SiTypescript,
+  SiWireshark,
 } from "react-icons/si";
 import { TbTopologyStar3 } from "react-icons/tb";
 import { Section } from "../ui/section";
@@ -81,6 +87,12 @@ const skillIconMap = {
   ospf: Waypoints,
   eigrp: Workflow,
   cisco: SiCisco,
+  docker: SiDocker,
+  wireshark: SiWireshark,
+  yara: ScanSearch,
+  shield: Shield,
+  vlan: Layers,
+  "network-services": Globe,
 } satisfies Record<SkillIconKey, ElementType>;
 
 const groupToneStyles: Record<
@@ -284,6 +296,10 @@ function SkillDetailDialog({
   }, [activeSkill, onClose]);
 
   const ActiveIcon = activeSkill ? skillIconMap[activeSkill.item.icon] : null;
+  const SecondActiveIcon =
+    activeSkill && activeSkill.item.secondIcon
+      ? skillIconMap[activeSkill.item.secondIcon]
+      : null;
   const activeTone = activeSkill
     ? skillToneStyles[activeSkill.item.tone]
     : null;
@@ -356,11 +372,27 @@ function SkillDetailDialog({
 
           <header className="relative border-b border-slate-200/80 px-5 pb-6 pt-6 pr-20 sm:px-8 sm:pb-7 sm:pt-8 sm:pr-24 dark:border-white/10">
             <div className="flex items-center gap-4 sm:gap-5">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-slate-200/90 bg-slate-100/85 shadow-lg shadow-slate-200/45 dark:border-white/10 dark:bg-white/[0.06] dark:shadow-black/35">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center gap-1 rounded-2xl border border-slate-200/90 bg-slate-100/85 shadow-lg shadow-slate-200/45 dark:border-white/10 dark:bg-white/[0.06] dark:shadow-black/35">
                 <ActiveIcon
-                  className={cn("h-8 w-8 sm:h-9 sm:w-9", activeTone.icon)}
+                  className={cn(
+                    SecondActiveIcon ? "h-6 w-6" : "h-8 w-8 sm:h-9 sm:w-9",
+                    activeSkill.item.iconTone
+                      ? skillToneStyles[activeSkill.item.iconTone].icon
+                      : activeTone.icon,
+                  )}
                   aria-hidden="true"
                 />
+                {SecondActiveIcon ? (
+                  <SecondActiveIcon
+                    className={cn(
+                      "h-6 w-6",
+                      activeSkill.item.secondIconTone
+                        ? skillToneStyles[activeSkill.item.secondIconTone].icon
+                        : activeTone.icon,
+                    )}
+                    aria-hidden="true"
+                  />
+                ) : null}
               </div>
               <div className="min-w-0">
                 <h3
@@ -441,8 +473,8 @@ export function SkillsSection() {
       data-cursor="default"
       title={lang({ en: "Technical Skills", vi: "Kỹ năng chuyên môn" })}
       subtitle={lang({
-        en: "Core technologies and tools for programming, Linux administration, version control, and network engineering.",
-        vi: "Những công nghệ và công cụ cốt lõi cho lập trình, quản trị Linux, quản lý phiên bản và kỹ thuật mạng.",
+        en: "Core technologies and tools for programming, Linux, networking, and security.",
+        vi: "Những công nghệ và công cụ cốt lõi cho lập trình, Linux, mạng máy tính và bảo mật.",
       })}
       className="pb-12 pt-[calc(4rem+env(safe-area-inset-top))] sm:pb-16 sm:pt-[calc(5rem+env(safe-area-inset-top))] lg:pb-12 lg:pt-20"
       headerClassName="mb-8 md:mb-10 xl:px-4 2xl:px-6"
@@ -506,7 +538,16 @@ export function SkillsSection() {
               >
                 {skillGroup.items.map((item) => {
                   const ItemIcon = skillIconMap[item.icon];
+                  const SecondItemIcon = item.secondIcon
+                    ? skillIconMap[item.secondIcon]
+                    : null;
                   const itemStyle = skillToneStyles[item.tone];
+                  const primaryIconTone = item.iconTone
+                    ? skillToneStyles[item.iconTone]
+                    : itemStyle;
+                  const secondIconTone = item.secondIconTone
+                    ? skillToneStyles[item.secondIconTone]
+                    : itemStyle;
 
                   return (
                     <motion.button
@@ -538,12 +579,19 @@ export function SkillsSection() {
                     >
                       <span
                         aria-hidden="true"
-                        className={cn(
-                          "flex h-5 w-5 shrink-0 items-center justify-center transition-transform duration-200 group-hover/skill:scale-110",
-                          itemStyle.icon,
-                        )}
+                        className="flex shrink-0 items-center justify-center gap-1 transition-transform duration-200 group-hover/skill:scale-110"
                       >
-                        <ItemIcon className="h-5 w-5" />
+                        <ItemIcon
+                          className={cn(
+                            SecondItemIcon ? "h-4 w-4" : "h-5 w-5",
+                            primaryIconTone.icon,
+                          )}
+                        />
+                        {SecondItemIcon ? (
+                          <SecondItemIcon
+                            className={cn("h-4 w-4", secondIconTone.icon)}
+                          />
+                        ) : null}
                       </span>
                       <span className="min-w-0 break-words lg:whitespace-nowrap">
                         {item.label}

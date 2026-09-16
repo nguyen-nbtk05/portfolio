@@ -342,8 +342,8 @@ export function HeroSection() {
             </span>
             <span>
               {lang({
-                en: "Computer Networks · Data Communications",
-                vi: "Mạng máy tính · Truyền thông dữ liệu",
+                en: "Bachelor of Engineering in Information Technology",
+                vi: "Cử nhân Kỹ thuật Công nghệ Thông tin",
               })}
             </span>
           </motion.div>
@@ -359,7 +359,7 @@ export function HeroSection() {
                   : ""
               }`}
             >
-              {lang({ en: "Hi, I'm", vi: "Chào! Mình là" })} {lang(siteConfig.name)}
+              {lang({ en: "Hi there! I'm", vi: "Chào! Mình là" })} {lang(siteConfig.name)}
               <span className="text-amber-500">.</span>
             </span>
             <motion.span
@@ -367,8 +367,8 @@ export function HeroSection() {
               className="block min-h-[1.18em] w-full min-w-0 text-[clamp(1.75rem,6.8vw,2.25rem)] leading-[1.12] max-[359px]:min-h-[2.24em] lg:mt-5 lg:text-6xl"
             >
               <TypewriterText
-                key={`@Nora | Networks`}
-                words={["@Nora", "Networks"]}
+                key={`Computer Networks | Data Communications`}
+                words={["Computer Networks", "Data Communications"]}
                 className="align-top bg-gradient-to-r from-amber-400 via-orange-400 to-red-400 bg-clip-text leading-[1.12] text-transparent"
                 typingSpeed={120}
                 deletingSpeed={50}
@@ -379,7 +379,7 @@ export function HeroSection() {
 
           <motion.p
             variants={fadeUp}
-            className="mx-auto max-w-2xl whitespace-pre-line text-[0.95rem] leading-6 text-slate-600 sm:text-lg sm:leading-relaxed lg:mx-0 lg:text-xl dark:text-slate-400"
+            className="text-justify mx-auto max-w-2xl whitespace-pre-line text-[0.95rem] leading-6 text-slate-600 sm:text-lg sm:leading-relaxed lg:mx-0 lg:text-xl dark:text-slate-400"
           >
             {lang(siteConfig.description)}
           </motion.p>
@@ -400,7 +400,9 @@ export function HeroSection() {
           </motion.div>
         </motion.div>
 
-        <PortfolioTerminal />
+        <div className="hidden min-w-0 lg:block">
+          <PortfolioTerminal />
+        </div>
       </div>
       <motion.div className="absolute bottom-10 left-1/2 z-20 hidden -translate-x-1/2 lg:block">
         <ScrollIndicator />

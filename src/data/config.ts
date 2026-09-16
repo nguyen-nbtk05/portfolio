@@ -10,11 +10,11 @@ export const siteConfig = {
   x: "https://x.com/nguyen_nbtk05 ",
   facebook: "https://www.facebook.com/nguyen.nbtk05/",
   description: {
-    en: "Bachelor of Engineering in Information Technology.\nMajor: Computer Networks - Data Communications.",
-    vi: "Cử nhân Kỹ thuật Công nghệ Thông tin.\nChuyên ngành: Mạng máy tính - Truyền thông dữ liệu.",
+    en: "Information Technology student specializing in Computer Networks. Focused on Linux, Networking, and Cybersecurity to build secure and reliable systems.",
+    vi: "Sinh viên Công nghệ Thông tin chuyên ngành Mạng máy tính. Định hướng Linux, Mạng máy tính và An ninh mạng để xây dựng hệ thống an toàn, ổn định.",
   },
   about: {
-    en: "A technology-focused learner with a strong interest in cybersecurity, Linux systems, networking, and modern IT infrastructure. Through academic learning and hands-on projects, I am developing practical skills in Linux administration, network security, infrastructure automation, and system hardening while exploring how secure and reliable systems are configured, monitored, and maintained. Driven by curiosity and continuous learning, I enjoy taking on technical challenges, expanding my knowledge, and turning what I learn into practical experience.",
-    vi: "Một người học công nghệ với sự quan tâm đặc biệt đến an ninh mạng, hệ thống Linux, mạng máy tính và hạ tầng CNTT hiện đại. Thông qua quá trình học tập và các dự án thực hành, tôi đang từng bước phát triển kỹ năng về quản trị Linux, bảo mật mạng, tự động hóa hạ tầng và gia cố hệ thống, đồng thời tìm hiểu cách các hệ thống an toàn và đáng tin cậy được cấu hình, giám sát và duy trì. Với tinh thần tò mò và không ngừng học hỏi, tôi luôn hứng thú với những thử thách kỹ thuật, mở rộng kiến thức và biến những điều đã học thành kinh nghiệm thực tế.",
+    en: "A technology-oriented individual with a substantial interest in cybersecurity, Linux systems, networking, and contemporary IT infrastructure. This foundation is consolidated through rigorous academic training and practical implementation encompassing Linux administration, network security, infrastructure automation, and system hardening, alongside a comprehensive understanding of configuring, monitoring, and sustaining secure and resilient systems. The principal objective remains addressing complex technical challenges and systematically transforming theoretical knowledge into applicable expertise.",
+    vi: "Người theo đuổi lĩnh vực công nghệ với sự quan tâm chuyên sâu đến an ninh mạng, hệ thống Linux, mạng máy tính và hạ tầng CNTT hiện đại. Nền tảng này được củng cố thông qua đào tạo học thuật bài bản và triển khai thực tiễn bao gồm quản trị Linux, bảo mật mạng, tự động hóa hạ tầng và gia cố hệ thống, cùng với hiểu biết toàn diện về cấu hình, giám sát và duy trì các hệ thống an toàn, bền vững. Mục tiêu trọng tâm là giải quyết các thách thức kỹ thuật phức tạp và chuyển hóa kiến thức lý thuyết thành năng lực ứng dụng một cách hệ thống.",
   },
 };
