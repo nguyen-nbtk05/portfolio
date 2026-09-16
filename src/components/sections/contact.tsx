@@ -138,7 +138,7 @@ export function ContactSection() {
           from_email: formData.email,
           subject: formData.subject || "No Subject (Portfolio)",
           message: formData.message,
-          to_name: siteConfig.name,
+          to_name: lang(siteConfig.name),
         },
         publicKey,
       );
@@ -532,7 +532,7 @@ export function ContactSection() {
             </div>
 
             <p className="text-center md:text-left">
-              © {new Date().getFullYear()} {siteConfig.name}.{" "}
+              © {new Date().getFullYear()} {lang(siteConfig.name)}.{" "}
               {lang({
                 en: "All rights reserved.",
                 vi: "Đã đăng ký bản quyền.",

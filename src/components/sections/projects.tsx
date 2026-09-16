@@ -10,10 +10,10 @@ export function ProjectsSection() {
   return (
     <Section
       id="projects"
-      title={lang({ en: "Projects & Labs", vi: "Dự Án & Thực Hành" })}
+      title={lang({ en: "Recent Projects", vi: "Dự Án Gần Đây" })}
       subtitle={lang({
-        en: "Selected work across web development, malware analysis, and software-defined network security.",
-        vi: "Các dự án tiêu biểu về phát triển web, phân tích mã độc và bảo mật mạng định nghĩa bằng phần mềm.",
+        en: "A showcase of notable projects that I have worked on recently, including personal projects and collaborations.",
+        vi: "Các dự án tiêu biểu mà tôi đã thực hiện trong thời gian gần đây, bao gồm các dự án cá nhân và hợp tác.",
       })}
       headerClassName="mb-6 lg:mb-8"
       subtitleClassName="max-w-4xl lg:max-w-5xl"

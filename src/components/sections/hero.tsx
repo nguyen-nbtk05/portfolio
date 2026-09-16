@@ -320,7 +320,7 @@ export function HeroSection() {
         ))}
       </motion.div>
 
-      <div className="site-container relative z-10 mx-auto grid min-w-0 grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-[44%_56%] lg:px-[1cm] xl:gap-10">
+      <div className="site-container relative z-10 mx-auto grid min-w-0 grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-[44%_56%] lg:px-[1.75cm] xl:gap-10">
         <motion.div
           className="flex min-w-0 max-w-3xl flex-col items-center gap-4 text-center [@media(max-width:1023px)_and_(max-height:500px)]:gap-3 sm:gap-5 lg:items-start lg:gap-8 lg:text-left"
           initial={initial}
@@ -342,8 +342,8 @@ export function HeroSection() {
             </span>
             <span>
               {lang({
-                en: "Networking · Systems · Security",
-                vi: "Mạng · Hệ thống · Bảo mật",
+                en: "Computer Networks · Data Communications",
+                vi: "Mạng máy tính · Truyền thông dữ liệu",
               })}
             </span>
           </motion.div>
@@ -359,7 +359,7 @@ export function HeroSection() {
                   : ""
               }`}
             >
-              {lang({ en: "Hi, I'm", vi: "Chào! Mình là" })} {siteConfig.name}
+              {lang({ en: "Hi, I'm", vi: "Chào! Mình là" })} {lang(siteConfig.name)}
               <span className="text-teal-500">.</span>
             </span>
             <motion.span
@@ -367,11 +367,11 @@ export function HeroSection() {
               className="block min-h-[1.18em] w-full min-w-0 text-[clamp(1.75rem,6.8vw,2.25rem)] leading-[1.12] max-[359px]:min-h-[2.24em] lg:mt-3 lg:text-6xl"
             >
               <TypewriterText
-                key={`Computer Networks | Data Communications`}
-                words={["Computer Networks", "Data Communications"]}
+                key={`@Nora | Networks`}
+                words={["@Nora", "Networks"]}
                 className="align-top bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400 bg-clip-text leading-[1.12] text-transparent"
-                typingSpeed={85}
-                deletingSpeed={45}
+                typingSpeed={120}
+                deletingSpeed={50}
                 pauseDuration={1200}
               />
             </motion.span>

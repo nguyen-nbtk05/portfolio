@@ -234,13 +234,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <span className="inline-flex items-center gap-2">
                   <Image
                     src="/cover.jpg"
-                    alt={locale === "vi" ? `Avatar của ${siteConfig.name}` : `${siteConfig.name}'s avatar`}
+                    alt={locale === "vi" ? `Avatar của ${siteConfig.name[locale]}` : `${siteConfig.name[locale]}'s avatar`}
                     width={32}
                     height={32}
                     className="h-8 w-8 rounded-full border border-slate-200 object-cover dark:border-slate-700"
                   />
                   <span className="font-medium text-slate-700 dark:text-slate-200">
-                    {siteConfig.name}
+                    {siteConfig.name[locale]}
                   </span>
                 </span>
                 <span className="inline-flex items-center gap-2">

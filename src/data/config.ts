@@ -1,5 +1,8 @@
 export const siteConfig = {
-  name: "Nora",
+  name: {
+    en: "Nguyen",
+    vi: "Nguyên",
+  },
   email: "nguyen.nbtk05@gmail.com",
   resumeUrl: "/docs/resume.pdf",
   github: "https://github.com/nguyen-nbtk05",

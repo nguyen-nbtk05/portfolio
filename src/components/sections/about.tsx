@@ -50,10 +50,10 @@ const getNetworkSignals = (lang: (dict: { en: string; vi: string }) => string) =
     id: "name",
     icon: UserRound,
     label: lang({ en: "Name", vi: "Tên" }),
-    value: siteConfig.name,
+    value: lang(siteConfig.name),
     detail: lang({
-      en: `${siteConfig.name} is the identity behind this portfolio.`,
-      vi: `${siteConfig.name} là tên hiển thị chính trên portfolio này.`,
+      en: `${lang(siteConfig.name)} is the identity behind this portfolio.`,
+      vi: `${lang(siteConfig.name)} là tên hiển thị chính trên portfolio này.`,
     }),
   },
   {

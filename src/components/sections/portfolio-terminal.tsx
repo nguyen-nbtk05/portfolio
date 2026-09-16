@@ -241,7 +241,7 @@ function TerminalOutputView({
               <FileText className="h-4 w-4" aria-hidden="true" />
             </div>
             <div>
-              <div className="font-bold text-slate-950 dark:text-white">{siteConfig.name}</div>
+              <div className="font-bold text-slate-950 dark:text-white">{lang(siteConfig.name)}</div>
               <div className="mt-0.5 text-[0.9em] font-semibold text-teal-700 dark:text-teal-300">
                 {lang({ en: "Computer Networks & Data Communications", vi: "Mạng máy tính & Truyền thông dữ liệu" })}
               </div>
@@ -426,7 +426,7 @@ function TerminalOutputView({
   if (output.type === "assistant") {
     return output.response === "greeting" ? (
       <div className="space-y-1">
-        <p>{lang({ en: `Hello! I'm ${siteConfig.name}'s virtual assistant. How can I help?`, vi: `Xin chào! Tôi là trợ lý ảo của ${siteConfig.name}. Tôi có thể giúp gì cho bạn?` })}</p>
+        <p>{lang({ en: `Hello! I'm ${lang(siteConfig.name)}'s virtual assistant. How can I help?`, vi: `Xin chào! Tôi là trợ lý ảo của ${lang(siteConfig.name)}. Tôi có thể giúp gì cho bạn?` })}</p>
         <p className="text-slate-500 dark:text-slate-400">{lang({ en: "Ask about skills, projects, or contact information.", vi: "Hãy hỏi về kỹ năng, dự án hoặc thông tin liên hệ." })}</p>
       </div>
     ) : (
@@ -838,7 +838,7 @@ export function PortfolioTerminal() {
         >
           <div className="space-y-2 leading-relaxed">
             <p className="portfolio-terminal-heading text-[17px] font-bold sm:text-[19px]">
-              Welcome to {siteConfig.name}&apos;s Portfolio Terminal v{TERMINAL_IDENTITY.version}
+              Welcome to {lang(siteConfig.name)}&apos;s Portfolio Terminal v{TERMINAL_IDENTITY.version}
             </p>
             <p className="max-w-3xl">
               {lang({

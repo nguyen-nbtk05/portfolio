@@ -79,7 +79,7 @@ export function Footer() {
         </motion.div>
 
         <motion.p variants={fadeUp} className="text-sm text-slate-500 dark:text-slate-400">
-          © {new Date().getFullYear()} {siteConfig.name}.{" "}
+          © {new Date().getFullYear()} {lang(siteConfig.name)}.{" "}
           {lang({ en: "All rights reserved.", vi: "Đã đăng ký bản quyền." })}
         </motion.p>
       </motion.div>
