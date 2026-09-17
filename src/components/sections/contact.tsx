@@ -498,7 +498,7 @@ export function ContactSection() {
         <footer className="mt-auto w-full border-t border-slate-200/50 pb-0 pt-4 dark:border-slate-800/50">
           <div className="relative grid grid-cols-1 items-center justify-items-center gap-4 text-sm text-slate-500 md:grid-cols-[1fr_auto_1fr] md:justify-items-stretch dark:text-slate-400">
             <div className="flex flex-wrap items-center justify-center gap-1 md:justify-self-start">
-              <span className="pl-3 pr-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
+              <span className="hidden sm:inline pl-3 pr-2 text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-r border-slate-200 dark:border-slate-800 mr-1 select-none">
                 {lang({ en: "Follow me", vi: "Theo dõi tôi" })}
               </span>
               <SmartIconButton
