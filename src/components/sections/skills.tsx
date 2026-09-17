@@ -476,7 +476,7 @@ export function SkillsSection() {
         en: "Core technologies and tools for programming, Linux, networking, and security.",
         vi: "Những công nghệ và công cụ cốt lõi cho lập trình, Linux, mạng máy tính và bảo mật.",
       })}
-      className="pb-12 pt-[calc(4rem+env(safe-area-inset-top))] sm:pb-16 sm:pt-[calc(5rem+env(safe-area-inset-top))] lg:pb-12 lg:pt-20"
+      className="pb-12 pt-[calc(5rem+env(safe-area-inset-top))] sm:pb-16 sm:pt-[calc(5rem+env(safe-area-inset-top))] lg:pb-12 lg:pt-20"
       headerClassName="mb-8 md:mb-10 xl:px-4 2xl:px-6"
       subtitleClassName="xl:max-w-none xl:whitespace-nowrap"
     >

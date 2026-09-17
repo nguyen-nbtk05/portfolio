@@ -251,6 +251,33 @@ export default function SmoothScroll({
     };
   }, [lenis, pathname]);
 
+  // Native fallback for hash navigation when Lenis is disabled
+  // (mobile, coarse pointers, reduced motion). Without this, arriving at
+  // "/#section" from another page leaves the user at the top.
+  useEffect(() => {
+    if (lenis || pathname !== "/") return;
+
+    const targetId = window.location.hash
+      ? getHomeSectionIdFromHash(window.location.hash)
+      : null;
+    if (!targetId) return;
+
+    let rafId = 0;
+    const attemptScroll = (retries: number) => {
+      const target = document.getElementById(targetId);
+      if (target) {
+        scrollToSection(target, null, { immediate: true });
+        return;
+      }
+      if (retries > 0) {
+        rafId = requestAnimationFrame(() => attemptScroll(retries - 1));
+      }
+    };
+    rafId = requestAnimationFrame(() => attemptScroll(3));
+
+    return () => cancelAnimationFrame(rafId);
+  }, [lenis, pathname]);
+
   return (
     <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>
   );

@@ -623,27 +623,11 @@ export function Navbar() {
                     ? "Chuyển sang nền sáng"
                     : "Chuyển sang nền tối",
               })}
-              className="flex min-h-11 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-xl px-2 text-slate-600 transition-colors active:bg-slate-100 active:text-amber-600 disabled:opacity-60 [&_svg]:!h-5 [&_svg]:!w-5 dark:text-slate-300 dark:active:bg-slate-800/70 dark:active:text-amber-400"
-            >
-              <span className="translate-y-px whitespace-nowrap text-[13px] font-semibold leading-none">
-                {lang(
-                  isDarkMode
-                    ? { en: "Light", vi: "Sáng" }
-                    : { en: "Dark", vi: "Tối" },
-                )}
-              </span>
-            </AnimatedThemeToggler>
+              className="flex min-h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl text-slate-600 transition-colors active:bg-slate-100 active:text-amber-600 disabled:opacity-60 [&_svg]:!h-5 [&_svg]:!w-5 dark:text-slate-300 dark:active:bg-slate-800/70 dark:active:text-amber-400"
+            />
 
-            <div className="shrink-0 [&>div>button]:h-11 [&>div>button]:w-auto [&>div>button]:rounded-xl [&>div>button]:px-2 [&>div>button>svg]:!h-5 [&>div>button>svg]:!w-5">
-              <SettingsDropdown
-                mobile
-                onOpenChange={setIsSettingsOpen}
-                triggerLabel={
-                  <span className="translate-y-px whitespace-nowrap text-[13px] font-semibold leading-none">
-                    {lang({ en: "Settings", vi: "Cài đặt" })}
-                  </span>
-                }
-              />
+            <div className="shrink-0 [&>div>button]:h-11 [&>div>button]:w-11 [&>div>button]:rounded-xl [&>div>button]:p-0 [&>div>button>svg]:!h-5 [&>div>button>svg]:!w-5">
+              <SettingsDropdown mobile onOpenChange={setIsSettingsOpen} />
             </div>
 
             <button
@@ -675,9 +659,9 @@ export function Navbar() {
                   en: "Section navigation",
                   vi: "Điều hướng nội dung",
                 })}
-                initial={reduceMotion ? false : { opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+                initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
                 transition={{
                   duration: reduceMotion ? 0 : 0.22,
                   ease: [0.22, 1, 0.36, 1],
