@@ -10,13 +10,16 @@ import {
 import { createPortal } from "react-dom";
 import {
   BookOpen,
+  Boxes,
+  Braces,
+  Database,
   Globe,
   Layers,
   Network,
   PanelsTopLeft,
+  Radar,
   RadioTower,
   Route,
-  ScanSearch,
   Shield,
   Sparkles,
   Waypoints,
@@ -34,9 +37,11 @@ import {
   SiGnubash,
   SiJavascript,
   SiLinux,
+  SiPostman,
   SiPython,
   SiRedhat,
   SiRust,
+  SiSelenium,
   SiTypescript,
   SiWireshark,
 } from "react-icons/si";
@@ -89,7 +94,12 @@ const skillIconMap = {
   cisco: SiCisco,
   docker: SiDocker,
   wireshark: SiWireshark,
-  yara: ScanSearch,
+  postman: SiPostman,
+  sql: Database,
+  selenium: SiSelenium,
+  virtualization: Boxes,
+  nmap: Radar,
+  yara: Braces,
   shield: Shield,
   vlan: Layers,
   "network-services": Globe,
@@ -498,13 +508,13 @@ export function SkillsSection() {
               whileHover={reduceMotion ? undefined : { y: -6, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 260, damping: 22 }}
               className={cn(
-                "group/card flex h-full min-h-0 flex-col overflow-hidden rounded-[1.4rem] border border-slate-200/80 bg-white/80 shadow-xl shadow-slate-200/35 backdrop-blur-xl transition-[border-color,box-shadow] duration-300 hover:shadow-2xl hover:shadow-slate-300/45 lg:min-h-[360px] xl:min-h-[440px] dark:border-white/10 dark:bg-[#0b0d0e]/90 dark:shadow-black/35 dark:hover:shadow-black/55",
+                "group/card flex h-full min-h-0 flex-col overflow-hidden rounded-[1.4rem] border border-slate-200/80 bg-white/80 shadow-xl shadow-slate-200/35 backdrop-blur-xl transition-[border-color,box-shadow] duration-300 hover:shadow-2xl hover:shadow-slate-300/45 dark:border-white/10 dark:bg-[#0b0d0e]/90 dark:shadow-black/35 dark:hover:shadow-black/55",
                 groupStyle.card,
               )}
             >
               <div
                 className={cn(
-                  "relative flex h-[116px] shrink-0 items-center overflow-hidden border-b border-slate-200/80 bg-gradient-to-br px-5 py-5 transition-[filter] duration-300 group-hover/card:brightness-105 sm:h-[128px] sm:px-6 lg:h-[142px] lg:px-7 lg:py-6 xl:h-[168px] 2xl:h-[142px] dark:border-white/10",
+                  "relative flex h-[96px] shrink-0 items-center overflow-hidden border-b border-slate-200/80 bg-gradient-to-br px-5 py-5 transition-[filter] duration-300 group-hover/card:brightness-105 sm:h-[108px] sm:px-6 lg:h-[120px] lg:px-7 lg:py-6 xl:h-[144px] 2xl:h-[120px] dark:border-white/10",
                   groupStyle.header,
                 )}
               >

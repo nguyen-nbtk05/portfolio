@@ -38,6 +38,11 @@ export type SkillIconKey =
   | "docker"
   | "wireshark"
   | "yara"
+  | "postman"
+  | "sql"
+  | "selenium"
+  | "virtualization"
+  | "nmap"
   | "shield"
   | "vlan"
   | "network-services";
@@ -72,8 +77,8 @@ export type SkillGroup = {
 
 export const skills: SkillGroup[] = [
   {
-    id: "programming-scripting",
-    category: { en: "Programming & Scripting", vi: "Lập trình & Kịch bản" },
+    id: "programming",
+    category: { en: "Programming", vi: "Ngôn ngữ lập trình" },
     icon: "python",
     tone: "programming",
     items: [
@@ -92,34 +97,17 @@ export const skills: SkillGroup[] = [
         },
       },
       {
-        id: "bash",
-        label: "Bash",
-        icon: "bash",
-        tone: "emerald",
+        id: "sql",
+        label: "SQL",
+        icon: "sql",
+        tone: "indigo",
         overview: {
-          en: "Bash is a command-line shell and scripting language widely used on Unix-like systems to combine commands, automate workflows, and manage environments.",
-          vi: "Bash là shell dòng lệnh kiêm ngôn ngữ kịch bản phổ biến trên các hệ thống Unix, dùng để kết hợp lệnh, tự động hóa quy trình và quản lý môi trường.",
+          en: "SQL is a declarative language for storing, querying, and managing data in relational databases such as PostgreSQL, MySQL, and SQLite.",
+          vi: "SQL là ngôn ngữ truy vấn và quản lý dữ liệu trong các cơ sở dữ liệu quan hệ như PostgreSQL, MySQL và SQLite.",
         },
         description: {
-          en: "Applied to automating repetitive terminal workflows, preparing lab environments, and operating efficiently across files, processes, and networking utilities.",
-          vi: "Được ứng dụng để tự động hóa các quy trình terminal lặp lại, chuẩn bị môi trường lab và vận hành hiệu quả trên tệp, tiến trình cùng các tiện ích mạng.",
-        },
-      },
-      {
-        id: "javascript-typescript",
-        label: "JavaScript & TypeScript",
-        icon: "javascript",
-        secondIcon: "typescript",
-        iconTone: "amber",
-        secondIconTone: "blue",
-        tone: "blue",
-        overview: {
-          en: "JavaScript is the core scripting language of the web for dynamic browser interfaces and server-side runtimes such as Node.js, while TypeScript extends it with static types for improved tooling, clarity, and reliability.",
-          vi: "JavaScript là ngôn ngữ kịch bản cốt lõi của web cho giao diện động và runtime phía máy chủ như Node.js, trong khi TypeScript mở rộng nó bằng kiểu tĩnh để cải thiện công cụ, độ rõ ràng và độ tin cậy.",
-        },
-        description: {
-          en: "Applied with React and Next.js to develop interactive interfaces, manage asynchronous flows, and maintain structured front-end codebases with early error detection.",
-          vi: "Được ứng dụng cùng React và Next.js để phát triển giao diện tương tác, quản lý luồng bất đồng bộ và duy trì mã nguồn front-end có cấu trúc với khả năng phát hiện lỗi sớm.",
+          en: "Practiced through coursework and exercises for schema design, CRUD queries, filtering, and joins.",
+          vi: "Được rèn luyện qua bài tập cho thiết kế schema, truy vấn CRUD, lọc dữ liệu và joins.",
         },
       },
       {
@@ -136,11 +124,39 @@ export const skills: SkillGroup[] = [
           vi: "Được rèn luyện qua các bài tập và nguyên mẫu nhỏ nhằm củng cố an toàn bộ nhớ, cơ chế ownership và lập trình hệ thống đáng tin cậy.",
         },
       },
+      {
+        id: "javascript",
+        label: "JavaScript",
+        icon: "javascript",
+        tone: "amber",
+        overview: {
+          en: "JavaScript is the core scripting language of the web for dynamic browser interfaces and server-side runtimes such as Node.js.",
+          vi: "JavaScript là ngôn ngữ kịch bản cốt lõi của web cho giao diện động và runtime phía máy chủ như Node.js.",
+        },
+        description: {
+          en: "Applied with React and Next.js to build interactive interfaces and handle asynchronous flows.",
+          vi: "Được ứng dụng cùng React và Next.js để xây dựng giao diện tương tác và xử lý luồng bất đồng bộ.",
+        },
+      },
+      {
+        id: "typescript",
+        label: "TypeScript",
+        icon: "typescript",
+        tone: "blue",
+        overview: {
+          en: "TypeScript extends JavaScript with static types for improved tooling, clarity, and reliability.",
+          vi: "TypeScript mở rộng JavaScript bằng kiểu tĩnh để cải thiện công cụ, độ rõ ràng và độ tin cậy.",
+        },
+        description: {
+          en: "Applied with React and Next.js to maintain structured front-end codebases with early error detection.",
+          vi: "Được ứng dụng cùng React và Next.js để duy trì mã nguồn front-end có cấu trúc với khả năng phát hiện lỗi sớm.",
+        },
+      },
     ],
   },
   {
-    id: "linux-distributions",
-    category: { en: "Linux & Distributions", vi: "Linux & Bản phân phối" },
+    id: "linux",
+    category: { en: "Linux", vi: "Linux" },
     icon: "linux",
     tone: "linux",
     items: [
@@ -159,140 +175,70 @@ export const skills: SkillGroup[] = [
         },
       },
       {
-        id: "debian-based",
-        label: "Debian-based",
-        icon: "debian",
-        tone: "rose",
+        id: "bash",
+        label: "Bash",
+        icon: "bash",
+        tone: "emerald",
         overview: {
-          en: "Debian-based distributions build on Debian's stable package ecosystem and typically use APT and DEB packages for dependable software management.",
-          vi: "Các bản phân phối dựa trên Debian kế thừa hệ sinh thái gói ổn định của Debian và thường sử dụng APT cùng định dạng DEB để quản lý phần mềm đáng tin cậy.",
+          en: "Bash is a command-line shell and scripting language widely used on Unix-like systems to combine commands, automate workflows, and manage environments.",
+          vi: "Bash là shell dòng lệnh kiêm ngôn ngữ kịch bản phổ biến trên các hệ thống Unix, dùng để kết hợp lệnh, tự động hóa quy trình và quản lý môi trường.",
         },
         description: {
-          en: "Deployed across development and infrastructure laboratories for package management, service configuration, and routine administration.",
-          vi: "Được triển khai trong các phòng lab phát triển và hạ tầng cho quản lý gói, cấu hình dịch vụ và quản trị thường xuyên.",
+          en: "Applied to automating repetitive terminal workflows, preparing lab environments, and operating efficiently across files, processes, and networking utilities.",
+          vi: "Được ứng dụng để tự động hóa các quy trình terminal lặp lại, chuẩn bị môi trường lab và vận hành hiệu quả trên tệp, tiến trình cùng các tiện ích mạng.",
         },
       },
       {
-        id: "rhel-based",
-        label: "RHEL-based",
-        icon: "red-hat",
-        tone: "red",
+        id: "virtualization",
+        label: "Virtualization",
+        icon: "virtualization",
+        tone: "violet",
         overview: {
-          en: "RHEL-based distributions emphasize enterprise stability, security, and long-term maintenance, using the RPM package format with tools such as DNF.",
-          vi: "Các bản phân phối dựa trên RHEL chú trọng tính ổn định doanh nghiệp, bảo mật và bảo trì dài hạn, sử dụng định dạng gói RPM cùng các công cụ như DNF.",
+          en: "Virtualization runs multiple isolated virtual machines on a single physical host through hypervisors such as VMware, VirtualBox, and Proxmox.",
+          vi: "Ảo hóa cho phép chạy nhiều máy ảo độc lập trên một máy vật lý thông qua các hypervisor như VMware, VirtualBox và Proxmox.",
         },
         description: {
-          en: "Practiced for RPM/DNF workflows, systemd service management, permission models, and enterprise Linux conventions.",
-          vi: "Được thực hành cho quy trình RPM/DNF, quản lý dịch vụ systemd, mô hình phân quyền và các quy ước Linux doanh nghiệp.",
-        },
-      },
-      {
-        id: "arch-based",
-        label: "Arch-based",
-        icon: "arch-linux",
-        tone: "cyan",
-        overview: {
-          en: "Arch-based distributions follow a lightweight, rolling-release approach that gives users direct control over system components and configuration.",
-          vi: "Các bản phân phối dựa trên Arch đi theo hướng tối giản và rolling release, mang lại quyền kiểm soát trực tiếp đối với thành phần và cấu hình hệ thống.",
-        },
-        description: {
-          en: "Explored to develop a comprehensive understanding of minimal system installation, manual configuration, package management, and customization.",
-          vi: "Được tìm hiểu nhằm phát triển hiểu biết toàn diện về cài đặt hệ thống tối giản, cấu hình thủ công, quản lý gói và tùy biến.",
+          en: "Utilized to build isolated lab environments for Linux practice, network topologies, and security experiments.",
+          vi: "Được sử dụng để dựng môi trường lab độc lập cho thực hành Linux, topology mạng và thử nghiệm bảo mật.",
         },
       },
     ],
   },
   {
-    id: "networking-simulation",
+    id: "networking-analysis",
     category: {
-      en: "Networking & Simulation",
-      vi: "Mạng & Mô phỏng",
+      en: "Networking & Analysis",
+      vi: "Mạng & Phân tích",
     },
     icon: "network-engineering",
     tone: "networking",
     items: [
       {
-        id: "ipv4-ipv6",
-        label: "IPv4 & IPv6",
-        icon: "ipv4",
-        tone: "blue",
-        overview: {
-          en: "IPv4 uses 32-bit addresses to identify devices and route packets across networks, while IPv6 provides 128-bit addressing with a vastly larger space and improvements for modern networks.",
-          vi: "IPv4 sử dụng địa chỉ 32 bit để định danh thiết bị và định tuyến gói tin qua các mạng, trong khi IPv6 cung cấp địa chỉ 128 bit với không gian lớn hơn rất nhiều cùng nhiều cải tiến cho mạng hiện đại.",
-        },
-        description: {
-          en: "Applied to address planning and troubleshooting across laboratory topologies, covering neighbor discovery and coexistence of both protocols.",
-          vi: "Được ứng dụng cho quy hoạch địa chỉ và xử lý sự cố trên các topology phòng lab, bao gồm Neighbor Discovery và vận hành song song hai giao thức.",
-        },
-      },
-      {
-        id: "vlan-stp",
-        label: "VLAN & STP",
-        icon: "vlan",
-        tone: "indigo",
-        overview: {
-          en: "VLANs segment a switched network into isolated broadcast domains, while the Spanning Tree Protocol prevents Layer 2 loops by managing redundant paths between switches.",
-          vi: "VLAN phân đoạn mạng chuyển mạch thành các miền broadcast độc lập, trong khi Spanning Tree Protocol ngăn loop Layer 2 bằng cách quản lý các đường dự phòng giữa các switch.",
-        },
-        description: {
-          en: "Configured in laboratory topologies for segmentation, 802.1Q trunking, and loop-free redundant switching.",
-          vi: "Được cấu hình trong các topology phòng lab cho phân đoạn mạng, trunking 802.1Q và chuyển mạch dự phòng không loop.",
-        },
-      },
-      {
-        id: "network-services",
-        label: "DNS / DHCP / NAT",
-        icon: "network-services",
-        tone: "emerald",
-        overview: {
-          en: "DNS resolves domain names to IP addresses, DHCP automates address assignment, and NAT enables private networks to reach external networks through address translation.",
-          vi: "DNS phân giải tên miền thành địa chỉ IP, DHCP tự động cấp phát địa chỉ, và NAT cho phép mạng nội bộ truy cập mạng ngoài thông qua chuyển đổi địa chỉ.",
-        },
-        description: {
-          en: "Configured in laboratory environments to provide name resolution, automatic addressing, and external connectivity for segmented topologies.",
-          vi: "Được cấu hình trong môi trường phòng lab để cung cấp phân giải tên, cấp địa chỉ tự động và kết nối ngoài cho các topology đã phân đoạn.",
-        },
-      },
-      {
-        id: "rip",
-        label: "RIP",
-        icon: "rip",
-        tone: "blue",
-        overview: {
-          en: "RIP is a distance-vector interior routing protocol that selects routes by hop count and periodically shares routing information with neighboring routers.",
-          vi: "RIP là giao thức định tuyến nội bộ kiểu distance-vector, lựa chọn tuyến theo số hop và định kỳ trao đổi thông tin định tuyến với các router láng giềng.",
-        },
-        description: {
-          en: "Configured in compact laboratory topologies to examine distance-vector operation, route exchange, convergence, and practical limitations.",
-          vi: "Được cấu hình trong các topology lab nhỏ để nghiên cứu vận hành distance-vector, trao đổi tuyến, hội tụ và các giới hạn thực tế.",
-        },
-      },
-      {
-        id: "ospf",
-        label: "OSPF",
-        icon: "ospf",
+        id: "wireshark",
+        label: "Wireshark",
+        icon: "wireshark",
         tone: "cyan",
         overview: {
-          en: "OSPF is a link-state interior routing protocol that builds a topology database and computes efficient paths using interface cost with Dijkstra's shortest-path-first algorithm.",
-          vi: "OSPF là giao thức định tuyến nội bộ kiểu link-state, xây dựng cơ sở dữ liệu topology và tính toán đường đi hiệu quả dựa trên cost giao diện cùng thuật toán Dijkstra (SPF).",
+          en: "Wireshark is a widely used network packet analyzer that captures and dissects traffic in real time for troubleshooting, protocol analysis, and security investigation.",
+          vi: "Wireshark là công cụ phân tích gói tin mạng phổ biến, thu và bóc tách lưu lượng theo thời gian thực để xử lý sự cố, phân tích giao thức và điều tra bảo mật.",
         },
         description: {
-          en: "Implemented in laboratory topologies to examine link-state operation, neighbor adjacency, cost-based path selection, and area design.",
-          vi: "Được triển khai trong các topology phòng lab để nghiên cứu vận hành link-state, quan hệ kề neighbor, lựa chọn đường đi theo cost và thiết kế area.",
+          en: "Employed to capture laboratory traffic and examine TCP/IP behavior alongside suspicious packet patterns during networking and security practice.",
+          vi: "Được sử dụng để thu lưu lượng phòng lab và kiểm tra hành vi TCP/IP cùng các mẫu gói tin đáng ngờ khi thực hành mạng và bảo mật.",
         },
       },
       {
-        id: "eigrp",
-        label: "EIGRP",
-        icon: "eigrp",
-        tone: "violet",
+        id: "yara",
+        label: "YARA",
+        icon: "yara",
+        tone: "rose",
         overview: {
-          en: "EIGRP is an advanced distance-vector routing protocol that uses multiple metrics and the DUAL algorithm to select loop-free paths and converge quickly.",
-          vi: "EIGRP là giao thức định tuyến distance-vector nâng cao, sử dụng nhiều metric và thuật toán DUAL để chọn đường không lặp và hội tụ nhanh.",
+          en: "YARA is a pattern-matching tool for identifying and classifying malware through rule-based signatures, commonly combined with hash matching for layered detection.",
+          vi: "YARA là công cụ đối sánh mẫu để nhận diện và phân loại mã độc bằng luật chữ ký, thường kết hợp với đối chiếu mã băm để phát hiện nhiều lớp.",
         },
         description: {
-          en: "Configured in Cisco-focused laboratories to practice neighbor formation, metric-based path selection, route propagation, and convergence behavior.",
-          vi: "Được cấu hình trong các phòng lab Cisco để thực hành thiết lập quan hệ láng giềng, chọn đường theo metric, quảng bá tuyến và hành vi hội tụ.",
+          en: "Applied as the core detection layer of a cross-platform malware scanner, complemented by multi-algorithm hash matching and signature synchronization.",
+          vi: "Được ứng dụng làm lớp phát hiện cốt lõi của trình quét mã độc đa nền tảng, kết hợp đối chiếu nhiều thuật toán băm và đồng bộ chữ ký.",
         },
       },
       {
@@ -323,31 +269,31 @@ export const skills: SkillGroup[] = [
           vi: "Được sử dụng để dựng testbed SDN nhằm phân tích hành vi controller và kiểm chứng logic phát hiện xâm nhập.",
         },
       },
+      {
+        id: "nmap",
+        label: "Nmap",
+        icon: "nmap",
+        tone: "slate",
+        overview: {
+          en: "Nmap is a network scanning tool for discovering hosts, services, and open ports, widely used for inventory, auditing, and security assessment.",
+          vi: "Nmap là công cụ quét mạng để phát hiện host, dịch vụ và cổng mở, dùng phổ biến cho kiểm kê, kiểm toán và đánh giá bảo mật.",
+        },
+        description: {
+          en: "Practiced in lab environments for host discovery, port scanning, service detection, and OS fingerprinting.",
+          vi: "Được thực hành trong lab cho phát hiện host, quét cổng, nhận diện dịch vụ và OS fingerprinting.",
+        },
+      },
     ],
   },
   {
-    id: "security-tools",
+    id: "tools",
     category: {
-      en: "Security & Tools",
-      vi: "Bảo mật & Công cụ",
+      en: "Dev Tools",
+      vi: "Công cụ",
     },
-    icon: "shield",
+    icon: "docker",
     tone: "collaboration",
     items: [
-      {
-        id: "yara",
-        label: "YARA",
-        icon: "yara",
-        tone: "rose",
-        overview: {
-          en: "YARA is a pattern-matching tool for identifying and classifying malware through rule-based signatures, commonly combined with hash matching for layered detection.",
-          vi: "YARA là công cụ đối sánh mẫu để nhận diện và phân loại mã độc bằng luật chữ ký, thường kết hợp với đối chiếu mã băm để phát hiện nhiều lớp.",
-        },
-        description: {
-          en: "Applied as the core detection layer of a cross-platform malware scanner, complemented by multi-algorithm hash matching and signature synchronization.",
-          vi: "Được ứng dụng làm lớp phát hiện cốt lõi của trình quét mã độc đa nền tảng, kết hợp đối chiếu nhiều thuật toán băm và đồng bộ chữ ký.",
-        },
-      },
       {
         id: "docker",
         label: "Docker",
@@ -363,17 +309,17 @@ export const skills: SkillGroup[] = [
         },
       },
       {
-        id: "wireshark",
-        label: "Wireshark",
-        icon: "wireshark",
-        tone: "cyan",
+        id: "postman",
+        label: "Postman",
+        icon: "postman",
+        tone: "orange",
         overview: {
-          en: "Wireshark is a widely used network packet analyzer that captures and dissects traffic in real time for troubleshooting, protocol analysis, and security investigation.",
-          vi: "Wireshark là công cụ phân tích gói tin mạng phổ biến, thu và bóc tách lưu lượng theo thời gian thực để xử lý sự cố, phân tích giao thức và điều tra bảo mật.",
+          en: "Postman is a collaboration platform for designing, testing, and documenting APIs through requests, collections, and automated test scripts.",
+          vi: "Postman là nền tảng để thiết kế, kiểm thử và viết tài liệu API thông qua request, collection và script kiểm thử tự động.",
         },
         description: {
-          en: "Employed to capture laboratory traffic and examine TCP/IP behavior alongside suspicious packet patterns during networking and security practice.",
-          vi: "Được sử dụng để thu lưu lượng phòng lab và kiểm tra hành vi TCP/IP cùng các mẫu gói tin đáng ngờ khi thực hành mạng và bảo mật.",
+          en: "Employed to test and debug REST API endpoints during development of FastAPI-based scanning services.",
+          vi: "Được sử dụng để kiểm thử và gỡ lỗi các endpoint REST API khi phát triển dịch vụ quét dùng FastAPI.",
         },
       },
       {
@@ -402,6 +348,20 @@ export const skills: SkillGroup[] = [
         description: {
           en: "Utilized to publish source code, document technical projects, review changes, and maintain accessible collaboration.",
           vi: "Được sử dụng để công khai mã nguồn, viết tài liệu dự án kỹ thuật, rà soát thay đổi và duy trì cộng tác thuận tiện.",
+        },
+      },
+      {
+        id: "selenium",
+        label: "Selenium",
+        icon: "selenium",
+        tone: "emerald",
+        overview: {
+          en: "Selenium is a browser-automation framework for controlling web browsers programmatically, widely used for testing and dynamic web crawling.",
+          vi: "Selenium là framework tự động hóa trình duyệt, điều khiển trình duyệt bằng code, dùng phổ biến cho kiểm thử và crawler web động.",
+        },
+        description: {
+          en: "Applied as the dynamic crawling engine of the automated web vulnerability scanner alongside static analysis.",
+          vi: "Được ứng dụng làm engine crawler động của trình quét lỗ hổng web tự động, kết hợp cùng phân tích tĩnh.",
         },
       },
     ],

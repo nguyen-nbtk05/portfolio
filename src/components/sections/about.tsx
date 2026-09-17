@@ -173,7 +173,7 @@ export function AboutSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.1)}
-        className="site-container mx-auto grid w-full min-w-0 items-center gap-4 px-4 sm:gap-6 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:gap-10 lg:px-[1cm] xl:gap-12"
+        className="site-container mx-auto mt-6 grid w-full min-w-0 items-center gap-4 px-4 sm:mt-8 sm:gap-6 sm:px-6 lg:mt-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:gap-10 lg:px-[1cm] xl:gap-12"
       >
         <motion.div variants={fadeUp} className="contents lg:block lg:min-w-0 lg:max-w-3xl lg:ml-8 xl:ml-12">
 
