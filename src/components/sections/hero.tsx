@@ -320,7 +320,7 @@ export function HeroSection() {
         ))}
       </motion.div>
 
-      <div className="site-container relative z-10 mx-auto grid min-w-0 grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-[44%_56%] lg:px-[1.75cm] xl:gap-10">
+      <div className="site-container relative z-10 mx-auto grid min-w-0 grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-[44%_56%] lg:px-8 xl:gap-10 xl:px-[1.75cm]">
         <motion.div
           className="flex min-w-0 max-w-3xl flex-col items-start gap-4 text-left [@media(max-width:1023px)_and_(max-height:500px)]:gap-3 sm:gap-5 lg:gap-8"
           initial={initial}
@@ -350,12 +350,12 @@ export function HeroSection() {
 
           <motion.h1
             variants={fadeUp}
-            className="mt-1 flex w-full min-w-0 flex-col gap-4 text-[clamp(2.125rem,8vw,3rem)] font-bold leading-none tracking-tighter sm:mt-2 sm:gap-5 lg:mt-0 lg:block lg:text-7xl"
+            className="mt-1 flex w-full min-w-0 flex-col gap-4 text-[clamp(2.125rem,8vw,3rem)] font-bold leading-none tracking-tighter text-balance sm:mt-2 sm:gap-5 lg:mt-0 lg:block lg:text-[clamp(2.75rem,1rem+3.2vw,4.5rem)]"
           >
             <span
-              className={`block ${
+              className={`block text-balance ${
                 language === "vi"
-                  ? "lg:whitespace-nowrap lg:text-[clamp(2.5rem,3.55vw,4.25rem)] 2xl:text-7xl"
+                  ? "lg:text-[clamp(2.25rem,0.9rem+2.9vw,4.25rem)] xl:whitespace-nowrap"
                   : ""
               }`}
             >
@@ -364,7 +364,7 @@ export function HeroSection() {
             </span>
             <motion.span
               variants={fadeIn}
-              className="block min-h-[1.18em] w-full min-w-0 text-[clamp(1.75rem,6.8vw,2.25rem)] leading-[1.12] max-[359px]:min-h-[2.24em] lg:mt-5 lg:text-6xl"
+              className="block min-h-[1.18em] w-full min-w-0 max-w-full text-[clamp(1.75rem,6.8vw,2.25rem)] leading-[1.12] max-[359px]:min-h-[2.24em] lg:mt-5 lg:text-[clamp(2rem,0.75rem+2.6vw,3.75rem)]"
             >
               <TypewriterText
                 key={`Computer Networks | Data Communications`}
